@@ -12,7 +12,7 @@ const HeroSection = () => {
             <img
               src={logo}
               alt="Win The Night"
-              className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-float cursor-pointer hover:scale-110 transition-transform duration-500"
+              className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-breathe cursor-pointer hover:scale-110 transition-transform duration-500"
             />
           </div>
 
