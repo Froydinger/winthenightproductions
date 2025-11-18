@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Youtube, Play, ArrowDown, ArrowRight } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const HeroSection = () => {
@@ -26,11 +27,20 @@ const HeroSection = () => {
               <span className="text-neon-blue font-bold">One Conversation at a Time.</span>
             </p>
 
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
-              A mental health focused community built on real conversations, not highlight reels. 
-              If you care about healing, inner child work, generational trauma, and honest stories that 
-              make you feel less alone — this is your corner of the internet.
-            </p>
+            <Accordion type="single" collapsible className="max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
+              <AccordionItem value="who-are-we" className="border-none">
+                <AccordionTrigger className="text-sm text-muted-foreground hover:text-neon-blue transition-colors py-2 hover:no-underline">
+                  Who are we?
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed pt-2">
+                    A mental health focused community built on real conversations, not highlight reels. 
+                    If you care about healing, inner child work, generational trauma, and honest stories that 
+                    make you feel less alone — this is your corner of the internet.
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
 
           {/* CTA Buttons */}
