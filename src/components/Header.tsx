@@ -40,31 +40,28 @@ const Header = () => {
           : "-translate-y-full opacity-0"
       }`}
     >
-      <div className="h-16 bg-background/95 backdrop-blur-md border-b border-neon-blue/20 shadow-lg">
+      <div className="h-12 bg-background/80 backdrop-blur-md border-b border-neon-blue/20 shadow-lg">
         <div className="container mx-auto h-full flex items-center justify-between px-4">
           {/* Logo */}
           <button
             onClick={() => scrollToSection("hero")}
-            className="flex items-center gap-3 group"
+            className="flex items-center group py-2"
           >
             <img
               src={logo}
               alt="Win The Night"
-              className="h-10 w-10 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
+              className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
             />
-            <span className="text-lg font-bold text-foreground hidden sm:inline">
-              Win The Night™
-            </span>
           </button>
 
           {/* Hamburger Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <button
-                className="p-2 rounded-lg hover:bg-neon-blue/20 transition-colors duration-300"
+                className="p-1.5 rounded-lg hover:bg-neon-blue/20 transition-colors duration-300"
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6 text-neon-blue" />
+                <Menu className="w-5 h-5 text-neon-blue" strokeWidth={1.5} />
               </button>
             </SheetTrigger>
             <SheetContent
