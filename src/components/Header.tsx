@@ -40,7 +40,7 @@ const Header = () => {
           : "-translate-y-full opacity-0"
       }`}
     >
-      <div className="h-12 bg-background/80 backdrop-blur-md border-b border-neon-blue/20 shadow-lg">
+      <div className="h-12 backdrop-blur-md">
         <div className="container mx-auto h-full flex items-center justify-between px-4">
           {/* Logo */}
           <button
@@ -58,10 +58,10 @@ const Header = () => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <button
-                className="p-1.5 rounded-lg hover:bg-neon-blue/20 transition-colors duration-300"
+                className="p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-300"
                 aria-label="Open menu"
               >
-                <Menu className="w-5 h-5 text-neon-blue" strokeWidth={1.5} />
+                <Menu className="w-5 h-5 text-white" strokeWidth={1.5} />
               </button>
             </SheetTrigger>
             <SheetContent
