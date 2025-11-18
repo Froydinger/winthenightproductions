@@ -7,7 +7,6 @@ const ShortsCarousel = () => {
   const [shortIds, setShortIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
-  const [displayCount, setDisplayCount] = useState(3);
 
   useEffect(() => {
     const fetchShorts = async () => {
@@ -38,7 +37,6 @@ const ShortsCarousel = () => {
             .filter(Boolean);
           
           console.log(`Found ${ids.length} shorts from ${data.items.length} total videos`);
-          console.log('All shorts IDs:', ids);
           setShortIds(ids);
         }
       } catch (error) {
@@ -73,12 +71,11 @@ const ShortsCarousel = () => {
               
               {loading ? (
                 <div className="text-center py-4 text-muted-foreground text-xs md:text-sm">
-                  Loading shorts... ({shortIds.length} found so far)
+                  Loading shorts...
                 </div>
               ) : shortIds.length > 0 ? (
-                <div className="relative overflow-x-auto overflow-y-visible pb-2 -mx-2 px-2 scrollbar-hide">
-                  <div className="flex gap-2 md:gap-3 min-w-max items-center py-2">
-                    {shortIds.slice(0, displayCount).map((shortId) => (
+                <div className="flex justify-center items-center gap-2 md:gap-3 flex-wrap">
+                  {shortIds.map((shortId) => (
                       <button
                         key={shortId}
                         onClick={() => setSelectedShort(shortId)}
@@ -101,19 +98,18 @@ const ShortsCarousel = () => {
                           </div>
                         </div>
                       </button>
-                    ))}
-                    
-                    {/* Load More Button */}
-                    {displayCount < shortIds.length && (
-                      <button
-                        onClick={() => setDisplayCount(prev => Math.min(prev + 2, shortIds.length))}
-                        className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
-                      >
-                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-neon-blue group-hover/more:translate-x-1 transition-transform" />
-                        <span className="text-xs md:text-sm text-neon-blue font-medium">More</span>
-                      </button>
-                    )}
-                  </div>
+                  ))}
+                  
+                  {/* More Button */}
+                  <a
+                    href="https://www.youtube.com/@winthenight/shorts"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
+                  >
+                    <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-neon-blue group-hover/more:translate-x-1 transition-transform" />
+                    <span className="text-xs md:text-sm text-neon-blue font-medium">More</span>
+                  </a>
                 </div>
               ) : (
                 <div className="text-center py-4">
