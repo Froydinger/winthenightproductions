@@ -15,14 +15,14 @@ const Index = () => {
         <AnimatedBackground />
       </div>
 
-      {/* Blur zones for top and bottom 10% of screen */}
-      <div className="fixed top-0 left-0 right-0 h-[10vh] z-30 pointer-events-none backdrop-blur-sm" 
+      {/* Blur zones for top and bottom 20% of screen */}
+      <div className="fixed top-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-sm" 
            style={{ 
              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
            }} 
       />
-      <div className="fixed bottom-0 left-0 right-0 h-[10vh] z-30 pointer-events-none backdrop-blur-sm" 
+      <div className="fixed bottom-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-sm" 
            style={{ 
              maskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
              WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
