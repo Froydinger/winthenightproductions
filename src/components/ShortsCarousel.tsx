@@ -11,43 +11,46 @@ const ShortsCarousel = () => {
   useEffect(() => {
     const fetchShorts = async () => {
       try {
-        // Using YouTube RSS feed via rss2json API
-        const response = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
-            'https://www.youtube.com/feeds/videos.xml?channel_id=UCuFlxR-Ol8zzda9Z6CJkwkA'
-          )}`
-        );
-        const data = await response.json();
+        const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
         
-        if (data.items && data.items.length > 0) {
-          // Filter for Shorts by checking title for shorts-related keywords
-          const shortsItems = data.items.filter((item: any) => {
-            const title = item.title?.toLowerCase() || '';
-            const description = item.description?.toLowerCase() || '';
-            // Check if it's a Short by looking for common Short indicators
-            return title.includes('short') || 
-                   title.includes('#shorts') || 
-                   description.includes('#shorts') ||
-                   description.includes('youtube short');
-          });
+        if (!apiKey) {
+          console.error('YouTube API key not configured');
+          setLoading(false);
+          return;
+        }
 
-          const ids = shortsItems
-            .slice(0, 8) // Get up to 8 shorts
-            .map((item: any) => {
-              if (item.link) {
-                const linkMatch = item.link.match(/watch\?v=([^&]+)/);
-                if (linkMatch) return linkMatch[1];
-              }
-              if (item.guid) {
-                const guidMatch = item.guid.match(/yt:video:(.*)/);
-                if (guidMatch) return guidMatch[1];
-              }
-              return null;
-            })
-            .filter(Boolean);
+        // Fetch recent videos from channel
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=UCuFlxR-Ol8zzda9Z6CJkwkA&part=snippet&order=date&maxResults=50&type=video`
+        );
+        const searchData = await response.json();
+        
+        if (searchData.items && searchData.items.length > 0) {
+          const videoIds = searchData.items.map((item: any) => item.id.videoId).join(',');
           
-          console.log(`Found ${ids.length} shorts from ${data.items.length} total videos`); // Debug
-          setShortIds(ids);
+          // Get video details including duration
+          const detailsResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?key=${apiKey}&id=${videoIds}&part=contentDetails`
+          );
+          const detailsData = await detailsResponse.json();
+          
+          // Filter for videos under 60 seconds (Shorts)
+          const shortIds = detailsData.items
+            .filter((video: any) => {
+              const duration = video.contentDetails.duration;
+              // Parse ISO 8601 duration format (PT1M30S = 1 minute 30 seconds)
+              const match = duration.match(/PT(?:(\d+)M)?(?:(\d+)S)?/);
+              if (!match) return false;
+              const minutes = parseInt(match[1] || '0');
+              const seconds = parseInt(match[2] || '0');
+              const totalSeconds = minutes * 60 + seconds;
+              return totalSeconds < 60; // Only videos under 60 seconds
+            })
+            .slice(0, 8)
+            .map((video: any) => video.id);
+          
+          console.log(`Found ${shortIds.length} shorts under 60 seconds`);
+          setShortIds(shortIds);
         }
       } catch (error) {
         console.error('Error fetching shorts:', error);
