@@ -20,10 +20,19 @@ const ShortsCarousel = () => {
         const data = await response.json();
         
         if (data.items && data.items.length > 0) {
-          // Get recent videos - YouTube doesn't distinguish shorts in RSS feed
-          // so we'll show recent content that users can click
-          const ids = data.items
-            .slice(0, 8) // Get up to 8 recent videos
+          // Filter for Shorts by checking title for shorts-related keywords
+          const shortsItems = data.items.filter((item: any) => {
+            const title = item.title?.toLowerCase() || '';
+            const description = item.description?.toLowerCase() || '';
+            // Check if it's a Short by looking for common Short indicators
+            return title.includes('short') || 
+                   title.includes('#shorts') || 
+                   description.includes('#shorts') ||
+                   description.includes('youtube short');
+          });
+
+          const ids = shortsItems
+            .slice(0, 8) // Get up to 8 shorts
             .map((item: any) => {
               if (item.link) {
                 const linkMatch = item.link.match(/watch\?v=([^&]+)/);
@@ -37,6 +46,7 @@ const ShortsCarousel = () => {
             })
             .filter(Boolean);
           
+          console.log(`Found ${ids.length} shorts from ${data.items.length} total videos`); // Debug
           setShortIds(ids);
         }
       } catch (error) {
