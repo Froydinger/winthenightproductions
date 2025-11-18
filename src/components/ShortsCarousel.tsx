@@ -7,7 +7,7 @@ const ShortsCarousel = () => {
   const [shortIds, setShortIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
-  const [displayCount, setDisplayCount] = useState(10);
+  const [displayCount, setDisplayCount] = useState(5);
 
   useEffect(() => {
     const fetchShorts = async () => {
@@ -81,18 +81,20 @@ const ShortsCarousel = () => {
                       <button
                         key={shortId}
                         onClick={() => setSelectedShort(shortId)}
-                        className="group/thumb relative flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg overflow-hidden border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105"
+                        className="group/thumb relative flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg overflow-visible border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105 hover:z-10"
                       >
-                        <img
-                          src={`https://img.youtube.com/vi/${shortId}/maxresdefault.jpg`}
-                          alt="YouTube Short"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            // Fallback to hqdefault if maxres doesn't exist
-                            e.currentTarget.src = `https://img.youtube.com/vi/${shortId}/hqdefault.jpg`;
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+                        <div className="w-full h-full rounded-lg overflow-hidden">
+                          <img
+                            src={`https://img.youtube.com/vi/${shortId}/maxresdefault.jpg`}
+                            alt="YouTube Short"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // Fallback to hqdefault if maxres doesn't exist
+                              e.currentTarget.src = `https://img.youtube.com/vi/${shortId}/hqdefault.jpg`;
+                            }}
+                          />
+                        </div>
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-neon-blue/90 flex items-center justify-center">
                             <Play className="w-5 h-5 md:w-6 md:h-6 text-black fill-black ml-0.5" />
                           </div>
@@ -103,7 +105,7 @@ const ShortsCarousel = () => {
                     {/* Load More Button */}
                     {displayCount < shortIds.length && (
                       <button
-                        onClick={() => setDisplayCount(prev => Math.min(prev + 10, shortIds.length))}
+                        onClick={() => setDisplayCount(prev => Math.min(prev + 5, shortIds.length))}
                         className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
                       >
                         <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-neon-blue group-hover/more:translate-x-1 transition-transform" />
