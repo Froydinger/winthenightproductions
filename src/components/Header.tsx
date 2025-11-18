@@ -40,30 +40,29 @@ const Header = () => {
           : "-translate-y-full opacity-0"
       }`}
     >
-      <div className="h-12 backdrop-blur-md">
-        <div className="container mx-auto h-full flex items-center justify-between px-4">
-          {/* Logo */}
-          <button
-            onClick={() => scrollToSection("hero")}
-            className="flex items-center group py-2"
-          >
-            <img
-              src={logo}
-              alt="Win The Night"
-              className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
-            />
-          </button>
+      <div className="container mx-auto h-12 flex items-center justify-between px-4">
+        {/* Logo */}
+        <button
+          onClick={() => scrollToSection("hero")}
+          className="flex items-center group py-2"
+        >
+          <img
+            src={logo}
+            alt="Win The Night"
+            className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
+          />
+        </button>
 
-          {/* Hamburger Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <button
-                className="p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-300"
-                aria-label="Open menu"
-              >
-                <Menu className="w-5 h-5 text-white" strokeWidth={1.5} />
-              </button>
-            </SheetTrigger>
+        {/* Hamburger Menu */}
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <button
+              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-300"
+              aria-label="Open menu"
+            >
+              <Menu className="w-5 h-5 text-white" strokeWidth={1.5} />
+            </button>
+          </SheetTrigger>
             <SheetContent
               side="right"
               className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30"
@@ -102,7 +101,6 @@ const Header = () => {
               </div>
             </SheetContent>
           </Sheet>
-        </div>
       </div>
     </header>
   );
