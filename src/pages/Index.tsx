@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommunitySection from "@/components/CommunitySection";
-import WatchLatestSection from "@/components/WatchLatestSection";
+import ShortsCarousel from "@/components/ShortsCarousel";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { useScrollBlur } from "@/hooks/use-scroll-blur";
@@ -74,8 +74,8 @@ const Index = () => {
         <ScrollBlurSection id="community">
           <CommunitySection />
         </ScrollBlurSection>
-        <ScrollBlurSection id="watch-latest">
-          <WatchLatestSection />
+        <ScrollBlurSection id="shorts">
+          <ShortsCarousel />
         </ScrollBlurSection>
         <ScrollBlurSection id="cta">
           <CTASection />
