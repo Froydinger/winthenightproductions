@@ -52,8 +52,8 @@ const WatchLatestSection = () => {
   }, []);
 
   return (
-    <section className="relative py-6 md:py-10 pb-4 md:pb-6">
-      <div className="container mx-auto max-w-7xl px-3 sm:px-4">
+    <section className="relative py-6 md:py-10 pb-2 md:pb-4">
+      <div className="container mx-auto max-w-7xl px-2 sm:px-4">
         <Card
           className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-4 md:p-8 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon animate-fade-in-up"
         >
