@@ -22,8 +22,10 @@ const HeroSection = () => {
               Win The Night
             </h1>
             
-            <p className="text-2xl sm:text-3xl lg:text-4xl text-neon-blue font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-              One Connection. One Story.<br className="hidden sm:block" />
+            <p className="text-xl sm:text-3xl lg:text-4xl text-neon-blue font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+              One Connection.<br />
+              One Story.<br className="sm:hidden" />
+              <span className="hidden sm:inline"><br /></span>
               <span className="sm:inline"> </span>One Conversation at a Time.
             </p>
 
