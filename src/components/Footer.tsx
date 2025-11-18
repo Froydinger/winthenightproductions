@@ -1,4 +1,4 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen } from "lucide-react";
+import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const Footer = () => {
@@ -30,6 +30,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
+                <Radio className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>Podcast Site</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
@@ -39,6 +40,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
+                <Play className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>Watch Episodes</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
@@ -48,6 +50,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
+                <Mic className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>Be Our Guest!</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
@@ -57,6 +60,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
+                <Info className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>About Us</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
@@ -86,7 +90,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-red-500 hover:text-red-400 transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
-                <Heart className="w-4 h-4 transition-colors" />
+                <LifeBuoy className="w-4 h-4 transition-colors" />
                 <span>Crisis Resources</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
