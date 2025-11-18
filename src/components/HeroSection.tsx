@@ -75,9 +75,9 @@ const HeroSection = () => {
 
           {/* Scroll Indicator */}
           <div className="pt-16 animate-fade-in-up" style={{ animationDelay: "800ms" }}>
-            <div className="flex flex-col items-center gap-2 text-muted-foreground animate-bounce">
-              <span className="text-sm">Scroll to explore</span>
-              <ArrowRight className="w-5 h-5 rotate-90" />
+            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+              <span className="text-sm animate-blink">Scroll to explore</span>
+              <ArrowRight className="w-5 h-5 rotate-90 animate-wiggle" />
             </div>
           </div>
         </div>

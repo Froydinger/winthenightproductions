@@ -12,8 +12,8 @@ const CommunitySection = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
             {/* Floating icon */}
-            <div className="absolute top-6 right-6 sm:top-8 sm:right-8 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-neon-blue/10 flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
-              <MessageCircle className="w-6 h-6 sm:w-10 sm:h-10 text-neon-blue" />
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-neon-blue/10 flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
+              <MessageCircle className="w-5 h-5 sm:w-7 sm:h-7 text-neon-blue" />
             </div>
 
             <div className="relative z-10 space-y-8">

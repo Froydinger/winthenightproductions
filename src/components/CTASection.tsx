@@ -5,7 +5,7 @@ const CTASection = () => {
   return (
     <section className="relative py-32 px-4">
       <div className="container mx-auto max-w-5xl">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-neon-blue/20 via-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-6 sm:p-12 lg:p-16 shadow-neon-strong animate-fade-in-up">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-neon-blue/20 via-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-8 sm:p-14 lg:p-20 shadow-neon animate-fade-in-up">
           {/* Animated background elements */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(0,217,255,0.15),transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(0,217,255,0.1),transparent_50%)]" />
@@ -16,7 +16,7 @@ const CTASection = () => {
 
           <div className="relative z-10 text-center space-y-8">
             <div className="space-y-4">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 Ready to Join the Conversation?
               </h2>
               <p className="text-base sm:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
