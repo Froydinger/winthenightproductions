@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { Play, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Play, X } from "lucide-react";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 
 const ShortsCarousel = () => {
   const [shortIds, setShortIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedShort, setSelectedShort] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchShorts = async () => {
@@ -20,10 +20,10 @@ const ShortsCarousel = () => {
         const data = await response.json();
         
         if (data.items && data.items.length > 0) {
-          // Filter for Shorts (they typically have #shorts in title or are under 60 seconds)
-          // For now, we'll take the most recent videos and display them
+          // Get recent videos - YouTube doesn't distinguish shorts in RSS feed
+          // so we'll show recent content that users can click
           const ids = data.items
-            .slice(0, 6) // Get up to 6 recent videos
+            .slice(0, 8) // Get up to 8 recent videos
             .map((item: any) => {
               if (item.link) {
                 const linkMatch = item.link.match(/watch\?v=([^&]+)/);
@@ -49,97 +49,94 @@ const ShortsCarousel = () => {
     fetchShorts();
   }, []);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.max(1, shortIds.length - 2));
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.max(1, shortIds.length - 2)) % Math.max(1, shortIds.length - 2));
-  };
-
-  const visibleShorts = shortIds.slice(currentIndex, currentIndex + 3);
-
   return (
-    <section className="relative py-10 px-4">
-      <div className="container mx-auto max-w-7xl">
-        <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon">
-          <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          <div className="relative z-10 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-neon-blue/20 flex items-center justify-center group-hover:bg-neon-blue/30 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                <Play className="w-8 h-8 text-neon-blue" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-foreground group-hover:text-neon-blue transition-colors duration-300">
-                  Recent Shorts
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  Quick insights from Win The Night
-                </p>
-              </div>
-            </div>
-            
-            {loading ? (
-              <div className="text-center py-8 text-muted-foreground">
-                Loading shorts...
-              </div>
-            ) : shortIds.length > 0 ? (
-              <div className="relative">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {visibleShorts.map((shortId) => (
-                    <div
-                      key={shortId}
-                      className="relative aspect-[9/16] rounded-lg overflow-hidden border border-neon-blue/20 bg-black"
-                    >
-                      <iframe
-                        className="w-full h-full"
-                        src={`https://www.youtube.com/embed/${shortId}`}
-                        title="Win The Night Short"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  ))}
+    <>
+      <section className="relative py-10 px-4">
+        <div className="container mx-auto max-w-7xl">
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-6 hover:border-neon-blue/60 transition-all duration-500">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-neon-blue/20 flex items-center justify-center">
+                  <Play className="w-6 h-6 text-neon-blue" />
                 </div>
-                
-                {shortIds.length > 3 && (
-                  <div className="flex justify-center gap-4 mt-6">
-                    <Button
-                      onClick={prevSlide}
-                      variant="outline"
-                      size="icon"
-                      className="border-neon-blue/40 hover:bg-neon-blue/10 hover:border-neon-blue"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </Button>
-                    <Button
-                      onClick={nextSlide}
-                      variant="outline"
-                      size="icon"
-                      className="border-neon-blue/40 hover:bg-neon-blue/10 hover:border-neon-blue"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </Button>
+                <div>
+                  <h3 className="text-xl font-bold text-foreground">
+                    Recent Shorts
+                  </h3>
+                  <p className="text-muted-foreground text-sm">
+                    Quick insights from Win The Night
+                  </p>
+                </div>
+              </div>
+              
+              {loading ? (
+                <div className="text-center py-4 text-muted-foreground text-sm">
+                  Loading shorts...
+                </div>
+              ) : shortIds.length > 0 ? (
+                <div className="relative overflow-x-auto pb-2 -mx-2 px-2">
+                  <div className="flex gap-3 min-w-max">
+                    {shortIds.map((shortId) => (
+                      <button
+                        key={shortId}
+                        onClick={() => setSelectedShort(shortId)}
+                        className="group/thumb relative flex-shrink-0 w-28 h-48 rounded-lg overflow-hidden border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105"
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${shortId}/maxresdefault.jpg`}
+                          alt="YouTube Short"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            // Fallback to hqdefault if maxres doesn't exist
+                            e.currentTarget.src = `https://img.youtube.com/vi/${shortId}/hqdefault.jpg`;
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-full bg-neon-blue/90 flex items-center justify-center">
+                            <Play className="w-6 h-6 text-black fill-black ml-0.5" />
+                          </div>
+                        </div>
+                      </button>
+                    ))}
                   </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <a
-                  href="https://youtube.com/@winthenight"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-neon-blue hover:underline"
-                >
-                  Visit our YouTube channel for shorts
-                </a>
-              </div>
-            )}
-          </div>
-        </Card>
-      </div>
-    </section>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <a
+                    href="https://youtube.com/@winthenight"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-neon-blue hover:underline text-sm"
+                  >
+                    Visit our YouTube channel for shorts
+                  </a>
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* Video Modal */}
+      <Dialog open={!!selectedShort} onOpenChange={() => setSelectedShort(null)}>
+        <DialogContent className="max-w-md p-0 bg-black border-2 border-neon-blue/40">
+          <DialogClose className="absolute top-2 right-2 z-50 rounded-full bg-black/80 p-2 hover:bg-black transition-colors">
+            <X className="w-5 h-5 text-white" />
+          </DialogClose>
+          {selectedShort && (
+            <div className="aspect-[9/16] w-full">
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${selectedShort}?autoplay=1`}
+                title="Win The Night Short"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
