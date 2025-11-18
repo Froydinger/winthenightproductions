@@ -4,7 +4,7 @@ import logo from "@/assets/win-the-night-logo.webp";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center py-20 px-4">
+    <section className="relative min-h-screen flex items-center justify-center py-10 px-4">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center space-y-8 animate-fade-in-up">
           {/* Logo */}
@@ -19,14 +19,14 @@ const HeroSection = () => {
           {/* Main Content */}
           <div className="space-y-6 max-w-4xl mx-auto">
             <p className="text-xl sm:text-3xl lg:text-4xl font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-              <span className="text-foreground">One Connection.<br />
-              One Story.<br className="sm:hidden" />
+              <span className="text-foreground">One <span className="font-bold">Connection.</span><br />
+              One <span className="font-bold">Story.</span><br className="sm:hidden" />
               <span className="hidden sm:inline"><br /></span>
               <span className="sm:inline"> </span></span>
-              <span className="text-neon-blue">One Conversation at a Time.</span>
+              <span className="text-neon-blue font-bold">One Conversation at a Time.</span>
             </p>
 
-            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
               A mental health focused community built on real conversations, not highlight reels. 
               If you care about healing, inner child work, generational trauma, and honest stories that 
               make you feel less alone — this is your corner of the internet.
