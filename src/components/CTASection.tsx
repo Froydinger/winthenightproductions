@@ -24,7 +24,7 @@ const CTASection = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-6">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Button
                 asChild
                 size="lg"
