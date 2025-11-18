@@ -29,11 +29,11 @@ const HeroSection = () => {
 
             <Accordion type="single" collapsible className="max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
               <AccordionItem value="who-are-we" className="border-none">
-                <AccordionTrigger className="text-sm text-muted-foreground hover:text-neon-blue transition-colors py-2 hover:no-underline">
+                <AccordionTrigger className="text-sm text-muted-foreground hover:text-neon-blue transition-colors py-2 hover:no-underline justify-center">
                   Who are we?
                 </AccordionTrigger>
                 <AccordionContent>
-                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed pt-2">
+                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed pt-2 text-center">
                     A mental health focused community built on real conversations, not highlight reels. 
                     If you care about healing, inner child work, generational trauma, and honest stories that 
                     make you feel less alone — this is your corner of the internet.
@@ -44,7 +44,7 @@ const HeroSection = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8 animate-fade-in-up" style={{ animationDelay: "600ms" }}>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-4 animate-fade-in-up" style={{ animationDelay: "600ms" }}>
             <Button
               asChild
               size="lg"
@@ -66,7 +66,7 @@ const HeroSection = () => {
               asChild
               size="lg"
               variant="outline"
-              className="group border-2 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/20 hover:border-neon-blue transition-all duration-500 hover:scale-105 hover:shadow-neon text-xl px-8 py-7 rounded-xl backdrop-blur-sm"
+              className="group border-2 border-foreground text-foreground hover:bg-foreground/10 hover:border-foreground transition-all duration-500 hover:scale-105 text-xl px-8 py-7 rounded-xl backdrop-blur-sm"
             >
               <a
                 href="https://winthenight.org/watch/"

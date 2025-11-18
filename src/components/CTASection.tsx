@@ -14,7 +14,7 @@ const CTASection = () => {
           <div className="absolute top-10 right-10 w-32 h-32 rounded-full bg-neon-blue/20 blur-3xl animate-float" />
           <div className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-neon-dim/20 blur-3xl animate-float" style={{ animationDelay: "2s" }} />
 
-          <div className="relative z-10 text-center space-y-8">
+          <div className="relative z-10 text-center space-y-6">
             <div className="space-y-4">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 Ready to Join the Conversation?
@@ -24,11 +24,11 @@ const CTASection = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 asChild
                 size="lg"
-                className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon-strong hover:shadow-[0_0_60px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-base sm:text-lg font-bold px-6 py-6 sm:px-8 sm:py-7 rounded-2xl"
+                className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-base sm:text-lg font-bold px-6 py-6 sm:px-8 sm:py-7 rounded-2xl"
               >
                 <a
                   href="https://youtube.com/@winthenight?sub_confirmation=1"
@@ -45,7 +45,7 @@ const CTASection = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="group border-2 border-foreground/30 text-foreground hover:bg-foreground/10 hover:border-foreground transition-all duration-500 hover:scale-105 text-sm sm:text-base px-6 py-5 sm:px-8 sm:py-6 rounded-2xl backdrop-blur-sm"
+                className="group border-2 border-foreground text-foreground hover:bg-foreground/10 hover:border-foreground transition-all duration-500 hover:scale-105 text-sm sm:text-base px-6 py-5 sm:px-8 sm:py-6 rounded-2xl backdrop-blur-sm"
               >
                 <a
                   href="https://winthenight.org/about/"
@@ -59,7 +59,7 @@ const CTASection = () => {
               </Button>
             </div>
 
-            <p className="text-sm text-muted-foreground pt-6">
+            <p className="text-sm text-muted-foreground pt-4">
               Join 1k+ others finding connection and healing
             </p>
           </div>
