@@ -1,4 +1,5 @@
 import AnimatedBackground from "@/components/AnimatedBackground";
+import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommunitySection from "@/components/CommunitySection";
@@ -13,12 +14,23 @@ const Index = () => {
         <AnimatedBackground />
       </div>
 
+      {/* Sticky Header */}
+      <Header />
+
       {/* Content Sections */}
       <div className="relative z-10">
-        <HeroSection />
-        <FeaturesSection />
-        <CommunitySection />
-        <CTASection />
+        <div id="hero">
+          <HeroSection />
+        </div>
+        <div id="features">
+          <FeaturesSection />
+        </div>
+        <div id="community">
+          <CommunitySection />
+        </div>
+        <div id="cta">
+          <CTASection />
+        </div>
         <Footer />
       </div>
     </main>

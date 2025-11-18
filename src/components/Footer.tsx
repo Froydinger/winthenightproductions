@@ -122,7 +122,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/30 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>© {currentYear} Win The Night. All rights reserved.</p>
+          <p>© {currentYear} Win The Night™. All rights reserved.</p>
           <p className="text-xs">
             A mental health community built on real conversations
           </p>
