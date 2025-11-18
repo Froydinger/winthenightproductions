@@ -7,6 +7,7 @@ const ShortsCarousel = () => {
   const [shortIds, setShortIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
+  const [displayCount, setDisplayCount] = useState(10);
 
   useEffect(() => {
     const fetchShorts = async () => {
@@ -26,7 +27,7 @@ const ShortsCarousel = () => {
           });
 
           const ids = shortsItems
-            .slice(0, 10) // Get up to 10 shorts
+            .slice(0, 50) // Get up to 50 shorts
             .map((item: any) => {
               if (item.link && item.link.includes('/shorts/')) {
                 const linkMatch = item.link.match(/shorts\/([^?]+)/);
@@ -76,7 +77,7 @@ const ShortsCarousel = () => {
               ) : shortIds.length > 0 ? (
                 <div className="relative overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
                   <div className="flex gap-2 md:gap-3 min-w-max items-center">
-                    {shortIds.map((shortId) => (
+                    {shortIds.slice(0, displayCount).map((shortId) => (
                       <button
                         key={shortId}
                         onClick={() => setSelectedShort(shortId)}
@@ -100,15 +101,15 @@ const ShortsCarousel = () => {
                     ))}
                     
                     {/* Load More Button */}
-                    <a
-                      href="https://youtube.com/@winthenight"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
-                    >
-                      <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-neon-blue group-hover/more:translate-x-1 transition-transform" />
-                      <span className="text-xs md:text-sm text-neon-blue font-medium">More</span>
-                    </a>
+                    {displayCount < shortIds.length && (
+                      <button
+                        onClick={() => setDisplayCount(prev => Math.min(prev + 10, shortIds.length))}
+                        className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
+                      >
+                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-neon-blue group-hover/more:translate-x-1 transition-transform" />
+                        <span className="text-xs md:text-sm text-neon-blue font-medium">More</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
