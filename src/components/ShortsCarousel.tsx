@@ -101,7 +101,7 @@ const ShortsCarousel = () => {
                     
                     {/* Load More Button */}
                     <a
-                      href="https://youtube.com/@winthenight/shorts"
+                      href="https://youtube.com/@winthenight"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
