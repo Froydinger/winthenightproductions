@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Youtube, Play, ArrowDown, ArrowRight } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import logo from "@/assets/win-the-night-productions-logo.png";
+import { useState } from "react";
 
 const HeroSection = () => {
+  const [logoLoaded, setLogoLoaded] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center py-10 px-4">
       <div className="container mx-auto max-w-7xl">
@@ -13,7 +16,10 @@ const HeroSection = () => {
             <img
               src={logo}
               alt="Win The Night"
-              className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-breathe cursor-pointer hover:scale-110 transition-transform duration-500"
+              onLoad={() => setLogoLoaded(true)}
+              className={`w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-breathe cursor-pointer hover:scale-110 transition-all duration-700 ease-out ${
+                logoLoaded ? "opacity-100 scale-100" : "opacity-0 scale-50"
+              }`}
             />
           </div>
 
