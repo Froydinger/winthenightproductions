@@ -59,6 +59,17 @@ const CTASection = () => {
               </Button>
             </div>
 
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="group border-2 border-neon-blue/60 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-500 hover:scale-105 text-base sm:text-lg px-6 py-5 sm:px-8 sm:py-6 rounded-2xl backdrop-blur-sm font-semibold"
+            >
+              <a href="/be-our-guest" className="flex items-center gap-3">
+                Be Our Guest!
+              </a>
+            </Button>
+
             <p className="text-sm text-muted-foreground pt-4">
               Join 1k+ others finding connection and healing
             </p>
