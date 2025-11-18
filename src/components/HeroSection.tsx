@@ -18,15 +18,12 @@ const HeroSection = () => {
 
           {/* Main Content */}
           <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-foreground tracking-tight leading-tight">
-              Win The Night
-            </h1>
-            
-            <p className="text-xl sm:text-3xl lg:text-4xl text-neon-blue font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-              One Connection.<br />
+            <p className="text-xl sm:text-3xl lg:text-4xl font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+              <span className="text-foreground">One Connection.<br />
               One Story.<br className="sm:hidden" />
               <span className="hidden sm:inline"><br /></span>
-              <span className="sm:inline"> </span>One Conversation at a Time.
+              <span className="sm:inline"> </span></span>
+              <span className="text-neon-blue">One Conversation at a Time.</span>
             </p>
 
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
