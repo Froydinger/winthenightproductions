@@ -7,13 +7,13 @@ const CommunitySection = () => {
       <div className="container mx-auto max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Main Card */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/30 p-12 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon-strong animate-fade-in-up">
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/30 p-6 sm:p-10 lg:p-12 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon-strong animate-fade-in-up">
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
             {/* Floating icon */}
-            <div className="absolute top-8 right-8 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-neon-blue/10 flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
-              <MessageCircle className="w-7 h-7 sm:w-10 sm:h-10 text-neon-blue" />
+            <div className="absolute top-6 right-6 sm:top-8 sm:right-8 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-neon-blue/10 flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
+              <MessageCircle className="w-6 h-6 sm:w-10 sm:h-10 text-neon-blue" />
             </div>
 
             <div className="relative z-10 space-y-8">
@@ -28,7 +28,7 @@ const CommunitySection = () => {
                 </h2>
               </div>
 
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                 We're here to hold space for honest conversations about anxiety, trauma, creativity, 
                 and everything in between. You're welcome whether you're in the thick of it or just 
                 starting to ask questions about your own story.
