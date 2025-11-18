@@ -53,7 +53,7 @@ const CTASection = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3"
                 >
-                  Learn Our Story
+                  A Little More About Us
                   <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </a>
               </Button>
