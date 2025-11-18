@@ -2,6 +2,7 @@ import { Play, Users, Heart, Brain, Instagram, BookOpen, ExternalLink } from "lu
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import WatchLatestSection from "@/components/WatchLatestSection";
 
 const FeaturesSection = () => {
   return (
@@ -237,8 +238,10 @@ const FeaturesSection = () => {
 
             <div className="absolute top-0 right-0 w-32 h-32 bg-neon-blue/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </Card>
-
         </div>
+
+        {/* Watch Latest Section */}
+        <WatchLatestSection />
       </div>
     </section>
   );
