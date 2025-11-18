@@ -105,9 +105,11 @@ export default {
         "breathe": {
           "0%, 100%": {
             transform: "scale(1)",
+            opacity: "0.95",
           },
           "50%": {
-            transform: "scale(1.05)",
+            transform: "scale(1.02)",
+            opacity: "1",
           },
         },
       },
