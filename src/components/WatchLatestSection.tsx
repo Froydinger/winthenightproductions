@@ -9,10 +9,10 @@ const WatchLatestSection = () => {
   useEffect(() => {
     const fetchLatestVideos = async () => {
       try {
-        // Using YouTube RSS feed via rss2json API with channel handle
+        // Using YouTube RSS feed via rss2json API with correct channel ID
         const response = await fetch(
           `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
-            'https://www.youtube.com/feeds/videos.xml?channel_id=UCLFyZF5-HzIq7HqFWaHl7iVQ'
+            'https://www.youtube.com/feeds/videos.xml?channel_id=UCuFlxR-Ol8zzda9Z6CJkwkA'
           )}`
         );
         const data = await response.json();
