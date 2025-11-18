@@ -1,10 +1,12 @@
 import { Play } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const WatchLatestSection = () => {
   const [videoIds, setVideoIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLatestVideos = async () => {
@@ -52,6 +54,7 @@ const WatchLatestSection = () => {
   }, []);
 
   return (
+    <>
     <section className="relative py-6 md:py-10 pb-2 md:pb-4">
       <div className="container mx-auto max-w-7xl px-2 sm:px-4">
         <Card
@@ -81,18 +84,25 @@ const WatchLatestSection = () => {
             ) : videoIds.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-4">
                 {videoIds.map((videoId, index) => (
-                  <div
+                  <button
                     key={videoId}
-                    className="relative aspect-video rounded-lg overflow-hidden border border-neon-blue/20"
+                    onClick={() => setSelectedVideo(videoId)}
+                    className="group/video relative aspect-video rounded-lg overflow-hidden border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300"
                   >
-                    <iframe
-                      className="w-full h-full"
-                      src={`https://www.youtube.com/embed/${videoId}`}
-                      title={`Latest Win The Night Video ${index + 1}`}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
+                    <img
+                      src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                      alt={`Latest Win The Night Video ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                      }}
                     />
-                  </div>
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full bg-neon-blue/90 flex items-center justify-center transform group-hover/video:scale-110 transition-transform duration-300">
+                        <Play className="w-8 h-8 text-black fill-black ml-1" />
+                      </div>
+                    </div>
+                  </button>
                 ))}
               </div>
             ) : (
@@ -113,6 +123,24 @@ const WatchLatestSection = () => {
         </Card>
       </div>
     </section>
+
+    {/* Video Modal */}
+    <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
+      <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-2xl">
+        <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
+          {selectedVideo && (
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  </>
   );
 };
 
