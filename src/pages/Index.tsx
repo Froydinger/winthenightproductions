@@ -6,25 +6,6 @@ import CommunitySection from "@/components/CommunitySection";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import { useScrollBlur } from "@/hooks/use-scroll-blur";
-
-const ScrollBlurSection = ({ children, id, className = "" }: { children: React.ReactNode; id?: string; className?: string }) => {
-  const { ref, blurAmount } = useScrollBlur();
-  
-  return (
-    <div
-      id={id}
-      ref={ref}
-      className={className}
-      style={{
-        filter: `blur(${blurAmount}px)`,
-        transition: "filter 0.1s ease-out",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
 
 const Index = () => {
   return (
@@ -34,26 +15,40 @@ const Index = () => {
         <AnimatedBackground />
       </div>
 
+      {/* Blur zones for top and bottom 10% of screen */}
+      <div className="fixed top-0 left-0 right-0 h-[10vh] z-30 pointer-events-none backdrop-blur-sm" 
+           style={{ 
+             maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+             WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
+           }} 
+      />
+      <div className="fixed bottom-0 left-0 right-0 h-[10vh] z-30 pointer-events-none backdrop-blur-sm" 
+           style={{ 
+             maskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+             WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
+           }} 
+      />
+
       {/* Sticky Header */}
       <Header />
 
       {/* Content Sections */}
       <div className="relative z-10">
-        <ScrollBlurSection id="hero">
+        <div id="hero">
           <HeroSection />
-        </ScrollBlurSection>
-        <ScrollBlurSection id="features" className="scroll-mt-8">
+        </div>
+        <div id="features" className="scroll-mt-8">
           <FeaturesSection />
-        </ScrollBlurSection>
-        <ScrollBlurSection id="community">
+        </div>
+        <div id="community">
           <CommunitySection />
-        </ScrollBlurSection>
-        <ScrollBlurSection id="watch-latest">
+        </div>
+        <div id="watch-latest">
           <WatchLatestSection />
-        </ScrollBlurSection>
-        <ScrollBlurSection id="cta">
+        </div>
+        <div id="cta">
           <CTASection />
-        </ScrollBlurSection>
+        </div>
         <Footer />
       </div>
     </main>
