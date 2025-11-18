@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 
 const CommunitySection = () => {
   return (
-    <section className="relative py-16 px-4">
+    <section className="relative py-8 px-4">
       <div className="container mx-auto max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Main Card */}
