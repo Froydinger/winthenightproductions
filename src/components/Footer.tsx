@@ -1,4 +1,4 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, PenTool } from "lucide-react";
+import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const Footer = () => {
@@ -71,16 +71,6 @@ const Footer = () => {
                 <span>Blog</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
-              <a
-                href="https://winthenight.blog"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <PenTool className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Substack</span>
-                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
             </nav>
           </div>
 
@@ -102,7 +92,7 @@ const Footer = () => {
                   href="https://instagram.com/win_the_night"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-border/30 text-muted-foreground hover:text-neon-blue hover:border-neon-blue/40 hover:bg-neon-blue/10 transition-all duration-300 hover:scale-110 group"
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-border/30 text-[#E1306C] hover:border-[#E1306C]/40 hover:bg-[#E1306C]/10 transition-all duration-300 hover:scale-110 group"
                   aria-label="Follow us on Instagram"
                 >
                   <Instagram className="w-5 h-5 group-hover:rotate-12 transition-transform" />
@@ -111,10 +101,19 @@ const Footer = () => {
                   href="https://www.facebook.com/profile.php?id=100092673610697"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-border/30 text-muted-foreground hover:text-neon-blue hover:border-neon-blue/40 hover:bg-neon-blue/10 transition-all duration-300 hover:scale-110 group"
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-border/30 text-[#1877F2] hover:border-[#1877F2]/40 hover:bg-[#1877F2]/10 transition-all duration-300 hover:scale-110 group"
                   aria-label="Follow us on Facebook"
                 >
                   <Facebook className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                </a>
+                <a
+                  href="https://winthenight.blog"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-border/30 text-[#FF6719] hover:border-[#FF6719]/40 hover:bg-[#FF6719]/10 transition-all duration-300 hover:scale-110 group"
+                  aria-label="Read our Substack"
+                >
+                  <BookOpen className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 </a>
               </div>
             </div>
