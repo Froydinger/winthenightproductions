@@ -1,0 +1,86 @@
+import { Button } from "@/components/ui/button";
+import { Youtube, Play, ArrowRight } from "lucide-react";
+import logo from "@/assets/win-the-night-logo.webp";
+
+const HeroSection = () => {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center py-20 px-4">
+      <div className="container mx-auto max-w-7xl">
+        <div className="text-center space-y-8 animate-fade-in-up">
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
+            <img
+              src={logo}
+              alt="Win The Night"
+              className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-float cursor-pointer hover:scale-110 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Main Content */}
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-foreground tracking-tight leading-tight">
+              Win The Night
+            </h1>
+            
+            <p className="text-2xl sm:text-3xl lg:text-4xl text-neon-blue font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+              One Connection. One Story.<br />One Conversation at a Time.
+            </p>
+
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "400ms" }}>
+              A mental health focused community built on real conversations, not highlight reels. 
+              If you care about healing, inner child work, generational trauma, and honest stories that 
+              make you feel less alone — this is your corner of the internet.
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8 animate-fade-in-up" style={{ animationDelay: "600ms" }}>
+            <Button
+              asChild
+              size="lg"
+              className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon-strong hover:shadow-[0_0_50px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-xl font-bold px-8 py-7 rounded-xl"
+            >
+              <a
+                href="https://youtube.com/@winthenight?sub_confirmation=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3"
+              >
+                <Youtube className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                Subscribe on YouTube
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </Button>
+
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="group border-2 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/20 hover:border-neon-blue transition-all duration-500 hover:scale-105 hover:shadow-neon text-xl px-8 py-7 rounded-xl backdrop-blur-sm"
+            >
+              <a
+                href="https://winthenight.org/watch/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3"
+              >
+                <Play className="w-6 h-6 group-hover:scale-125 transition-transform" />
+                Watch Latest Episode
+              </a>
+            </Button>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="pt-16 animate-fade-in-up" style={{ animationDelay: "800ms" }}>
+            <div className="flex flex-col items-center gap-2 text-muted-foreground animate-bounce">
+              <span className="text-sm">Scroll to explore</span>
+              <ArrowRight className="w-5 h-5 rotate-90" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
