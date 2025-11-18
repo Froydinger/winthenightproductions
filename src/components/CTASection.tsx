@@ -60,7 +60,7 @@ const CTASection = () => {
             </div>
 
             <p className="text-sm text-muted-foreground pt-6">
-              Join thousands of others finding connection and healing
+              Join 1k+ others finding connection and healing
             </p>
           </div>
         </div>
