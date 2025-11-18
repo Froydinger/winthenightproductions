@@ -48,21 +48,17 @@ const Index = () => {
 
       {/* Blur zones for top and bottom 20% of screen */}
       {scrolled && (
-        <div 
-          className="fixed top-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-md transition-opacity duration-500" 
-          style={{ 
-            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)'
-          }} 
-        />
+        <div className="fixed top-0 left-0 right-0 h-[20vh] z-30 pointer-events-none">
+          <div className="absolute inset-0 backdrop-blur-lg" style={{ opacity: 0.3, maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)' }} />
+          <div className="absolute inset-0 backdrop-blur-md" style={{ opacity: 0.4, maskImage: 'linear-gradient(to bottom, black 20%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 100%)' }} />
+          <div className="absolute inset-0 backdrop-blur-sm" style={{ opacity: 0.5, maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)' }} />
+        </div>
       )}
-      <div 
-        className="fixed bottom-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-sm" 
-        style={{ 
-          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)'
-        }} 
-      />
+      <div className="fixed bottom-0 left-0 right-0 h-[20vh] z-30 pointer-events-none">
+        <div className="absolute inset-0 backdrop-blur-lg" style={{ opacity: 0.3, maskImage: 'linear-gradient(to top, black 0%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)' }} />
+        <div className="absolute inset-0 backdrop-blur-md" style={{ opacity: 0.4, maskImage: 'linear-gradient(to top, black 20%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 20%, transparent 100%)' }} />
+        <div className="absolute inset-0 backdrop-blur-sm" style={{ opacity: 0.5, maskImage: 'linear-gradient(to top, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 40%, transparent 100%)' }} />
+      </div>
 
       {/* Sticky Header */}
       <Header />
