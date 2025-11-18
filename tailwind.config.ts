@@ -112,6 +112,22 @@ export default {
             opacity: "1",
           },
         },
+        "wiggle": {
+          "0%, 100%": {
+            transform: "rotate(-1deg)",
+          },
+          "50%": {
+            transform: "rotate(1deg)",
+          },
+        },
+        "blink": {
+          "0%, 100%": {
+            opacity: "1",
+          },
+          "50%": {
+            opacity: "0.3",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -121,6 +137,8 @@ export default {
         "gradient-shift": "gradient-shift 8s ease infinite",
         "float": "float 6s ease-in-out infinite",
         "breathe": "breathe 40s ease-in-out infinite",
+        "wiggle": "wiggle 3s ease-in-out infinite",
+        "blink": "blink 3s ease-in-out infinite",
       },
       boxShadow: {
         "neon": "0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3)",
