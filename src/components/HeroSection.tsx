@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Youtube, Play, ArrowRight } from "lucide-react";
+import { Youtube, Play, ArrowDown, ArrowRight } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const HeroSection = () => {
@@ -74,10 +74,10 @@ const HeroSection = () => {
           </div>
 
           {/* Scroll Indicator */}
-          <div className="pt-16 animate-fade-in-up" style={{ animationDelay: "800ms" }}>
+          <div className="pt-12 animate-fade-in-up" style={{ animationDelay: "800ms" }}>
             <div className="flex flex-col items-center gap-2 text-muted-foreground">
               <span className="text-sm animate-blink">Scroll to explore</span>
-              <ArrowRight className="w-5 h-5 rotate-90 animate-wiggle" />
+              <ArrowDown className="w-5 h-5 animate-wiggle" />
             </div>
           </div>
         </div>
