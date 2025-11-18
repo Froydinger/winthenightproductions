@@ -118,7 +118,7 @@ export default {
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
         "gradient-shift": "gradient-shift 8s ease infinite",
         "float": "float 6s ease-in-out infinite",
-        "breathe": "breathe 10s ease-in-out infinite",
+        "breathe": "breathe 40s ease-in-out infinite",
       },
       boxShadow: {
         "neon": "0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3)",
