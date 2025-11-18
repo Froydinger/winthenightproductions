@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -27,6 +28,17 @@ const ScrollBlurSection = ({ children, id, className = "" }: { children: React.R
 };
 
 const Index = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main className="min-h-screen relative">
       {/* Global Animated Background */}
@@ -35,17 +47,21 @@ const Index = () => {
       </div>
 
       {/* Blur zones for top and bottom 20% of screen */}
-      <div className="fixed top-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-md" 
-           style={{ 
-             maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
-             WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
-           }} 
-      />
-      <div className="fixed bottom-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-sm" 
-           style={{ 
-             maskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
-             WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
-           }} 
+      {scrolled && (
+        <div 
+          className="fixed top-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-md transition-opacity duration-500" 
+          style={{ 
+            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)'
+          }} 
+        />
+      )}
+      <div 
+        className="fixed bottom-0 left-0 right-0 h-[20vh] z-30 pointer-events-none backdrop-blur-sm" 
+        style={{ 
+          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%)'
+        }} 
       />
 
       {/* Sticky Header */}
