@@ -38,6 +38,7 @@ const ShortsCarousel = () => {
             .filter(Boolean);
           
           console.log(`Found ${ids.length} shorts from ${data.items.length} total videos`);
+          console.log('All shorts IDs:', ids);
           setShortIds(ids);
         }
       } catch (error) {
@@ -54,7 +55,7 @@ const ShortsCarousel = () => {
     <>
       <section className="relative py-6 md:py-10 px-4">
         <div className="container mx-auto max-w-7xl">
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-4 md:p-6 hover:border-neon-blue/60 transition-all duration-500">
+          <Card className="group relative overflow-visible bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-4 md:p-6 hover:border-neon-blue/60 transition-all duration-500">
             <div className="space-y-3 md:space-y-4">
               <div className="flex items-center gap-2 md:gap-3">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-neon-blue/20 flex items-center justify-center flex-shrink-0">
@@ -72,11 +73,11 @@ const ShortsCarousel = () => {
               
               {loading ? (
                 <div className="text-center py-4 text-muted-foreground text-xs md:text-sm">
-                  Loading shorts...
+                  Loading shorts... ({shortIds.length} found so far)
                 </div>
               ) : shortIds.length > 0 ? (
-                <div className="relative overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
-                  <div className="flex gap-2 md:gap-3 min-w-max items-center">
+                <div className="relative overflow-x-auto overflow-y-visible pb-2 -mx-2 px-2 scrollbar-hide">
+                  <div className="flex gap-2 md:gap-3 min-w-max items-center py-2">
                     {shortIds.slice(0, displayCount).map((shortId) => (
                       <button
                         key={shortId}
