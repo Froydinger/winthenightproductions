@@ -111,6 +111,22 @@ const FeaturesSection = () => {
                       asChild
                       variant="outline"
                       size="sm"
+                      className="w-full border-red-500/50 text-red-500 hover:border-red-500 hover:bg-red-500/10"
+                    >
+                      <a
+                        href="https://winthenight.org/crisis-resources"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2"
+                      >
+                        Crisis Resources
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </Button>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
                       className="w-full border-border/30 hover:border-neon-blue/40 hover:bg-neon-blue/10"
                     >
                       <a

@@ -71,6 +71,16 @@ const Footer = () => {
                 <span>Blog</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
+              <a
+                href="https://winthenight.org/crisis-resources"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red-500 hover:text-red-400 transition-colors duration-300 flex items-center gap-2 group w-fit"
+              >
+                <Heart className="w-4 h-4 transition-colors" />
+                <span>Crisis Resources</span>
+                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
             </nav>
           </div>
 
