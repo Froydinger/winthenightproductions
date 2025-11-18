@@ -6,6 +6,25 @@ import CommunitySection from "@/components/CommunitySection";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import { useScrollBlur } from "@/hooks/use-scroll-blur";
+
+const ScrollBlurSection = ({ children, id, className = "" }: { children: React.ReactNode; id?: string; className?: string }) => {
+  const { ref, blurAmount } = useScrollBlur();
+  
+  return (
+    <div
+      id={id}
+      ref={ref}
+      className={className}
+      style={{
+        filter: `blur(${blurAmount}px)`,
+        transition: "filter 0.1s ease-out",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 const Index = () => {
   return (
@@ -20,21 +39,21 @@ const Index = () => {
 
       {/* Content Sections */}
       <div className="relative z-10">
-        <div id="hero">
+        <ScrollBlurSection id="hero">
           <HeroSection />
-        </div>
-        <div id="features" className="scroll-mt-8">
+        </ScrollBlurSection>
+        <ScrollBlurSection id="features" className="scroll-mt-8">
           <FeaturesSection />
-        </div>
-        <div id="community">
+        </ScrollBlurSection>
+        <ScrollBlurSection id="community">
           <CommunitySection />
-        </div>
-        <div id="watch-latest">
+        </ScrollBlurSection>
+        <ScrollBlurSection id="watch-latest">
           <WatchLatestSection />
-        </div>
-        <div id="cta">
+        </ScrollBlurSection>
+        <ScrollBlurSection id="cta">
           <CTASection />
-        </div>
+        </ScrollBlurSection>
         <Footer />
       </div>
     </main>
