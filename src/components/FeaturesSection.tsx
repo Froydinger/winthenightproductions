@@ -17,7 +17,7 @@ const features = [
   {
     icon: Brain,
     title: "Practical Tools",
-    description: "Self-awareness tools and frameworks to help you navigate your own healing journey.",
+    description: "Access tools like Noteily (note app), ArcAI (mental wellness AI), our Substack, and reflections to support your journey.",
     gradient: "from-neon-blue/20 to-transparent",
   },
   {

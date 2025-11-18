@@ -1,4 +1,4 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart } from "lucide-react";
+import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, PenTool } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const Footer = () => {
@@ -59,6 +59,26 @@ const Footer = () => {
               >
                 <Heart className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>Donate</span>
+                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a
+                href="https://winthenight.org/blog/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
+              >
+                <BookOpen className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
+                <span>Blog</span>
+                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a
+                href="https://winthenight.blog"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
+              >
+                <PenTool className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
+                <span>Substack</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
             </nav>
