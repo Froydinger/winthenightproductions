@@ -9,24 +9,37 @@ const WatchLatestSection = () => {
   useEffect(() => {
     const fetchLatestVideos = async () => {
       try {
-        // Using YouTube RSS feed via rss2json API
+        // Using YouTube RSS feed via rss2json API with channel handle
         const response = await fetch(
           `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
-            'https://www.youtube.com/feeds/videos.xml?channel_id=UCLFyZF5-HzIq7HqFWaHlH7iVQ'
+            'https://www.youtube.com/feeds/videos.xml?channel_id=UCLFyZF5-HzIq7HqFWaHl7iVQ'
           )}`
         );
         const data = await response.json();
+        
+        console.log('YouTube RSS Response:', data); // Debug log
         
         if (data.items && data.items.length > 0) {
           const ids = data.items
             .slice(0, 2)
             .map((item: any) => {
-              const match = item.guid?.match(/yt:video:(.*)/);
-              return match ? match[1] : null;
+              // Try multiple formats to extract video ID
+              if (item.link) {
+                const linkMatch = item.link.match(/watch\?v=([^&]+)/);
+                if (linkMatch) return linkMatch[1];
+              }
+              if (item.guid) {
+                const guidMatch = item.guid.match(/yt:video:(.*)/);
+                if (guidMatch) return guidMatch[1];
+              }
+              return null;
             })
             .filter(Boolean);
           
+          console.log('Extracted video IDs:', ids); // Debug log
           setVideoIds(ids);
+        } else {
+          console.log('No items found in feed'); // Debug log
         }
       } catch (error) {
         console.error('Error fetching videos:', error);
