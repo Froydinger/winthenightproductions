@@ -74,12 +74,12 @@ const ShortsCarousel = () => {
                   Loading shorts...
                 </div>
               ) : shortIds.length > 0 ? (
-                <div className="flex justify-center items-center gap-2 md:gap-3 flex-wrap">
+                <div className="flex justify-start md:justify-center items-center gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
                   {shortIds.map((shortId) => (
                       <button
                         key={shortId}
                         onClick={() => setSelectedShort(shortId)}
-                        className="group/thumb relative flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105 hover:z-10"
+                        className="group/thumb relative flex-shrink-0 w-20 h-36 md:w-24 md:h-40 rounded-lg border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105 hover:z-10"
                       >
                         <div className="w-full h-full rounded-lg overflow-hidden">
                           <img
@@ -105,7 +105,7 @@ const ShortsCarousel = () => {
                     href="https://www.youtube.com/@winthenight/shorts"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
+                    className="flex-shrink-0 w-20 h-36 md:w-24 md:h-40 rounded-lg border-2 border-neon-blue/30 hover:border-neon-blue bg-card/40 backdrop-blur-sm flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 group/more"
                   >
                     <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-neon-blue group-hover/more:translate-x-1 transition-transform" />
                     <span className="text-xs md:text-sm text-neon-blue font-medium">More</span>
