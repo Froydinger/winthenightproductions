@@ -196,7 +196,7 @@ const FeaturesSection = () => {
                     className="flex items-center gap-2"
                   >
                     <BookOpen className="w-4 h-4" />
-                    Read on Substack
+                    Connect on Substack
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </Button>
