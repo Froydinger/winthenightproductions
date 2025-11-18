@@ -11,46 +11,33 @@ const ShortsCarousel = () => {
   useEffect(() => {
     const fetchShorts = async () => {
       try {
-        const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-        
-        if (!apiKey) {
-          console.error('YouTube API key not configured');
-          setLoading(false);
-          return;
-        }
-
-        // Fetch recent videos from channel
+        // Using YouTube RSS feed to fetch recent videos
         const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=UCuFlxR-Ol8zzda9Z6CJkwkA&part=snippet&order=date&maxResults=50&type=video`
+          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
+            'https://www.youtube.com/feeds/videos.xml?channel_id=UCuFlxR-Ol8zzda9Z6CJkwkA'
+          )}`
         );
-        const searchData = await response.json();
+        const data = await response.json();
         
-        if (searchData.items && searchData.items.length > 0) {
-          const videoIds = searchData.items.map((item: any) => item.id.videoId).join(',');
-          
-          // Get video details including duration
-          const detailsResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?key=${apiKey}&id=${videoIds}&part=contentDetails`
-          );
-          const detailsData = await detailsResponse.json();
-          
-          // Filter for videos under 60 seconds (Shorts)
-          const shortIds = detailsData.items
-            .filter((video: any) => {
-              const duration = video.contentDetails.duration;
-              // Parse ISO 8601 duration format (PT1M30S = 1 minute 30 seconds)
-              const match = duration.match(/PT(?:(\d+)M)?(?:(\d+)S)?/);
-              if (!match) return false;
-              const minutes = parseInt(match[1] || '0');
-              const seconds = parseInt(match[2] || '0');
-              const totalSeconds = minutes * 60 + seconds;
-              return totalSeconds < 60; // Only videos under 60 seconds
+        if (data.items && data.items.length > 0) {
+          // Filter for actual Shorts by checking if the link contains "/shorts/"
+          const shortsItems = data.items.filter((item: any) => {
+            return item.link && item.link.includes('/shorts/');
+          });
+
+          const ids = shortsItems
+            .slice(0, 8) // Get up to 8 shorts
+            .map((item: any) => {
+              if (item.link && item.link.includes('/shorts/')) {
+                const linkMatch = item.link.match(/shorts\/([^?]+)/);
+                if (linkMatch) return linkMatch[1];
+              }
+              return null;
             })
-            .slice(0, 8)
-            .map((video: any) => video.id);
+            .filter(Boolean);
           
-          console.log(`Found ${shortIds.length} shorts under 60 seconds`);
-          setShortIds(shortIds);
+          console.log(`Found ${ids.length} shorts from ${data.items.length} total videos`);
+          setShortIds(ids);
         }
       } catch (error) {
         console.error('Error fetching shorts:', error);
@@ -64,36 +51,36 @@ const ShortsCarousel = () => {
 
   return (
     <>
-      <section className="relative py-10 px-4">
+      <section className="relative py-6 md:py-10 px-4">
         <div className="container mx-auto max-w-7xl">
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-6 hover:border-neon-blue/60 transition-all duration-500">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-neon-blue/20 flex items-center justify-center">
-                  <Play className="w-6 h-6 text-neon-blue" />
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-4 md:p-6 hover:border-neon-blue/60 transition-all duration-500">
+            <div className="space-y-3 md:space-y-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-neon-blue/20 flex items-center justify-center flex-shrink-0">
+                  <Play className="w-5 h-5 md:w-6 md:h-6 text-neon-blue" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">
+                <div className="min-w-0">
+                  <h3 className="text-lg md:text-xl font-bold text-foreground">
                     Recent Shorts
                   </h3>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-xs md:text-sm truncate">
                     Quick insights from Win The Night
                   </p>
                 </div>
               </div>
               
               {loading ? (
-                <div className="text-center py-4 text-muted-foreground text-sm">
+                <div className="text-center py-4 text-muted-foreground text-xs md:text-sm">
                   Loading shorts...
                 </div>
               ) : shortIds.length > 0 ? (
-                <div className="relative overflow-x-auto pb-2 -mx-2 px-2">
-                  <div className="flex gap-3 min-w-max">
+                <div className="relative overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
+                  <div className="flex gap-2 md:gap-3 min-w-max">
                     {shortIds.map((shortId) => (
                       <button
                         key={shortId}
                         onClick={() => setSelectedShort(shortId)}
-                        className="group/thumb relative flex-shrink-0 w-28 h-48 rounded-lg overflow-hidden border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105"
+                        className="group/thumb relative flex-shrink-0 w-24 h-40 md:w-28 md:h-48 rounded-lg overflow-hidden border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300 hover:scale-105"
                       >
                         <img
                           src={`https://img.youtube.com/vi/${shortId}/maxresdefault.jpg`}
@@ -105,8 +92,8 @@ const ShortsCarousel = () => {
                           }}
                         />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
-                          <div className="w-12 h-12 rounded-full bg-neon-blue/90 flex items-center justify-center">
-                            <Play className="w-6 h-6 text-black fill-black ml-0.5" />
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-neon-blue/90 flex items-center justify-center">
+                            <Play className="w-5 h-5 md:w-6 md:h-6 text-black fill-black ml-0.5" />
                           </div>
                         </div>
                       </button>
@@ -119,7 +106,7 @@ const ShortsCarousel = () => {
                     href="https://youtube.com/@winthenight"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-neon-blue hover:underline text-sm"
+                    className="text-neon-blue hover:underline text-xs md:text-sm"
                   >
                     Visit our YouTube channel for shorts
                   </a>
