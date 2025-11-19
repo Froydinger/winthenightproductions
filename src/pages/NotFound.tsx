@@ -87,8 +87,8 @@ const NotFound = () => {
             Looks like this page doesn't exist. Maybe it's on a healing journey too?
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+          {/* Action Button */}
+          <div className="flex justify-center items-center pt-4">
             <Button
               asChild
               size="lg"
@@ -98,20 +98,6 @@ const NotFound = () => {
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 Take Me Home
               </Link>
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-2 border-neon-blue/40 text-foreground hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300"
-            >
-              <a 
-                href="https://winthenight.productions"
-                className="flex items-center gap-2"
-              >
-                Visit Main Site
-              </a>
             </Button>
           </div>
 
