@@ -112,7 +112,7 @@ const Footer = () => {
               <Button
                 onClick={() => setContactOpen(true)}
                 variant="outline"
-                className="inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300 hover:scale-105 group"
+                className="inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-blue/40 text-neon-blue hover:bg-neon-blue hover:text-white hover:border-neon-blue transition-all duration-300 hover:scale-105 group"
               >
                 <Mail className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 <span className="font-semibold">Contact Us</span>
@@ -120,7 +120,7 @@ const Footer = () => {
               <Link to="/support">
                 <Button
                   variant="outline"
-                  className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-purple/40 text-neon-purple hover:bg-neon-purple/10 hover:border-neon-purple transition-all duration-300 hover:scale-105 group"
+                  className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-purple/40 text-neon-purple hover:bg-neon-purple hover:text-white hover:border-neon-purple transition-all duration-300 hover:scale-105 group"
                 >
                   <Coffee className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                   <span className="font-semibold">Support Us</span>
