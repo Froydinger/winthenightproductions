@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Send, User, Mail, MessageSquare } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import { InlineWidget } from "react-calendly";
 
 const BeOurGuest = () => {
   return (
@@ -87,63 +88,32 @@ const BeOurGuest = () => {
             </Card>
           </div>
 
-          {/* Contact Form */}
+          {/* Calendly Scheduling */}
           <Card className="p-8 bg-card/60 backdrop-blur-md border-2 border-neon-blue/40 shadow-neon">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6 text-center">
-              Get in Touch
-            </h2>
+            <div className="text-center mb-6">
+              <Calendar className="w-12 h-12 text-neon-blue mx-auto mb-4" />
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
+                Schedule Your Discovery Call
+              </h2>
+              <p className="text-muted-foreground">
+                Book a time that works best for you to discuss being a guest on Win The Night
+              </p>
+            </div>
             
-            <form className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                  <User className="w-4 h-4 text-neon-blue" />
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  className="w-full px-4 py-3 bg-background/50 border-2 border-neon-blue/30 rounded-lg focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-neon-blue" />
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="w-full px-4 py-3 bg-background/50 border-2 border-neon-blue/30 rounded-lg focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 text-neon-blue" />
-                  Tell Us About Yourself
-                </label>
-                <textarea
-                  rows={6}
-                  placeholder="What would you like to share with our community? What makes your story unique?"
-                  className="w-full px-4 py-3 bg-background/50 border-2 border-neon-blue/30 rounded-lg focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none"
-                />
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-105 text-lg font-bold py-6 rounded-xl"
-              >
-                <Send className="w-5 h-5 mr-2" />
-                Submit Your Interest
-              </Button>
-            </form>
+            <div className="calendly-container">
+              <InlineWidget 
+                url="https://calendly.com/jkrd09/podcast-discovery"
+                styles={{
+                  height: '700px',
+                  minWidth: '320px',
+                }}
+              />
+            </div>
           </Card>
 
           {/* Footer Note */}
           <p className="text-center text-sm text-muted-foreground">
-            We review all submissions and will get back to you within 1-2 weeks.
+            Select a time that works for you and we'll confirm your discovery call shortly.
           </p>
         </div>
       </div>
