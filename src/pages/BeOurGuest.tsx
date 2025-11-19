@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Calendar } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import { InlineWidget } from "react-calendly";
@@ -20,17 +18,6 @@ const BeOurGuest = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto space-y-8">
-          {/* Back Button */}
-          <Link to="/">
-            <Button
-              variant="outline"
-              className="group border-2 border-neon-blue/40 text-foreground hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </Button>
-          </Link>
-
           {/* Hero Section */}
           <div className="text-center space-y-4 animate-fade-in">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">

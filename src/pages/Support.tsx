@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Coffee, Heart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Coffee, Heart } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import { useEffect } from "react";
@@ -24,17 +22,6 @@ const Support = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto space-y-8">
-          {/* Back Button */}
-          <Link to="/">
-            <Button
-              variant="outline"
-              className="group border-2 border-neon-blue/40 text-foreground hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </Button>
-          </Link>
-
           {/* Hero Section */}
           <div className="text-center space-y-4 animate-fade-in">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -70,7 +57,7 @@ const Support = () => {
             </Card>
           </div>
 
-          {/* Buy Me a Coffee Link */}
+          {/* Buy Me a Coffee Embed */}
           <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-neon-blue/40 space-y-6">
             <div className="text-center space-y-4">
               <Coffee className="w-16 h-16 text-neon-blue mx-auto animate-pulse" />
@@ -81,15 +68,18 @@ const Support = () => {
             </div>
             
             <div className="flex justify-center pt-4">
-              <a
-                href="https://www.buymeacoffee.com/winthenight"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-neon-blue text-background hover:bg-neon-blue/90 transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:shadow-[0_0_40px_rgba(0,217,255,0.6)] group"
-              >
-                <Coffee className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                <span>Support Win The Night</span>
-              </a>
+              <iframe
+                src="https://www.buymeacoffee.com/widget/page/winthenight?description=Support%20Win%20The%20Night%20podcast&color=%2300d9ff"
+                style={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  height: '700px',
+                  border: 'none',
+                  borderRadius: '12px',
+                  background: 'transparent'
+                }}
+                title="Buy Me a Coffee"
+              />
             </div>
           </Card>
 
