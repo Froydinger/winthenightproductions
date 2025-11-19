@@ -104,7 +104,7 @@ const BeOurGuest = () => {
               <InlineWidget 
                 url="https://calendly.com/jkrd09/podcast-discovery"
                 styles={{
-                  height: '700px',
+                  height: '1400px',
                   minWidth: '100%',
                   width: '100%',
                 }}
