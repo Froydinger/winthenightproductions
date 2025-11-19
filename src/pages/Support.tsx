@@ -4,8 +4,13 @@ import { ArrowLeft, Coffee, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import { useEffect } from "react";
 
 const Support = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <main className="min-h-screen relative">
       {/* Global Animated Background */}
