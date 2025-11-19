@@ -136,7 +136,7 @@ export default {
         "glow-pulse": "glow-pulse 30s ease-in-out infinite",
         "gradient-shift": "gradient-shift 8s ease infinite",
         "float": "float 6s ease-in-out infinite",
-        "breathe": "breathe 5s ease-in-out infinite",
+        "breathe": "breathe 100s ease-in-out infinite",
         "wiggle": "wiggle 3s ease-in-out infinite",
         "blink": "blink 3s ease-in-out infinite",
       },
