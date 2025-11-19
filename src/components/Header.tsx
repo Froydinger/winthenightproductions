@@ -26,7 +26,7 @@ const Header = () => {
   };
 
   const navItems = [
-    { label: "Home", id: "hero" },
+    { label: "Home", href: "https://winthenight.productions" },
     { label: "What We're About", id: "features" },
     { label: "Community", id: "community" },
     { label: "Join Us", id: "cta" },
@@ -42,8 +42,8 @@ const Header = () => {
     >
       <div className="container mx-auto h-12 flex items-center justify-between px-4">
         {/* Logo */}
-        <button
-          onClick={() => scrollToSection("hero")}
+        <a
+          href="https://winthenight.productions"
           className="flex items-center group py-2"
         >
           <img
@@ -51,7 +51,7 @@ const Header = () => {
             alt="Win The Night"
             className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
           />
-        </button>
+        </a>
 
         {/* Hamburger Menu */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -81,13 +81,23 @@ const Header = () => {
 
                 <nav className="flex flex-col gap-2">
                   {navItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
-                    >
-                      {item.label}
-                    </button>
+                    item.href ? (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <button
+                        key={item.id}
+                        onClick={() => scrollToSection(item.id!)}
+                        className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
+                      >
+                        {item.label}
+                      </button>
+                    )
                   ))}
                 </nav>
 
