@@ -44,15 +44,11 @@ const Support = () => {
             </p>
           </div>
 
-          {/* Info Cards */}
-          <div className="grid md:grid-cols-2 gap-6">
+          {/* Info Card */}
+          <div className="max-w-2xl mx-auto">
             <Card className="p-6 bg-card/60 backdrop-blur-md border-2 border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300 space-y-4">
               <h3 className="text-xl font-bold text-foreground">Why Support Us?</h3>
               <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-neon-blue mt-1">•</span>
-                  <span>Keep the podcast ad-free and authentic</span>
-                </li>
                 <li className="flex items-start gap-2">
                   <span className="text-neon-blue mt-1">•</span>
                   <span>Invest in better audio equipment and production</span>
@@ -67,46 +63,28 @@ const Support = () => {
                 </li>
               </ul>
             </Card>
-
-            <Card className="p-6 bg-card/60 backdrop-blur-md border-2 border-neon-purple/30 hover:border-neon-purple/50 transition-all duration-300 space-y-4">
-              <h3 className="text-xl font-bold text-foreground">What You Get</h3>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-neon-purple mt-1">•</span>
-                  <span>Our eternal gratitude and appreciation</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-neon-purple mt-1">•</span>
-                  <span>A shoutout on the podcast (if you want!)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-neon-purple mt-1">•</span>
-                  <span>The warm fuzzy feeling of supporting mental health conversations</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-neon-purple mt-1">•</span>
-                  <span>Priority consideration for topic suggestions</span>
-                </li>
-              </ul>
-            </Card>
           </div>
 
-          {/* Buy Me a Coffee Embed */}
+          {/* Buy Me a Coffee Link */}
           <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-neon-blue/40 space-y-6">
-            <div className="text-center space-y-2">
-              <Coffee className="w-10 h-10 text-neon-blue mx-auto" />
-              <h2 className="text-2xl font-bold text-foreground">Buy Us a Coffee</h2>
-              <p className="text-muted-foreground">
-                Every contribution helps us continue creating meaningful content
+            <div className="text-center space-y-4">
+              <Coffee className="w-16 h-16 text-neon-blue mx-auto animate-pulse" />
+              <h2 className="text-3xl font-bold text-foreground">Buy Us a Coffee</h2>
+              <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+                Every contribution helps us continue creating meaningful content and supporting mental health conversations
               </p>
             </div>
             
-            <div className="w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-2xl border border-neon-blue/20">
-              <iframe
-                src="https://www.buymeacoffee.com/winthenight"
-                className="w-full h-[700px]"
-                title="Buy Me a Coffee"
-              />
+            <div className="flex justify-center pt-4">
+              <a
+                href="https://www.buymeacoffee.com/winthenight"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-neon-blue/20 to-neon-purple/20 border-2 border-neon-blue/50 text-foreground hover:border-neon-blue hover:from-neon-blue/30 hover:to-neon-purple/30 transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,217,255,0.2)] hover:shadow-[0_0_30px_rgba(0,217,255,0.4)] group"
+              >
+                <Coffee className="w-6 h-6 text-neon-blue group-hover:rotate-12 transition-transform" />
+                <span>Support Win The Night</span>
+              </a>
             </div>
           </Card>
 
