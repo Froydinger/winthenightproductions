@@ -111,10 +111,25 @@ const BeOurGuest = () => {
             </div>
           </Card>
 
-          {/* Footer Note */}
-          <p className="text-center text-sm text-muted-foreground">
-            Select a time that works for you and we'll confirm your discovery call shortly.
-          </p>
+          {/* Footer Notes */}
+          <div className="space-y-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              Select a time that works for you and we'll confirm your discovery call shortly.
+            </p>
+            <Card className="p-4 bg-card/40 backdrop-blur-sm border border-neon-blue/20">
+              <p className="text-sm text-foreground">
+                Once you've scheduled, take a look at{" "}
+                <a 
+                  href="https://winthenight.org/be-our-guest/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-neon-blue hover:text-neon-blue/80 underline underline-offset-4 transition-colors"
+                >
+                  this page for tips on what to expect as a guest
+                </a>
+              </p>
+            </Card>
+          </div>
         </div>
       </div>
     </main>
