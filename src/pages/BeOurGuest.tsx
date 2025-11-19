@@ -100,12 +100,20 @@ const BeOurGuest = () => {
               </p>
             </div>
             
-            <div className="calendly-container">
+            <div className="calendly-container w-full">
               <InlineWidget 
                 url="https://calendly.com/jkrd09/podcast-discovery"
                 styles={{
                   height: '700px',
-                  minWidth: '320px',
+                  minWidth: '100%',
+                  width: '100%',
+                }}
+                pageSettings={{
+                  backgroundColor: '0a0a0a',
+                  hideEventTypeDetails: false,
+                  hideLandingPageDetails: false,
+                  primaryColor: '00d4ff',
+                  textColor: 'ffffff'
                 }}
               />
             </div>
