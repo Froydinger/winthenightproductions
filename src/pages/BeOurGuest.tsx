@@ -89,7 +89,7 @@ const BeOurGuest = () => {
           </div>
 
           {/* Calendly Scheduling */}
-          <Card className="p-8 bg-card/60 backdrop-blur-md border-2 border-neon-blue/40 shadow-neon">
+          <Card className="pt-8 px-8 pb-4 bg-black border-2 border-neon-blue/40 shadow-neon">
             <div className="text-center mb-6">
               <Calendar className="w-12 h-12 text-neon-blue mx-auto mb-4" />
               <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
