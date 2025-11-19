@@ -1,4 +1,5 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy, Mail } from "lucide-react";
+import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy, Mail, Coffee } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "@/assets/win-the-night-logo.webp";
 import { ContactDialog } from "@/components/ContactDialog";
 import { useState } from "react";
@@ -65,16 +66,13 @@ const Footer = () => {
                 <span>About Us</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
-              <a
-                href="https://winthenight.org/donate"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
+              <Link
+                to="/support"
+                className="text-muted-foreground hover:text-neon-purple transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
-                <Heart className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Donate</span>
-                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
+                <Coffee className="w-4 h-4 group-hover:text-neon-purple transition-colors" />
+                <span>Support Us</span>
+              </Link>
               <a
                 href="https://winthenight.org/blog/"
                 target="_blank"
@@ -119,6 +117,15 @@ const Footer = () => {
                 <Mail className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 <span className="font-semibold">Contact Us</span>
               </Button>
+              <Link to="/support">
+                <Button
+                  variant="outline"
+                  className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-purple/40 text-neon-purple hover:bg-neon-purple/10 hover:border-neon-purple transition-all duration-300 hover:scale-105 group"
+                >
+                  <Coffee className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  <span className="font-semibold">Support Us</span>
+                </Button>
+              </Link>
               <div className="flex gap-3 pt-2">
                 <a
                   href="https://instagram.com/win_the_night"
