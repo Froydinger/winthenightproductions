@@ -80,9 +80,9 @@ const Support = () => {
                 href="https://www.buymeacoffee.com/winthenight"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-neon-blue/20 to-neon-purple/20 border-2 border-neon-blue/50 text-foreground hover:border-neon-blue hover:from-neon-blue/30 hover:to-neon-purple/30 transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,217,255,0.2)] hover:shadow-[0_0_30px_rgba(0,217,255,0.4)] group"
+                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-neon-blue text-background hover:bg-neon-blue/90 transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:shadow-[0_0_40px_rgba(0,217,255,0.6)] group"
               >
-                <Coffee className="w-6 h-6 text-neon-blue group-hover:rotate-12 transition-transform" />
+                <Coffee className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                 <span>Support Win The Night</span>
               </a>
             </div>
