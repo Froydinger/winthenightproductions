@@ -78,7 +78,7 @@ const BeOurGuest = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-neon-blue mt-1">•</span>
-                  <span>Flexible recording options (video or audio)</span>
+                  <span>Flexible recording options (in-person or virtual over Google Meet)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-neon-blue mt-1">•</span>
