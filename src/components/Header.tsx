@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const [logoVisible, setLogoVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,14 +28,21 @@ const Header = () => {
     }
   };
 
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "What We're About", id: "features" },
-    { label: "Community", id: "community" },
-    { label: "Join Us", id: "cta" },
-    { label: "Be Our Guest", href: "/be-our-guest" },
-    { label: "Support Us", href: "/support" },
-  ];
+  // Show anchor links only on home page
+  const navItems = isHomePage
+    ? [
+        { label: "Home", href: "/" },
+        { label: "What We're About", id: "features" },
+        { label: "Community", id: "community" },
+        { label: "Join Us", id: "cta" },
+        { label: "Be Our Guest", href: "/be-our-guest" },
+        { label: "Support Us", href: "/support" },
+      ]
+    : [
+        { label: "Home", href: "/" },
+        { label: "Be Our Guest", href: "/be-our-guest" },
+        { label: "Support Us", href: "/support" },
+      ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
