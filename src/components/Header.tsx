@@ -12,13 +12,20 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show logo after scrolling down 200px
-      setLogoVisible(window.scrollY > 200);
+      // Show logo after scrolling down 200px (only on home page)
+      if (isHomePage) {
+        setLogoVisible(window.scrollY > 200);
+      }
     };
+
+    // On non-home pages, always show logo
+    if (!isHomePage) {
+      setLogoVisible(true);
+    }
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
