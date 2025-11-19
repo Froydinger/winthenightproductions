@@ -26,10 +26,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Processing contact form submission from:", email);
 
-    // Send email to contact@winthenight.org
+    // Send email to j@froydinger.com
     const emailResponse = await resend.emails.send({
       from: "Win The Night <onboarding@resend.dev>",
-      to: ["contact@winthenight.org"],
+      to: ["j@froydinger.com"],
       replyTo: email,
       subject: `New Contact Form Message from ${name}`,
       html: `
