@@ -1,8 +1,12 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy } from "lucide-react";
+import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy, Mail } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
+import { ContactDialog } from "@/components/ContactDialog";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
     <footer className="relative border-t border-neon-blue/20 py-16 px-4">
@@ -110,6 +114,14 @@ const Footer = () => {
                 <Youtube className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 <span className="font-semibold">Subscribe on YouTube</span>
               </a>
+              <Button
+                onClick={() => setContactOpen(true)}
+                variant="outline"
+                className="inline-flex items-center gap-3 px-6 py-3 border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300 hover:scale-105 group"
+              >
+                <Mail className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                <span className="font-semibold">Contact Us</span>
+              </Button>
               <div className="flex gap-3">
                 <a
                   href="https://instagram.com/win_the_night"
@@ -151,6 +163,7 @@ const Footer = () => {
           </p>
         </div>
       </div>
+      <ContactDialog open={contactOpen} onOpenChange={setContactOpen} />
     </footer>
   );
 };
