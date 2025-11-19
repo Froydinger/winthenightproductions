@@ -4,13 +4,13 @@ import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Header = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [logoVisible, setLogoVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show header after scrolling down 200px
-      setIsVisible(window.scrollY > 200);
+      // Show logo after scrolling down 200px
+      setLogoVisible(window.scrollY > 200);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -26,25 +26,25 @@ const Header = () => {
   };
 
   const navItems = [
-    { label: "Home", href: "https://winthenight.productions" },
+    { label: "Home", href: "/" },
     { label: "What We're About", id: "features" },
     { label: "Community", id: "community" },
     { label: "Join Us", id: "cta" },
+    { label: "Be Our Guest", href: "/be-our-guest" },
+    { label: "Support Us", href: "/support" },
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isVisible
-          ? "translate-y-0 opacity-100"
-          : "-translate-y-full opacity-0"
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
       <div className="container mx-auto h-12 flex items-center justify-between px-4">
-        {/* Logo */}
+        {/* Logo - only visible after scrolling */}
         <a
-          href="https://winthenight.productions"
-          className="flex items-center group py-2"
+          href="/"
+          className={`flex items-center group py-2 transition-all duration-500 ${
+            logoVisible
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-full opacity-0 pointer-events-none"
+          }`}
         >
           <img
             src={logo}
@@ -80,25 +80,50 @@ const Header = () => {
                 </div>
 
                 <nav className="flex flex-col gap-2">
-                  {navItems.map((item) => (
-                    item.href ? (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
+                  {navItems.map((item) => {
+                    if (item.href) {
+                      // External or page links
+                      if (item.href.startsWith('http')) {
+                        return (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
+                          >
+                            {item.label}
+                          </a>
+                        );
+                      }
+                      // Internal page links
+                      return (
+                        <a
+                          key={item.label}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
+                        >
+                          {item.label}
+                        </a>
+                      );
+                    }
+                    // Anchor links for sections on home page
+                    return (
                       <button
                         key={item.id}
-                        onClick={() => scrollToSection(item.id!)}
+                        onClick={() => {
+                          // If not on home page, navigate to home first
+                          if (window.location.pathname !== '/') {
+                            window.location.href = '/#' + item.id;
+                          } else {
+                            scrollToSection(item.id!);
+                          }
+                        }}
                         className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
                       >
                         {item.label}
                       </button>
-                    )
-                  ))}
+                    );
+                  })}
                 </nav>
 
                 <div className="pt-4 border-t border-neon-blue/20">

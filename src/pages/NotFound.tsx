@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Ghost, Sparkles } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import Header from "@/components/Header";
 
 const NotFound = () => {
   const location = useLocation();
@@ -34,6 +35,9 @@ const NotFound = () => {
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>
+
+      {/* Header */}
+      <Header />
 
       {/* Floating Orbs */}
       <div className="fixed inset-0 z-0 pointer-events-none">
