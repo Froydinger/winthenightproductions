@@ -86,6 +86,8 @@ const ShortsCarousel = () => {
                             src={`https://img.youtube.com/vi/${shortId}/maxresdefault.jpg`}
                             alt="YouTube Short"
                             className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               // Fallback to hqdefault if maxres doesn't exist
                               e.currentTarget.src = `https://img.youtube.com/vi/${shortId}/hqdefault.jpg`;
