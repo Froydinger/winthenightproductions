@@ -151,7 +151,7 @@ const Watch = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               <a
-                href="https://winthenight.org/season-7/"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -159,7 +159,7 @@ const Watch = () => {
                 Chapter 7
               </a>
               <a
-                href="https://winthenight.org/season-6/"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -167,7 +167,7 @@ const Watch = () => {
                 Chapter 6
               </a>
               <a
-                href="https://winthenight.org/season-5/"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -175,7 +175,7 @@ const Watch = () => {
                 Chapter 5
               </a>
               <a
-                href="https://winthenight.org/?page_id=1010"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_5qzx4nt4NjuHd3P5R-zEaw"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -183,7 +183,7 @@ const Watch = () => {
                 Chapter 4
               </a>
               <a
-                href="https://winthenight.org/?page_id=1048"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -191,7 +191,7 @@ const Watch = () => {
                 Chapter 3
               </a>
               <a
-                href="https://winthenight.org/?page_id=1068"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -199,7 +199,7 @@ const Watch = () => {
                 Chapter 2
               </a>
               <a
-                href="https://winthenight.org/?page_id=1088"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
@@ -207,12 +207,12 @@ const Watch = () => {
                 Chapter 1
               </a>
               <a
-                href="https://winthenight.org/short-films/"
+                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-4 rounded-xl bg-gradient-to-r from-card to-card/80 border border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground font-bold transition-all duration-300 no-underline"
               >
-                Short Films
+                Specials & Clips
               </a>
             </div>
           </div>
