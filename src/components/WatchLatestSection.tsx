@@ -125,6 +125,17 @@ const WatchLatestSection = () => {
                 </a>
               </div>
             )}
+            
+            {videoIds.length > 0 && (
+              <div className="flex justify-center mt-4">
+                <a
+                  href="/watch"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-neon-blue/60 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300 hover:scale-105 font-semibold"
+                >
+                  Watch More Episodes
+                </a>
+              </div>
+            )}
           </div>
 
           <div className="absolute top-0 right-0 w-32 h-32 bg-neon-blue/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

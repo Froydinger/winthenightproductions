@@ -45,6 +45,8 @@ const Header = () => {
         { label: "Watch", href: "/watch" },
         { label: "Be Our Guest", href: "/be-our-guest" },
         { label: "Support Us", href: "/support" },
+        { label: "About", href: "/about" },
+        { label: "Contact", href: "/contact" },
         { label: "Crisis Resources", href: "/crisis-resources" },
       ]
     : [
@@ -52,6 +54,8 @@ const Header = () => {
         { label: "Watch", href: "/watch" },
         { label: "Be Our Guest", href: "/be-our-guest" },
         { label: "Support Us", href: "/support" },
+        { label: "About", href: "/about" },
+        { label: "Contact", href: "/contact" },
         { label: "Crisis Resources", href: "/crisis-resources" },
       ];
 

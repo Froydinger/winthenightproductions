@@ -48,9 +48,7 @@ const CTASection = () => {
                 className="group border-2 border-foreground text-foreground hover:bg-foreground/10 hover:border-foreground transition-all duration-500 hover:scale-105 text-sm sm:text-base px-6 py-5 sm:px-8 sm:py-6 rounded-2xl backdrop-blur-sm"
               >
                 <a
-                  href="https://winthenight.org/about/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/about"
                   className="flex items-center gap-3"
                 >
                   A Little More About Us
