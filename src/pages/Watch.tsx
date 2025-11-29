@@ -50,24 +50,8 @@ const Watch = () => {
         if (!data || !data.items || !data.items.length) return;
 
         const items = data.items;
-        let chosen = null;
-
-        // Find first non-short video
-        for (let i = 0; i < items.length; i++) {
-          const item = items[i];
-          const title = (item.title || '').toLowerCase();
-          const link = item.link || '';
-
-          // Skip shorts
-          if (link.includes('/shorts/') || title.includes('shorts') || title.includes('#shorts')) {
-            continue;
-          }
-
-          chosen = item;
-          break;
-        }
-
-        if (!chosen) chosen = items[0];
+        // Get the first video (including shorts)
+        const chosen = items[0];
         if (!chosen) return;
 
         const videoLink = chosen.link || '';
@@ -255,23 +239,35 @@ const Watch = () => {
       {/* Playlist Dialog */}
       <Dialog open={selectedPlaylist !== null} onOpenChange={(open) => !open && setSelectedPlaylist(null)}>
         <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative">
             <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
               <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
               {selectedPlaylist?.name}
             </DialogTitle>
-          </DialogHeader>
-          <div className="flex-1 h-full p-6">
             {selectedPlaylist && (
-              <iframe
-                className="w-full h-full rounded-xl"
-                src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
-                title={selectedPlaylist.name}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
+              <a
+                href={`https://www.youtube.com/playlist?list=${selectedPlaylist.playlistId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-6 right-6 px-4 py-2 rounded-lg bg-neon-blue/20 hover:bg-neon-blue/30 text-neon-blue font-semibold text-sm transition-all duration-300 border border-neon-blue/40 hover:border-neon-blue/60"
+              >
+                Open in new tab
+              </a>
+            )}
+          </DialogHeader>
+          <div className="flex-1 h-full p-6 overflow-y-auto">
+            {selectedPlaylist && (
+              <div className="w-full h-full">
+                <iframe
+                  className="w-full h-full rounded-xl"
+                  src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
+                  title={selectedPlaylist.name}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
             )}
           </div>
         </DialogContent>
