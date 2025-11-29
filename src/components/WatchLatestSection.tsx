@@ -22,7 +22,15 @@ const WatchLatestSection = () => {
         console.log('YouTube RSS Response:', data); // Debug log
         
         if (data.items && data.items.length > 0) {
-          const ids = data.items
+          // Filter out shorts and get regular videos only
+          const regularVideos = data.items.filter((item: any) => {
+            const link = item.link || '';
+            const title = (item.title || '').toLowerCase();
+            // Skip shorts
+            return !link.includes('/shorts/') && !title.includes('#shorts');
+          });
+          
+          const ids = regularVideos
             .slice(0, 2)
             .map((item: any) => {
               // Try multiple formats to extract video ID

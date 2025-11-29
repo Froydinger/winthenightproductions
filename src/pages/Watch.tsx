@@ -205,15 +205,21 @@ const Watch = () => {
               <div className="w-full group">
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                   <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  <iframe
-                    className="relative w-full h-full z-10"
-                    src="https://www.youtube.com/embed?listType=playlist&list=UUuFlxR-Ol8zzda9Z6CJkwkA"
-                    title="Latest Upload"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen>
-                  </iframe>
+                  {latestVideo ? (
+                    <iframe
+                      className="relative w-full h-full z-10"
+                      src={`https://www.youtube.com/embed/${latestVideo.videoId}`}
+                      title="Latest Upload"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen>
+                    </iframe>
+                  ) : (
+                    <div className="relative w-full h-full z-10 flex items-center justify-center bg-card/50">
+                      <p className="text-muted-foreground">Loading latest video...</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
