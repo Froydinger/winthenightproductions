@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommunitySection from "@/components/CommunitySection";
-import ShortsCarousel from "@/components/ShortsCarousel";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -32,9 +31,6 @@ const Index = () => {
         </div>
         <div id="community">
           <CommunitySection />
-        </div>
-        <div id="shorts">
-          <ShortsCarousel />
         </div>
         <div id="cta">
           <CTASection />
