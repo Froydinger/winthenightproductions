@@ -1,10 +1,95 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 
+interface VideoData {
+  title: string;
+  link: string;
+  videoId: string;
+  thumbnail: string;
+}
+
 const Watch = () => {
+  const [latestVideo, setLatestVideo] = useState<VideoData | null>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Fetch latest YouTube video using JSONP
+    const channelId = 'UCuFlxR-Ol8zzda9Z6CJkwkA';
+    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
+    const callbackName = 'wtnLatestVideoCallback';
+
+    // @ts-ignore - Global callback for JSONP
+    window[callbackName] = function(data: any) {
+      try {
+        if (!data || !data.items || !data.items.length) return;
+
+        const items = data.items;
+        let chosen = null;
+
+        // Find first non-short video
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          const title = (item.title || '').toLowerCase();
+          const link = item.link || '';
+
+          // Skip shorts
+          if (link.includes('/shorts/') || title.includes('shorts') || title.includes('#shorts')) {
+            continue;
+          }
+
+          chosen = item;
+          break;
+        }
+
+        if (!chosen) chosen = items[0];
+        if (!chosen) return;
+
+        const videoLink = chosen.link || '';
+        if (!videoLink) return;
+
+        // Extract video ID
+        let videoId = null;
+        const match = videoLink.match(/[?&]v=([^&]+)/);
+        if (match && match[1]) {
+          videoId = match[1];
+        } else {
+          try {
+            const urlObj = new URL(videoLink);
+            const paths = urlObj.pathname.split('/');
+            videoId = paths.pop() || paths.pop();
+          } catch (e) {
+            console.warn('Could not parse video ID from link', videoLink);
+          }
+        }
+        if (!videoId) return;
+
+        const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+        setLatestVideo({
+          title: chosen.title || 'Latest Episode',
+          link: videoLink,
+          videoId: videoId,
+          thumbnail: thumbUrl
+        });
+      } catch (e) {
+        console.error('Error in YouTube JSONP callback:', e);
+      }
+    };
+
+    // Load JSONP script
+    const script = document.createElement('script');
+    script.src = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=10&callback=${callbackName}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      // Cleanup
+      document.head.removeChild(script);
+      // @ts-ignore
+      delete window[callbackName];
+    };
   }, []);
 
   return (
@@ -24,14 +109,17 @@ const Watch = () => {
         <div
           className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden"
           style={{
-            backgroundImage: "url('https://i.ytimg.com/vi/-7-R4fl4ubU/maxresdefault.jpg')",
+            backgroundImage: latestVideo
+              ? `url('${latestVideo.thumbnail}')`
+              : "url('https://i.ytimg.com/vi/-7-R4fl4ubU/maxresdefault.jpg')",
             backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat"
+            backgroundPosition: "center 20%",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: "#000000"
           }}
         >
           {/* Dark Overlay Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black"></div>
 
           {/* Content */}
           <div className="relative z-10 max-w-4xl mx-auto text-center px-6 pt-20">
@@ -42,11 +130,13 @@ const Watch = () => {
               </span>
             </h1>
             <p className="text-lg md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg font-medium">
-              Tune in for real conversations about mental health, connection, and authentic human experiences.
+              {latestVideo ? latestVideo.title : "Tune in for real conversations about mental health, connection, and authentic human experiences."}
             </p>
 
             <a
-              href="#latest-episode"
+              href={latestVideo ? latestVideo.link : "https://www.youtube.com/@winthenight"}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"
             >
               Watch Now
