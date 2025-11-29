@@ -69,6 +69,9 @@ const Index = () => {
         <ScrollBlurSection id="hero">
           <HeroSection />
         </ScrollBlurSection>
+        <ScrollBlurSection id="latest-videos">
+          <WatchLatestSection />
+        </ScrollBlurSection>
         <ScrollBlurSection id="features" className="scroll-mt-8">
           <FeaturesSection />
         </ScrollBlurSection>

@@ -30,24 +30,11 @@ const Footer = () => {
             <h3 className="text-lg font-bold text-foreground">Quick Links</h3>
             <nav className="flex flex-col gap-3">
               <a
-                href="https://winthenight.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Radio className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Podcast Site</span>
-                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
-              <a
-                href="https://winthenight.org/watch/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/watch"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
                 <Play className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>Watch Episodes</span>
-                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
               <a
                 href="/guest"
@@ -57,14 +44,18 @@ const Footer = () => {
                 <span>Be Our Guest!</span>
               </a>
               <a
-                href="https://winthenight.org/about/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/about"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
                 <Info className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
                 <span>About Us</span>
-                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a
+                href="/contact"
+                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
+              >
+                <Mail className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
+                <span>Contact</span>
               </a>
               <Link
                 to="/support"
@@ -74,13 +65,13 @@ const Footer = () => {
                 <span>Support Us</span>
               </Link>
               <a
-                href="https://winthenight.org/blog/"
+                href="https://winthenight.blog"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
                 <BookOpen className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Blog</span>
+                <span>Blog (Substack)</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
               <Link

@@ -75,9 +75,7 @@ const HeroSection = () => {
               className="group border-2 border-foreground text-foreground hover:bg-foreground/10 hover:border-foreground transition-all duration-500 hover:scale-105 text-xl px-8 py-7 rounded-xl backdrop-blur-sm"
             >
               <a
-                href="https://winthenight.org/watch/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/watch"
                 className="flex items-center gap-3"
               >
                 <Play className="w-6 h-6 group-hover:scale-125 transition-transform" />
