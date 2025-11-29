@@ -125,7 +125,7 @@ const GuestPortal = () => {
             asChild
             variant="outline"
             size="lg"
-            className="border-2 border-border/50 hover:border-neon-blue/50 hover:bg-card/50 transition-all"
+            className="border-2 border-border/50 hover:border-neon-blue/50 hover:bg-card/50 hover:text-white transition-all"
           >
             <a href="/watch">
               Watch the Latest Episode
@@ -135,7 +135,7 @@ const GuestPortal = () => {
             asChild
             variant="outline"
             size="lg"
-            className="border-2 border-border/60 hover:border-neon-blue hover:text-neon-blue transition-all"
+            className="border-2 border-border/60 hover:border-neon-blue hover:text-white transition-all"
           >
             <a href="/guest">
               Book a Call
