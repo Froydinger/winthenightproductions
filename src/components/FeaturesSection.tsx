@@ -6,7 +6,7 @@ import WatchLatestSection from "@/components/WatchLatestSection";
 
 const FeaturesSection = () => {
   return (
-    <section className="relative pt-6 pb-10 px-4">
+    <section className="relative pt-24 pb-10 px-4">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16 space-y-4 animate-fade-in-up">
           <h2 className="text-5xl sm:text-6xl font-bold text-foreground">

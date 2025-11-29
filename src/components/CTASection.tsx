@@ -14,7 +14,7 @@ const CTASection = () => {
 
   return (
     <>
-      <section className="relative py-16 px-4">
+      <section className="relative py-20 px-4">
         <div className="container mx-auto max-w-5xl">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-neon-blue/20 via-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-8 sm:p-14 lg:p-20 shadow-neon animate-fade-in-up">
             {/* Animated background elements */}
