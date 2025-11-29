@@ -19,6 +19,8 @@ const Footer = () => {
               src={logo}
               alt="Win The Night"
               className="w-20 h-20 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.4)]"
+              loading="lazy"
+              decoding="async"
             />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               One Connection. One Story. One Conversation at a Time.

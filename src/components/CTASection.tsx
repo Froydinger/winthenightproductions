@@ -46,6 +46,8 @@ const CTASection = () => {
                       src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                       alt={video.title}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         e.currentTarget.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
                       }}
