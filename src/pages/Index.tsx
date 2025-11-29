@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommunitySection from "@/components/CommunitySection";
 import WatchLatestSection from "@/components/WatchLatestSection";
+import ShortsCarousel from "@/components/ShortsCarousel";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -25,6 +26,9 @@ const Index = () => {
         </div>
         <div id="latest-videos">
           <WatchLatestSection />
+        </div>
+        <div id="shorts">
+          <ShortsCarousel />
         </div>
         <div id="features" className="scroll-mt-8">
           <FeaturesSection />
