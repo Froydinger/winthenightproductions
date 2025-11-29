@@ -125,13 +125,10 @@ const FeaturesSection = () => {
                       className="w-full border-red-500/50 text-red-500 hover:border-red-500 hover:bg-red-500/10"
                     >
                       <a
-                        href="https://winthenight.org/crisis-resources"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="/crisis-resources"
                         className="flex items-center gap-2"
                       >
                         Crisis Resources
-                        <ExternalLink className="w-3 h-3" />
                       </a>
                     </Button>
                     <Button
