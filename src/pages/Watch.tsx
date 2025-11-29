@@ -222,11 +222,11 @@ const Watch = () => {
         <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
 
-            {/* Latest Episode */}
+            {/* Latest Upload */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Episode:</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Upload</h2>
               </div>
 
               <div className="w-full group">
@@ -235,7 +235,7 @@ const Watch = () => {
                   <iframe
                     className="relative w-full h-full z-10"
                     src="https://www.youtube.com/embed?listType=playlist&list=UUuFlxR-Ol8zzda9Z6CJkwkA"
-                    title="Latest Episode"
+                    title="Latest Upload"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
