@@ -8,8 +8,7 @@ const CTASection = () => {
 
   // Featured videos to showcase
   const featuredVideos = [
-    { id: "cIHJZUOIPco", title: "Featured Episode 1" },
-    { id: "UL_ayxMAFqM", title: "Featured Episode 2" }
+    { id: "-Cx1WhiVbPE", title: "Featured Episode" }
   ];
 
   return (
