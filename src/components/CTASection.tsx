@@ -35,12 +35,12 @@ const CTASection = () => {
               </div>
 
               {/* Featured Videos */}
-              <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+              <div className="flex justify-center gap-4 max-w-3xl mx-auto">
                 {featuredVideos.map((video) => (
                   <button
                     key={video.id}
                     onClick={() => setSelectedVideo(video.id)}
-                    className="group/video relative aspect-video rounded-xl overflow-hidden border-2 border-neon-blue/30 hover:border-neon-blue transition-all duration-300 hover:scale-105"
+                    className="group/video relative aspect-video rounded-xl overflow-hidden border-2 border-neon-blue/30 hover:border-neon-blue transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:max-w-md"
                   >
                     <img
                       src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
