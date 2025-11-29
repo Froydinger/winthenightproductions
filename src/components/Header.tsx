@@ -42,12 +42,14 @@ const Header = () => {
         { label: "What We're About", id: "features" },
         { label: "Community", id: "community" },
         { label: "Join Us", id: "cta" },
+        { label: "Watch", href: "/watch" },
         { label: "Be Our Guest", href: "/be-our-guest" },
         { label: "Support Us", href: "/support" },
         { label: "Crisis Resources", href: "/crisis-resources" },
       ]
     : [
         { label: "Home", href: "/" },
+        { label: "Watch", href: "/watch" },
         { label: "Be Our Guest", href: "/be-our-guest" },
         { label: "Support Us", href: "/support" },
         { label: "Crisis Resources", href: "/crisis-resources" },
