@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface VideoData {
   title: string;
@@ -9,8 +15,26 @@ interface VideoData {
   thumbnail: string;
 }
 
+interface Playlist {
+  id: string;
+  name: string;
+  playlistId: string;
+}
+
+const playlists: Playlist[] = [
+  { id: "chapter7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
+  { id: "chapter6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
+  { id: "chapter5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS" },
+  { id: "chapter4", name: "Chapter 4", playlistId: "PL4DJfmhGyz_5qzx4nt4NjuHd3P5R-zEaw" },
+  { id: "chapter3", name: "Chapter 3", playlistId: "PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS" },
+  { id: "chapter2", name: "Chapter 2", playlistId: "PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX" },
+  { id: "chapter1", name: "Chapter 1", playlistId: "PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl" },
+  { id: "specials", name: "Specials & Clips", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
+];
+
 const Watch = () => {
   const [latestVideo, setLatestVideo] = useState<VideoData | null>(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -150,70 +174,19 @@ const Watch = () => {
             <h2 className="text-3xl font-bold text-foreground mb-10">Pick a Chapter</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 7
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 6
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 5
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_5qzx4nt4NjuHd3P5R-zEaw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 4
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 3
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 2
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-card border border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Chapter 1
-              </a>
-              <a
-                href="https://www.youtube.com/playlist?list=PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-4 rounded-xl bg-gradient-to-r from-card to-card/80 border border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground font-bold transition-all duration-300 no-underline"
-              >
-                Specials & Clips
-              </a>
+              {playlists.map((playlist) => (
+                <button
+                  key={playlist.id}
+                  onClick={() => setSelectedPlaylist(playlist)}
+                  className={`block px-4 py-4 rounded-xl border transition-all duration-300 font-bold ${
+                    playlist.id === "specials"
+                      ? "bg-gradient-to-r from-card to-card/80 border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground"
+                      : "bg-card border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground"
+                  }`}
+                >
+                  {playlist.name}
+                </button>
+              ))}
             </div>
           </div>
         </section>
@@ -272,6 +245,31 @@ const Watch = () => {
         </section>
 
       </div>
+
+      {/* Playlist Dialog */}
+      <Dialog open={selectedPlaylist !== null} onOpenChange={(open) => !open && setSelectedPlaylist(null)}>
+        <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30">
+            <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
+              <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+              {selectedPlaylist?.name}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 h-full p-6">
+            {selectedPlaylist && (
+              <iframe
+                className="w-full h-full rounded-xl"
+                src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
+                title={selectedPlaylist.name}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 };
