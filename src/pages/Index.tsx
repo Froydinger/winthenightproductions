@@ -78,9 +78,6 @@ const Index = () => {
         <ScrollBlurSection id="shorts">
           <ShortsCarousel />
         </ScrollBlurSection>
-        <ScrollBlurSection id="latest-videos">
-          <WatchLatestSection />
-        </ScrollBlurSection>
         <ScrollBlurSection id="cta">
           <CTASection />
         </ScrollBlurSection>

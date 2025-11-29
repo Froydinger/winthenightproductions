@@ -50,8 +50,23 @@ const Watch = () => {
         if (!data || !data.items || !data.items.length) return;
 
         const items = data.items;
-        // Get the first video (including shorts)
-        const chosen = items[0];
+        // Filter to get first non-short video only
+        let chosen = null;
+
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          const title = (item.title || '').toLowerCase();
+          const link = item.link || '';
+
+          // Skip shorts
+          if (link.includes('/shorts/') || title.includes('#shorts')) {
+            continue;
+          }
+
+          chosen = item;
+          break;
+        }
+
         if (!chosen) return;
 
         const videoLink = chosen.link || '';
@@ -238,8 +253,8 @@ const Watch = () => {
 
       {/* Playlist Dialog */}
       <Dialog open={selectedPlaylist !== null} onOpenChange={(open) => !open && setSelectedPlaylist(null)}>
-        <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative">
+        <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30 flex flex-col">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative flex-shrink-0">
             <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
               <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
               {selectedPlaylist?.name}
@@ -255,19 +270,17 @@ const Watch = () => {
               </a>
             )}
           </DialogHeader>
-          <div className="flex-1 h-full p-6 overflow-y-auto">
+          <div className="flex-1 p-6 overflow-hidden">
             {selectedPlaylist && (
-              <div className="w-full h-full">
-                <iframe
-                  className="w-full h-full rounded-xl"
-                  src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
-                  title={selectedPlaylist.name}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              </div>
+              <iframe
+                className="w-full h-full rounded-xl"
+                src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
+                title={selectedPlaylist.name}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
             )}
           </div>
         </DialogContent>
