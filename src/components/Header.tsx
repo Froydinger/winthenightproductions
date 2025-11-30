@@ -100,7 +100,7 @@ const Header = () => {
                 <nav className="flex flex-col gap-4">
                   {/* Page Links Section */}
                   <div>
-                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 mb-2">
+                    <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">
                       Pages
                     </h3>
                     <div className="flex flex-col gap-1">
@@ -120,7 +120,7 @@ const Header = () => {
                   {/* Section Anchors - Only show on home page */}
                   {isHomePage && (
                     <div className="pt-2 border-t border-border/30">
-                      <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 mb-2">
+                      <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">
                         Jump to Section
                       </h3>
                       <div className="flex flex-col gap-1">
