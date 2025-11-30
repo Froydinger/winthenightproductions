@@ -116,17 +116,20 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             className="min-h-[100px] bg-background/50 resize-none"
           />
           <div className="space-y-2">
-            <Label htmlFor="youtube-url" className="text-sm text-muted-foreground">
-              YouTube URL (optional)
+            <Label htmlFor="link-url" className="text-sm text-muted-foreground">
+              Add a link (optional)
             </Label>
             <Input
-              id="youtube-url"
+              id="link-url"
               type="url"
-              placeholder="https://youtube.com/watch?v=..."
+              placeholder="https://..."
               value={youtubeUrl}
               onChange={(e) => setYoutubeUrl(e.target.value)}
               className="bg-background/50"
             />
+            <p className="text-xs text-muted-foreground">
+              Videos will embed, links will show a preview
+            </p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

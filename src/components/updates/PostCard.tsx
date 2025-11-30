@@ -9,6 +9,7 @@ import { Heart, MessageCircle, Trash2, Send } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
+import LinkPreview from "./LinkPreview";
 
 interface Post {
   id: string;
@@ -154,13 +155,38 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     onDelete();
   };
 
-  const extractYouTubeId = (url: string) => {
-    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
+  const getVideoEmbedInfo = (url: string) => {
+    if (!url) return null;
+
+    // YouTube
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const youtubeMatch = url.match(youtubeRegex);
+    if (youtubeMatch) {
+      return {
+        type: 'youtube' as const,
+        id: youtubeMatch[1],
+        embedUrl: `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=0`
+      };
+    }
+
+    // Vimeo
+    const vimeoRegex = /(?:vimeo\.com\/)(\d+)/;
+    const vimeoMatch = url.match(vimeoRegex);
+    if (vimeoMatch) {
+      return {
+        type: 'vimeo' as const,
+        id: vimeoMatch[1],
+        embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}`
+      };
+    }
+
+    // Not a recognized video URL
+    return null;
   };
 
-  const youtubeId = post.youtube_url ? extractYouTubeId(post.youtube_url) : null;
+  const videoInfo = post.youtube_url ? getVideoEmbedInfo(post.youtube_url) : null;
+  const isVideoUrl = !!videoInfo;
+  const isLinkUrl = post.youtube_url && !isVideoUrl;
 
   // Use logo for admin account (j@froydinger.com shows as "Jake The Producer")
   // Check if this is likely the admin by display name and has a user_id
@@ -200,16 +226,24 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
 
       <p className="text-foreground mb-4 whitespace-pre-wrap">{post.content}</p>
 
-      {youtubeId && (
-        <div className="mb-4 rounded-lg overflow-hidden aspect-video">
+      {/* Video embed for YouTube, Vimeo, etc. */}
+      {isVideoUrl && videoInfo && (
+        <div className="mb-4 rounded-lg overflow-hidden aspect-video border-2 border-neon-blue/20">
           <iframe
             className="w-full h-full"
-            src={`https://www.youtube.com/embed/${youtubeId}`}
-            title="YouTube video"
+            src={videoInfo.embedUrl}
+            title={`${videoInfo.type} video`}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
+        </div>
+      )}
+
+      {/* Link preview for non-video URLs */}
+      {isLinkUrl && post.youtube_url && (
+        <div className="mb-4">
+          <LinkPreview url={post.youtube_url} />
         </div>
       )}
 
