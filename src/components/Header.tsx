@@ -39,6 +39,7 @@ const Header = () => {
   const pageLinks = [
     { label: "Home", href: "/" },
     { label: "Watch", href: "/watch" },
+    { label: "Updates", href: "/updates" },
     { label: "Be Our Guest", href: "/be-our-guest" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
