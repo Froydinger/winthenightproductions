@@ -2,11 +2,14 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const AnimatedBackground = () => {
   const isMobile = useIsMobile();
-  const particleCount = isMobile ? 10 : 50; // Reduce particles on mobile for better performance
+  const particleCount = isMobile ? 25 : 50; // Balanced particle count for mobile
 
   return (
     <>
-      <div className={`absolute inset-0 bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] ${!isMobile ? 'animate-gradient-shift' : ''}`} />
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] animate-gradient-shift"
+        style={{ willChange: 'background-position' }}
+      />
       <div className="absolute inset-0 opacity-30">
         {[...Array(particleCount)].map((_, i) => (
           <div
@@ -18,6 +21,7 @@ const AnimatedBackground = () => {
               animationDelay: `${Math.random() * 6}s`,
               animationDuration: `${4 + Math.random() * 4}s`,
               opacity: Math.random() * 0.5 + 0.2,
+              willChange: 'transform, opacity',
             }}
           />
         ))}
