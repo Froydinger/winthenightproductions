@@ -104,20 +104,20 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   };
 
   return (
-    <Card className="bg-card/80 backdrop-blur-lg border-border p-6">
-      <div className="flex items-start gap-4">
-        <Avatar>
+    <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6">
+      <div className="flex items-start gap-3 sm:gap-4">
+        <Avatar className="shrink-0">
           <AvatarImage src={!isAnonymous && avatarUrl ? avatarUrl : undefined} />
           <AvatarFallback className="bg-primary/20 text-primary">
             {isAnonymous ? "?" : userProfile?.display_name?.[0]?.toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-4 min-w-0">
           <Textarea
             placeholder="Share an update..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-[100px] bg-background/50 resize-none"
+            className="min-h-[100px] bg-background/50 resize-none w-full"
           />
           <div className="space-y-2">
             <Label htmlFor="link-url" className="text-sm text-muted-foreground">
@@ -129,13 +129,13 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
               placeholder="google.com or youtube.com/watch?v=..."
               value={youtubeUrl}
               onChange={(e) => setYoutubeUrl(e.target.value)}
-              className="bg-background/50"
+              className="bg-background/50 w-full"
             />
             <p className="text-xs text-muted-foreground">
               No need for https:// - just paste the link!
             </p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-2">
               <Switch
                 id="anonymous"
@@ -147,16 +147,16 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
               </Label>
             </div>
             {!session ? (
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={onSignInClick}>
+              <div className="flex gap-2 flex-wrap sm:flex-nowrap">
+                <Button variant="outline" onClick={onSignInClick} className="flex-1 sm:flex-none">
                   Sign In
                 </Button>
-                <Button onClick={handleSubmit} disabled={!content.trim()}>
+                <Button onClick={handleSubmit} disabled={!content.trim()} className="flex-1 sm:flex-none">
                   Post Anonymously
                 </Button>
               </div>
             ) : (
-              <Button onClick={handleSubmit} disabled={!content.trim()}>
+              <Button onClick={handleSubmit} disabled={!content.trim()} className="w-full sm:w-auto">
                 Post
               </Button>
             )}

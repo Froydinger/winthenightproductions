@@ -202,18 +202,18 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
   const displayAvatarUrl = isAdminPost ? getAvatarUrlSync("j@froydinger.com") : post.avatar_url;
 
   return (
-    <Card className="bg-card/80 backdrop-blur-lg border-border p-6">
-      <div className="flex items-start gap-4 mb-4">
-        <Avatar>
+    <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6">
+      <div className="flex items-start gap-3 sm:gap-4 mb-4">
+        <Avatar className="shrink-0">
           <AvatarImage src={displayAvatarUrl || undefined} />
           <AvatarFallback className="bg-primary/20 text-primary">
             {post.display_name[0].toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <div className="flex-1">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-foreground">{post.display_name}</p>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-foreground truncate">{post.display_name}</p>
               <p className="text-sm text-muted-foreground">
                 {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
               </p>
@@ -223,7 +223,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
                 variant="ghost"
                 size="icon"
                 onClick={handleDelete}
-                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -232,7 +232,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
         </div>
       </div>
 
-      <p className="text-foreground mb-4 whitespace-pre-wrap">{post.content}</p>
+      <p className="text-foreground mb-4 whitespace-pre-wrap break-words">{post.content}</p>
 
       {/* Video embed for YouTube, Vimeo, etc. */}
       {isVideoUrl && videoInfo && (
@@ -304,14 +304,14 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
             );
           })}
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-start">
             <Textarea
               placeholder="Write a reply..."
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
-              className="min-h-[60px] bg-background/50"
+              className="min-h-[60px] bg-background/50 flex-1"
             />
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 shrink-0">
               <Button size="icon" onClick={handleReply} disabled={!replyContent.trim()}>
                 <Send className="h-4 w-4" />
               </Button>
@@ -319,7 +319,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
                 size="sm"
                 variant={isAnonymous ? "default" : "outline"}
                 onClick={() => setIsAnonymous(!isAnonymous)}
-                className="text-xs"
+                className="text-xs px-2"
               >
                 Anon
               </Button>
