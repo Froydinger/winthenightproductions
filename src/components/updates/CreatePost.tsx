@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
+import { normalizeUrl } from "@/lib/url-utils";
 
 interface CreatePostProps {
   session: Session | null;
@@ -78,12 +79,15 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
       userId = session.user.id;
     }
 
+    // Normalize URL (add https:// if missing)
+    const normalizedUrl = youtubeUrl ? normalizeUrl(youtubeUrl) : null;
+
     const { error } = await supabase.from("posts").insert({
       user_id: userId,
       display_name: displayName,
       avatar_url: avatarUrl,
       content,
-      youtube_url: youtubeUrl || null,
+      youtube_url: normalizedUrl,
       is_anonymous: isAnonymous,
     });
 
@@ -121,14 +125,14 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             </Label>
             <Input
               id="link-url"
-              type="url"
-              placeholder="https://..."
+              type="text"
+              placeholder="google.com or youtube.com/watch?v=..."
               value={youtubeUrl}
               onChange={(e) => setYoutubeUrl(e.target.value)}
               className="bg-background/50"
             />
             <p className="text-xs text-muted-foreground">
-              Videos will embed, links will show a preview
+              No need for https:// - just paste the link!
             </p>
           </div>
           <div className="flex items-center justify-between">
