@@ -1,53 +1,12 @@
 import { Card } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Play, X, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
+import { useYouTubeShorts } from "@/hooks/use-youtube-feed";
 
 const ShortsCarousel = () => {
-  const [shortIds, setShortIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { shortIds, isLoading: loading } = useYouTubeShorts();
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchShorts = async () => {
-      try {
-        // Using YouTube RSS feed to fetch recent videos
-        const response = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
-            'https://www.youtube.com/feeds/videos.xml?channel_id=UCuFlxR-Ol8zzda9Z6CJkwkA'
-          )}`
-        );
-        const data = await response.json();
-        
-        if (data.items && data.items.length > 0) {
-          // Filter for actual Shorts by checking if the link contains "/shorts/"
-          const shortsItems = data.items.filter((item: any) => {
-            return item.link && item.link.includes('/shorts/');
-          });
-
-          const ids = shortsItems
-            .slice(0, 50) // Get up to 50 shorts
-            .map((item: any) => {
-              if (item.link && item.link.includes('/shorts/')) {
-                const linkMatch = item.link.match(/shorts\/([^?]+)/);
-                if (linkMatch) return linkMatch[1];
-              }
-              return null;
-            })
-            .filter(Boolean);
-          
-          console.log(`Found ${ids.length} shorts from ${data.items.length} total videos`);
-          setShortIds(ids);
-        }
-      } catch (error) {
-        console.error('Error fetching shorts:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchShorts();
-  }, []);
 
   return (
     <>

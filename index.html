@@ -50,6 +50,24 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="winthenight" data-description="Support me on Buy me a coffee!" data-message="Support WTN" data-color="#5DCCFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+    <!-- Defer BMC widget to load after main content -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var script = document.createElement('script');
+          script.setAttribute('data-name', 'BMC-Widget');
+          script.setAttribute('data-cfasync', 'false');
+          script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js';
+          script.setAttribute('data-id', 'winthenight');
+          script.setAttribute('data-description', 'Support me on Buy me a coffee!');
+          script.setAttribute('data-message', 'Support WTN');
+          script.setAttribute('data-color', '#5DCCFF');
+          script.setAttribute('data-position', 'Right');
+          script.setAttribute('data-x_margin', '18');
+          script.setAttribute('data-y_margin', '18');
+          document.body.appendChild(script);
+        }, 2000);
+      });
+    </script>
   </body>
 </html>
