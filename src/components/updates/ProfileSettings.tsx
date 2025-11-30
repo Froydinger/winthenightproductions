@@ -160,8 +160,11 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
 
       if (uploadError) {
         console.error("Upload error details:", uploadError);
-        if (uploadError.message.includes("bucket")) {
-          toast.error("Avatar storage not set up. Please contact support.");
+        if (uploadError.message.includes("bucket") || uploadError.message.includes("Bucket not found")) {
+          toast.error(
+            "Avatar storage bucket not found. Please run database migrations in Supabase or contact support.",
+            { duration: 6000 }
+          );
         } else {
           toast.error(`Upload failed: ${uploadError.message}`);
         }
