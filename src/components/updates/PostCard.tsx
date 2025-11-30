@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle, Trash2, Send } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
+import { getAvatarUrlSync } from "@/lib/avatar-utils";
 
 interface Post {
   id: string;
@@ -113,14 +114,16 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     if (session?.user && !isAnonymous) {
       const { data: profile } = await supabase
         .from("user_profiles")
-        .select("display_name, avatar_url")
+        .select("display_name")
         .eq("user_id", session.user.id)
         .single();
 
       if (profile) {
         displayName = profile.display_name;
-        avatarUrl = profile.avatar_url;
       }
+
+      // Use avatar utility to get logo for j@froydinger.com, null for others
+      avatarUrl = getAvatarUrlSync(session.user.email);
     }
 
     await supabase.from("post_replies").insert({

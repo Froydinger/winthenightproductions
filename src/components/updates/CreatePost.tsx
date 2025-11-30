@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { getAvatarUrlSync } from "@/lib/avatar-utils";
 
 interface CreatePostProps {
   session: Session | null;
@@ -21,14 +22,14 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   const [content, setContent] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [userProfile, setUserProfile] = useState<{ display_name: string; avatar_url: string | null } | null>(null);
+  const [userProfile, setUserProfile] = useState<{ display_name: string } | null>(null);
 
   const fetchProfile = async () => {
     if (!session?.user) return;
 
     const { data } = await supabase
       .from("user_profiles")
-      .select("display_name, avatar_url")
+      .select("display_name")
       .eq("user_id", session.user.id)
       .single();
 
@@ -40,6 +41,8 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
       fetchProfile();
     }
   });
+
+  const avatarUrl = session?.user ? getAvatarUrlSync(session.user.email) : null;
 
   const handleSubmit = async () => {
     if (!content.trim()) {
@@ -60,16 +63,18 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     if (session?.user && !isAnonymous) {
       const { data: profile } = await supabase
         .from("user_profiles")
-        .select("display_name, avatar_url")
+        .select("display_name")
         .eq("user_id", session.user.id)
         .single();
 
       if (profile) {
         displayName = profile.display_name;
-        avatarUrl = profile.avatar_url;
       } else {
         displayName = session.user.email?.split("@")[0] || "User";
       }
+
+      // Use avatar utility to get logo for j@froydinger.com, null for others
+      avatarUrl = getAvatarUrlSync(session.user.email);
       userId = session.user.id;
     }
 
@@ -98,7 +103,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     <Card className="bg-card/80 backdrop-blur-lg border-border p-6">
       <div className="flex items-start gap-4">
         <Avatar>
-          <AvatarImage src={!isAnonymous && userProfile?.avatar_url ? userProfile.avatar_url : undefined} />
+          <AvatarImage src={!isAnonymous && avatarUrl ? avatarUrl : undefined} />
           <AvatarFallback className="bg-primary/20 text-primary">
             {isAnonymous ? "?" : userProfile?.display_name?.[0]?.toUpperCase() || "U"}
           </AvatarFallback>
