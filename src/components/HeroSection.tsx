@@ -3,9 +3,11 @@ import { Youtube, Play, ArrowDown, ArrowRight } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const HeroSection = () => {
   const [logoLoaded, setLogoLoaded] = useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center py-10 px-4">
@@ -20,7 +22,7 @@ const HeroSection = () => {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className={`w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-breathe cursor-pointer hover:scale-110 transition-all duration-700 ease-out ${
+              className={`w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] ${!isMobile ? 'animate-breathe' : ''} cursor-pointer hover:scale-110 transition-all duration-700 ease-out ${
                 logoLoaded ? "opacity-100 scale-100" : "opacity-0 scale-50"
               }`}
             />
@@ -57,7 +59,7 @@ const HeroSection = () => {
             <Button
               asChild
               size="lg"
-              className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon-strong hover:shadow-[0_0_50px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-xl font-bold px-8 py-7 rounded-xl"
+              className={`group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon-strong hover:shadow-[0_0_50px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 ${!isMobile ? 'animate-glow-pulse' : ''} text-xl font-bold px-8 py-7 rounded-xl`}
             >
               <a
                 href="https://youtube.com/@winthenight?sub_confirmation=1"
@@ -90,8 +92,8 @@ const HeroSection = () => {
           {/* Scroll Indicator */}
           <div className="pt-12 animate-fade-in-up" style={{ animationDelay: "800ms" }}>
             <div className="flex flex-col items-center gap-2 text-muted-foreground">
-              <span className="text-sm animate-blink">Scroll to explore</span>
-              <ArrowDown className="w-5 h-5 animate-wiggle" />
+              <span className={`text-sm ${!isMobile ? 'animate-blink' : ''}`}>Scroll to explore</span>
+              <ArrowDown className={`w-5 h-5 ${!isMobile ? 'animate-wiggle' : ''}`} />
             </div>
           </div>
         </div>

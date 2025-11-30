@@ -1,65 +1,12 @@
 import { Play } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 
 const WatchLatestSection = () => {
-  const [videoIds, setVideoIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { videoIds, isLoading: loading } = useYouTubeVideos();
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchLatestVideos = async () => {
-      try {
-        // Using YouTube RSS feed via rss2json API with correct channel ID
-        const response = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
-            'https://www.youtube.com/feeds/videos.xml?channel_id=UCuFlxR-Ol8zzda9Z6CJkwkA'
-          )}`
-        );
-        const data = await response.json();
-        
-        console.log('YouTube RSS Response:', data); // Debug log
-        
-        if (data.items && data.items.length > 0) {
-          // Filter out shorts and get regular videos only
-          const regularVideos = data.items.filter((item: any) => {
-            const link = item.link || '';
-            const title = (item.title || '').toLowerCase();
-            // Skip shorts
-            return !link.includes('/shorts/') && !title.includes('#shorts');
-          });
-          
-          const ids = regularVideos
-            .slice(0, 2)
-            .map((item: any) => {
-              // Try multiple formats to extract video ID
-              if (item.link) {
-                const linkMatch = item.link.match(/watch\?v=([^&]+)/);
-                if (linkMatch) return linkMatch[1];
-              }
-              if (item.guid) {
-                const guidMatch = item.guid.match(/yt:video:(.*)/);
-                if (guidMatch) return guidMatch[1];
-              }
-              return null;
-            })
-            .filter(Boolean);
-          
-          console.log('Extracted video IDs:', ids); // Debug log
-          setVideoIds(ids);
-        } else {
-          console.log('No items found in feed'); // Debug log
-        }
-      } catch (error) {
-        console.error('Error fetching videos:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLatestVideos();
-  }, []);
 
   return (
     <>
