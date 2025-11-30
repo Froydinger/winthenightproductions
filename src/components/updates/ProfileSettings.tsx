@@ -134,15 +134,24 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
         completedCrop
       );
 
-      // Delete old avatar if exists
-      if (avatarUrl) {
-        const oldPath = avatarUrl.split("/").slice(-2).join("/");
-        await supabase.storage.from("avatars").remove([oldPath]);
+      // Delete old avatar if exists (ignore errors if file doesn't exist)
+      if (avatarUrl && avatarUrl.includes('supabase')) {
+        try {
+          const urlParts = avatarUrl.split('/');
+          const bucketIndex = urlParts.findIndex(part => part === 'avatars');
+          if (bucketIndex !== -1) {
+            const oldPath = urlParts.slice(bucketIndex + 1).join('/');
+            await supabase.storage.from("avatars").remove([oldPath]);
+          }
+        } catch (deleteError) {
+          console.log("Could not delete old avatar:", deleteError);
+          // Continue anyway - this is non-critical
+        }
       }
 
       // Upload new avatar
       const fileName = `${session.user.id}/avatar-${Date.now()}.jpg`;
-      const { error: uploadError } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(fileName, croppedImageBlob, {
           contentType: "image/jpeg",
@@ -150,7 +159,13 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
         });
 
       if (uploadError) {
-        throw uploadError;
+        console.error("Upload error details:", uploadError);
+        if (uploadError.message.includes("bucket")) {
+          toast.error("Avatar storage not set up. Please contact support.");
+        } else {
+          toast.error(`Upload failed: ${uploadError.message}`);
+        }
+        return;
       }
 
       // Get public URL
@@ -162,9 +177,9 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
       setSelectedImage(null);
       setCompletedCrop(null);
       toast.success("Avatar uploaded successfully!");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error uploading avatar:", error);
-      toast.error("Failed to upload avatar");
+      toast.error(error?.message || "Failed to upload avatar");
     } finally {
       setLoading(false);
     }
@@ -252,7 +267,7 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
           {selectedImage && (
             <div className="space-y-4">
               <Label>Crop Your Avatar</Label>
-              <div className="relative max-h-[400px] overflow-auto border border-border rounded-lg">
+              <div className="relative w-full border border-border rounded-lg overflow-hidden">
                 <ReactCrop
                   crop={crop}
                   onChange={(c) => setCrop(c)}
@@ -264,7 +279,7 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
                     ref={imageRef}
                     src={selectedImage}
                     alt="Crop preview"
-                    className="max-w-full"
+                    style={{ maxHeight: '50vh', width: '100%', objectFit: 'contain' }}
                   />
                 </ReactCrop>
               </div>
@@ -287,6 +302,9 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
                   Cancel
                 </Button>
               </div>
+              <p className="text-sm text-yellow-500/80">
+                ⚠️ You must apply the cropped avatar before saving
+              </p>
             </div>
           )}
 
@@ -307,14 +325,24 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
               variant="outline"
               onClick={handleSignOut}
               className="border-destructive text-destructive hover:bg-destructive/10"
+              disabled={loading || !!selectedImage}
             >
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
-            <Button onClick={handleSave} disabled={loading}>
+            <Button
+              onClick={handleSave}
+              disabled={loading || !!selectedImage}
+              title={selectedImage ? "Apply cropped avatar first" : ""}
+            >
               Save Changes
             </Button>
           </div>
+          {selectedImage && (
+            <p className="text-sm text-center text-muted-foreground">
+              Apply or cancel your avatar crop to save profile changes
+            </p>
+          )}
         </div>
       </DialogContent>
     </Dialog>
