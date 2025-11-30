@@ -104,10 +104,10 @@ const Updates = () => {
 
       <Header />
 
-      <div className="relative z-10 container mx-auto px-4 py-24 max-w-2xl">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold text-foreground">Updates</h1>
-          <div className="flex gap-2">
+      <div className="relative z-10 container mx-auto px-4 py-20 sm:py-24 max-w-2xl">
+        <div className="flex items-center justify-between mb-6 sm:mb-8 gap-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Updates</h1>
+          <div className="flex gap-2 shrink-0">
             {session ? (
               <Button
                 variant="outline"
