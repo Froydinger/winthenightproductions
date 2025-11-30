@@ -162,11 +162,16 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
 
   const youtubeId = post.youtube_url ? extractYouTubeId(post.youtube_url) : null;
 
+  // Use logo for admin account (j@froydinger.com shows as "Jake The Producer")
+  // Check if this is likely the admin by display name and has a user_id
+  const isAdminPost = post.user_id && (post.display_name === "Jake The Producer" || post.display_name === "j");
+  const displayAvatarUrl = isAdminPost ? getAvatarUrlSync("j@froydinger.com") : post.avatar_url;
+
   return (
     <Card className="bg-card/80 backdrop-blur-lg border-border p-6">
       <div className="flex items-start gap-4 mb-4">
         <Avatar>
-          <AvatarImage src={post.avatar_url || undefined} />
+          <AvatarImage src={displayAvatarUrl || undefined} />
           <AvatarFallback className="bg-primary/20 text-primary">
             {post.display_name[0].toUpperCase()}
           </AvatarFallback>
@@ -231,10 +236,15 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
 
       {showReplies && (
         <div className="mt-4 space-y-4 pt-4 border-t border-border">
-          {replies.map((reply) => (
+          {replies.map((reply) => {
+            // Use logo for admin account replies
+            const isAdminReply = reply.user_id && (reply.display_name === "Jake The Producer" || reply.display_name === "j");
+            const replyAvatarUrl = isAdminReply ? getAvatarUrlSync("j@froydinger.com") : reply.avatar_url;
+
+            return (
             <div key={reply.id} className="flex gap-3">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={reply.avatar_url || undefined} />
+                <AvatarImage src={replyAvatarUrl || undefined} />
                 <AvatarFallback className="bg-primary/20 text-primary text-xs">
                   {reply.display_name[0].toUpperCase()}
                 </AvatarFallback>
@@ -249,7 +259,8 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
                 <p className="text-sm text-foreground mt-1">{reply.content}</p>
               </div>
             </div>
-          ))}
+            );
+          })}
 
           <div className="flex gap-2">
             <Textarea
