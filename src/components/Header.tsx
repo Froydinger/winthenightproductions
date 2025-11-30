@@ -67,6 +67,8 @@ const Header = () => {
           <img
             src={logo}
             alt="Win The Night"
+            loading="eager"
+            decoding="async"
             className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
           />
         </a>
