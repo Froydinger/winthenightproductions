@@ -31,14 +31,20 @@ const LinkPreview = ({ url }: LinkPreviewProps) => {
       const urlObj = new URL(normalizedUrl);
       const domain = urlObj.hostname.replace('www.', '');
 
-      // Call Supabase Edge Function to fetch link metadata
-      const { supabase } = await import("@/integrations/supabase/client");
-      const { data, error } = await supabase.functions.invoke('fetch-link-metadata', {
-        body: { url: normalizedUrl }
-      });
+      // Use Microlink API to fetch metadata (free tier, no auth required)
+      const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(normalizedUrl)}`;
 
-      if (error) {
-        console.error("Error fetching metadata:", error);
+      const response = await fetch(microlinkUrl);
+      const data = await response.json();
+
+      if (data.status === 'success' && data.data) {
+        setMetadata({
+          title: data.data.title || domain,
+          description: data.data.description || normalizedUrl,
+          image: data.data.image?.url || data.data.logo?.url || "",
+          domain: domain
+        });
+      } else {
         // Fallback to domain if fetch fails
         setMetadata({
           title: domain,
@@ -46,13 +52,20 @@ const LinkPreview = ({ url }: LinkPreviewProps) => {
           image: "",
           domain: domain
         });
-      } else {
-        setMetadata(data);
       }
 
       setLoading(false);
     } catch (error) {
-      console.error("Error parsing URL:", error);
+      console.error("Error fetching metadata:", error);
+      // Fallback to domain if fetch fails
+      const urlObj = new URL(normalizeUrl(url));
+      const domain = urlObj.hostname.replace('www.', '');
+      setMetadata({
+        title: domain,
+        description: normalizeUrl(url),
+        image: "",
+        domain: domain
+      });
       setLoading(false);
     }
   };
