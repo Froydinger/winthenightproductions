@@ -188,6 +188,14 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
   const isVideoUrl = !!videoInfo;
   const isLinkUrl = post.youtube_url && !isVideoUrl;
 
+  // Debug logging
+  if (post.youtube_url) {
+    console.log('Post URL:', post.youtube_url);
+    console.log('Video info:', videoInfo);
+    console.log('Is video URL:', isVideoUrl);
+    console.log('Is link URL:', isLinkUrl);
+  }
+
   // Use logo for admin account (j@froydinger.com shows as "Jake The Producer")
   // Check if this is likely the admin by display name and has a user_id
   const isAdminPost = post.user_id && (post.display_name === "Jake The Producer" || post.display_name === "j");
