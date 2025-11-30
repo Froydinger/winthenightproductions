@@ -35,29 +35,22 @@ const Header = () => {
     }
   };
 
-  // Show anchor links only on home page
-  const navItems = isHomePage
-    ? [
-        { label: "Home", href: "/" },
-        { label: "What We're About", id: "features" },
-        { label: "Community", id: "community" },
-        { label: "Join Us", id: "cta" },
-        { label: "Watch", href: "/watch" },
-        { label: "Be Our Guest", href: "/be-our-guest" },
-        { label: "Support Us", href: "/support" },
-        { label: "About", href: "/about" },
-        { label: "Contact", href: "/contact" },
-        { label: "Crisis Resources", href: "/crisis-resources" },
-      ]
-    : [
-        { label: "Home", href: "/" },
-        { label: "Watch", href: "/watch" },
-        { label: "Be Our Guest", href: "/be-our-guest" },
-        { label: "Support Us", href: "/support" },
-        { label: "About", href: "/about" },
-        { label: "Contact", href: "/contact" },
-        { label: "Crisis Resources", href: "/crisis-resources" },
-      ];
+  // Organize menu items by type
+  const pageLinks = [
+    { label: "Home", href: "/" },
+    { label: "Watch", href: "/watch" },
+    { label: "Be Our Guest", href: "/be-our-guest" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+    { label: "Support Us", href: "/support" },
+    { label: "Crisis Resources", href: "/crisis-resources" },
+  ];
+
+  const sectionAnchors = [
+    { label: "What We're About", id: "features" },
+    { label: "Community", id: "community" },
+    { label: "Join Us", id: "cta" },
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
@@ -104,23 +97,14 @@ const Header = () => {
                   </span>
                 </div>
 
-                <nav className="flex flex-col gap-2">
-                  {navItems.map((item) => {
-                    if (item.href) {
-                      // External or page links
-                      if (item.href.startsWith('http')) {
-                        return (
-                          <a
-                            key={item.label}
-                            href={item.href}
-                            className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
-                          >
-                            {item.label}
-                          </a>
-                        );
-                      }
-                      // Internal page links
-                      return (
+                <nav className="flex flex-col gap-4">
+                  {/* Page Links Section */}
+                  <div>
+                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 mb-2">
+                      Pages
+                    </h3>
+                    <div className="flex flex-col gap-1">
+                      {pageLinks.map((item) => (
                         <a
                           key={item.label}
                           href={item.href}
@@ -129,26 +113,29 @@ const Header = () => {
                         >
                           {item.label}
                         </a>
-                      );
-                    }
-                    // Anchor links for sections on home page
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          // If not on home page, navigate to home first
-                          if (window.location.pathname !== '/') {
-                            window.location.href = '/#' + item.id;
-                          } else {
-                            scrollToSection(item.id!);
-                          }
-                        }}
-                        className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
-                      >
-                        {item.label}
-                      </button>
-                    );
-                  })}
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Section Anchors - Only show on home page */}
+                  {isHomePage && (
+                    <div className="pt-2 border-t border-border/30">
+                      <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 mb-2">
+                        Jump to Section
+                      </h3>
+                      <div className="flex flex-col gap-1">
+                        {sectionAnchors.map((item) => (
+                          <button
+                            key={item.id}
+                            onClick={() => scrollToSection(item.id)}
+                            className="w-full text-left px-4 py-3 rounded-lg text-foreground/80 hover:bg-neon-blue/10 hover:text-neon-blue transition-all duration-300 font-normal text-sm"
+                          >
+                            {item.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </nav>
 
                 <div className="pt-4 border-t border-neon-blue/20">
