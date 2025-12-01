@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Trash2, Send } from "lucide-react";
+import { Heart, MessageCircle, Trash2, Send, Pencil } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
@@ -46,6 +46,9 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
   const [replies, setReplies] = useState<Reply[]>([]);
   const [replyContent, setReplyContent] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(post.content);
+  const [editUrl, setEditUrl] = useState(post.youtube_url || "");
 
   useEffect(() => {
     fetchLikes();
@@ -144,7 +147,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
 
   const handleDelete = async () => {
     const canDelete = session?.user?.id === post.user_id || isAdmin;
-    
+
     if (!canDelete) {
       toast.error("You don't have permission to delete this post");
       return;
@@ -153,6 +156,51 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     await supabase.from("posts").delete().eq("id", post.id);
     toast.success("Post deleted");
     onDelete();
+  };
+
+  const handleEdit = () => {
+    setEditContent(post.content);
+    setEditUrl(post.youtube_url || "");
+    setIsEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditContent(post.content);
+    setEditUrl(post.youtube_url || "");
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editContent.trim()) {
+      toast.error("Post content cannot be empty");
+      return;
+    }
+
+    const canEdit = session?.user?.id === post.user_id;
+    if (!canEdit) {
+      toast.error("You don't have permission to edit this post");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("posts")
+      .update({
+        content: editContent.trim(),
+        youtube_url: editUrl.trim() || null,
+      })
+      .eq("id", post.id);
+
+    if (error) {
+      toast.error("Failed to update post");
+      console.error("Error updating post:", error);
+      return;
+    }
+
+    toast.success("Post updated!");
+    setIsEditing(false);
+    // Update local post data
+    post.content = editContent.trim();
+    post.youtube_url = editUrl.trim() || null;
   };
 
   const getVideoEmbedInfo = (url: string) => {
@@ -219,40 +267,85 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
               </p>
             </div>
             {(session?.user?.id === post.user_id || isAdmin) && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleDelete}
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <div className="flex gap-1 shrink-0">
+                {session?.user?.id === post.user_id && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleEdit}
+                    className="text-muted-foreground hover:text-foreground hover:bg-accent"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDelete}
+                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             )}
           </div>
         </div>
       </div>
 
-      <p className="text-foreground mb-4 whitespace-pre-wrap break-words">{post.content}</p>
-
-      {/* Video embed for YouTube, Vimeo, etc. */}
-      {isVideoUrl && videoInfo && (
-        <div className="mb-4 rounded-lg overflow-hidden aspect-video border-2 border-neon-blue/20">
-          <iframe
-            className="w-full h-full"
-            src={videoInfo.embedUrl}
-            title={`${videoInfo.type} video`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+      {isEditing ? (
+        <div className="space-y-3 mb-4">
+          <div>
+            <label className="text-sm font-medium text-foreground mb-2 block">Content</label>
+            <Textarea
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+              placeholder="What's on your mind?"
+              className="min-h-[100px] bg-background/50"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-2 block">URL (optional)</label>
+            <Textarea
+              value={editUrl}
+              onChange={(e) => setEditUrl(e.target.value)}
+              placeholder="Add a YouTube/Vimeo video or link..."
+              className="min-h-[60px] bg-background/50"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={handleSaveEdit} size="sm">
+              Save Changes
+            </Button>
+            <Button onClick={handleCancelEdit} variant="outline" size="sm">
+              Cancel
+            </Button>
+          </div>
         </div>
-      )}
+      ) : (
+        <>
+          <p className="text-foreground mb-4 whitespace-pre-wrap break-words">{post.content}</p>
 
-      {/* Link preview for non-video URLs */}
-      {isLinkUrl && post.youtube_url && (
-        <div className="mb-4">
-          <LinkPreview url={post.youtube_url} />
-        </div>
+          {/* Video embed for YouTube, Vimeo, etc. */}
+          {isVideoUrl && videoInfo && (
+            <div className="mb-4 rounded-lg overflow-hidden aspect-video border-2 border-neon-blue/20">
+              <iframe
+                className="w-full h-full"
+                src={videoInfo.embedUrl}
+                title={`${videoInfo.type} video`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+
+          {/* Link preview for non-video URLs */}
+          {isLinkUrl && post.youtube_url && (
+            <div className="mb-4">
+              <LinkPreview url={post.youtube_url} />
+            </div>
+          )}
+        </>
       )}
 
       <div className="flex items-center gap-4 pt-4 border-t border-border">
