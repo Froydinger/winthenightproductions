@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import {
@@ -33,8 +34,20 @@ const playlists: Playlist[] = [
 ];
 
 const Watch = () => {
+  const location = useLocation();
   const [latestVideo, setLatestVideo] = useState<VideoData | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
+
+  // Handle hash-based anchor navigation for playlists
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    if (hash) {
+      const playlist = playlists.find(p => p.id === hash);
+      if (playlist) {
+        setSelectedPlaylist(playlist);
+      }
+    }
+  }, [location.hash]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -176,7 +189,10 @@ const Watch = () => {
               {playlists.map((playlist) => (
                 <button
                   key={playlist.id}
-                  onClick={() => setSelectedPlaylist(playlist)}
+                  onClick={() => {
+                    setSelectedPlaylist(playlist);
+                    window.location.hash = playlist.id;
+                  }}
                   className={`block px-4 py-4 rounded-xl border transition-all duration-300 font-bold ${
                     playlist.id === "specials"
                       ? "bg-gradient-to-r from-card to-card/80 border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground"
@@ -252,7 +268,15 @@ const Watch = () => {
       </div>
 
       {/* Playlist Dialog */}
-      <Dialog open={selectedPlaylist !== null} onOpenChange={(open) => !open && setSelectedPlaylist(null)}>
+      <Dialog
+        open={selectedPlaylist !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedPlaylist(null);
+            window.history.pushState('', document.title, window.location.pathname);
+          }
+        }}
+      >
         <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30 flex flex-col">
           <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative flex-shrink-0">
             <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
