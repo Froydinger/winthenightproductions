@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Trash2, Send, Pencil, Pin } from "lucide-react";
+import { Heart, MessageCircle, Trash2, Send, Pencil } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
@@ -20,7 +20,6 @@ interface Post {
   is_anonymous: boolean;
   created_at: string;
   user_id: string | null;
-  is_pinned: boolean;
 }
 
 interface Reply {
@@ -204,50 +203,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     post.youtube_url = editUrl.trim() || null;
   };
 
-  const handlePin = async () => {
-    if (!isAdmin) {
-      toast.error("Only admins can pin posts");
-      return;
-    }
-
-    if (post.is_pinned) {
-      // Unpin this post
-      const { error } = await supabase
-        .from("posts")
-        .update({ is_pinned: false })
-        .eq("id", post.id);
-
-      if (error) {
-        toast.error("Failed to unpin post");
-        console.error("Error unpinning post:", error);
-        return;
-      }
-
-      toast.success("Post unpinned");
-      post.is_pinned = false;
-    } else {
-      // First unpin all other posts
-      await supabase
-        .from("posts")
-        .update({ is_pinned: false })
-        .eq("is_pinned", true);
-
-      // Then pin this post
-      const { error } = await supabase
-        .from("posts")
-        .update({ is_pinned: true })
-        .eq("id", post.id);
-
-      if (error) {
-        toast.error("Failed to pin post");
-        console.error("Error pinning post:", error);
-        return;
-      }
-
-      toast.success("Post pinned");
-      post.is_pinned = true;
-    }
-  };
+  // Pin functionality removed - is_pinned column not in schema
 
   const getVideoEmbedInfo = (url: string) => {
     if (!url) return null;
@@ -296,7 +252,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
   const displayAvatarUrl = isAdminPost ? getAvatarUrlSync("j@froydinger.com") : post.avatar_url;
 
   return (
-    <Card className={`bg-card/80 backdrop-blur-lg p-4 sm:p-6 ${post.is_pinned ? "border-2 border-neon-blue shadow-[0_0_15px_rgba(0,247,255,0.3)]" : "border-border"}`}>
+    <Card className="bg-card/80 backdrop-blur-lg p-4 sm:p-6 border-border">
       <div className="flex items-start gap-3 sm:gap-4 mb-4">
         <Avatar className="shrink-0">
           <AvatarImage src={displayAvatarUrl || undefined} />
@@ -314,16 +270,6 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
             </div>
             {(session?.user?.id === post.user_id || isAdmin) && (
               <div className="flex gap-1 shrink-0">
-                {isAdmin && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handlePin}
-                    className={post.is_pinned ? "text-neon-blue hover:text-neon-blue hover:bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent"}
-                  >
-                    <Pin className={`h-4 w-4 ${post.is_pinned ? "fill-current" : ""}`} />
-                  </Button>
-                )}
                 {session?.user?.id === post.user_id && (
                   <Button
                     variant="ghost"

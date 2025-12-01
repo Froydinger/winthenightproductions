@@ -12,17 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { LogIn, Settings, ChevronLeft, ChevronRight } from "lucide-react";
 
-interface Post {
-  id: string;
-  display_name: string;
-  avatar_url: string | null;
-  content: string;
-  youtube_url: string | null;
-  is_anonymous: boolean;
-  created_at: string;
-  user_id: string | null;
-  is_pinned: boolean;
-}
+import { Tables } from "@/integrations/supabase/types";
+
+type Post = Tables<'posts'>;
 
 const Updates = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -124,12 +116,7 @@ const Updates = () => {
       console.error("Error fetching posts:", error);
       setPosts([]);
     } else if (data) {
-      // Sort by is_pinned on client side if column exists
-      const sortedData = data.sort((a, b) => {
-        if (a.is_pinned === b.is_pinned) return 0;
-        return a.is_pinned ? -1 : 1;
-      });
-      setPosts(sortedData);
+      setPosts(data);
     }
   };
 
