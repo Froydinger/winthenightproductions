@@ -117,12 +117,19 @@ const Updates = () => {
     const { data, error } = await supabase
       .from("posts")
       .select("*")
-      .order("is_pinned", { ascending: false })
       .order("created_at", { ascending: false })
       .range(from, to);
 
-    if (!error && data) {
-      setPosts(data);
+    if (error) {
+      console.error("Error fetching posts:", error);
+      setPosts([]);
+    } else if (data) {
+      // Sort by is_pinned on client side if column exists
+      const sortedData = data.sort((a, b) => {
+        if (a.is_pinned === b.is_pinned) return 0;
+        return a.is_pinned ? -1 : 1;
+      });
+      setPosts(sortedData);
     }
   };
 
