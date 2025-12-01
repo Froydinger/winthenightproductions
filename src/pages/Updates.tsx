@@ -9,7 +9,7 @@ import CreatePost from "@/components/updates/CreatePost";
 import ProfileSettings from "@/components/updates/ProfileSettings";
 import AuthDialog from "@/components/updates/AuthDialog";
 import { Button } from "@/components/ui/button";
-import { LogIn, Settings } from "lucide-react";
+import { LogIn, Settings, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Post {
   id: string;
@@ -20,6 +20,7 @@ interface Post {
   is_anonymous: boolean;
   created_at: string;
   user_id: string | null;
+  is_pinned: boolean;
 }
 
 const Updates = () => {
@@ -28,6 +29,9 @@ const Updates = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const postsPerPage = 4;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -83,13 +87,26 @@ const Updates = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [currentPage]);
 
   const fetchPosts = async () => {
+    // Get total count
+    const { count } = await supabase
+      .from("posts")
+      .select("*", { count: "exact", head: true });
+
+    setTotalPosts(count || 0);
+
+    // Get paginated posts
+    const from = (currentPage - 1) * postsPerPage;
+    const to = from + postsPerPage - 1;
+
     const { data, error } = await supabase
       .from("posts")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("is_pinned", { ascending: false })
+      .order("created_at", { ascending: false })
+      .range(from, to);
 
     if (!error && data) {
       setPosts(data);
@@ -148,6 +165,39 @@ const Updates = () => {
             />
           ))}
         </div>
+
+        {/* Pagination Controls */}
+        {totalPosts > postsPerPage && (
+          <div className="flex items-center justify-center gap-4 mt-8 pb-8">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="border-border hover:bg-accent"
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Previous
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              Page {currentPage} of {Math.ceil(totalPosts / postsPerPage)}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setCurrentPage((prev) =>
+                  Math.min(Math.ceil(totalPosts / postsPerPage), prev + 1)
+                )
+              }
+              disabled={currentPage >= Math.ceil(totalPosts / postsPerPage)}
+              className="border-border hover:bg-accent"
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        )}
       </div>
 
       <Footer />
