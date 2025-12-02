@@ -2,14 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
-import { supabase } from "@/integrations/supabase/client";
 
 interface Playlist {
   id: string;
@@ -33,9 +27,8 @@ const Watch = () => {
   const [fallbackTimeout, setFallbackTimeout] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
-  const [ctaVideoId, setCtaVideoId] = useState<string | null>(null);
 
-  // Use YouTube videos hook as fallback
+  // Use YouTube videos hook for latest full episode
   const { videoIds } = useYouTubeVideos();
 
   const openVideoModal = (videoId: string) => {
@@ -43,63 +36,23 @@ const Watch = () => {
     setVideoModalOpen(true);
   };
 
-  // Fetch CTA video from Supabase
   useEffect(() => {
-    loadCTAVideo();
-
-    // Subscribe to changes
-    const channel = supabase
-      .channel("watch_settings")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "watch_settings",
-        },
-        () => {
-          loadCTAVideo();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    window.scrollTo(0, 0);
   }, []);
 
-  const loadCTAVideo = async () => {
-    const { data } = await supabase
-      .from("watch_settings")
-      .select("cta_video_id")
-      .single();
-
-    if (data?.cta_video_id) {
-      setCtaVideoId(data.cta_video_id);
-      setFallbackTimeout(false);
-    } else {
-      // Fallback to channel feed
-      setCtaVideoId(videoIds[0] || null);
-    }
-  };
+  const latestVideoId = videoIds[0] || null;
 
   // Add a timeout to detect if no video is available
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (!ctaVideoId) {
-        console.error('No CTA video available');
+      if (!latestVideoId) {
+        console.error("No latest video available");
         setFallbackTimeout(true);
       }
     }, 10000); // 10 second timeout
 
     return () => clearTimeout(timeout);
-  }, [ctaVideoId]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const latestVideoId = ctaVideoId;
+  }, [latestVideoId]);
 
   return (
     <main className="min-h-screen relative">
@@ -113,7 +66,6 @@ const Watch = () => {
 
       {/* Content */}
       <div className="relative z-10">
-
         {/* Hero Section */}
         <div
           className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden"
@@ -124,7 +76,7 @@ const Watch = () => {
             backgroundSize: "cover",
             backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
-            backgroundColor: "#000000"
+            backgroundColor: "#000000",
           }}
         >
           {/* Dark Overlay Gradient */}
@@ -144,10 +96,10 @@ const Watch = () => {
 
             {latestVideoId ? (
               <button
-                onClick={() => openVideoModal(latestVideoId)}
+                onClick={() => navigate("/watch/chapter-7")}
                 className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 cursor-pointer"
               >
-                Watch Now
+                Watch Chapter 7
               </button>
             ) : fallbackTimeout ? (
               <a
@@ -192,8 +144,7 @@ const Watch = () => {
         {/* Video Content Grid */}
         <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-
-            {/* Latest Episode */}
+            {/* Latest Episode (Chapter 7 Playlist) */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
@@ -210,8 +161,8 @@ const Watch = () => {
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen>
-                  </iframe>
+                    allowFullScreen
+                  ></iframe>
                 </div>
               </div>
             </div>
@@ -220,20 +171,22 @@ const Watch = () => {
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor's Pick</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
               </div>
 
-              <div className="w-full group cursor-pointer" onClick={() => openVideoModal('-7-R4fl4ubU')}>
+              <div className="w-full group cursor-pointer" onClick={() => openVideoModal("-7-R4fl4ubU")}>
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                   <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                   <div
                     className="relative w-full h-full z-10 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://img.youtube.com/vi/-7-R4fl4ubU/maxresdefault.jpg)' }}
+                    style={{
+                      backgroundImage: "url(https://img.youtube.com/vi/-7-R4fl4ubU/maxresdefault.jpg)",
+                    }}
                   >
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all">
                       <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-600/90 group-hover:bg-blue-600 transform group-hover:scale-110 transition-all">
                         <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z"/>
+                          <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
                     </div>
@@ -241,17 +194,12 @@ const Watch = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </section>
-
       </div>
 
       {/* Video Modal */}
-      <Dialog
-        open={videoModalOpen}
-        onOpenChange={setVideoModalOpen}
-      >
+      <Dialog open={videoModalOpen} onOpenChange={setVideoModalOpen}>
         <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30 flex flex-col">
           <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative flex-shrink-0">
             <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
