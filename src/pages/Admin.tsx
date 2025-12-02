@@ -1,4 +1,3 @@
-// src/pages/Admin.tsx
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
@@ -12,14 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Shield, Save, Eye } from "lucide-react";
 
-/**
- * Explicit table typing fixes "never" and union-with-error issues.
- * Adjust this to match your actual Supabase schema if different.
- */
-type UserRole = { user_id: string; role: string };
-
-// Assumes watch_settings has a single row keyed by id.
-type WatchSettings = {
+// Local type for the watch_settings row,
+// since it is not in your generated Supabase types.
+type WatchSettingsRow = {
   id: number;
   cta_video_id: string | null;
 };
@@ -33,23 +27,13 @@ const Admin = () => {
   const [ctaVideoId, setCtaVideoId] = useState("");
 
   useEffect(() => {
-    // Fire and forget; internal function handles navigation.
     checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAuth = async () => {
     const {
       data: { session },
-      error: sessionError,
     } = await supabase.auth.getSession();
-
-    if (sessionError) {
-      console.error(sessionError);
-      toast.error("Failed to get session");
-      navigate("/updates");
-      return;
-    }
 
     if (!session) {
       navigate("/updates");
@@ -58,20 +42,13 @@ const Admin = () => {
 
     setSession(session);
 
-    // Check if user is admin
-    const { data: roleData, error: roleError } = await supabase
-      .from<UserRole>("user_roles")
+    // Check if user is admin (j@froydinger.com)
+    const { data: roleData } = await supabase
+      .from("user_roles")
       .select("role")
       .eq("user_id", session.user.id)
       .eq("role", "admin")
-      .maybeSingle();
-
-    if (roleError) {
-      console.error(roleError);
-      toast.error("Failed to verify role");
-      navigate("/");
-      return;
-    }
+      .single();
 
     if (!roleData) {
       navigate("/");
@@ -85,48 +62,40 @@ const Admin = () => {
   };
 
   const loadSettings = async () => {
-    // Use typed table to ensure cta_video_id is recognized.
-    const { data, error } = await supabase
-      .from<WatchSettings>("watch_settings")
+    const { data, error } = (await (supabase as any)
+      .from("watch_settings")
       .select("id, cta_video_id")
-      .eq("id", 1)
-      .maybeSingle();
+      .maybeSingle()) as {
+      data: WatchSettingsRow | null;
+      error: any;
+    };
 
     if (error) {
-      console.error(error);
-      toast.error("Failed to load settings");
+      console.error("Failed to load watch settings", error);
       return;
     }
 
     if (data) {
-      setCtaVideoId(data.cta_video_id ?? "");
+      setCtaVideoId(data.cta_video_id || "");
     }
   };
 
   const handleSave = async () => {
-    const trimmed = ctaVideoId.trim();
-    if (!trimmed) {
+    if (!ctaVideoId.trim()) {
       toast.error("Please enter a video ID");
       return;
     }
 
     setSaving(true);
 
-    // Ensure payload matches schema exactly.
-    const { error } = await supabase.from<WatchSettings>("watch_settings").upsert(
-      {
-        id: 1,
-        cta_video_id: trimmed,
-      },
-      {
-        onConflict: "id", // ensure single-row behavior when id is PK/unique
-        ignoreDuplicates: false,
-      },
-    );
+    const { error } = (await (supabase as any).from("watch_settings").upsert({
+      id: 1, // Single row for settings
+      cta_video_id: ctaVideoId.trim(),
+    })) as { error: any };
 
     if (error) {
-      console.error(error);
       toast.error("Failed to save settings");
+      console.error(error);
     } else {
       toast.success("Watch page CTA updated successfully!");
     }
