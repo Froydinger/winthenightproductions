@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const WatchLatestSection = () => {
@@ -59,19 +59,31 @@ const WatchLatestSection = () => {
               it feels right.
             </p>
 
-            {/* ✅ NEW SUPPORT LINE */}
-            <p className="text-sm text-foreground font-medium mb-3">
+            <p className="text-sm text-foreground font-medium mb-5">
               If you want to support us for free, and make sure you see ALL of our updates, subscribe to us on YouTube!
             </p>
           </div>
 
-          <button
-            onClick={() => window.open("https://www.youtube.com/@winthenight?sub_confirmation=1", "_blank")}
-            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform hover:-translate-y-0.5"
-          >
-            Open channel on YouTube
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          {/* ✅ TWO-FOR-ONE CTA STACK */}
+          <div className="flex flex-col gap-3">
+            {/* Watch Page Button */}
+            <button
+              onClick={() => navigate("/watch")}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold bg-neon-blue text-white hover:bg-neon-blue/90 transition-colors"
+            >
+              <Play className="w-4 h-4" />
+              Open the Watch page
+            </button>
+
+            {/* YouTube Subscribe Button */}
+            <button
+              onClick={() => window.open("https://www.youtube.com/@winthenight?sub_confirmation=1", "_blank")}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform hover:-translate-y-0.5"
+            >
+              Open channel on YouTube
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
     </section>
