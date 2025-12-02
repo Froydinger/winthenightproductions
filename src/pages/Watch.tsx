@@ -8,7 +8,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useLatestPlaylistVideo } from "@/hooks/use-youtube-feed";
+import { useYouTubeFeed } from "@/hooks/use-youtube-feed";
+
+interface VideoData {
+  title: string;
+  link: string;
+  videoId: string;
+  thumbnail: string;
+}
 
 interface Playlist {
   id: string;
@@ -29,38 +36,8 @@ const playlists: Playlist[] = [
 
 const Watch = () => {
   const location = useLocation();
+  const [latestVideo, setLatestVideo] = useState<VideoData | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
-  const [fallbackTimeout, setFallbackTimeout] = useState(false);
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [videoModalId, setVideoModalId] = useState<string | null>(null);
-
-  // Use the latest playlist video hook (Chapter 7 - latest season)
-  const { data: latestVideoId, isLoading, error } = useLatestPlaylistVideo();
-
-  const openVideoModal = (videoId: string) => {
-    setVideoModalId(videoId);
-    setVideoModalOpen(true);
-  };
-
-  // Add a timeout to detect if the API is failing
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!latestVideoId && !isLoading) {
-        console.error('YouTube feed failed to load - API may be down or rate-limited', error);
-        setFallbackTimeout(true);
-      }
-    }, 10000); // 10 second timeout
-
-    return () => clearTimeout(timeout);
-  }, [latestVideoId, isLoading, error]);
-
-  // Log when we have a video ID
-  useEffect(() => {
-    if (latestVideoId) {
-      console.log('Latest video ID loaded from Chapter 7 playlist:', latestVideoId);
-      setFallbackTimeout(false);
-    }
-  }, [latestVideoId]);
 
   // Handle hash-based anchor navigation for playlists
   useEffect(() => {
@@ -75,6 +52,81 @@ const Watch = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Fetch latest YouTube video using JSONP
+    const channelId = 'UCuFlxR-Ol8zzda9Z6CJkwkA';
+    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
+    const callbackName = 'wtnLatestVideoCallback';
+
+    // @ts-ignore - Global callback for JSONP
+    window[callbackName] = function(data: any) {
+      try {
+        if (!data || !data.items || !data.items.length) return;
+
+        const items = data.items;
+        // Filter to get first non-short video only
+        let chosen = null;
+
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          const title = (item.title || '').toLowerCase();
+          const link = item.link || '';
+
+          // Skip shorts
+          if (link.includes('/shorts/') || title.includes('#shorts')) {
+            continue;
+          }
+
+          chosen = item;
+          break;
+        }
+
+        if (!chosen) return;
+
+        const videoLink = chosen.link || '';
+        if (!videoLink) return;
+
+        // Extract video ID
+        let videoId = null;
+        const match = videoLink.match(/[?&]v=([^&]+)/);
+        if (match && match[1]) {
+          videoId = match[1];
+        } else {
+          try {
+            const urlObj = new URL(videoLink);
+            const paths = urlObj.pathname.split('/');
+            videoId = paths.pop() || paths.pop();
+          } catch (e) {
+            console.warn('Could not parse video ID from link', videoLink);
+          }
+        }
+        if (!videoId) return;
+
+        const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+        setLatestVideo({
+          title: chosen.title || 'Latest Episode',
+          link: videoLink,
+          videoId: videoId,
+          thumbnail: thumbUrl
+        });
+      } catch (e) {
+        console.error('Error in YouTube JSONP callback:', e);
+      }
+    };
+
+    // Load JSONP script
+    const script = document.createElement('script');
+    script.src = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=10&callback=${callbackName}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      // Cleanup
+      document.head.removeChild(script);
+      // @ts-ignore
+      delete window[callbackName];
+    };
   }, []);
 
   return (
@@ -94,9 +146,7 @@ const Watch = () => {
         <div
           className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden"
           style={{
-            backgroundImage: latestVideoId
-              ? `url('https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg')`
-              : "none",
+            backgroundImage: "url('https://img.youtube.com/vi/PEmaNy3nXFY/maxresdefault.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
@@ -118,27 +168,14 @@ const Watch = () => {
               Tune in for real conversations about mental health, connection, and authentic human experiences.
             </p>
 
-            {latestVideoId ? (
-              <button
-                onClick={() => openVideoModal(latestVideoId)}
-                className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 cursor-pointer"
-              >
-                Watch Now
-              </button>
-            ) : fallbackTimeout ? (
-              <a
-                href="https://www.youtube.com/@WinTheNight?sub_confirmation=1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"
-              >
-                Visit Our Channel
-              </a>
-            ) : (
-              <div className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 opacity-50">
-                Loading...
-              </div>
-            )}
+            <a
+              href="https://youtu.be/PEmaNy3nXFY"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"
+            >
+              Watch Now
+            </a>
           </div>
         </div>
 
@@ -179,22 +216,19 @@ const Watch = () => {
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Upload</h2>
               </div>
 
-              <div className="w-full group cursor-pointer" onClick={() => latestVideoId && openVideoModal(latestVideoId)}>
+              <div className="w-full group">
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                   <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  {latestVideoId ? (
-                    <div
-                      className="relative w-full h-full z-10 bg-cover bg-center"
-                      style={{ backgroundImage: `url(https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg)` }}
-                    >
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all">
-                        <div className="w-20 h-20 flex items-center justify-center rounded-full bg-neon-blue/90 group-hover:bg-neon-blue transform group-hover:scale-110 transition-all">
-                          <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
+                  {latestVideo ? (
+                    <iframe
+                      className="relative w-full h-full z-10"
+                      src={`https://www.youtube.com/embed/${latestVideo.videoId}`}
+                      title="Latest Upload"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen>
+                    </iframe>
                   ) : (
                     <div className="relative w-full h-full z-10 flex items-center justify-center bg-card/50">
                       <p className="text-muted-foreground">Loading latest video...</p>
@@ -211,21 +245,18 @@ const Watch = () => {
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor's Pick</h2>
               </div>
 
-              <div className="w-full group cursor-pointer" onClick={() => openVideoModal('-7-R4fl4ubU')}>
+              <div className="w-full group">
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                   <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  <div
-                    className="relative w-full h-full z-10 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://img.youtube.com/vi/-7-R4fl4ubU/maxresdefault.jpg)' }}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all">
-                      <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-600/90 group-hover:bg-blue-600 transform group-hover:scale-110 transition-all">
-                        <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
+                  <iframe
+                    className="relative w-full h-full z-10"
+                    src="https://www.youtube.com/embed/-7-R4fl4ubU"
+                    title="Editor's Pick"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen>
+                  </iframe>
                 </div>
               </div>
             </div>
@@ -268,44 +299,6 @@ const Watch = () => {
                 className="w-full h-full rounded-xl"
                 src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
                 title={selectedPlaylist.name}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Video Modal */}
-      <Dialog
-        open={videoModalOpen}
-        onOpenChange={setVideoModalOpen}
-      >
-        <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30 flex flex-col">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative flex-shrink-0">
-            <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
-              <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-              Watch Episode
-            </DialogTitle>
-            {videoModalId && (
-              <a
-                href={`https://www.youtube.com/watch?v=${videoModalId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute top-6 right-6 px-4 py-2 rounded-lg bg-neon-blue/20 hover:bg-neon-blue/30 text-neon-blue font-semibold text-sm transition-all duration-300 border border-neon-blue/40 hover:border-neon-blue/60"
-              >
-                Watch on YouTube
-              </a>
-            )}
-          </DialogHeader>
-          <div className="flex-1 p-6 overflow-hidden">
-            {videoModalId && (
-              <iframe
-                className="w-full h-full rounded-xl"
-                src={`https://www.youtube.com/embed/${videoModalId}?autoplay=1`}
-                title="Video Player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
