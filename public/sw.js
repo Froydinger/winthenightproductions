@@ -1,6 +1,7 @@
-const CACHE_NAME = 'win-the-night-v1';
+const CACHE_NAME = 'win-the-night-v2';
 const urlsToCache = [
   '/',
+  '/updates',
   '/index.html',
   '/icon-192.png',
   '/icon-512.png',
