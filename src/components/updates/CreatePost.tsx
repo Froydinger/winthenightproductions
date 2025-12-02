@@ -146,17 +146,22 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     // Normalize URL (add https:// if missing)
     const normalizedUrl = youtubeUrl ? normalizeUrl(youtubeUrl) : null;
 
-    const { error } = await supabase.from("posts").insert({
+    // Build post data - only include media fields if they have values
+    const postData: any = {
       user_id: userId,
       display_name: displayName,
       avatar_url: avatarUrl,
       content,
       youtube_url: normalizedUrl,
-      image_url: imageUrl || null,
-      video_url: videoUrl || null,
-      gif_url: gifUrl || null,
       is_anonymous: isAnonymous,
-    });
+    };
+
+    // Only add media fields if they exist (for backwards compatibility)
+    if (imageUrl) postData.image_url = imageUrl;
+    if (videoUrl) postData.video_url = videoUrl;
+    if (gifUrl) postData.gif_url = gifUrl;
+
+    const { error } = await supabase.from("posts").insert(postData);
 
     if (error) {
       toast.error("Failed to create post");
