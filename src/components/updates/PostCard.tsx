@@ -17,6 +17,9 @@ interface Post {
   avatar_url: string | null;
   content: string;
   youtube_url: string | null;
+  image_url?: string | null;
+  video_url?: string | null;
+  gif_url?: string | null;
   is_anonymous: boolean;
   created_at: string;
   user_id: string | null;
@@ -326,6 +329,42 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
       ) : (
         <>
           <p className="text-foreground mb-4 whitespace-pre-wrap break-words">{post.content}</p>
+
+          {/* Uploaded Image */}
+          {post.image_url && (
+            <div className="mb-4 rounded-lg overflow-hidden border-2 border-primary/20">
+              <img
+                src={post.image_url}
+                alt="Post image"
+                className="w-full max-h-[600px] object-cover"
+                loading="lazy"
+              />
+            </div>
+          )}
+
+          {/* Uploaded Video */}
+          {post.video_url && (
+            <div className="mb-4 rounded-lg overflow-hidden border-2 border-primary/20">
+              <video
+                src={post.video_url}
+                controls
+                className="w-full max-h-[600px]"
+                preload="metadata"
+              />
+            </div>
+          )}
+
+          {/* GIF */}
+          {post.gif_url && (
+            <div className="mb-4 rounded-lg overflow-hidden border-2 border-primary/20">
+              <img
+                src={post.gif_url}
+                alt="GIF"
+                className="w-full max-h-[600px] object-cover"
+                loading="lazy"
+              />
+            </div>
+          )}
 
           {/* Video embed for YouTube, Vimeo, etc. */}
           {isVideoUrl && videoInfo && (
