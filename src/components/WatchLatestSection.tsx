@@ -1,112 +1,74 @@
-import { Play } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
+import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const WatchLatestSection = () => {
-  const { videoIds, isLoading: loading } = useYouTubeVideos();
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  // Chapter 7 playlist embed. This is stable and does not depend on any API hooks.
+  const chapter7PlaylistSrc = "https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD";
 
   return (
-    <>
-    <section className="relative py-6 md:py-10 pb-2 md:pb-4">
-      <div className="container mx-auto max-w-7xl px-2 sm:px-4">
-        <Card
-          className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-4 md:p-8 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon animate-fade-in-up"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          <div className="relative z-10 space-y-4 sm:space-y-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-neon-blue/20 flex items-center justify-center group-hover:bg-neon-blue/30 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                <Play className="w-6 h-6 sm:w-8 sm:h-8 text-neon-blue" />
-              </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-neon-blue transition-colors duration-300">
-                  Watch The Latest
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  Recent episodes from Win The Night
-                </p>
-              </div>
-            </div>
-            
-            {loading ? (
-              <div className="text-center py-8 text-muted-foreground">
-                Loading latest videos...
-              </div>
-            ) : videoIds.length > 0 ? (
-              <div className="grid md:grid-cols-2 gap-4">
-                {videoIds.map((videoId, index) => (
-                  <button
-                    key={videoId}
-                    onClick={() => setSelectedVideo(videoId)}
-                    className="group/video relative aspect-video rounded-lg overflow-hidden border-2 border-neon-blue/20 hover:border-neon-blue transition-all duration-300"
-                  >
-                    <img
-                      src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                      alt={`Latest Win The Night Video ${index + 1}`}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-neon-blue/90 flex items-center justify-center transform group-hover/video:scale-110 transition-transform duration-300">
-                        <Play className="w-8 h-8 text-black fill-black ml-1" />
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <a
-                  href="https://youtube.com/@winthenight"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-neon-blue hover:underline"
-                >
-                  Visit our YouTube channel to watch the latest episodes
-                </a>
-              </div>
-            )}
-            
-            {videoIds.length > 0 && (
-              <div className="flex justify-center mt-4">
-                <a
-                  href="/watch"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-neon-blue/60 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300 hover:scale-105 font-semibold"
-                >
-                  Watch More Episodes
-                </a>
-              </div>
-            )}
+    <section className="relative py-16 px-6 md:px-12 lg:px-24">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr,1fr] gap-10 items-stretch">
+        {/* Latest Episode card */}
+        <div className="bg-card/80 border border-border/50 rounded-2xl shadow-2xl overflow-hidden ring-1 ring-white/10">
+          <div className="px-6 pt-6 flex items-center gap-3">
+            <div className="h-7 w-1 rounded-full bg-neon-blue" />
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Watch the latest</h2>
           </div>
 
-          <div className="absolute top-0 right-0 w-32 h-32 bg-neon-blue/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </Card>
-      </div>
-    </section>
+          <p className="px-6 mt-2 mb-4 text-sm md:text-base text-muted-foreground max-w-xl">
+            Start with our current chapter for fresh conversations on mental health, connection, and real life.
+          </p>
 
-    {/* Video Modal */}
-    <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
-      <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-2xl">
-        <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
-          {selectedVideo && (
+          <div className="relative w-full aspect-video bg-black">
             <iframe
               className="w-full h-full"
-              src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              src={chapter7PlaylistSrc}
+              title="Win The Night – Latest Chapter 7 Playlist"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
-          )}
+          </div>
+
+          <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-t border-border/40">
+            <button
+              onClick={() => navigate("/watch")}
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold bg-neon-blue text-white hover:bg-neon-blue/90 transition-colors"
+            >
+              Go to Watch page
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => navigate("/watch/chapter-7")}
+              className="text-xs md:text-sm text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+            >
+              Jump straight to Chapter 7
+            </button>
+          </div>
         </div>
-      </DialogContent>
-    </Dialog>
-  </>
+
+        {/* Small side card for context or CTA */}
+        <div className="flex flex-col justify-between gap-4 bg-card/80 border border-border/50 rounded-2xl p-6 shadow-xl">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">New here?</h3>
+            <p className="text-sm text-muted-foreground">
+              The watch hub pulls together full episodes, chapters, and highlights in one place so you can drop in where
+              it feels right.
+            </p>
+          </div>
+          <button
+            onClick={() => window.open("https://www.youtube.com/@winthenight?sub_confirmation=1", "_blank")}
+            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform hover:-translate-y-0.5"
+          >
+            Open channel on YouTube
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </section>
   );
 };
 
