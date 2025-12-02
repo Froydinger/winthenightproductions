@@ -38,18 +38,15 @@ const Watch = () => {
 
   return (
     <main className="min-h-screen relative">
-      {/* Global Animated Background */}
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>
 
-      {/* Sticky Header */}
       <Header />
 
-      {/* Content */}
       <div className="relative z-10">
         {/* FULL-WIDTH PLAYLIST HERO */}
-        <section className="relative pt-24 pb-16 px-4">
+        <section className="relative pt-20 pb-12 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
@@ -64,8 +61,9 @@ const Watch = () => {
               />
             </div>
 
-            <div className="text-center mt-10 px-4">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
+            {/* Headline */}
+            <div className="text-center mt-8 px-4">
+              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
                 Watch the latest from{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
                   Chapter 7.
@@ -75,13 +73,32 @@ const Watch = () => {
                 Real conversations on mental health, connection, and honest human experience.
               </p>
             </div>
+
+            {/* SUBSCRIBE CTA */}
+            <div className="text-center mt-6">
+              <button
+                onClick={() => setSubscribeModalOpen(true)}
+                className="inline-flex items-center justify-center gap-3 px-10 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/10">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
+                    <path
+                      fill="#FF0000"
+                      d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
+                    />
+                    <path fill="#FFF" d="M10 15.5V8.5L15.5 12l-5.5 3.5Z" />
+                  </svg>
+                </span>
+                <span>Subscribe on YouTube</span>
+              </button>
+            </div>
           </div>
         </section>
 
-        {/* Pick a Chapter Section */}
-        <section className="relative py-16 px-6 md:px-12 lg:px-24 border-b border-border/30">
+        {/* Pick a Chapter */}
+        <section className="relative py-12 px-6 md:px-12 lg:px-24 border-b border-border/30">
           <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-10">Pick a Chapter</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-8">Pick a Chapter</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {playlists.map((playlist) => (
@@ -102,9 +119,9 @@ const Watch = () => {
         </section>
 
         {/* Video Content Grid */}
-        <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
+        <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Chapter 7 again */}
+            {/* Chapter 7 Again */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
@@ -144,9 +161,9 @@ const Watch = () => {
                     }}
                   >
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all">
-                      <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-600/90 group-hover:bg-blue-600 transform group-hover:scale-110 transition-all">
-                        <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
+                      <div className="w-24 h-16 flex items-center justify-center rounded-2xl bg-[#FF0000] group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/40">
+                        <svg className="w-8 h-8 text-white ml-1" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
                         </svg>
                       </div>
                     </div>
@@ -154,22 +171,6 @@ const Watch = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Subscribe CTA at bottom */}
-        <section className="relative py-12 px-6 md:px-12 lg:px-24 border-t border-border/30">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Never miss a new episode.</h2>
-            <p className="text-muted-foreground mb-8">
-              Subscribe to Win The Night on YouTube so new chapters follow you instead of the other way around.
-            </p>
-            <button
-              onClick={() => setSubscribeModalOpen(true)}
-              className="inline-flex items-center justify-center px-10 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              Subscribe on YouTube
-            </button>
           </div>
         </section>
       </div>
@@ -209,7 +210,7 @@ const Watch = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Subscribe Modal */}
+      {/* SUBSCRIBE MODAL */}
       <Dialog open={subscribeModalOpen} onOpenChange={setSubscribeModalOpen}>
         <DialogContent className="max-w-md w-[95vw] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30">
           <DialogHeader className="px-6 pt-6 pb-3 border-b border-border/30">
@@ -220,15 +221,22 @@ const Watch = () => {
           </DialogHeader>
           <div className="px-6 py-6 flex flex-col items-center gap-4 text-center">
             <p className="text-muted-foreground">
-              Head over to YouTube and hit subscribe so new chapters land in your feed the moment they drop.
+              Hit subscribe on YouTube so new chapters land in your feed the moment they drop.
             </p>
             <a
               href="https://youtube.com/@winthenight?sub_confirmation=1"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Go to YouTube
+              <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
+                <path
+                  fill="#FF0000"
+                  d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
+                />
+                <path fill="#FFF" d="M10 15.5V8.5L15.5 12l-5.5 3.5Z" />
+              </svg>
+              <span>Go to YouTube</span>
             </a>
           </div>
         </DialogContent>
