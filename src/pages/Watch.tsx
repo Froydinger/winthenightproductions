@@ -22,37 +22,29 @@ const playlists: Playlist[] = [
   { id: "specials", name: "Specials & Clips", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
 ];
 
+// Fallback video for Chapter 7 hero image
+// Swap this to whatever your "main" Chapter 7 full episode ID is if needed.
+const CHAPTER_7_FALLBACK_VIDEO_ID = "-7-R4fl4ubU";
+
 const Watch = () => {
   const navigate = useNavigate();
-  const [fallbackTimeout, setFallbackTimeout] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
 
-  // Use YouTube videos hook for latest full episode
+  // YouTube feed for latest video
   const { videoIds } = useYouTubeVideos();
-
-  const openVideoModal = (videoId: string) => {
-    setVideoModalId(videoId);
-    setVideoModalOpen(true);
-  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const latestVideoId = videoIds[0] || null;
+  // Prefer latest from feed, otherwise guaranteed Chapter 7 fallback
+  const latestVideoId = videoIds && videoIds.length > 0 ? videoIds[0] : CHAPTER_7_FALLBACK_VIDEO_ID;
 
-  // Add a timeout to detect if no video is available
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!latestVideoId) {
-        console.error("No latest video available");
-        setFallbackTimeout(true);
-      }
-    }, 10000); // 10 second timeout
-
-    return () => clearTimeout(timeout);
-  }, [latestVideoId]);
+  const openVideoModal = (videoId: string) => {
+    setVideoModalId(videoId);
+    setVideoModalOpen(true);
+  };
 
   return (
     <main className="min-h-screen relative">
@@ -94,27 +86,12 @@ const Watch = () => {
               Tune in for real conversations about mental health, connection, and authentic human experiences.
             </p>
 
-            {latestVideoId ? (
-              <button
-                onClick={() => navigate("/watch/chapter-7")}
-                className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 cursor-pointer"
-              >
-                Watch Chapter 7
-              </button>
-            ) : fallbackTimeout ? (
-              <a
-                href="https://www.youtube.com/@WinTheNight?sub_confirmation=1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"
-              >
-                Visit Our Channel
-              </a>
-            ) : (
-              <div className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 opacity-50">
-                Loading...
-              </div>
-            )}
+            <button
+              onClick={() => navigate("/watch/chapter-7")}
+              className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 cursor-pointer"
+            >
+              Watch Chapter 7
+            </button>
           </div>
         </div>
 
@@ -144,7 +121,7 @@ const Watch = () => {
         {/* Video Content Grid */}
         <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Latest Episode (Chapter 7 Playlist) */}
+            {/* Latest Episode (Chapter 7 playlist embed) */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
@@ -162,7 +139,7 @@ const Watch = () => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
-                  ></iframe>
+                  />
                 </div>
               </div>
             </div>
