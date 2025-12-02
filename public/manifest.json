@@ -1,0 +1,32 @@
+{
+  "name": "Win The Night - Mental Health Community",
+  "short_name": "Win The Night",
+  "description": "A mental health community built on authentic conversations about healing, trauma, and recovery. Watch weekly episodes featuring real stories that help you feel less alone.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00D9FF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "lifestyle", "entertainment"],
+  "screenshots": [
+    {
+      "src": "/social-preview.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}
