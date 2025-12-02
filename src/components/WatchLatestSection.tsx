@@ -38,7 +38,7 @@ const WatchLatestSection = () => {
               onClick={() => navigate("/watch")}
               className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold bg-neon-blue text-white hover:bg-neon-blue/90 transition-colors"
             >
-              Go to Watch page
+              Go to Watch Hub
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
