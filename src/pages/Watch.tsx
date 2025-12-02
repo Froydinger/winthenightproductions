@@ -31,6 +31,7 @@ const Watch = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Modal is still here if you ever want to trigger it again
   const openVideoModal = (videoId: string) => {
     setVideoModalId(videoId);
     setVideoModalOpen(true);
@@ -78,17 +79,15 @@ const Watch = () => {
             <div className="text-center mt-6">
               <button
                 onClick={() => setSubscribeModalOpen(true)}
-                className="inline-flex items-center justify-center gap-3 px-10 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-transform duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-3 px-10 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
               >
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/10">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
-                    <path
-                      fill="#FF0000"
-                      d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
-                    />
-                    <path fill="#FFF" d="M10 15.5V8.5L15.5 12l-5.5 3.5Z" />
-                  </svg>
-                </span>
+                <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
+                  <path
+                    fill="#FF0000"
+                    d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
+                  />
+                  <path fill="#FFFFFF" d="M10 15.5V8.5L15.5 12 10 15.5Z" />
+                </svg>
                 <span>Subscribe on YouTube</span>
               </button>
             </div>
@@ -121,7 +120,7 @@ const Watch = () => {
         {/* Video Content Grid */}
         <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Chapter 7 Again */}
+            {/* Latest Episode */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
@@ -144,30 +143,25 @@ const Watch = () => {
               </div>
             </div>
 
-            {/* Editor's Pick */}
+            {/* Editor's Pick – default YouTube embed */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
               </div>
 
-              <div className="w-full group cursor-pointer" onClick={() => openVideoModal("-7-R4fl4ubU")}>
+              <div className="w-full group">
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                   <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  <div
-                    className="relative w-full h-full z-10 bg-cover bg-center"
-                    style={{
-                      backgroundImage: "url(https://img.youtube.com/vi/-7-R4fl4ubU/maxresdefault.jpg)",
-                    }}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all">
-                      <div className="w-24 h-16 flex items-center justify-center rounded-2xl bg-[#FF0000] group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/40">
-                        <svg className="w-8 h-8 text-white ml-1" viewBox="0 0 24 24" aria-hidden="true">
-                          <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
+                  <iframe
+                    className="relative w-full h-full z-10"
+                    src="https://www.youtube.com/embed/-7-R4fl4ubU"
+                    title="Editor's Pick - Win The Night"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
                 </div>
               </div>
             </div>
@@ -175,7 +169,7 @@ const Watch = () => {
         </section>
       </div>
 
-      {/* Video Modal */}
+      {/* Video Modal (currently unused but kept around) */}
       <Dialog open={videoModalOpen} onOpenChange={setVideoModalOpen}>
         <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30 flex flex-col">
           <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative flex-shrink-0">
@@ -227,14 +221,14 @@ const Watch = () => {
               href="https://youtube.com/@winthenight?sub_confirmation=1"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-transform duration-300 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
             >
-              <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
                 <path
                   fill="#FF0000"
                   d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
                 />
-                <path fill="#FFF" d="M10 15.5V8.5L15.5 12l-5.5 3.5Z" />
+                <path fill="#FFFFFF" d="M10 15.5V8.5L15.5 12 10 15.5Z" />
               </svg>
               <span>Go to YouTube</span>
             </a>
