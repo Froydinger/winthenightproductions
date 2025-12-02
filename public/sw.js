@@ -1,4 +1,4 @@
-const CACHE_NAME = 'win-the-night-v2';
+const CACHE_NAME = 'win-the-night-v3';
 const urlsToCache = [
   '/',
   '/updates',
@@ -39,6 +39,21 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // Never cache API requests (Supabase, external APIs, etc.)
+  if (
+    url.hostname.includes('supabase') ||
+    url.hostname.includes('api.') ||
+    url.pathname.startsWith('/api/') ||
+    event.request.method !== 'GET'
+  ) {
+    // Network-only for API requests
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Cache-first strategy for static assets only
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -56,13 +71,21 @@ self.addEventListener('fetch', (event) => {
             return response;
           }
 
-          // Clone the response
-          const responseToCache = response.clone();
+          // Only cache static assets (images, fonts, etc.)
+          const shouldCache =
+            event.request.destination === 'image' ||
+            event.request.destination === 'font' ||
+            event.request.destination === 'style' ||
+            event.request.destination === 'script' ||
+            url.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|ico|css|js)$/);
 
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
+          if (shouldCache) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+          }
 
           return response;
         }).catch(() => {
