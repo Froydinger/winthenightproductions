@@ -11,8 +11,6 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
 import { normalizeUrl } from "@/lib/url-utils";
-import { FileImage, X } from "lucide-react";
-import GifPicker from "./GifPicker";
 
 interface CreatePostProps {
   session: Session | null;
@@ -26,8 +24,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [userProfile, setUserProfile] = useState<{ display_name: string } | null>(null);
-  const [gifUrl, setGifUrl] = useState<string>("");
-  const [showGifPicker, setShowGifPicker] = useState(false);
 
   const fetchProfile = async () => {
     if (!session?.user) return;
@@ -48,14 +44,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   }, [session?.user?.id]);
 
   const avatarUrl = session?.user ? getAvatarUrlSync(session.user.email) : null;
-
-  const handleGifSelect = (gifUrl: string) => {
-    setGifUrl(gifUrl);
-  };
-
-  const clearGif = () => {
-    setGifUrl("");
-  };
 
   const handleSubmit = async () => {
     if (!content.trim()) {
@@ -94,37 +82,26 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     // Normalize URL (add https:// if missing)
     const normalizedUrl = youtubeUrl ? normalizeUrl(youtubeUrl) : null;
 
-    // Build post data - only include media fields if they have values
-    const postData: any = {
+    const { error } = await supabase.from("posts").insert({
       user_id: userId,
       display_name: displayName,
       avatar_url: avatarUrl,
       content,
       youtube_url: normalizedUrl,
       is_anonymous: isAnonymous,
-    };
-
-    // TODO: Re-enable GIF support once Lovable applies the migration
-    // Only add GIF if it exists
-    // if (gifUrl) postData.gif_url = gifUrl;
-
-    const { error } = await supabase.from("posts").insert(postData);
+    });
 
     if (error) {
       toast.error("Failed to create post");
-      console.error("Error creating post:", error);
       return;
     }
 
     setContent("");
     setYoutubeUrl("");
-    setGifUrl("");
     setIsAnonymous(false);
     toast.success("Post created!");
     onPostCreated();
   };
-
-  const hasGif = gifUrl;
 
   return (
     <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6">
@@ -142,22 +119,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             onChange={(e) => setContent(e.target.value)}
             className="min-h-[100px] bg-background/50 resize-none w-full"
           />
-
-          {/* GIF Preview */}
-          {hasGif && (
-            <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
-              <img src={gifUrl} alt="GIF preview" className="w-full max-h-96 object-cover" />
-              <Button
-                size="icon"
-                variant="destructive"
-                className="absolute top-2 right-2"
-                onClick={clearGif}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-
           <div className="space-y-2">
             <Label htmlFor="link-url" className="text-sm text-muted-foreground">
               Add a link (optional)
@@ -174,28 +135,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
               No need for https:// - just paste the link!
             </p>
           </div>
-
-          {/* GIF Button */}
-          <div className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setShowGifPicker(true)}
-              disabled={!session || hasGif}
-              className="flex items-center gap-2"
-            >
-              <FileImage className="h-4 w-4" />
-              GIF
-            </Button>
-
-            {!session && (
-              <p className="text-xs text-muted-foreground w-full">
-                Sign in to add GIFs
-              </p>
-            )}
-          </div>
-
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-2">
               <Switch
@@ -224,12 +163,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
           </div>
         </div>
       </div>
-
-      <GifPicker
-        open={showGifPicker}
-        onOpenChange={setShowGifPicker}
-        onSelectGif={handleGifSelect}
-      />
     </Card>
   );
 };
