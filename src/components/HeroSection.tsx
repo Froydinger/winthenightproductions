@@ -52,12 +52,28 @@ const HeroSection = () => {
                 <AccordionTrigger className="text-sm text-muted-foreground hover:text-neon-blue transition-colors py-2 hover:no-underline justify-center">
                   Who are we?
                 </AccordionTrigger>
+
                 <AccordionContent>
                   <p className="text-base sm:text-lg text-muted-foreground leading-relaxed pt-2 text-center">
                     A mental health focused community built on real conversations, not highlight reels. If you care
                     about healing, inner child work, generational trauma, and honest stories that make you feel less
                     alone, this is your corner of the internet.
                   </p>
+
+                  {/* ✅ About link added here */}
+                  <div className="pt-4 flex justify-center">
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all"
+                    >
+                      <a href="/about" className="flex items-center gap-2">
+                        Learn more about us
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </Button>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
