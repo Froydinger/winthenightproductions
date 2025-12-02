@@ -27,21 +27,24 @@ const About = () => {
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-foreground tracking-tight mb-4 leading-tight">
               About <br className="md:hidden" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Win The Night</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
+                Win The Night
+              </span>
             </h1>
             <p className="text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-              A mental health–focused organization empowering growth through <span className="text-neon-blue font-semibold">story</span>, <span className="text-neon-blue font-semibold">support</span>, and <span className="text-neon-blue font-semibold">self-awareness</span>.
+              A mental health–focused organization empowering growth through{" "}
+              <span className="text-neon-blue font-semibold">story</span>,{" "}
+              <span className="text-neon-blue font-semibold">support</span>, and{" "}
+              <span className="text-neon-blue font-semibold">self-awareness</span>.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
                 asChild
                 size="lg"
                 className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105"
               >
-                <a href="/#community">
-                  Join the Community
-                </a>
+                <a href="/#community">Join the Community</a>
               </Button>
               <Button
                 asChild
@@ -49,9 +52,7 @@ const About = () => {
                 variant="outline"
                 className="border-2 border-border text-foreground hover:border-neon-blue hover:text-neon-blue transition-all duration-300 hover:scale-105"
               >
-                <a href="#intro-video">
-                  Watch Our Intro
-                </a>
+                <a href="#intro-video">A Message from the Josh</a>
               </Button>
             </div>
           </div>
@@ -71,7 +72,7 @@ const About = () => {
                   Deep dive discussions on our podcast where we explore the resilience of the human spirit.
                 </p>
               </Card>
-              
+
               {/* Card 2 */}
               <Card className="p-8 bg-card/60 backdrop-blur-md border border-border hover:bg-card/80 transition-all duration-300 group hover:shadow-lg hover:shadow-neon-blue/20 h-full">
                 <div className="w-12 h-12 bg-background rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-border group-hover:border-neon-blue/50">
@@ -104,20 +105,20 @@ const About = () => {
               <h2 className="text-3xl font-bold text-foreground mb-2">The Heart of Our Mission</h2>
               <p className="text-muted-foreground">See what drives us to keep the conversation going.</p>
             </div>
-            
+
             <div className="w-full max-w-4xl mx-auto group">
               <div className="relative w-full aspect-video bg-card/60 rounded-xl overflow-hidden shadow-2xl border border-border ring-1 ring-border/20">
                 <div className="absolute -inset-1 bg-gradient-to-r from-neon-blue to-blue-600 opacity-20 blur-lg group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <iframe 
+
+                <iframe
                   className="relative w-full h-full z-10"
-                  src="https://www.youtube.com/embed/cIHJZUOIPco" 
-                  title="Welcome to Win The Night" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  src="https://www.youtube.com/embed/cIHJZUOIPco"
+                  title="Welcome to Win The Night"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen>
-                </iframe>
+                  allowFullScreen
+                ></iframe>
               </div>
             </div>
           </div>
@@ -133,7 +134,9 @@ const About = () => {
 
             <div className="space-y-8 max-w-3xl mx-auto">
               <p className="text-muted-foreground text-lg leading-relaxed text-center">
-                Win The Night was founded by two high school best friends and storytellers/filmmakers at heart, <strong className="text-foreground">Josh Lopez</strong> and <strong className="text-foreground">Jake Freudinger</strong>.
+                Win The Night was founded by two high school best friends and storytellers/filmmakers at heart,{" "}
+                <strong className="text-foreground">Josh Lopez</strong> and{" "}
+                <strong className="text-foreground">Jake Freudinger</strong>.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -143,7 +146,9 @@ const About = () => {
                 </Card>
                 <Card className="p-6 bg-card/60 backdrop-blur-md border border-border">
                   <div className="text-foreground font-bold text-lg mb-1">Josh Lopez</div>
-                  <p className="text-muted-foreground text-sm">Podcast host offering creative and collaborative insights.</p>
+                  <p className="text-muted-foreground text-sm">
+                    Podcast host offering creative and collaborative insights.
+                  </p>
                 </Card>
               </div>
 
@@ -167,23 +172,24 @@ const About = () => {
           <div className="max-w-5xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Get a taste of what we do</h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-              If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his fellow Marine, Cesar.
+              If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation
+              between Josh and his fellow Marine, Cesar.
             </p>
-            
+
             <div className="mx-auto max-w-4xl">
               <div className="w-full max-w-4xl mx-auto group">
                 <div className="relative w-full aspect-video bg-card/60 rounded-xl overflow-hidden shadow-2xl border border-border ring-1 ring-border/20">
                   <div className="absolute -inset-1 bg-gradient-to-r from-neon-blue to-blue-600 opacity-20 blur-lg group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
-                  
-                  <iframe 
+
+                  <iframe
                     className="relative w-full h-full z-10"
-                    src="https://www.youtube.com/embed/UL_ayxMAFqM" 
-                    title="Episode: Josh & Cesar (Marine Corps Stories)" 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    src="https://www.youtube.com/embed/UL_ayxMAFqM"
+                    title="Episode: Josh & Cesar (Marine Corps Stories)"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen>
-                  </iframe>
+                    allowFullScreen
+                  ></iframe>
                 </div>
               </div>
             </div>
@@ -191,19 +197,23 @@ const About = () => {
         </section>
 
         {/* CTA Section */}
-        <footer className="relative py-16 px-6 border-t border-border/30 bg-gradient-to-b from-background/50 to-background" id="community">
+        <footer
+          className="relative py-16 px-6 border-t border-border/30 bg-gradient-to-b from-background/50 to-background"
+          id="community"
+        >
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <div className="inline-block p-4 rounded-full bg-neon-blue/10 mb-2">
               <Users className="w-8 h-8 text-neon-blue" />
             </div>
-            
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">
-              Join the Community
-            </h2>
-            
+
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">Join the Community</h2>
+
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Be part of a community of people who want to <br/>
-              <strong className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Win The Night, together</strong>, one conversation at a time.
+              Be part of a community of people who want to <br />
+              <strong className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
+                Win The Night, together
+              </strong>
+              , one conversation at a time.
             </p>
 
             <div className="pt-6 flex flex-col items-center gap-6">
@@ -214,7 +224,21 @@ const About = () => {
               >
                 <a href="/be-our-guest" className="flex items-center gap-2">
                   Be Our Guest
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-4 h-4"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
                 </a>
               </Button>
             </div>
