@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import ShortsCarousel from "@/components/ShortsCarousel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface Playlist {
@@ -167,6 +168,9 @@ const Watch = () => {
             </div>
           </div>
         </section>
+
+        {/* Shorts Carousel */}
+        <ShortsCarousel />
       </div>
 
       {/* Video Modal (currently unused but kept around) */}
