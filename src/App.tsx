@@ -12,6 +12,7 @@ const GuestPortal = lazy(() => import("./pages/GuestPortal"));
 const Support = lazy(() => import("./pages/Support"));
 const CrisisResources = lazy(() => import("./pages/CrisisResources"));
 const Watch = lazy(() => import("./pages/Watch"));
+const ChapterPage = lazy(() => import("./pages/ChapterPage"));
 const Contact = lazy(() => import("./pages/Contact"));
 const About = lazy(() => import("./pages/About"));
 const Updates = lazy(() => import("./pages/Updates"));
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/support" element={<Support />} />
             <Route path="/crisis-resources" element={<CrisisResources />} />
             <Route path="/watch" element={<Watch />} />
+            <Route path="/watch/:chapterId" element={<ChapterPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/updates" element={<Updates />} />

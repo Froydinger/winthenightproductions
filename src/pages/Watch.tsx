@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import {
@@ -17,19 +17,18 @@ interface Playlist {
 }
 
 const playlists: Playlist[] = [
-  { id: "chapter7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
-  { id: "chapter6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
-  { id: "chapter5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS" },
-  { id: "chapter4", name: "Chapter 4", playlistId: "PL4DJfmhGyz_5qzx4nt4NjuHd3P5R-zEaw" },
-  { id: "chapter3", name: "Chapter 3", playlistId: "PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS" },
-  { id: "chapter2", name: "Chapter 2", playlistId: "PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX" },
-  { id: "chapter1", name: "Chapter 1", playlistId: "PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl" },
+  { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
+  { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
+  { id: "chapter-5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS" },
+  { id: "chapter-4", name: "Chapter 4", playlistId: "PL4DJfmhGyz_5qzx4nt4NjuHd3P5R-zEaw" },
+  { id: "chapter-3", name: "Chapter 3", playlistId: "PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS" },
+  { id: "chapter-2", name: "Chapter 2", playlistId: "PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX" },
+  { id: "chapter-1", name: "Chapter 1", playlistId: "PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl" },
   { id: "specials", name: "Specials & Clips", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
 ];
 
 const Watch = () => {
-  const location = useLocation();
-  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
+  const navigate = useNavigate();
   const [fallbackTimeout, setFallbackTimeout] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
@@ -61,17 +60,6 @@ const Watch = () => {
       setFallbackTimeout(false);
     }
   }, [latestVideoId]);
-
-  // Handle hash-based anchor navigation for playlists
-  useEffect(() => {
-    const hash = location.hash.replace('#', '');
-    if (hash) {
-      const playlist = playlists.find(p => p.id === hash);
-      if (playlist) {
-        setSelectedPlaylist(playlist);
-      }
-    }
-  }, [location.hash]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -151,10 +139,7 @@ const Watch = () => {
               {playlists.map((playlist) => (
                 <button
                   key={playlist.id}
-                  onClick={() => {
-                    setSelectedPlaylist(playlist);
-                    window.location.hash = playlist.id;
-                  }}
+                  onClick={() => navigate(`/watch/${playlist.id}`)}
                   className={`block px-4 py-4 rounded-xl border transition-all duration-300 font-bold ${
                     playlist.id === "specials"
                       ? "bg-gradient-to-r from-card to-card/80 border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground"
@@ -234,49 +219,6 @@ const Watch = () => {
         </section>
 
       </div>
-
-      {/* Playlist Dialog */}
-      <Dialog
-        open={selectedPlaylist !== null}
-        onOpenChange={(open) => {
-          if (!open) {
-            setSelectedPlaylist(null);
-            window.history.pushState('', document.title, window.location.pathname);
-          }
-        }}
-      >
-        <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30 flex flex-col">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border/30 relative flex-shrink-0">
-            <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
-              <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-              {selectedPlaylist?.name}
-            </DialogTitle>
-            {selectedPlaylist && (
-              <a
-                href={`https://www.youtube.com/playlist?list=${selectedPlaylist.playlistId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute top-6 right-6 px-4 py-2 rounded-lg bg-neon-blue/20 hover:bg-neon-blue/30 text-neon-blue font-semibold text-sm transition-all duration-300 border border-neon-blue/40 hover:border-neon-blue/60"
-              >
-                Open in new tab
-              </a>
-            )}
-          </DialogHeader>
-          <div className="flex-1 p-6 overflow-hidden">
-            {selectedPlaylist && (
-              <iframe
-                className="w-full h-full rounded-xl"
-                src={`https://www.youtube.com/embed/videoseries?list=${selectedPlaylist.playlistId}`}
-                title={selectedPlaylist.name}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Video Modal */}
       <Dialog
