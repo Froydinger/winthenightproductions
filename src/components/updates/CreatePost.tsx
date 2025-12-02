@@ -104,8 +104,9 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
       is_anonymous: isAnonymous,
     };
 
+    // TODO: Re-enable GIF support once Lovable applies the migration
     // Only add GIF if it exists
-    if (gifUrl) postData.gif_url = gifUrl;
+    // if (gifUrl) postData.gif_url = gifUrl;
 
     const { error } = await supabase.from("posts").insert(postData);
 
