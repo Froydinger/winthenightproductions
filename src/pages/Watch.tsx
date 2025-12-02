@@ -8,14 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useYouTubeFeed } from "@/hooks/use-youtube-feed";
-
-interface VideoData {
-  title: string;
-  link: string;
-  videoId: string;
-  thumbnail: string;
-}
+import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 
 interface Playlist {
   id: string;
@@ -36,8 +29,11 @@ const playlists: Playlist[] = [
 
 const Watch = () => {
   const location = useLocation();
-  const [latestVideo, setLatestVideo] = useState<VideoData | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
+
+  // Use YouTube feed hook to get latest non-short videos
+  const { videoIds, isLoading } = useYouTubeVideos();
+  const latestVideoId = videoIds[0]; // First non-short video
 
   // Handle hash-based anchor navigation for playlists
   useEffect(() => {
@@ -52,81 +48,6 @@ const Watch = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // Fetch latest YouTube video using JSONP
-    const channelId = 'UCuFlxR-Ol8zzda9Z6CJkwkA';
-    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
-    const callbackName = 'wtnLatestVideoCallback';
-
-    // @ts-ignore - Global callback for JSONP
-    window[callbackName] = function(data: any) {
-      try {
-        if (!data || !data.items || !data.items.length) return;
-
-        const items = data.items;
-        // Filter to get first non-short video only
-        let chosen = null;
-
-        for (let i = 0; i < items.length; i++) {
-          const item = items[i];
-          const title = (item.title || '').toLowerCase();
-          const link = item.link || '';
-
-          // Skip shorts
-          if (link.includes('/shorts/') || title.includes('#shorts')) {
-            continue;
-          }
-
-          chosen = item;
-          break;
-        }
-
-        if (!chosen) return;
-
-        const videoLink = chosen.link || '';
-        if (!videoLink) return;
-
-        // Extract video ID
-        let videoId = null;
-        const match = videoLink.match(/[?&]v=([^&]+)/);
-        if (match && match[1]) {
-          videoId = match[1];
-        } else {
-          try {
-            const urlObj = new URL(videoLink);
-            const paths = urlObj.pathname.split('/');
-            videoId = paths.pop() || paths.pop();
-          } catch (e) {
-            console.warn('Could not parse video ID from link', videoLink);
-          }
-        }
-        if (!videoId) return;
-
-        const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-
-        setLatestVideo({
-          title: chosen.title || 'Latest Episode',
-          link: videoLink,
-          videoId: videoId,
-          thumbnail: thumbUrl
-        });
-      } catch (e) {
-        console.error('Error in YouTube JSONP callback:', e);
-      }
-    };
-
-    // Load JSONP script
-    const script = document.createElement('script');
-    script.src = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=10&callback=${callbackName}`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup
-      document.head.removeChild(script);
-      // @ts-ignore
-      delete window[callbackName];
-    };
   }, []);
 
   return (
@@ -146,7 +67,9 @@ const Watch = () => {
         <div
           className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden"
           style={{
-            backgroundImage: "url('https://img.youtube.com/vi/PEmaNy3nXFY/maxresdefault.jpg')",
+            backgroundImage: latestVideoId
+              ? `url('https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg')`
+              : "none",
             backgroundSize: "cover",
             backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
@@ -168,14 +91,20 @@ const Watch = () => {
               Tune in for real conversations about mental health, connection, and authentic human experiences.
             </p>
 
-            <a
-              href="https://youtu.be/PEmaNy3nXFY"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"
-            >
-              Watch Now
-            </a>
+            {latestVideoId ? (
+              <a
+                href={`https://youtu.be/${latestVideoId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"
+              >
+                Watch Now
+              </a>
+            ) : (
+              <div className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 opacity-50">
+                Loading...
+              </div>
+            )}
           </div>
         </div>
 
@@ -219,10 +148,10 @@ const Watch = () => {
               <div className="w-full group">
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                   <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  {latestVideo ? (
+                  {latestVideoId ? (
                     <iframe
                       className="relative w-full h-full z-10"
-                      src={`https://www.youtube.com/embed/${latestVideo.videoId}`}
+                      src={`https://www.youtube.com/embed/${latestVideoId}`}
                       title="Latest Upload"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
