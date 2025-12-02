@@ -1,7 +1,6 @@
-// YouTube Data API v3 integration for fetching shorts
-const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyDummy'; // You'll need to set this
-const CHANNEL_ID = 'UCyourChannelId'; // Replace with actual channel ID
-const API_BASE = 'https://www.googleapis.com/youtube/v3';
+// YouTube RSS feed integration for fetching shorts
+const CHANNEL_ID = '@winthenight'; // Your channel handle
+const RSS_FEED_URL = `https://www.youtube.com/feeds/videos.xml?user=${CHANNEL_ID.replace('@', '')}`;
 
 export interface YouTubeShort {
   id: string;
@@ -12,74 +11,64 @@ export interface YouTubeShort {
 }
 
 /**
- * Fetch recent shorts from the Win The Night channel
- * @param maxResults Number of shorts to fetch (default: 6)
+ * Parse YouTube RSS feed XML
  */
-export async function fetchRecentShorts(maxResults: number = 6): Promise<YouTubeShort[]> {
+async function parseRSSFeed(): Promise<YouTubeShort[]> {
   try {
-    // Step 1: Get recent uploads from the channel
-    const searchUrl = `${API_BASE}/search?` + new URLSearchParams({
-      part: 'snippet',
-      channelId: CHANNEL_ID,
-      maxResults: String(maxResults * 3), // Fetch more to filter for shorts
-      order: 'date',
-      type: 'video',
-      key: YOUTUBE_API_KEY,
+    const response = await fetch(RSS_FEED_URL);
+    if (!response.ok) throw new Error('Failed to fetch RSS feed');
+
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, 'text/xml');
+
+    const entries = xml.querySelectorAll('entry');
+    const videos: YouTubeShort[] = [];
+
+    entries.forEach((entry) => {
+      const id = entry.querySelector('videoId')?.textContent || '';
+      const title = entry.querySelector('title')?.textContent || '';
+      const published = entry.querySelector('published')?.textContent || '';
+      const thumbnail = entry.querySelector('thumbnail')?.getAttribute('url') ||
+                       `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+      if (id) {
+        videos.push({
+          id,
+          title,
+          thumbnail,
+          url: `https://www.youtube.com/shorts/${id}`,
+          publishedAt: published,
+        });
+      }
     });
 
-    const searchResponse = await fetch(searchUrl);
-    if (!searchResponse.ok) {
-      throw new Error('Failed to fetch videos');
-    }
-
-    const searchData = await searchResponse.json();
-    const videoIds = searchData.items.map((item: any) => item.id.videoId).join(',');
-
-    // Step 2: Get video details to check duration
-    const videosUrl = `${API_BASE}/videos?` + new URLSearchParams({
-      part: 'contentDetails,snippet',
-      id: videoIds,
-      key: YOUTUBE_API_KEY,
-    });
-
-    const videosResponse = await fetch(videosUrl);
-    if (!videosResponse.ok) {
-      throw new Error('Failed to fetch video details');
-    }
-
-    const videosData = await videosResponse.json();
-
-    // Step 3: Filter for shorts (videos under 61 seconds)
-    const shorts: YouTubeShort[] = videosData.items
-      .filter((video: any) => {
-        const duration = video.contentDetails.duration;
-        // Parse ISO 8601 duration (e.g., "PT45S" = 45 seconds)
-        const match = duration.match(/PT(?:(\d+)M)?(\d+)S/);
-        if (!match) return false;
-        const minutes = parseInt(match[1] || '0');
-        const seconds = parseInt(match[2] || '0');
-        const totalSeconds = minutes * 60 + seconds;
-        return totalSeconds <= 60; // Shorts are 60 seconds or less
-      })
-      .slice(0, maxResults)
-      .map((video: any) => ({
-        id: video.id,
-        title: video.snippet.title,
-        thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium.url,
-        url: `https://www.youtube.com/shorts/${video.id}`,
-        publishedAt: video.snippet.publishedAt,
-      }));
-
-    return shorts;
+    return videos;
   } catch (error) {
-    console.error('Error fetching YouTube shorts:', error);
-    // Return empty array on error - component will handle gracefully
+    console.error('Error parsing RSS feed:', error);
     return [];
   }
 }
 
 /**
- * Fallback: Hardcoded shorts if API fails or no API key
+ * Fetch recent shorts from RSS feed
+ * Note: RSS doesn't distinguish shorts from regular videos,
+ * so this returns recent videos formatted as /shorts URLs
+ * @param maxResults Number of videos to fetch (default: 6)
+ */
+export async function fetchRecentShorts(maxResults: number = 6): Promise<YouTubeShort[]> {
+  try {
+    const videos = await parseRSSFeed();
+    // Return the most recent videos (assuming they're shorts)
+    return videos.slice(0, maxResults);
+  } catch (error) {
+    console.error('Error fetching YouTube shorts:', error);
+    return [];
+  }
+}
+
+/**
+ * Fallback: Show button to YouTube shorts page if RSS fails
  */
 export function getFallbackShorts(): YouTubeShort[] {
   return [
