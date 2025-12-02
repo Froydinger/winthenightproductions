@@ -25,6 +25,7 @@ const Watch = () => {
   const navigate = useNavigate();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
+  const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,7 +48,7 @@ const Watch = () => {
 
       {/* Content */}
       <div className="relative z-10">
-        {/* ✅ FULL-WIDTH PLAYLIST HERO */}
+        {/* FULL-WIDTH PLAYLIST HERO */}
         <section className="relative pt-24 pb-16 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
@@ -103,7 +104,7 @@ const Watch = () => {
         {/* Video Content Grid */}
         <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Chapter 7 Again (Secondary Placement) */}
+            {/* Chapter 7 again */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
@@ -155,6 +156,22 @@ const Watch = () => {
             </div>
           </div>
         </section>
+
+        {/* Subscribe CTA at bottom */}
+        <section className="relative py-12 px-6 md:px-12 lg:px-24 border-t border-border/30">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Never miss a new episode.</h2>
+            <p className="text-muted-foreground mb-8">
+              Subscribe to Win The Night on YouTube so new chapters follow you instead of the other way around.
+            </p>
+            <button
+              onClick={() => setSubscribeModalOpen(true)}
+              className="inline-flex items-center justify-center px-10 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Subscribe on YouTube
+            </button>
+          </div>
+        </section>
       </div>
 
       {/* Video Modal */}
@@ -188,6 +205,31 @@ const Watch = () => {
                 allowFullScreen
               />
             )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Subscribe Modal */}
+      <Dialog open={subscribeModalOpen} onOpenChange={setSubscribeModalOpen}>
+        <DialogContent className="max-w-md w-[95vw] p-0 bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30">
+          <DialogHeader className="px-6 pt-6 pb-3 border-b border-border/30">
+            <DialogTitle className="text-xl font-bold text-foreground flex items-center gap-3">
+              <div className="h-7 w-1 bg-neon-blue rounded-full"></div>
+              Subscribe to Win The Night
+            </DialogTitle>
+          </DialogHeader>
+          <div className="px-6 py-6 flex flex-col items-center gap-4 text-center">
+            <p className="text-muted-foreground">
+              Head over to YouTube and hit subscribe so new chapters land in your feed the moment they drop.
+            </p>
+            <a
+              href="https://youtube.com/@winthenight?sub_confirmation=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-8 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Go to YouTube
+            </a>
           </div>
         </DialogContent>
       </Dialog>
