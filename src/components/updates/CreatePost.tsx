@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Card } from "@/components/ui/card";
@@ -50,11 +50,11 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     setUserProfile(data);
   };
 
-  useState(() => {
+  useEffect(() => {
     if (session?.user) {
       fetchProfile();
     }
-  });
+  }, [session?.user?.id]);
 
   const avatarUrl = session?.user ? getAvatarUrlSync(session.user.email) : null;
 
