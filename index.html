@@ -11,6 +11,11 @@
     <meta name="theme-color" content="#00D9FF" />
     <link rel="canonical" href="https://winthenight.org/" />
 
+    <!-- Resource hints for performance -->
+    <link rel="dns-prefetch" href="https://api.microlink.io" />
+    <link rel="dns-prefetch" href="https://cdnjs.buymeacoffee.com" />
+    <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
 
@@ -20,8 +25,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Win The Night" />
-    
-    <!-- Preload critical assets -->
+
+    <!-- Preload critical assets for LCP optimization -->
     <link rel="preload" href="/src/assets/win-the-night-productions-logo.png" as="image" type="image/png" fetchpriority="high" />
 
     
