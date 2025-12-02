@@ -33,8 +33,11 @@ export const useYouTubeFeed = () => {
         return [];
       }
     },
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-    retry: 1, // Only retry once
+    staleTime: 1 * 60 * 1000, // Cache for 1 minute
+    refetchInterval: 1 * 60 * 1000, // Auto-refetch every 1 minute
+    refetchOnWindowFocus: true, // Refetch when user returns to tab
+    refetchOnMount: true, // Always refetch on component mount
+    retry: 1,
     retryDelay: 1000,
   });
 };
