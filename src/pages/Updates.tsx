@@ -174,7 +174,7 @@ const Updates = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-20 sm:py-24 max-w-2xl">
         <div className="flex items-center justify-between mb-6 sm:mb-8 gap-4">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Updates</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Timeline</h1>
           <div className="flex gap-2 shrink-0">
             {session ? (
               <Button
@@ -189,7 +189,7 @@ const Updates = () => {
               <Button
                 variant="outline"
                 onClick={() => setShowAuth(true)}
-                className="border-border hover:bg-accent"
+                className="border-border hover:bg-accent animate-glow"
               >
                 <LogIn className="h-5 w-5 mr-2" />
                 Sign In
