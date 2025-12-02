@@ -171,6 +171,18 @@ const Watch = () => {
 
         {/* Shorts Carousel */}
         <ShortsCarousel />
+
+        {/* Simple Footer */}
+        <section className="relative pb-12 px-6 md:px-12 lg:px-24">
+          <div className="max-w-4xl mx-auto text-center text-muted-foreground text-sm md:text-base space-y-3">
+            <p className="font-medium text-foreground">
+              One Connection. One Story.
+              <br className="hidden sm:block" />
+              One Conversation at a Time.
+            </p>
+            <p>©2025 Win The Night Productions™ • Froydinger Media™</p>
+          </div>
+        </section>
       </div>
 
       {/* Video Modal (currently unused but kept around) */}
