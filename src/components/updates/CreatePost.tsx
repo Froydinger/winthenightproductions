@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Card } from "@/components/ui/card";
@@ -11,8 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
 import { normalizeUrl } from "@/lib/url-utils";
-import { uploadImage, uploadVideo } from "@/lib/media-upload";
-import { Image, Video, FileImage, X, Loader2 } from "lucide-react";
+import { FileImage, X } from "lucide-react";
 import GifPicker from "./GifPicker";
 
 interface CreatePostProps {
@@ -27,16 +26,8 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [userProfile, setUserProfile] = useState<{ display_name: string } | null>(null);
-
-  // Media states
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [videoUrl, setVideoUrl] = useState<string>("");
   const [gifUrl, setGifUrl] = useState<string>("");
   const [showGifPicker, setShowGifPicker] = useState(false);
-  const [uploading, setUploading] = useState(false);
-
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const videoInputRef = useRef<HTMLInputElement>(null);
 
   const fetchProfile = async () => {
     if (!session?.user) return;
@@ -58,54 +49,11 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
 
   const avatarUrl = session?.user ? getAvatarUrlSync(session.user.email) : null;
 
-  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !session?.user) return;
-
-    setUploading(true);
-    const result = await uploadImage(file, session.user.id);
-    setUploading(false);
-
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      setImageUrl(result.url);
-      // Clear other media
-      setVideoUrl("");
-      setGifUrl("");
-      toast.success("Image uploaded!");
-    }
-  };
-
-  const handleVideoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !session?.user) return;
-
-    setUploading(true);
-    const result = await uploadVideo(file, session.user.id);
-    setUploading(false);
-
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      setVideoUrl(result.url);
-      // Clear other media
-      setImageUrl("");
-      setGifUrl("");
-      toast.success("Video uploaded!");
-    }
-  };
-
   const handleGifSelect = (gifUrl: string) => {
     setGifUrl(gifUrl);
-    // Clear other media
-    setImageUrl("");
-    setVideoUrl("");
   };
 
-  const clearMedia = () => {
-    setImageUrl("");
-    setVideoUrl("");
+  const clearGif = () => {
     setGifUrl("");
   };
 
@@ -156,9 +104,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
       is_anonymous: isAnonymous,
     };
 
-    // Only add media fields if they exist (for backwards compatibility)
-    if (imageUrl) postData.image_url = imageUrl;
-    if (videoUrl) postData.video_url = videoUrl;
+    // Only add GIF if it exists
     if (gifUrl) postData.gif_url = gifUrl;
 
     const { error } = await supabase.from("posts").insert(postData);
@@ -171,15 +117,13 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
 
     setContent("");
     setYoutubeUrl("");
-    setImageUrl("");
-    setVideoUrl("");
     setGifUrl("");
     setIsAnonymous(false);
     toast.success("Post created!");
     onPostCreated();
   };
 
-  const hasMedia = imageUrl || videoUrl || gifUrl;
+  const hasGif = gifUrl;
 
   return (
     <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6">
@@ -198,48 +142,18 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             className="min-h-[100px] bg-background/50 resize-none w-full"
           />
 
-          {/* Media Preview */}
-          {hasMedia && (
-            <div className="relative">
-              {imageUrl && (
-                <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
-                  <img src={imageUrl} alt="Upload preview" className="w-full max-h-96 object-cover" />
-                  <Button
-                    size="icon"
-                    variant="destructive"
-                    className="absolute top-2 right-2"
-                    onClick={clearMedia}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-              {videoUrl && (
-                <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
-                  <video src={videoUrl} controls className="w-full max-h-96" />
-                  <Button
-                    size="icon"
-                    variant="destructive"
-                    className="absolute top-2 right-2"
-                    onClick={clearMedia}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-              {gifUrl && (
-                <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
-                  <img src={gifUrl} alt="GIF preview" className="w-full max-h-96 object-cover" />
-                  <Button
-                    size="icon"
-                    variant="destructive"
-                    className="absolute top-2 right-2"
-                    onClick={clearMedia}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
+          {/* GIF Preview */}
+          {hasGif && (
+            <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
+              <img src={gifUrl} alt="GIF preview" className="w-full max-h-96 object-cover" />
+              <Button
+                size="icon"
+                variant="destructive"
+                className="absolute top-2 right-2"
+                onClick={clearGif}
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
           )}
 
@@ -260,55 +174,14 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             </p>
           </div>
 
-          {/* Media Upload Buttons */}
+          {/* GIF Button */}
           <div className="flex flex-wrap gap-2">
-            <input
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageSelect}
-              disabled={!session || uploading}
-            />
-            <input
-              ref={videoInputRef}
-              type="file"
-              accept="video/*"
-              className="hidden"
-              onChange={handleVideoSelect}
-              disabled={!session || uploading}
-            />
-
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => imageInputRef.current?.click()}
-              disabled={!session || uploading || hasMedia}
-              className="flex items-center gap-2"
-            >
-              {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Image className="h-4 w-4" />}
-              Photo
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => videoInputRef.current?.click()}
-              disabled={!session || uploading || hasMedia}
-              className="flex items-center gap-2"
-            >
-              {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Video className="h-4 w-4" />}
-              Video (50MB max)
-            </Button>
-
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => setShowGifPicker(true)}
-              disabled={!session || hasMedia}
+              disabled={!session || hasGif}
               className="flex items-center gap-2"
             >
               <FileImage className="h-4 w-4" />
@@ -317,7 +190,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
 
             {!session && (
               <p className="text-xs text-muted-foreground w-full">
-                Sign in to upload images, videos, and GIFs
+                Sign in to add GIFs
               </p>
             )}
           </div>
@@ -343,8 +216,8 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
                 </Button>
               </div>
             ) : (
-              <Button onClick={handleSubmit} disabled={!content.trim() || uploading} className="w-full sm:w-auto">
-                {uploading ? "Uploading..." : "Post"}
+              <Button onClick={handleSubmit} disabled={!content.trim()} className="w-full sm:w-auto">
+                Post
               </Button>
             )}
           </div>
