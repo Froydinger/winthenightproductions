@@ -118,6 +118,9 @@ const Watch = () => {
           </div>
         </section>
 
+        {/* Shorts Carousel */}
+        <ShortsCarousel />
+
         {/* Video Content Grid */}
         <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
@@ -168,9 +171,6 @@ const Watch = () => {
             </div>
           </div>
         </section>
-
-        {/* Shorts Carousel */}
-        <ShortsCarousel />
 
         {/* Simple Footer */}
         <section className="relative pb-12 px-6 md:px-12 lg:px-24">
