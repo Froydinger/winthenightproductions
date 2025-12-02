@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const WatchLatestSection = () => {
   const navigate = useNavigate();
 
-  // Chapter 7 playlist embed. This is stable and does not depend on any API hooks.
+  // Chapter 7 playlist embed. Stable and API-free.
   const chapter7PlaylistSrc = "https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD";
 
   return (
@@ -50,15 +50,21 @@ const WatchLatestSection = () => {
           </div>
         </div>
 
-        {/* Small side card for context or CTA */}
+        {/* Side support + CTA card */}
         <div className="flex flex-col justify-between gap-4 bg-card/80 border border-border/50 rounded-2xl p-6 shadow-xl">
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-2">New here?</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-4">
               The watch hub pulls together full episodes, chapters, and highlights in one place so you can drop in where
               it feels right.
             </p>
+
+            {/* ✅ NEW SUPPORT LINE */}
+            <p className="text-sm text-foreground font-medium mb-3">
+              If you want to support us for free, and make sure you see ALL of our updates, subscribe to us on YouTube!
+            </p>
           </div>
+
           <button
             onClick={() => window.open("https://www.youtube.com/@winthenight?sub_confirmation=1", "_blank")}
             className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform hover:-translate-y-0.5"
