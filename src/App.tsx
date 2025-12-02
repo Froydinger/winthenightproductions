@@ -22,13 +22,24 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
+// Loading skeleton component for better perceived performance
+const LoadingSkeleton = () => (
+  <div className="min-h-screen bg-background flex items-center justify-center">
+    <div className="animate-pulse space-y-4 text-center">
+      <div className="w-40 h-40 mx-auto bg-neon-blue/20 rounded-full" />
+      <div className="h-8 bg-foreground/10 rounded w-64 mx-auto" />
+      <div className="h-4 bg-foreground/10 rounded w-48 mx-auto" />
+    </div>
+  </div>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <Suspense fallback={<LoadingSkeleton />}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/guest" element={<BeOurGuest />} />

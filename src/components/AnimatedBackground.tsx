@@ -2,7 +2,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const AnimatedBackground = () => {
   const isMobile = useIsMobile();
-  const particleCount = isMobile ? 25 : 50; // Balanced particle count for mobile
+  const particleCount = isMobile ? 15 : 40; // Reduced particle count for better performance
 
   return (
     <>
