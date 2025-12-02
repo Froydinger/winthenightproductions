@@ -40,7 +40,11 @@ export const uploadImage = async (file: File, userId: string): Promise<UploadRes
 
     if (error) {
       console.error('Upload error:', error);
-      return { url: '', error: 'Failed to upload image. Please try again.' };
+      // Provide more specific error messages
+      if (error.message?.includes('Bucket not found')) {
+        return { url: '', error: 'Storage bucket not configured. Please contact admin.' };
+      }
+      return { url: '', error: `Upload failed: ${error.message || 'Please try again.'}` };
     }
 
     // Get public URL
@@ -51,7 +55,8 @@ export const uploadImage = async (file: File, userId: string): Promise<UploadRes
     return { url: publicUrl };
   } catch (error) {
     console.error('Upload error:', error);
-    return { url: '', error: 'Failed to upload image. Please try again.' };
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return { url: '', error: `Upload failed: ${errorMessage}` };
   }
 };
 
