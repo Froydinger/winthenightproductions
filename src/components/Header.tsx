@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Shield, LogIn, LogOut, Settings } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Session } from "@supabase/supabase-js";
+import AuthDialog from "@/components/updates/AuthDialog";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [logoVisible, setLogoVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
@@ -26,6 +34,45 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
+
+  useEffect(() => {
+    // Check auth status
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkAdminStatus = async (userId: string) => {
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .single();
+
+    setIsAdmin(!!data);
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setIsOpen(false);
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -141,6 +188,62 @@ const Header = () => {
                   )}
                 </nav>
 
+                {/* Auth Section */}
+                <div className="pt-4 border-t border-neon-blue/20 space-y-3">
+                  {session ? (
+                    <>
+                      <div className="px-4 py-2 bg-card/50 rounded-lg">
+                        <p className="text-xs text-muted-foreground mb-1">Signed in as</p>
+                        <p className="text-sm font-medium text-foreground truncate">
+                          {session.user.email}
+                        </p>
+                      </div>
+
+                      {isAdmin && (
+                        <Button
+                          onClick={() => {
+                            navigate('/admin');
+                            setIsOpen(false);
+                          }}
+                          className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
+                        >
+                          <Shield className="h-4 w-4 mr-2" />
+                          Admin Dashboard
+                        </Button>
+                      )}
+
+                      <Button
+                        onClick={() => {
+                          navigate('/updates');
+                          setIsOpen(false);
+                        }}
+                        variant="outline"
+                        className="w-full border-border hover:bg-accent"
+                      >
+                        <Settings className="h-4 w-4 mr-2" />
+                        Profile Settings
+                      </Button>
+
+                      <Button
+                        onClick={handleSignOut}
+                        variant="outline"
+                        className="w-full border-border hover:bg-accent"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      onClick={() => setShowAuth(true)}
+                      className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
+                    >
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Button>
+                  )}
+                </div>
+
                 <div className="pt-4 border-t border-neon-blue/20">
                   <p className="text-sm text-muted-foreground text-center">
                     One Connection. One Story.
@@ -152,6 +255,8 @@ const Header = () => {
             </SheetContent>
           </Sheet>
       </div>
+
+      <AuthDialog open={showAuth} onOpenChange={setShowAuth} />
     </header>
   );
 };
