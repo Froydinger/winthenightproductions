@@ -16,7 +16,7 @@ const fetchWithTimeout = async (url: string, timeout = 5000) => {
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetch(url, { 
+    const response = await fetch(url, {
       signal: controller.signal,
       cache: 'no-store', // Force fresh data
       headers: {
