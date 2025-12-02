@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useLatestPlaylistVideo } from "@/hooks/use-youtube-feed";
+import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 
 interface Playlist {
   id: string;
@@ -33,8 +33,9 @@ const Watch = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
 
-  // Use the latest playlist video hook (Chapter 7 - latest season)
-  const { data: latestVideoId, isLoading, error } = useLatestPlaylistVideo();
+  // Use YouTube videos hook to get latest non-short videos
+  const { videoIds, isLoading } = useYouTubeVideos();
+  const latestVideoId = videoIds[0]; // First non-short video
 
   const openVideoModal = (videoId: string) => {
     setVideoModalId(videoId);
@@ -45,18 +46,18 @@ const Watch = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!latestVideoId && !isLoading) {
-        console.error('YouTube feed failed to load - API may be down or rate-limited', error);
+        console.error('YouTube feed failed to load - API may be down or rate-limited');
         setFallbackTimeout(true);
       }
     }, 10000); // 10 second timeout
 
     return () => clearTimeout(timeout);
-  }, [latestVideoId, isLoading, error]);
+  }, [latestVideoId, isLoading]);
 
   // Log when we have a video ID
   useEffect(() => {
     if (latestVideoId) {
-      console.log('Latest video ID loaded from Chapter 7 playlist:', latestVideoId);
+      console.log('Latest video ID loaded:', latestVideoId);
       setFallbackTimeout(false);
     }
   }, [latestVideoId]);
