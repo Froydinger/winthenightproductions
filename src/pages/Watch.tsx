@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 
 interface Playlist {
   id: string;
@@ -22,24 +21,14 @@ const playlists: Playlist[] = [
   { id: "specials", name: "Specials & Clips", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
 ];
 
-// Fallback video for Chapter 7 hero image
-// Swap this to whatever your "main" Chapter 7 full episode ID is if needed.
-const CHAPTER_7_FALLBACK_VIDEO_ID = "-7-R4fl4ubU";
-
 const Watch = () => {
   const navigate = useNavigate();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
 
-  // YouTube feed for latest video
-  const { videoIds } = useYouTubeVideos();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Prefer latest from feed, otherwise guaranteed Chapter 7 fallback
-  const latestVideoId = videoIds && videoIds.length > 0 ? videoIds[0] : CHAPTER_7_FALLBACK_VIDEO_ID;
 
   const openVideoModal = (videoId: string) => {
     setVideoModalId(videoId);
@@ -58,42 +47,35 @@ const Watch = () => {
 
       {/* Content */}
       <div className="relative z-10">
-        {/* Hero Section */}
-        <div
-          className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden"
-          style={{
-            backgroundImage: latestVideoId
-              ? `url('https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg')`
-              : "none",
-            backgroundSize: "cover",
-            backgroundPosition: "center 20%",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: "#000000",
-          }}
-        >
-          {/* Dark Overlay Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black"></div>
+        {/* ✅ FULL-WIDTH PLAYLIST HERO */}
+        <section className="relative pt-24 pb-16 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+              <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
+              <iframe
+                className="relative w-full h-full z-10"
+                src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
+                title="Win The Night – Chapter 7"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
 
-          {/* Content */}
-          <div className="relative z-10 max-w-4xl mx-auto text-center px-6 pt-20">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight drop-shadow-2xl">
-              Watch our latest{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
-                full episode.
-              </span>
-            </h1>
-            <p className="text-lg md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg font-medium">
-              Tune in for real conversations about mental health, connection, and authentic human experiences.
-            </p>
-
-            <button
-              onClick={() => navigate("/watch/chapter-7")}
-              className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 cursor-pointer"
-            >
-              Watch Chapter 7
-            </button>
+            <div className="text-center mt-10 px-4">
+              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
+                Watch the latest from{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
+                  Chapter 7.
+                </span>
+              </h1>
+              <p className="text-lg md:text-xl text-zinc-100 max-w-2xl mx-auto leading-relaxed font-medium">
+                Real conversations on mental health, connection, and honest human experience.
+              </p>
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* Pick a Chapter Section */}
         <section className="relative py-16 px-6 md:px-12 lg:px-24 border-b border-border/30">
@@ -121,7 +103,7 @@ const Watch = () => {
         {/* Video Content Grid */}
         <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Latest Episode (Chapter 7 playlist embed) */}
+            {/* Chapter 7 Again (Secondary Placement) */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
