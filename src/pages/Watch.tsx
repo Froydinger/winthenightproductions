@@ -166,14 +166,39 @@ const Watch = () => {
 
         {/* Video Content Grid */}
         <section id="latest-episode" className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-
-            {/* Latest Upload */}
+          <div className="max-w-7xl mx-auto space-y-12">
+            
+            {/* Featured Premiere */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Upload</h2>
+                <div className="h-8 w-1 bg-gradient-to-b from-neon-blue to-blue-600 rounded-full"></div>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Featured Premiere</h2>
               </div>
+
+              <div className="w-full group">
+                <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-neon-blue/20 via-blue-600/20 to-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                  <iframe
+                    className="relative w-full h-full z-10"
+                    src="https://www.youtube.com/embed/PEmaNy3nXFY"
+                    title="Featured Premiere"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen>
+                  </iframe>
+                </div>
+              </div>
+            </div>
+
+            {/* Latest and Editor's Pick Grid */}
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+              {/* Latest Upload */}
+              <div className="flex flex-col">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Upload</h2>
+                </div>
 
               <div className="w-full group">
                 <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
@@ -218,8 +243,9 @@ const Watch = () => {
                   </iframe>
                 </div>
               </div>
-            </div>
+              </div>
 
+            </div>
           </div>
         </section>
 
