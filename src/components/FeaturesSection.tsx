@@ -8,9 +8,9 @@ const FeaturesSection = () => {
     <section className="relative pt-24 pb-10 px-4">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16 space-y-4 animate-fade-in-up">
-          <h2 className="text-5xl sm:text-6xl font-bold text-foreground">What We're About</h2>
+          <h2 className="text-5xl sm:text-6xl font-bold text-foreground">What We&apos;re About</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A different kind of mental health space — honest, introspective, and human.
+            A different kind of mental health space, honest, introspective, and human.
           </p>
         </div>
 
@@ -37,8 +37,8 @@ const FeaturesSection = () => {
                 variant="outline"
                 className="w-full border-2 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/20 hover:border-neon-blue transition-all duration-300"
               >
-                <a href="/guest" className="flex items-center gap-2">
-                  Be Our Guest!
+                <a href="/watch" className="flex items-center gap-2">
+                  Open the Watch Hub
                 </a>
               </Button>
             </div>
@@ -65,6 +65,16 @@ const FeaturesSection = () => {
               <p className="text-muted-foreground leading-relaxed">
                 Stories about loss, healing, and rediscovery. No fake positivity, just authentic experiences.
               </p>
+
+              <Button
+                asChild
+                variant="outline"
+                className="w-full border-2 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/20 hover:border-neon-blue transition-all duration-300"
+              >
+                <a href="/guest" className="flex items-center gap-2">
+                  Be Our Guest!
+                </a>
+              </Button>
             </div>
 
             <div className="absolute top-0 right-0 w-32 h-32 bg-neon-blue/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -180,7 +190,7 @@ const FeaturesSection = () => {
               </h3>
 
               <p className="text-muted-foreground leading-relaxed">
-                A community that treats you like a human, not a project. You're welcome as you are.
+                A community that treats you like a human, not a project. You&apos;re welcome as you are.
               </p>
 
               <div className="space-y-2 pt-2">
