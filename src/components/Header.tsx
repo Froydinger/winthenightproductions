@@ -133,9 +133,9 @@ const Header = () => {
           </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30"
+              className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30 overflow-y-auto flex flex-col h-full"
             >
-              <div className="flex flex-col gap-6 mt-8">
+              <div className="flex flex-col gap-6 mt-8 pb-6 overflow-y-auto flex-1 min-h-0">
                 <div className="flex items-center gap-3 pb-4 border-b border-neon-blue/20">
                   <img
                     src={logo}
