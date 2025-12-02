@@ -72,7 +72,7 @@ const WatchLatestSection = () => {
               className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold bg-neon-blue text-white hover:bg-neon-blue/90 transition-colors"
             >
               <Play className="w-4 h-4" />
-              Open the Watch page
+              Open the Watch Hub
             </button>
 
             {/* YouTube Subscribe Button */}
