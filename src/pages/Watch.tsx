@@ -36,6 +36,7 @@ const playlists: Playlist[] = [
 
 const Watch = () => {
   const location = useLocation();
+  const { data: feedItems = [] } = useYouTubeFeed();
   const [latestVideo, setLatestVideo] = useState<VideoData | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
 
@@ -52,82 +53,38 @@ const Watch = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // Fetch latest YouTube video using JSONP
-    const channelId = 'UCuFlxR-Ol8zzda9Z6CJkwkA';
-    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
-    const callbackName = 'wtnLatestVideoCallback';
-
-    // @ts-ignore - Global callback for JSONP
-    window[callbackName] = function(data: any) {
-      try {
-        if (!data || !data.items || !data.items.length) return;
-
-        const items = data.items;
-        // Filter to get first non-short video only
-        let chosen = null;
-
-        for (let i = 0; i < items.length; i++) {
-          const item = items[i];
-          const title = (item.title || '').toLowerCase();
-          const link = item.link || '';
-
-          // Skip shorts
-          if (link.includes('/shorts/') || title.includes('#shorts')) {
-            continue;
-          }
-
-          chosen = item;
-          break;
-        }
-
-        if (!chosen) return;
-
-        const videoLink = chosen.link || '';
-        if (!videoLink) return;
-
-        // Extract video ID
-        let videoId = null;
-        const match = videoLink.match(/[?&]v=([^&]+)/);
-        if (match && match[1]) {
-          videoId = match[1];
-        } else {
-          try {
-            const urlObj = new URL(videoLink);
-            const paths = urlObj.pathname.split('/');
-            videoId = paths.pop() || paths.pop();
-          } catch (e) {
-            console.warn('Could not parse video ID from link', videoLink);
-          }
-        }
-        if (!videoId) return;
-
-        const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-
-        setLatestVideo({
-          title: chosen.title || 'Latest Episode',
-          link: videoLink,
-          videoId: videoId,
-          thumbnail: thumbUrl
-        });
-      } catch (e) {
-        console.error('Error in YouTube JSONP callback:', e);
-      }
-    };
-
-    // Load JSONP script
-    const script = document.createElement('script');
-    script.src = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=10&callback=${callbackName}`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup
-      document.head.removeChild(script);
-      // @ts-ignore
-      delete window[callbackName];
-    };
   }, []);
+
+  // Process latest video from feed
+  useEffect(() => {
+    if (!feedItems.length) return;
+
+    // Find first non-short video
+    const latestFullVideo = feedItems.find((item: any) => {
+      const title = (item.title || '').toLowerCase();
+      const link = item.link || '';
+      return !link.includes('/shorts/') && !title.includes('#shorts');
+    });
+
+    if (!latestFullVideo) return;
+
+    const videoLink = latestFullVideo.link || '';
+    let videoId = null;
+    
+    const match = videoLink.match(/[?&]v=([^&]+)/);
+    if (match && match[1]) {
+      videoId = match[1];
+    }
+
+    if (!videoId) return;
+
+    setLatestVideo({
+      title: latestFullVideo.title || 'Latest Episode',
+      link: videoLink,
+      videoId: videoId,
+      thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+    });
+  }, [feedItems]);
 
   return (
     <main className="min-h-screen relative">
@@ -146,7 +103,9 @@ const Watch = () => {
         <div
           className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden"
           style={{
-            backgroundImage: "url('https://img.youtube.com/vi/PEmaNy3nXFY/maxresdefault.jpg')",
+            backgroundImage: latestVideo
+              ? `url('${latestVideo.thumbnail}')`
+              : "url('https://i.ytimg.com/vi/-7-R4fl4ubU/maxresdefault.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
@@ -165,11 +124,11 @@ const Watch = () => {
               </span>
             </h1>
             <p className="text-lg md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg font-medium">
-              Tune in for real conversations about mental health, connection, and authentic human experiences.
+              {latestVideo ? latestVideo.title : "Tune in for real conversations about mental health, connection, and authentic human experiences."}
             </p>
 
             <a
-              href="https://youtu.be/PEmaNy3nXFY"
+              href={latestVideo ? latestVideo.link : "https://www.youtube.com/@winthenight"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 no-underline"

@@ -1,13 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 const YOUTUBE_CHANNEL_ID = "UCuFlxR-Ol8zzda9Z6CJkwkA";
-
-// Add count parameter to get more videos and cache busting
-const getRSSApiUrl = () => {
-  const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`;
-  const cacheBuster = `&_=${Date.now()}`;
-  return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=50${cacheBuster}`;
-};
+const RSS_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
+  `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`
+)}`;
 
 // Fetch with timeout to prevent hanging
 const fetchWithTimeout = async (url: string, timeout = 5000) => {
@@ -15,14 +11,7 @@ const fetchWithTimeout = async (url: string, timeout = 5000) => {
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetch(url, { 
-      signal: controller.signal,
-      cache: 'no-store', // Force fresh data
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache'
-      }
-    });
+    const response = await fetch(url, { signal: controller.signal });
     clearTimeout(timeoutId);
     return response;
   } catch (error) {
@@ -33,25 +22,22 @@ const fetchWithTimeout = async (url: string, timeout = 5000) => {
 
 export const useYouTubeFeed = () => {
   return useQuery({
-    queryKey: ["youtube-feed", Date.now()], // Force new query each time
+    queryKey: ["youtube-feed"],
     queryFn: async () => {
       try {
-        const url = getRSSApiUrl();
-        const response = await fetchWithTimeout(url, 8000);
+        const response = await fetchWithTimeout(RSS_API_URL, 5000);
         const data = await response.json();
-        console.log("YouTube feed fetched:", data.items?.length || 0, "items");
         return data.items || [];
       } catch (error) {
         console.error("Error fetching YouTube feed:", error);
         return [];
       }
     },
-    staleTime: 0, // Always consider stale
-    gcTime: 0, // Don't cache in memory
-    refetchInterval: 30 * 1000, // Auto-refetch every 30 seconds
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
-    retry: 2,
+    staleTime: 1 * 60 * 1000, // Cache for 1 minute
+    refetchInterval: 1 * 60 * 1000, // Auto-refetch every 1 minute
+    refetchOnWindowFocus: true, // Refetch when user returns to tab
+    refetchOnMount: true, // Always refetch on component mount
+    retry: 1,
     retryDelay: 1000,
   });
 };
