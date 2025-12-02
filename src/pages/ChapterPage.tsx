@@ -119,8 +119,22 @@ const ChapterPage = () => {
                 <p className="text-lg text-muted-foreground">Loading episodes...</p>
               </div>
             ) : videos.length === 0 ? (
-              <div className="text-center py-20">
-                <p className="text-lg text-muted-foreground">No episodes found in this chapter.</p>
+              <div className="flex flex-col items-center">
+                <div className="text-center mb-8">
+                  <p className="text-lg text-muted-foreground mb-2">Unable to load individual videos.</p>
+                  <p className="text-sm text-muted-foreground">Watch the full playlist below:</p>
+                </div>
+                <div className="w-full max-w-5xl aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/videoseries?list=${playlist.playlistId}`}
+                    title={playlist.name}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
