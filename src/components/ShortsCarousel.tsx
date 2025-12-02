@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Play } from "lucide-react";
+import { ExternalLink, Play, X } from "lucide-react";
 import { fetchRecentShorts, getFallbackShorts, type YouTubeShort } from "@/lib/youtube";
+import { useYouTubeShorts } from "@/hooks/use-youtube-feed";
 
 const ShortsCarousel = () => {
   const shortsFeedUrl = "https://www.youtube.com/@winthenight/shorts";
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAllShortsDialogOpen, setIsAllShortsDialogOpen] = useState(false);
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
   const [shorts, setShorts] = useState<YouTubeShort[]>([]);
   const [loading, setLoading] = useState(true);
+  const { shortIds, isLoading: isFeedLoading } = useYouTubeShorts();
 
   useEffect(() => {
     const loadShorts = async () => {
@@ -55,19 +58,31 @@ const ShortsCarousel = () => {
             ))}
           </div>
         ) : shorts.length === 1 && shorts[0].id === 'fallback1' ? (
-          // Fallback: Show CTA button if no shorts available
+          // Fallback: Show CTA button - open popup if feed has shorts, otherwise link to YouTube
           <div className="flex justify-center">
-            <a
-              href={shortsFeedUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
-            >
-              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
-                <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
-              </svg>
-              <span>Watch Shorts on YouTube</span>
-            </a>
+            {shortIds.length > 0 ? (
+              <button
+                onClick={() => setIsAllShortsDialogOpen(true)}
+                className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
+              >
+                <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
+                  <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
+                </svg>
+                <span>Watch Shorts</span>
+              </button>
+            ) : (
+              <a
+                href={shortsFeedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
+              >
+                <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
+                  <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
+                </svg>
+                <span>Watch Shorts on YouTube</span>
+              </a>
+            )}
           </div>
         ) : (
           // Show shorts grid
@@ -103,20 +118,18 @@ const ShortsCarousel = () => {
         {/* View All Shorts Button */}
         {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
           <div className="flex justify-center mt-8">
-            <a
-              href={shortsFeedUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setIsAllShortsDialogOpen(true)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
             >
               View All Shorts
-              <ExternalLink className="w-4 h-4" />
-            </a>
+              <Play className="w-4 h-4" />
+            </button>
           </div>
         )}
       </div>
 
-      {/* Dialog for playing short */}
+      {/* Dialog for playing individual short */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-md aspect-[9/16] p-0">
           <DialogHeader className="p-4 pb-0">
@@ -148,6 +161,88 @@ const ShortsCarousel = () => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog for viewing all shorts */}
+      <Dialog open={isAllShortsDialogOpen} onOpenChange={setIsAllShortsDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] p-0">
+          <DialogHeader className="p-6 pb-4 border-b border-border/50">
+            <DialogTitle className="flex items-center justify-between text-xl">
+              <span>All Shorts</span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="gap-2 text-xs h-8"
+                >
+                  <a
+                    href={shortsFeedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Open on YouTube
+                  </a>
+                </Button>
+              </div>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="p-6 overflow-y-auto max-h-[calc(80vh-100px)]">
+            {isFeedLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className="aspect-[9/16] bg-card/50 rounded-lg animate-pulse" />
+                ))}
+              </div>
+            ) : shortIds.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {shortIds.map((shortId) => (
+                  <button
+                    key={shortId}
+                    onClick={() => {
+                      setSelectedShort(shortId);
+                      setIsAllShortsDialogOpen(false);
+                      setIsDialogOpen(true);
+                    }}
+                    className="group relative aspect-[9/16] rounded-lg overflow-hidden bg-card border border-border/50 hover:border-neon-blue/50 transition-all duration-300 hover:scale-105"
+                  >
+                    <img
+                      src={`https://i.ytimg.com/vi/${shortId}/hqdefault.jpg`}
+                      alt="YouTube Short"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Play className="w-6 h-6 text-white fill-white ml-1" />
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground mb-4">No shorts available from the feed.</p>
+                <Button
+                  variant="outline"
+                  asChild
+                >
+                  <a
+                    href={shortsFeedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gap-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    View on YouTube
+                  </a>
+                </Button>
+              </div>
             )}
           </div>
         </DialogContent>
