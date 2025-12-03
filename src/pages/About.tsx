@@ -29,7 +29,10 @@ const About = () => {
             <div className="flex items-center gap-4 mb-6">
               <div className="h-10 w-1.5 bg-neon-blue rounded-full"></div>
               <h1 className="text-4xl md:text-6xl font-extrabold text-foreground">
-                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Win The Night</span>
+                About{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
+                  Win The Night
+                </span>
               </h1>
             </div>
 
@@ -152,9 +155,7 @@ const About = () => {
                 </Card>
                 <Card className="p-8 bg-card/70 backdrop-blur-md border border-neon-blue/30">
                   <h3 className="text-foreground font-bold text-xl mb-2">Josh Lopez</h3>
-                  <p className="text-muted-foreground">
-                    Podcast host offering creative and collaborative insights.
-                  </p>
+                  <p className="text-muted-foreground">Podcast host offering creative and collaborative insights.</p>
                 </Card>
               </div>
 
@@ -181,8 +182,8 @@ const About = () => {
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground">Get a Taste of What We Do</h2>
               </div>
               <p className="text-muted-foreground max-w-3xl">
-                If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation
-                between Josh and his fellow Marine, Cesar.
+                If you get some time to throw this on in the background, it's one of our favorite episodes—a
+                conversation between Josh and his fellow Marine, Cesar.
               </p>
             </div>
 
@@ -223,7 +224,7 @@ const About = () => {
                 size="lg"
                 className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-lg px-8 py-6 h-auto"
               >
-                <a href="/be-our-guest" className="flex items-center gap-2">
+                <a href="/guest" className="flex items-center gap-2">
                   Be Our Guest
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
