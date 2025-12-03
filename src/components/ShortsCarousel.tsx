@@ -168,82 +168,40 @@ const ShortsCarousel = () => {
 
       {/* Dialog for viewing all shorts */}
       <Dialog open={isAllShortsDialogOpen} onOpenChange={setIsAllShortsDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[80vh] p-0">
-          <DialogHeader className="p-6 pb-4 border-b border-border/50">
-            <DialogTitle className="flex items-center justify-between text-xl">
-              <span>All Shorts</span>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="gap-2 text-xs h-8"
-                >
-                  <a
-                    href={shortsPlaylistUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ExternalLink className="w-3 h-3" />
-                    Open Playlist
-                  </a>
-                </Button>
-              </div>
+        <DialogContent className="max-w-md max-h-[90vh] p-0">
+          <DialogHeader className="p-4 pb-3 border-b border-border/50">
+            <DialogTitle className="text-lg text-center">
+              Shorts & Clips
             </DialogTitle>
           </DialogHeader>
-          <div className="p-6 overflow-y-auto max-h-[calc(80vh-100px)]">
-            {isFeedLoading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {[...Array(8)].map((_, i) => (
-                  <div key={i} className="aspect-[9/16] bg-card/50 rounded-lg animate-pulse" />
-                ))}
-              </div>
-            ) : shortIds.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {shortIds.map((shortId) => (
-                  <button
-                    key={shortId}
-                    onClick={() => {
-                      setSelectedShort(shortId);
-                      setIsAllShortsDialogOpen(false);
-                      setIsDialogOpen(true);
-                    }}
-                    className="group relative aspect-[9/16] rounded-lg overflow-hidden bg-card border border-border/50 hover:border-neon-blue/50 transition-all duration-300 hover:scale-105"
-                  >
-                    <img
-                      src={`https://i.ytimg.com/vi/${shortId}/hqdefault.jpg`}
-                      alt="YouTube Short"
-                      className="absolute inset-0 w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Play className="w-6 h-6 text-white fill-white ml-1" />
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">No shorts available from the feed.</p>
-                <Button
-                  variant="outline"
-                  asChild
-                >
-                  <a
-                    href={shortsPlaylistUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gap-2"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    View Playlist
-                  </a>
-                </Button>
-              </div>
-            )}
+          <div className="p-4 flex flex-col items-center gap-4">
+            {/* Embedded YouTube Playlist in 9:16 aspect ratio */}
+            <div className="w-full max-w-sm aspect-[9/16] rounded-lg overflow-hidden border border-border/50">
+              <iframe
+                src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J"
+                className="w-full h-full"
+                title="Shorts & Clips Playlist"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+
+            {/* Open on YouTube Button */}
+            <Button
+              variant="outline"
+              asChild
+              className="w-full max-w-sm"
+            >
+              <a
+                href={shortsPlaylistUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="gap-2"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Watch on YouTube
+              </a>
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
