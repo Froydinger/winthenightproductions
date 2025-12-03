@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { InlineWidget } from "react-calendly";
 
 const BeOurGuest = () => {
@@ -113,6 +114,9 @@ const BeOurGuest = () => {
             </p>
           </div>
         </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </main>
   );

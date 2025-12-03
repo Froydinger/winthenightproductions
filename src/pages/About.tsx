@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Mic, Users, BookOpen, Anchor } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useEffect } from "react";
 
 const About = () => {
@@ -197,7 +198,7 @@ const About = () => {
         </section>
 
         {/* CTA Section */}
-        <footer
+        <section
           className="relative py-16 px-6 border-t border-border/30 bg-gradient-to-b from-background/50 to-background"
           id="community"
         >
@@ -243,7 +244,10 @@ const About = () => {
               </Button>
             </div>
           </div>
-        </footer>
+        </section>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </main>
   );

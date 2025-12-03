@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AlertCircle, ExternalLink } from "lucide-react";
+import Footer from "@/components/Footer";
 
 const Setup = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-      <Card className="max-w-2xl w-full p-8 space-y-6">
+    <div className="min-h-screen flex flex-col bg-background">
+      <div className="flex-1 flex items-center justify-center p-4">
+        <Card className="max-w-2xl w-full p-8 space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">Avatar Storage Setup Required</h1>
           <p className="text-muted-foreground">
@@ -81,6 +83,9 @@ const Setup = () => {
           </p>
         </div>
       </Card>
+      </div>
+
+      <Footer />
     </div>
   );
 };

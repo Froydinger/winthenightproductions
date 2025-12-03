@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const CrisisResources = () => {
   useEffect(() => {
@@ -408,12 +409,7 @@ const CrisisResources = () => {
         </section>
 
         {/* Footer */}
-        <section className="bg-card/60 backdrop-blur-md rounded-2xl p-5 text-center text-muted-foreground shadow-[0_6px_18px_rgba(0,0,0,.22)]" aria-label="Made with love">
-          Made with ❤️ by{" "}
-          <a href="https://froydinger.link" className="text-neon-blue underline hover:text-neon-blue/80 transition-colors">
-            Froydinger
-          </a>.
-        </section>
+        <Footer />
       </div>
     </main>
   );

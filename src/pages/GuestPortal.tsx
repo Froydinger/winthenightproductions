@@ -1,6 +1,7 @@
 import { Mic } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -143,6 +144,10 @@ const GuestPortal = () => {
           </Button>
         </div>
 
+        {/* Footer */}
+        <div className="mt-12">
+          <Footer />
+        </div>
       </div>
     </main>
   );

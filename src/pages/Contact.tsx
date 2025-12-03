@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Mail, Send } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useEffect } from "react";
 
 const Contact = () => {
@@ -83,6 +84,9 @@ const Contact = () => {
             </Card>
           </div>
         </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </main>
   );
