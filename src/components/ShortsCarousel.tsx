@@ -98,9 +98,26 @@ const ShortsCarousel = () => {
           </div>
         )}
 
+        {/* Shorts Playlist Embed */}
+        {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
+          <div className="mt-12 mb-8">
+            <div className="w-full max-w-md mx-auto aspect-[9/16] rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10 bg-card">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J"
+                title="Shorts Playlist"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
+
         {/* View All Shorts Button */}
         {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center">
             <a
               href="/watch/specials"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
