@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Coffee, Heart, Zap, Mic, Users } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useEffect } from "react";
 
 const Support = () => {
@@ -83,11 +84,14 @@ const Support = () => {
             </div>
           </Card>
 
-          {/* Footer Note */}
+          {/* Thank You Note */}
           <p className="text-center text-sm text-muted-foreground">
             💙 Thank you for being part of the Win The Night community! Your support means everything to us.
           </p>
         </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </main>
   );

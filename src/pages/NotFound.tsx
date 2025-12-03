@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Ghost, Sparkles } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const NotFound = () => {
   const location = useLocation();
@@ -124,6 +125,11 @@ const NotFound = () => {
             }}
           />
         ))}
+      </div>
+
+      {/* Footer */}
+      <div className="relative z-10">
+        <Footer />
       </div>
     </div>
   );
