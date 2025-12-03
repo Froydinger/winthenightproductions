@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import Footer from "@/components/Footer";
 
 const Shorts = () => {
   const navigate = useNavigate();
@@ -64,6 +65,9 @@ const Shorts = () => {
             </a>
           </Button>
         </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
