@@ -6,7 +6,7 @@ import { fetchRecentShorts, getFallbackShorts, type YouTubeShort } from "@/lib/y
 import { useYouTubeShorts } from "@/hooks/use-youtube-feed";
 
 const ShortsCarousel = () => {
-  const shortsFeedUrl = "https://www.youtube.com/@winthenight/shorts";
+  const shortsPlaylistUrl = "https://www.youtube.com/playlist?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J";
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAllShortsDialogOpen, setIsAllShortsDialogOpen] = useState(false);
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
@@ -72,7 +72,7 @@ const ShortsCarousel = () => {
               </button>
             ) : (
               <a
-                href={shortsFeedUrl}
+                href={shortsPlaylistUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
@@ -80,7 +80,7 @@ const ShortsCarousel = () => {
                 <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
                   <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
                 </svg>
-                <span>Watch Shorts on YouTube</span>
+                <span>Watch Shorts & Clips</span>
               </a>
             )}
           </div>
@@ -142,7 +142,7 @@ const ShortsCarousel = () => {
                 className="gap-2 text-xs h-8"
               >
                 <a
-                  href={selectedShort ? `https://www.youtube.com/shorts/${selectedShort}` : shortsFeedUrl}
+                  href={selectedShort ? `https://www.youtube.com/shorts/${selectedShort}` : shortsPlaylistUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -180,12 +180,12 @@ const ShortsCarousel = () => {
                   className="gap-2 text-xs h-8"
                 >
                   <a
-                    href={shortsFeedUrl}
+                    href={shortsPlaylistUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="w-3 h-3" />
-                    Open on YouTube
+                    Open Playlist
                   </a>
                 </Button>
               </div>
@@ -233,13 +233,13 @@ const ShortsCarousel = () => {
                   asChild
                 >
                   <a
-                    href={shortsFeedUrl}
+                    href={shortsPlaylistUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="gap-2"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    View on YouTube
+                    View Playlist
                   </a>
                 </Button>
               </div>
