@@ -1,15 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const BuyMeACoffeeWidget = () => {
+  const scriptLoadedRef = useRef(false);
+
   useEffect(() => {
+    // Prevent double loading in React Strict Mode
+    if (scriptLoadedRef.current) {
+      console.log("BMC widget already initialized");
+      return;
+    }
+
+    // Check if script already exists in DOM
+    const existingScript = document.querySelector('script[data-name="BMC-Widget"]');
+    if (existingScript) {
+      console.log("BMC widget script already exists in DOM");
+      scriptLoadedRef.current = true;
+      return;
+    }
+
     // Small delay to ensure DOM is ready
     const timer = setTimeout(() => {
-      // Check if script already exists
-      if (document.querySelector('script[data-name="BMC-Widget"]')) {
-        console.log("BMC widget script already exists");
-        return;
-      }
-
       console.log("Loading BMC widget...");
       const script = document.createElement("script");
       script.setAttribute("data-name", "BMC-Widget");
@@ -26,27 +36,20 @@ const BuyMeACoffeeWidget = () => {
 
       script.onload = () => {
         console.log("BMC widget script loaded successfully");
+        scriptLoadedRef.current = true;
       };
 
-      script.onerror = () => {
-        console.error("Failed to load BMC widget script");
+      script.onerror = (error) => {
+        console.error("Failed to load BMC widget script:", error);
       };
 
       document.body.appendChild(script);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timer);
-      // Cleanup on unmount
-      const existingScript = document.querySelector('script[data-name="BMC-Widget"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-      // Remove the widget container
-      const widget = document.getElementById("bmc-wbtn");
-      if (widget) {
-        widget.remove();
-      }
+      // Don't cleanup the widget - let it persist across route changes
+      // Only cleanup if component is truly being destroyed (app unmount)
     };
   }, []);
 

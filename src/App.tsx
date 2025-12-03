@@ -2,14 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import BuyMeACoffeeWidget from "./components/BuyMeACoffeeWidget";
 
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BeOurGuest = lazy(() => import("./pages/BeOurGuest"));
-const GuestPortal = lazy(() => import("./pages/GuestPortal"));
 const Support = lazy(() => import("./pages/Support"));
 const CrisisResources = lazy(() => import("./pages/CrisisResources"));
 const Watch = lazy(() => import("./pages/Watch"));
@@ -44,7 +43,9 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/guest" element={<BeOurGuest />} />
-            <Route path="/be-ourguest" element={<GuestPortal />} />
+            {/* Redirect old guest routes to /guest */}
+            <Route path="/be-our-guest" element={<Navigate to="/guest" replace />} />
+            <Route path="/be-ourguest" element={<Navigate to="/guest" replace />} />
             <Route path="/support" element={<Support />} />
             <Route path="/crisis-resources" element={<CrisisResources />} />
             <Route path="/watch" element={<Watch />} />
