@@ -48,25 +48,15 @@ const ShortsCarousel = () => {
           Fast moments from the show. Watch our latest shorts below.
         </p>
 
-        {loading ? (
+{loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="aspect-[9/16] bg-card/50 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : shorts.length === 1 && shorts[0].id === 'fallback1' ? (
-          // Fallback: Show CTA button to shorts page
-          <div className="flex justify-center">
-            <a
-              href="/watch/specials"
-              className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
-            >
-              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
-                <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
-              </svg>
-              <span>Watch Shorts & Short Films</span>
-            </a>
-          </div>
+          // Fallback: Just show the playlist embed
+          null
         ) : (
           // Show shorts grid
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -98,10 +88,10 @@ const ShortsCarousel = () => {
           </div>
         )}
 
-        {/* Shorts Playlist Embed */}
-        {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
-          <div className="mt-12 mb-8">
-            <div className="w-full max-w-md mx-auto aspect-[9/16] rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10 bg-card">
+        {/* Shorts Playlist Embed - Always show */}
+        {!loading && (
+          <div className="mt-10 mb-8">
+            <div className="w-full max-w-xs mx-auto aspect-[9/16] rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10 bg-card">
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J"
@@ -116,7 +106,7 @@ const ShortsCarousel = () => {
         )}
 
         {/* View All Shorts Button */}
-        {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
+        {!loading && (
           <div className="flex justify-center">
             <a
               href="/watch/specials"
