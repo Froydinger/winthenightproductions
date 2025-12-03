@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, Shield, LogIn, LogOut, Settings } from "lucide-react";
+import { Menu, Shield, LogIn, LogOut, Settings, Home, PlayCircle, Users, UserPlus, Info, Mail, Heart, LifeBuoy } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -84,14 +84,14 @@ const Header = () => {
 
   // Organize menu items by type
   const pageLinks = [
-    { label: "Home", href: "/" },
-    { label: "Watch", href: "/watch" },
-    { label: "Updates", href: "/updates" },
-    { label: "Be Our Guest", href: "/be-our-guest" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
-    { label: "Support Us", href: "/support" },
-    { label: "Crisis Resources", href: "/crisis-resources" },
+    { label: "Home", href: "/", icon: Home },
+    { label: "Watch", href: "/watch", icon: PlayCircle },
+    { label: "Community", href: "/updates", icon: Users },
+    { label: "Be Our Guest", href: "/be-our-guest", icon: UserPlus },
+    { label: "About", href: "/about", icon: Info },
+    { label: "Contact", href: "/contact", icon: Mail },
+    { label: "Support Us", href: "/support", icon: Heart },
+    { label: "Crisis Resources", href: "/crisis-resources", icon: LifeBuoy },
   ];
 
   const sectionAnchors = [
@@ -154,16 +154,20 @@ const Header = () => {
                       Pages
                     </h3>
                     <div className="flex flex-col gap-1">
-                      {pageLinks.map((item) => (
-                        <a
-                          key={item.label}
-                          href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium"
-                        >
-                          {item.label}
-                        </a>
-                      ))}
+                      {pageLinks.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            onClick={() => setIsOpen(false)}
+                            className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium flex items-center gap-3"
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.label}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
 
