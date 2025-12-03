@@ -1,18 +1,15 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Play, X } from "lucide-react";
+import { ExternalLink, Play } from "lucide-react";
 import { fetchRecentShorts, getFallbackShorts, type YouTubeShort } from "@/lib/youtube";
-import { useYouTubeShorts } from "@/hooks/use-youtube-feed";
 
 const ShortsCarousel = () => {
   const shortsPlaylistUrl = "https://www.youtube.com/playlist?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J";
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isAllShortsDialogOpen, setIsAllShortsDialogOpen] = useState(false);
   const [selectedShort, setSelectedShort] = useState<string | null>(null);
   const [shorts, setShorts] = useState<YouTubeShort[]>([]);
   const [loading, setLoading] = useState(true);
-  const { shortIds, isLoading: isFeedLoading } = useYouTubeShorts();
 
   useEffect(() => {
     const loadShorts = async () => {
@@ -58,31 +55,17 @@ const ShortsCarousel = () => {
             ))}
           </div>
         ) : shorts.length === 1 && shorts[0].id === 'fallback1' ? (
-          // Fallback: Show CTA button - open popup if feed has shorts, otherwise link to YouTube
+          // Fallback: Show CTA button to shorts page
           <div className="flex justify-center">
-            {shortIds.length > 0 ? (
-              <button
-                onClick={() => setIsAllShortsDialogOpen(true)}
-                className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
-              >
-                <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
-                  <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
-                </svg>
-                <span>Watch Shorts</span>
-              </button>
-            ) : (
-              <a
-                href={shortsPlaylistUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
-              >
-                <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
-                  <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
-                </svg>
-                <span>Watch Shorts & Clips</span>
-              </a>
-            )}
+            <a
+              href="/shorts"
+              className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
+            >
+              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
+                <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
+              </svg>
+              <span>Watch Shorts & Clips</span>
+            </a>
           </div>
         ) : (
           // Show shorts grid
@@ -118,13 +101,13 @@ const ShortsCarousel = () => {
         {/* View All Shorts Button */}
         {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
           <div className="flex justify-center mt-8">
-            <button
-              onClick={() => setIsAllShortsDialogOpen(true)}
+            <a
+              href="/shorts"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
             >
               View All Shorts
               <Play className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         )}
       </div>
@@ -162,46 +145,6 @@ const ShortsCarousel = () => {
                 allowFullScreen
               />
             )}
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog for viewing all shorts */}
-      <Dialog open={isAllShortsDialogOpen} onOpenChange={setIsAllShortsDialogOpen}>
-        <DialogContent className="max-w-md max-h-[90vh] p-0">
-          <DialogHeader className="p-4 pb-3 border-b border-border/50">
-            <DialogTitle className="text-lg text-center">
-              Shorts & Clips
-            </DialogTitle>
-          </DialogHeader>
-          <div className="p-4 flex flex-col items-center gap-4">
-            {/* Embedded YouTube Playlist in 9:16 aspect ratio */}
-            <div className="w-full max-w-sm aspect-[9/16] rounded-lg overflow-hidden border border-border/50">
-              <iframe
-                src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J"
-                className="w-full h-full"
-                title="Shorts & Clips Playlist"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-
-            {/* Open on YouTube Button */}
-            <Button
-              variant="outline"
-              asChild
-              className="w-full max-w-sm"
-            >
-              <a
-                href={shortsPlaylistUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="gap-2"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Watch on YouTube
-              </a>
-            </Button>
           </div>
         </DialogContent>
       </Dialog>
