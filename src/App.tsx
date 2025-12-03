@@ -13,7 +13,6 @@ const Support = lazy(() => import("./pages/Support"));
 const CrisisResources = lazy(() => import("./pages/CrisisResources"));
 const Watch = lazy(() => import("./pages/Watch"));
 const ChapterPage = lazy(() => import("./pages/ChapterPage"));
-const Shorts = lazy(() => import("./pages/Shorts"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Contact = lazy(() => import("./pages/Contact"));
 const About = lazy(() => import("./pages/About"));
@@ -49,7 +48,6 @@ const App = () => (
             <Route path="/crisis-resources" element={<CrisisResources />} />
             <Route path="/watch" element={<Watch />} />
             <Route path="/watch/:chapterId" element={<ChapterPage />} />
-            <Route path="/shorts" element={<Shorts />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />

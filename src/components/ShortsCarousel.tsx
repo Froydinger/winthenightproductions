@@ -58,13 +58,13 @@ const ShortsCarousel = () => {
           // Fallback: Show CTA button to shorts page
           <div className="flex justify-center">
             <a
-              href="/shorts"
+              href="/watch/specials"
               className="inline-flex items-center gap-4 px-10 py-4 rounded-full font-semibold text-base bg-[#FF0000] text-white shadow-2xl shadow-black/40 hover:shadow-black/60 transition-transform hover:-translate-y-0.5"
             >
               <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" aria-hidden="true">
                 <path fill="currentColor" d="M10 8.5v7l5.5-3.5L10 8.5z" />
               </svg>
-              <span>Watch Shorts & Clips</span>
+              <span>Watch Shorts & Short Films</span>
             </a>
           </div>
         ) : (
@@ -102,10 +102,10 @@ const ShortsCarousel = () => {
         {shorts.length > 0 && shorts[0].id !== 'fallback1' && (
           <div className="flex justify-center mt-8">
             <a
-              href="/shorts"
+              href="/watch/specials"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
             >
-              View All Shorts
+              View All Shorts & Short Films
               <Play className="w-4 h-4" />
             </a>
           </div>

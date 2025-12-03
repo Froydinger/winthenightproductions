@@ -20,7 +20,7 @@ const playlists: Playlist[] = [
   { id: "chapter-3", name: "Chapter 3", playlistId: "PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS" },
   { id: "chapter-2", name: "Chapter 2", playlistId: "PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX" },
   { id: "chapter-1", name: "Chapter 1", playlistId: "PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl" },
-  { id: "specials", name: "Specials & Clips", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
+  { id: "specials", name: "Shorts & Short Films", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
 ];
 
 const Watch = () => {
