@@ -162,7 +162,7 @@ const About = () => {
               <Card className="relative p-8 bg-gradient-to-r from-neon-blue/10 to-blue-900/10 border-l-4 border-neon-blue">
                 <Anchor className="absolute top-6 right-6 w-8 h-8 text-muted-foreground/30" />
                 <blockquote className="text-xl text-foreground italic font-medium">
-                  "If this were a boat, Josh would be the captain, and Jake the trusted Pilot."
+                  "If this were a boat, Josh would be the captain, and Jake the trusted Navigator."
                 </blockquote>
               </Card>
 
