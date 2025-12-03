@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Ensure only one instance of React is used
+      "react": path.resolve(__dirname, "./node_modules/react"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
     },
   },
   build: {
@@ -49,6 +52,7 @@ export default defineConfig(({ mode }) => ({
       'react-dom',
       'react-router-dom',
       '@tanstack/react-query',
+      '@radix-ui/react-tooltip',
     ],
   },
 }));
