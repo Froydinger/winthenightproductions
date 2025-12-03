@@ -90,9 +90,7 @@ const Contact = () => {
             <div className="flex items-center justify-center gap-3 mb-4">
               <Mail className="w-12 h-12 text-neon-blue animate-pulse" />
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-              Get in Touch
-            </h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">Get in Touch</h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Have a question, story to share, or just want to say hi? We'd love to hear from you!
             </p>
@@ -116,7 +114,9 @@ const Contact = () => {
               {/* Contact Form */}
               <form onSubmit={handleSubmit} className="space-y-6 pt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-foreground">Name</Label>
+                  <Label htmlFor="name" className="text-foreground">
+                    Name
+                  </Label>
                   <Input
                     id="name"
                     placeholder="Your name"
@@ -129,7 +129,9 @@ const Contact = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-foreground">Email</Label>
+                  <Label htmlFor="email" className="text-foreground">
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     type="email"
@@ -143,7 +145,9 @@ const Contact = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message" className="text-foreground">Message</Label>
+                  <Label htmlFor="message" className="text-foreground">
+                    Message
+                  </Label>
                   <Textarea
                     id="message"
                     placeholder="Your message..."
@@ -154,9 +158,7 @@ const Contact = () => {
                     className="min-h-[150px] bg-background/50 border-neon-blue/30 focus:border-neon-blue"
                     required
                   />
-                  <p className="text-xs text-muted-foreground text-right">
-                    {message.length}/1000
-                  </p>
+                  <p className="text-xs text-muted-foreground text-right">{message.length}/1000</p>
                 </div>
                 <Button
                   type="submit"
@@ -180,19 +182,14 @@ const Contact = () => {
 
               {/* Email Backup */}
               <div className="pt-6 border-t border-neon-blue/20 text-center space-y-3">
-                <p className="text-sm text-muted-foreground">
-                  Prefer to email directly?
-                </p>
+                <p className="text-sm text-muted-foreground">Prefer to email directly?</p>
                 <Button
                   asChild
                   variant="outline"
                   size="lg"
                   className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300"
                 >
-                  <a
-                    href="mailto:contact@winthenight.org"
-                    className="flex items-center gap-2"
-                  >
+                  <a href="mailto:contact@winthenight.org" className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
                     contact@winthenight.org
                   </a>
@@ -206,13 +203,18 @@ const Contact = () => {
             <Card className="p-6 bg-card/60 backdrop-blur-md border border-neon-blue/30">
               <h3 className="text-xl font-bold text-foreground mb-3">Response Time</h3>
               <p className="text-muted-foreground">
-                We typically respond within 48 hours. If you haven't heard from us, check your spam folder or reach out again!
+                We typically respond within 48 hours. If you haven't heard from us, check your spam folder or reach out
+                again!
               </p>
             </Card>
             <Card className="p-6 bg-card/60 backdrop-blur-md border border-neon-blue/30">
               <h3 className="text-xl font-bold text-foreground mb-3">Be Our Guest</h3>
               <p className="text-muted-foreground">
-                Interested in sharing your story on the podcast? <a href="/be-our-guest" className="text-neon-blue hover:underline">Visit our guest page</a> for more details!
+                Interested in sharing your story on the podcast?{" "}
+                <a href="/guest" className="text-neon-blue hover:underline">
+                  Visit our guest page
+                </a>{" "}
+                for more details!
               </p>
             </Card>
           </div>
