@@ -120,16 +120,14 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     if (session?.user && !isAnonymous) {
       const { data: profile } = await supabase
         .from("user_profiles")
-        .select("display_name")
+        .select("display_name, avatar_url")
         .eq("user_id", session.user.id)
         .single();
 
       if (profile) {
         displayName = profile.display_name;
+        avatarUrl = profile.avatar_url;
       }
-
-      // Use avatar utility to get logo for j@froydinger.com, null for others
-      avatarUrl = getAvatarUrlSync(session.user.email);
     }
 
     await supabase.from("post_replies").insert({
@@ -248,10 +246,8 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     console.log('Is link URL:', isLinkUrl);
   }
 
-  // Use logo for admin account (j@froydinger.com shows as "Jake The Producer")
-  // Check if this is likely the admin by display name and has a user_id
-  const isAdminPost = post.user_id && (post.display_name === "Jake The Producer" || post.display_name === "j");
-  const displayAvatarUrl = isAdminPost ? getAvatarUrlSync("j@froydinger.com") : post.avatar_url;
+  // Use the avatar_url from the post (already set when post was created)
+  const displayAvatarUrl = post.avatar_url;
 
   return (
     <Card className="bg-card/80 backdrop-blur-lg p-4 sm:p-6 border-border">
@@ -397,9 +393,8 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
       {showReplies && (
         <div className="mt-4 space-y-4 pt-4 border-t border-border">
           {replies.map((reply) => {
-            // Use logo for admin account replies
-            const isAdminReply = reply.user_id && (reply.display_name === "Jake The Producer" || reply.display_name === "j");
-            const replyAvatarUrl = isAdminReply ? getAvatarUrlSync("j@froydinger.com") : reply.avatar_url;
+            // Use the avatar_url from the reply (already set when reply was created)
+            const replyAvatarUrl = reply.avatar_url;
 
             return (
             <div key={reply.id} className="flex gap-3">

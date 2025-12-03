@@ -24,7 +24,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   const [content, setContent] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [userProfile, setUserProfile] = useState<{ display_name: string } | null>(null);
+  const [userProfile, setUserProfile] = useState<{ display_name: string; avatar_url: string | null } | null>(null);
   const [selectedMedia, setSelectedMedia] = useState<{ url: string; type: 'image' | 'video' | 'gif' } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,7 +33,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
 
     const { data } = await supabase
       .from("user_profiles")
-      .select("display_name")
+      .select("display_name, avatar_url")
       .eq("user_id", session.user.id)
       .single();
 
@@ -46,7 +46,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     }
   }, [session?.user?.id]);
 
-  const avatarUrl = session?.user ? getAvatarUrlSync(session.user.email) : null;
+  const avatarUrl = userProfile?.avatar_url || null;
 
   const handleMediaSelect = (url: string, type: 'image' | 'video' | 'gif') => {
     setSelectedMedia({ url, type });
@@ -76,18 +76,17 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
     if (session?.user && !isAnonymous) {
       const { data: profile } = await supabase
         .from("user_profiles")
-        .select("display_name")
+        .select("display_name, avatar_url")
         .eq("user_id", session.user.id)
         .single();
 
       if (profile) {
         displayName = profile.display_name;
+        avatarUrl = profile.avatar_url;
       } else {
         displayName = session.user.email?.split("@")[0] || "User";
       }
 
-      // Use avatar utility to get logo for j@froydinger.com, null for others
-      avatarUrl = getAvatarUrlSync(session.user.email);
       userId = session.user.id;
     }
 
