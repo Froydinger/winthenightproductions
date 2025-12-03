@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 interface Playlist {
   id: string;
@@ -109,6 +110,9 @@ const ChapterPage = () => {
             </div>
           </div>
         </section>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </main>
   );
