@@ -1,11 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+
+// Module-level variable to track if script has been loaded
+let scriptLoaded = false;
 
 const BuyMeACoffeeWidget = () => {
-  const scriptLoadedRef = useRef(false);
-
   useEffect(() => {
-    // Prevent double loading in React Strict Mode
-    if (scriptLoadedRef.current) {
+    // Prevent double loading
+    if (scriptLoaded) {
       console.log("BMC widget already initialized");
       return;
     }
@@ -14,7 +15,7 @@ const BuyMeACoffeeWidget = () => {
     const existingScript = document.querySelector('script[data-name="BMC-Widget"]');
     if (existingScript) {
       console.log("BMC widget script already exists in DOM");
-      scriptLoadedRef.current = true;
+      scriptLoaded = true;
       return;
     }
 
@@ -36,7 +37,7 @@ const BuyMeACoffeeWidget = () => {
 
       script.onload = () => {
         console.log("BMC widget script loaded successfully");
-        scriptLoadedRef.current = true;
+        scriptLoaded = true;
       };
 
       script.onerror = (error) => {
@@ -49,7 +50,6 @@ const BuyMeACoffeeWidget = () => {
     return () => {
       clearTimeout(timer);
       // Don't cleanup the widget - let it persist across route changes
-      // Only cleanup if component is truly being destroyed (app unmount)
     };
   }, []);
 
