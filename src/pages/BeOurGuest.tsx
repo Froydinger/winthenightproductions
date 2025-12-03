@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Calendar, Mic, Heart, Video, Shield } from "lucide-react";
+import { Calendar, Mic, Heart, Video, Shield, Users } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -27,9 +27,9 @@ const BeOurGuest = () => {
         <section className="relative py-20 px-6 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
-              <div className="h-10 w-1.5 bg-neon-blue rounded-full"></div>
+              <div className="h-10 w-1.5 bg-primary rounded-full"></div>
               <h1 className="text-4xl md:text-6xl font-extrabold text-foreground">
-                Be Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Guest</span>
+                Be Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Guest</span>
               </h1>
             </div>
 
@@ -46,25 +46,25 @@ const BeOurGuest = () => {
               {/* What We're Looking For */}
               <div>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+                  <div className="h-8 w-1 bg-primary rounded-full"></div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground">What We're Looking For</h2>
                 </div>
-                <Card className="p-8 bg-card/70 backdrop-blur-md border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300">
+                <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-primary/30 hover:border-primary/50 transition-all duration-300">
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">Mental health professionals and advocates</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">People with unique healing journeys</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">Authors, artists, and content creators</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">Anyone with a story that needs to be heard</span>
                     </li>
                   </ul>
@@ -77,22 +77,22 @@ const BeOurGuest = () => {
                   <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground">What to Expect</h2>
                 </div>
-                <Card className="p-8 bg-card/70 backdrop-blur-md border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300">
+                <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-primary/30 hover:border-primary/50 transition-all duration-300">
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">Authentic, unscripted conversations</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">A safe space to share your truth</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">Flexible recording options (in-person or virtual over Google Meet)</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-neon-blue mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                       <span className="text-muted-foreground">Supportive, judgment-free environment</span>
                     </li>
                   </ul>
@@ -106,38 +106,38 @@ const BeOurGuest = () => {
         <section className="relative pb-12 px-6 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-              <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+              <div className="h-8 w-1 bg-primary rounded-full"></div>
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">Why Join Us</h2>
             </div>
 
             <div className="grid md:grid-cols-4 gap-6">
-              <Card className="p-6 bg-card/70 backdrop-blur-md border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300 group">
-                <div className="w-12 h-12 bg-neon-blue/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
-                  <Mic className="w-6 h-6 text-neon-blue" />
+              <Card className="p-6 bg-card/70 backdrop-blur-md border border-primary/30 hover:border-primary/50 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-primary/30">
+                  <Mic className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">Share Your Voice</h3>
                 <p className="text-sm text-muted-foreground">Your story can help others feel less alone</p>
               </Card>
 
-              <Card className="p-6 bg-card/70 backdrop-blur-md border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300 group">
-                <div className="w-12 h-12 bg-neon-blue/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
-                  <Heart className="w-6 h-6 text-neon-blue" />
+              <Card className="p-6 bg-card/70 backdrop-blur-md border border-primary/30 hover:border-primary/50 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-primary/30">
+                  <Heart className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">Make an Impact</h3>
                 <p className="text-sm text-muted-foreground">Inspire our community with your journey</p>
               </Card>
 
-              <Card className="p-6 bg-card/70 backdrop-blur-md border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300 group">
-                <div className="w-12 h-12 bg-neon-blue/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
-                  <Video className="w-6 h-6 text-neon-blue" />
+              <Card className="p-6 bg-card/70 backdrop-blur-md border border-primary/30 hover:border-primary/50 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-primary/30">
+                  <Video className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">Easy Process</h3>
                 <p className="text-sm text-muted-foreground">Simple setup with flexible recording options</p>
               </Card>
 
-              <Card className="p-6 bg-card/70 backdrop-blur-md border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300 group">
-                <div className="w-12 h-12 bg-neon-blue/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
-                  <Shield className="w-6 h-6 text-neon-blue" />
+              <Card className="p-6 bg-card/70 backdrop-blur-md border border-primary/30 hover:border-primary/50 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-primary/30">
+                  <Shield className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">Safe Space</h3>
                 <p className="text-sm text-muted-foreground">Respectful and supportive environment</p>
@@ -159,9 +159,9 @@ const BeOurGuest = () => {
               </p>
             </div>
 
-            <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-neon-blue/40">
+            <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-primary/40">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <Calendar className="w-10 h-10 text-neon-blue" />
+                <Calendar className="w-10 h-10 text-primary" />
               </div>
 
               <div className="calendly-container w-full">
@@ -176,7 +176,7 @@ const BeOurGuest = () => {
                     backgroundColor: '0a0a0a',
                     hideEventTypeDetails: false,
                     hideLandingPageDetails: false,
-                    primaryColor: '00d4ff',
+                    primaryColor: '5dccff',
                     textColor: 'ffffff'
                   }}
                 />

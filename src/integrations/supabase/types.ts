@@ -92,6 +92,8 @@ export type Database = {
           display_name: string
           id: string
           is_anonymous: boolean
+          media_type: string | null
+          media_url: string | null
           updated_at: string
           user_id: string | null
           youtube_url: string | null
@@ -103,6 +105,8 @@ export type Database = {
           display_name: string
           id?: string
           is_anonymous?: boolean
+          media_type?: string | null
+          media_url?: string | null
           updated_at?: string
           user_id?: string | null
           youtube_url?: string | null
@@ -114,6 +118,8 @@ export type Database = {
           display_name?: string
           id?: string
           is_anonymous?: boolean
+          media_type?: string | null
+          media_url?: string | null
           updated_at?: string
           user_id?: string | null
           youtube_url?: string | null
