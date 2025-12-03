@@ -28,7 +28,7 @@ const HeroSection = () => {
               alt="Win The Night"
               onLoad={() => setLogoLoaded(true)}
               loading="eager"
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="async"
               width="224"
               height="224"

@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { getAvatarUrlSync } from "@/lib/avatar-utils";
 import { normalizeUrl } from "@/lib/url-utils";
+import MediaUpload from "./MediaUpload";
 
 interface CreatePostProps {
   session: Session | null;
@@ -24,6 +25,8 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [userProfile, setUserProfile] = useState<{ display_name: string } | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<{ url: string; type: 'image' | 'video' | 'gif' } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchProfile = async () => {
     if (!session?.user) return;
@@ -45,17 +48,26 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
 
   const avatarUrl = session?.user ? getAvatarUrlSync(session.user.email) : null;
 
+  const handleMediaSelect = (url: string, type: 'image' | 'video' | 'gif') => {
+    setSelectedMedia({ url, type });
+  };
+
+  const handleMediaClear = () => {
+    setSelectedMedia(null);
+  };
+
   const handleSubmit = async () => {
-    if (!content.trim()) {
-      toast.error("Please write something");
+    if (!content.trim() && !selectedMedia) {
+      toast.error("Please write something or add media");
       return;
     }
 
-    // Only admins can post non-anonymously without signing in
     if (!session && !isAdmin) {
       toast.error("Please sign in to post");
       return;
     }
+
+    setIsSubmitting(true);
 
     let displayName = "Anonymous";
     let avatarUrl = null;
@@ -79,7 +91,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
       userId = session.user.id;
     }
 
-    // Normalize URL (add https:// if missing)
     const normalizedUrl = youtubeUrl ? normalizeUrl(youtubeUrl) : null;
 
     const { error } = await supabase.from("posts").insert({
@@ -89,24 +100,30 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
       content,
       youtube_url: normalizedUrl,
       is_anonymous: isAnonymous,
+      media_url: selectedMedia?.url || null,
+      media_type: selectedMedia?.type || null,
     });
 
     if (error) {
+      console.error("Post error:", error);
       toast.error("Failed to create post");
+      setIsSubmitting(false);
       return;
     }
 
     setContent("");
     setYoutubeUrl("");
     setIsAnonymous(false);
+    setSelectedMedia(null);
     toast.success("Post created!");
     onPostCreated();
+    setIsSubmitting(false);
   };
 
   return (
-    <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6">
+    <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300">
       <div className="flex items-start gap-3 sm:gap-4">
-        <Avatar className="shrink-0">
+        <Avatar className="shrink-0 ring-2 ring-primary/30">
           <AvatarImage src={!isAnonymous && avatarUrl ? avatarUrl : undefined} />
           <AvatarFallback className="bg-primary/20 text-primary">
             {isAnonymous ? "?" : userProfile?.display_name?.[0]?.toUpperCase() || "U"}
@@ -117,8 +134,20 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             placeholder="Share an update..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-[100px] bg-background/50 resize-none w-full"
+            className="min-h-[100px] bg-background/50 resize-none w-full border-primary/20 focus:border-primary transition-colors"
           />
+
+          {/* Media Upload Section */}
+          {session && (
+            <MediaUpload
+              userId={session.user.id}
+              onMediaSelect={handleMediaSelect}
+              onMediaClear={handleMediaClear}
+              selectedMedia={selectedMedia}
+              disabled={isSubmitting}
+            />
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="link-url" className="text-sm text-muted-foreground">
               Add a link (optional)
@@ -148,16 +177,24 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
             </div>
             {!session ? (
               <div className="flex gap-2 flex-wrap sm:flex-nowrap">
-                <Button variant="outline" onClick={onSignInClick} className="flex-1 sm:flex-none">
+                <Button variant="outline" onClick={onSignInClick} className="flex-1 sm:flex-none border-primary/30 hover:border-primary">
                   Sign In
                 </Button>
-                <Button onClick={handleSubmit} disabled={!content.trim()} className="flex-1 sm:flex-none">
+                <Button 
+                  onClick={handleSubmit} 
+                  disabled={!content.trim() || isSubmitting} 
+                  className="flex-1 sm:flex-none bg-primary text-primary-foreground hover:bg-primary/90"
+                >
                   Post Anonymously
                 </Button>
               </div>
             ) : (
-              <Button onClick={handleSubmit} disabled={!content.trim()} className="w-full sm:w-auto">
-                Post
+              <Button 
+                onClick={handleSubmit} 
+                disabled={(!content.trim() && !selectedMedia) || isSubmitting} 
+                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20"
+              >
+                {isSubmitting ? "Posting..." : "Post"}
               </Button>
             )}
           </div>
