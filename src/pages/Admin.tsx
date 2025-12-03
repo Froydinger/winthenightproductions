@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Header from "@/components/Header";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -207,6 +208,11 @@ const Admin = () => {
           >
             ← Back to Watch Page
           </Button>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-12">
+          <Footer />
         </div>
       </div>
     </main>
