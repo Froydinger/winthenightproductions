@@ -14,7 +14,7 @@ const BuyMeACoffeeWidget = () => {
     script.setAttribute("data-id", "winthenight");
     script.setAttribute("data-description", "Support me on Buy me a coffee!");
     script.setAttribute("data-message", "Thank you for supporting Win The Night™!");
-    script.setAttribute("data-color", "#5DCCFF"); // Neon blue to match theme
+    script.setAttribute("data-color", "#5F7FFF"); // Neon blue to match theme
     script.setAttribute("data-position", "Right");
     script.setAttribute("data-x_margin", "18");
     script.setAttribute("data-y_margin", "18");
