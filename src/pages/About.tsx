@@ -183,7 +183,7 @@ const About = () => {
               </div>
               <p className="text-muted-foreground max-w-3xl">
                 If you get some time to throw this on in the background, it's one of our favorite episodes—a
-                conversation between Josh and his fellow Marine, Cesar.
+                conversation between Josh and his friend, Brandon.
               </p>
             </div>
 
