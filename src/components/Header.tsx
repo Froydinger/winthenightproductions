@@ -1,5 +1,19 @@
 import { useState, useEffect } from "react";
-import { Menu, Shield, LogIn, LogOut, Settings, Home, PlayCircle, Users, UserPlus, Info, Mail, Heart, LifeBuoy } from "lucide-react";
+import {
+  Menu,
+  Shield,
+  LogIn,
+  LogOut,
+  Settings,
+  Home,
+  PlayCircle,
+  Users,
+  UserPlus,
+  Info,
+  Mail,
+  Heart,
+  LifeBuoy,
+} from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,7 +30,7 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,7 +101,7 @@ const Header = () => {
     { label: "Home", href: "/", icon: Home },
     { label: "Watch", href: "/watch", icon: PlayCircle },
     { label: "Community", href: "/updates", icon: Users },
-    { label: "Be Our Guest", href: "/be-our-guest", icon: UserPlus },
+    { label: "Be Our Guest", href: "/guest", icon: UserPlus },
     { label: "About", href: "/about", icon: Info },
     { label: "Contact", href: "/contact", icon: Mail },
     { label: "Support Us", href: "/support", icon: Heart },
@@ -107,9 +121,7 @@ const Header = () => {
         <a
           href="/"
           className={`flex items-center group py-2 transition-all duration-500 ${
-            logoVisible
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-full opacity-0 pointer-events-none"
+            logoVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
           }`}
         >
           <img
@@ -131,133 +143,123 @@ const Header = () => {
               <Menu className="w-5 h-5 text-white" strokeWidth={1.5} />
             </button>
           </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30"
-            >
-              <div className="flex flex-col gap-6 mt-8">
-                <div className="flex items-center gap-3 pb-4 border-b border-neon-blue/20">
-                  <img
-                    src={logo}
-                    alt="Win The Night"
-                    className="h-12 w-12 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.6)]"
-                  />
-                  <span className="text-xl font-bold text-foreground">
-                    Win The Night™
-                  </span>
+          <SheetContent
+            side="right"
+            className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30"
+          >
+            <div className="flex flex-col gap-6 mt-8">
+              <div className="flex items-center gap-3 pb-4 border-b border-neon-blue/20">
+                <img
+                  src={logo}
+                  alt="Win The Night"
+                  className="h-12 w-12 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.6)]"
+                />
+                <span className="text-xl font-bold text-foreground">Win The Night™</span>
+              </div>
+
+              <nav className="flex flex-col gap-4">
+                {/* Page Links Section */}
+                <div>
+                  <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">Pages</h3>
+                  <div className="flex flex-col gap-1">
+                    {pageLinks.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <a
+                          key={item.label}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium flex items-center gap-3"
+                        >
+                          <Icon className="h-4 w-4" />
+                          {item.label}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                <nav className="flex flex-col gap-4">
-                  {/* Page Links Section */}
-                  <div>
+                {/* Section Anchors - Only show on home page */}
+                {isHomePage && (
+                  <div className="pt-2 border-t border-border/30">
                     <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">
-                      Pages
+                      Jump to Section
                     </h3>
                     <div className="flex flex-col gap-1">
-                      {pageLinks.map((item) => {
-                        const Icon = item.icon;
-                        return (
-                          <a
-                            key={item.label}
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
-                            className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium flex items-center gap-3"
-                          >
-                            <Icon className="h-4 w-4" />
-                            {item.label}
-                          </a>
-                        );
-                      })}
+                      {sectionAnchors.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => scrollToSection(item.id)}
+                          className="w-full text-left px-4 py-3 rounded-lg text-foreground/80 hover:bg-neon-blue/10 hover:text-neon-blue transition-all duration-300 font-normal text-sm"
+                        >
+                          {item.label}
+                        </button>
+                      ))}
                     </div>
                   </div>
+                )}
+              </nav>
 
-                  {/* Section Anchors - Only show on home page */}
-                  {isHomePage && (
-                    <div className="pt-2 border-t border-border/30">
-                      <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">
-                        Jump to Section
-                      </h3>
-                      <div className="flex flex-col gap-1">
-                        {sectionAnchors.map((item) => (
-                          <button
-                            key={item.id}
-                            onClick={() => scrollToSection(item.id)}
-                            className="w-full text-left px-4 py-3 rounded-lg text-foreground/80 hover:bg-neon-blue/10 hover:text-neon-blue transition-all duration-300 font-normal text-sm"
-                          >
-                            {item.label}
-                          </button>
-                        ))}
-                      </div>
+              {/* Auth Section */}
+              <div className="pt-4 border-t border-neon-blue/20 space-y-3">
+                {session ? (
+                  <>
+                    <div className="px-4 py-2 bg-card/50 rounded-lg">
+                      <p className="text-xs text-muted-foreground mb-1">Signed in as</p>
+                      <p className="text-sm font-medium text-foreground truncate">{session.user.email}</p>
                     </div>
-                  )}
-                </nav>
 
-                {/* Auth Section */}
-                <div className="pt-4 border-t border-neon-blue/20 space-y-3">
-                  {session ? (
-                    <>
-                      <div className="px-4 py-2 bg-card/50 rounded-lg">
-                        <p className="text-xs text-muted-foreground mb-1">Signed in as</p>
-                        <p className="text-sm font-medium text-foreground truncate">
-                          {session.user.email}
-                        </p>
-                      </div>
-
-                      {isAdmin && (
-                        <Button
-                          onClick={() => {
-                            navigate('/admin');
-                            setIsOpen(false);
-                          }}
-                          className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
-                        >
-                          <Shield className="h-4 w-4 mr-2" />
-                          Admin Dashboard
-                        </Button>
-                      )}
-
+                    {isAdmin && (
                       <Button
                         onClick={() => {
-                          navigate('/updates');
+                          navigate("/admin");
                           setIsOpen(false);
                         }}
-                        variant="outline"
-                        className="w-full border-border hover:bg-accent"
+                        className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
                       >
-                        <Settings className="h-4 w-4 mr-2" />
-                        Profile Settings
+                        <Shield className="h-4 w-4 mr-2" />
+                        Admin Dashboard
                       </Button>
+                    )}
 
-                      <Button
-                        onClick={handleSignOut}
-                        variant="outline"
-                        className="w-full border-border hover:bg-accent"
-                      >
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Sign Out
-                      </Button>
-                    </>
-                  ) : (
                     <Button
-                      onClick={() => setShowAuth(true)}
-                      className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
+                      onClick={() => {
+                        navigate("/updates");
+                        setIsOpen(false);
+                      }}
+                      variant="outline"
+                      className="w-full border-border hover:bg-accent"
                     >
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Sign In
+                      <Settings className="h-4 w-4 mr-2" />
+                      Profile Settings
                     </Button>
-                  )}
-                </div>
 
-                <div className="pt-4 border-t border-neon-blue/20">
-                  <p className="text-sm text-muted-foreground text-center">
-                    One Connection. One Story.
-                    <br />
-                    One Conversation at a Time.
-                  </p>
-                </div>
+                    <Button onClick={handleSignOut} variant="outline" className="w-full border-border hover:bg-accent">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={() => setShowAuth(true)}
+                    className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
+                  >
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Sign In
+                  </Button>
+                )}
               </div>
-            </SheetContent>
-          </Sheet>
+
+              <div className="pt-4 border-t border-neon-blue/20">
+                <p className="text-sm text-muted-foreground text-center">
+                  One Connection. One Story.
+                  <br />
+                  One Conversation at a Time.
+                </p>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
 
       <AuthDialog open={showAuth} onOpenChange={setShowAuth} />
