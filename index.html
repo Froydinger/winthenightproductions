@@ -47,10 +47,16 @@
   <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/xTAe4UcDHdfm0iuHBhqWM2rUUXt1/uploads/1763438792268-width_1600.webp">
   
   <style>
-    /* Make BMC widget smaller */
+    /* Make BMC widget smaller and hide on mobile */
     #bmc-wbtn {
       transform: scale(0.8) !important;
       transform-origin: bottom right !important;
+    }
+    
+    @media (max-width: 768px) {
+      #bmc-wbtn {
+        display: none !important;
+      }
     }
 
     /* GPU acceleration for animations - improves performance on mobile */
@@ -87,5 +93,17 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script 
+      data-name="BMC-Widget" 
+      data-cfasync="false" 
+      src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" 
+      data-id="winthenight" 
+      data-description="Support me on Buy me a coffee!" 
+      data-message="Thank you for supporting Win The Night™!" 
+      data-color="#5DCCFF" 
+      data-position="Right" 
+      data-x_margin="18" 
+      data-y_margin="18">
+    </script>
   </body>
 </html>
