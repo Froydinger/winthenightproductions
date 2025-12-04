@@ -83,33 +83,38 @@ const Contact = () => {
       <Header />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="max-w-3xl mx-auto space-y-8">
-          {/* Hero Section */}
-          <div className="text-center space-y-4 animate-fade-in">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Mail className="w-12 h-12 text-neon-blue animate-pulse" />
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">Get in Touch</h1>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Have a question, story to share, or just want to say hi? We'd love to hear from you!
-            </p>
-          </div>
-
-          {/* Contact Form Card */}
-          <Card className="p-8 sm:p-12 bg-card/70 backdrop-blur-md border-2 border-neon-blue/40 hover:border-neon-blue/70 transition-all duration-300">
-            <div className="space-y-6">
-              <div className="text-center space-y-4">
-                <div className="flex justify-center">
-                  <div className="p-6 rounded-full bg-neon-blue/20 border-2 border-neon-blue/40">
-                    <Mail className="w-16 h-16 text-neon-blue" />
-                  </div>
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="relative py-20 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <div className="text-center space-y-6 animate-fade-in">
+              <div className="flex justify-center mb-4">
+                <div className="p-4 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
+                  <Mail className="w-12 h-12 text-neon-blue" />
                 </div>
-                <h2 className="text-3xl font-bold text-foreground">Send Us a Message</h2>
-                <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-                  Fill out the form below and we'll get back to you as soon as possible.
-                </p>
               </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Touch</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Have a question, story to share, or just want to say hi? We'd love to hear from you!
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Form Card */}
+        <section className="relative pb-16 px-4">
+          <div className="container mx-auto max-w-3xl">
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-8 sm:p-12 hover:border-neon-blue/70 transition-all duration-500">
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10 space-y-8">
+                <div className="text-center space-y-4">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Send Us a Message</h2>
+                  <p className="text-muted-foreground max-w-xl mx-auto">
+                    Fill out the form below and we'll get back to you as soon as possible.
+                  </p>
+                </div>
 
               {/* Contact Form */}
               <form onSubmit={handleSubmit} className="space-y-6 pt-4">
@@ -180,45 +185,56 @@ const Contact = () => {
                 </Button>
               </form>
 
-              {/* Email Backup */}
-              <div className="pt-6 border-t border-neon-blue/20 text-center space-y-3">
-                <p className="text-sm text-muted-foreground">Prefer to email directly?</p>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300"
-                >
-                  <a href="mailto:contact@winthenight.org" className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    contact@winthenight.org
-                  </a>
-                </Button>
+                {/* Email Backup */}
+                <div className="pt-6 border-t border-neon-blue/20 text-center space-y-3">
+                  <p className="text-sm text-muted-foreground">Prefer to email directly?</p>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-300"
+                  >
+                    <a href="mailto:contact@winthenight.org" className="flex items-center gap-2">
+                      <Mail className="w-4 h-4" />
+                      contact@winthenight.org
+                    </a>
+                  </Button>
+                </div>
               </div>
-            </div>
-          </Card>
-
-          {/* Additional Info */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="p-6 bg-card/60 backdrop-blur-md border border-neon-blue/30">
-              <h3 className="text-xl font-bold text-foreground mb-3">Response Time</h3>
-              <p className="text-muted-foreground">
-                We typically respond within 48 hours. If you haven't heard from us, check your spam folder or reach out
-                again!
-              </p>
-            </Card>
-            <Card className="p-6 bg-card/60 backdrop-blur-md border border-neon-blue/30">
-              <h3 className="text-xl font-bold text-foreground mb-3">Be Our Guest</h3>
-              <p className="text-muted-foreground">
-                Interested in sharing your story on the podcast?{" "}
-                <a href="/guest" className="text-neon-blue hover:underline">
-                  Visit our guest page
-                </a>{" "}
-                for more details!
-              </p>
             </Card>
           </div>
-        </div>
+        </section>
+
+        {/* Additional Info */}
+        <section className="relative pb-20 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-6 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-neon-blue transition-colors">Response Time</h3>
+                  <p className="text-muted-foreground">
+                    We typically respond within 48 hours. If you haven't heard from us, check your spam folder or reach out
+                    again!
+                  </p>
+                </div>
+              </Card>
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-6 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-neon-blue transition-colors">Be Our Guest</h3>
+                  <p className="text-muted-foreground">
+                    Interested in sharing your story on the podcast?{" "}
+                    <a href="/guest" className="text-neon-blue hover:underline font-medium">
+                      Visit our guest page
+                    </a>{" "}
+                    for more details!
+                  </p>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
 
         {/* Footer */}
         <Footer />

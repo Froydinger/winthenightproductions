@@ -22,73 +22,124 @@ const Support = () => {
       <Header />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Hero Section */}
-          <div className="text-center space-y-4 animate-fade-in">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Coffee className="w-12 h-12 text-neon-blue animate-bounce" />
-              <Heart className="w-8 h-8 text-neon-blue animate-pulse" />
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="relative py-20 px-4">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center space-y-6 animate-fade-in">
+              <div className="flex justify-center gap-3 mb-4">
+                <div className="p-4 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
+                  <Coffee className="w-12 h-12 text-neon-blue" />
+                </div>
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                Support <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Win The Night</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Love what we're doing? Help us keep the conversation going and support the show with a coffee!
+              </p>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-              Support Win The Night ☕
-            </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Love what we're doing? Help us keep the conversation going and support the show with a coffee!
+          </div>
+        </section>
+
+        {/* Impact Section */}
+        <section className="relative pb-16 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Your Support Enables</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Every contribution helps us grow and create better content for the community.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 bg-neon-blue/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                      <Mic className="w-8 h-8 text-neon-blue" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-foreground text-lg group-hover:text-neon-blue transition-colors">Professional Equipment</h3>
+                  <p className="text-sm text-muted-foreground">Invest in better video and audio equipment for top-quality production</p>
+                </div>
+              </Card>
+
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 bg-neon-blue/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                      <Users className="w-8 h-8 text-neon-blue" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-foreground text-lg group-hover:text-neon-blue transition-colors">Amazing Guests</h3>
+                  <p className="text-sm text-muted-foreground">Bring on experts and advocates in mental health</p>
+                </div>
+              </Card>
+
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 bg-neon-blue/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                      <Zap className="w-8 h-8 text-neon-blue" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-foreground text-lg group-hover:text-neon-blue transition-colors">More Content</h3>
+                  <p className="text-sm text-muted-foreground">Hire talented people for projects and cover costs for professional editing tools</p>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Buy Me a Coffee CTA */}
+        <section className="relative pb-16 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-12 hover:border-neon-blue/70 transition-all duration-500 hover:shadow-neon">
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10 text-center space-y-8">
+                <div className="flex justify-center">
+                  <div className="p-6 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
+                    <Coffee className="w-16 h-16 text-neon-blue" />
+                  </div>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Buy Us a Coffee</h2>
+                <p className="text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                  Every contribution helps us continue creating meaningful content and supporting mental health conversations
+                </p>
+                <div className="pt-4">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-lg px-12 py-6 h-auto"
+                  >
+                    <a
+                      href="https://www.buymeacoffee.com/winthenight"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2"
+                    >
+                      <Heart className="w-5 h-5" />
+                      Support Win The Night
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+
+        {/* Thank You Note */}
+        <section className="relative pb-20 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <p className="text-center text-lg text-muted-foreground">
+              <Heart className="inline w-5 h-5 text-neon-blue" /> Thank you for being part of the Win The Night community! Your support means everything to us.
             </p>
           </div>
-
-          {/* Impact Section */}
-          <Card className="p-8 bg-card/60 backdrop-blur-md border-2 border-neon-blue/30">
-            <h3 className="text-2xl font-bold text-foreground text-center mb-6">Your Support Enables</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center space-y-3">
-                <Mic className="w-10 h-10 text-neon-blue mx-auto" />
-                <h4 className="font-bold text-foreground">Professional Equipment</h4>
-                <p className="text-sm text-muted-foreground">Invest in better video and audio equipment for top-quality production</p>
-              </div>
-              <div className="text-center space-y-3">
-                <Users className="w-10 h-10 text-neon-blue mx-auto" />
-                <h4 className="font-bold text-foreground">Amazing Guests</h4>
-                <p className="text-sm text-muted-foreground">Bring on experts and advocates in mental health</p>
-              </div>
-              <div className="text-center space-y-3">
-                <Zap className="w-10 h-10 text-neon-blue mx-auto" />
-                <h4 className="font-bold text-foreground">More Content</h4>
-                <p className="text-sm text-muted-foreground">Hire talented people for projects and cover costs for professional editing tools</p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Buy Me a Coffee CTA */}
-          <Card className="p-8 bg-card/70 backdrop-blur-md border-2 border-neon-blue/40 hover:border-neon-blue/70 transition-all duration-300">
-            <div className="text-center space-y-6">
-              <Coffee className="w-20 h-20 text-neon-blue mx-auto animate-bounce" />
-              <h2 className="text-3xl font-bold text-foreground">Buy Us a Coffee</h2>
-              <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-                Every contribution helps us continue creating meaningful content and supporting mental health conversations
-              </p>
-              <Button 
-                asChild
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-12 py-6 h-auto"
-              >
-                <a 
-                  href="https://www.buymeacoffee.com/winthenight" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Support Win The Night
-                </a>
-              </Button>
-            </div>
-          </Card>
-
-          {/* Thank You Note */}
-          <p className="text-center text-sm text-muted-foreground">
-            💙 Thank you for being part of the Win The Night community! Your support means everything to us.
-          </p>
-        </div>
+        </section>
 
         {/* Footer */}
         <Footer />
