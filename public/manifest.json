@@ -2,7 +2,7 @@
   "name": "Win The Night - Mental Health Community",
   "short_name": "Win The Night",
   "description": "A mental health community built on authentic conversations about healing, trauma, and recovery. Watch weekly episodes featuring real stories that help you feel less alone.",
-  "start_url": "/updates",
+  "start_url": "/watch",
   "scope": "/",
   "display": "standalone",
   "background_color": "#000000",
