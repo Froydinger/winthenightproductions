@@ -13,17 +13,14 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // Ensure only one instance of React is used
-      "react": path.resolve(__dirname, "./node_modules/react"),
-      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
     },
+    // Dedupe React to prevent multiple instances
+    dedupe: ['react', 'react-dom'],
   },
   build: {
-    // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
         manualChunks: {
-          // Separate vendor chunks for better caching
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': [
             '@radix-ui/react-accordion',
@@ -38,14 +35,10 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
-    // Optimize chunk size
     chunkSizeWarningLimit: 1000,
-    // Enable minification with esbuild (faster than terser)
     minify: 'esbuild',
-    // Optimize assets
-    assetsInlineLimit: 4096, // Inline assets < 4kb as base64
+    assetsInlineLimit: 4096,
   },
-  // Performance optimizations
   optimizeDeps: {
     include: [
       'react',
