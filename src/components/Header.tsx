@@ -116,7 +116,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-      <div className="container mx-auto h-12 flex items-center justify-between px-4">
+      <div className="container mx-auto h-16 flex items-center justify-between px-4 pt-2">
         {/* Logo - only visible after scrolling */}
         <a
           href="/"
