@@ -98,32 +98,32 @@ const Support = () => {
         {/* Buy Me a Coffee CTA */}
         <section className="relative pb-16 px-4">
           <div className="container mx-auto max-w-4xl">
-            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-12 hover:border-neon-blue/70 transition-all duration-500 hover:shadow-neon">
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-6 sm:p-12 hover:border-neon-blue/70 transition-all duration-500 hover:shadow-neon">
               <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10 text-center space-y-8">
+              <div className="relative z-10 text-center space-y-6 sm:space-y-8">
                 <div className="flex justify-center">
-                  <div className="p-6 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
-                    <Coffee className="w-16 h-16 text-neon-blue" />
+                  <div className="p-4 sm:p-6 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
+                    <Coffee className="w-12 h-12 sm:w-16 sm:h-16 text-neon-blue" />
                   </div>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Buy Us a Coffee</h2>
-                <p className="text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Buy Us a Coffee</h2>
+                <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed px-2">
                   Every contribution helps us continue creating meaningful content and supporting mental health conversations
                 </p>
-                <div className="pt-4">
+                <div className="pt-2 sm:pt-4">
                   <Button
                     asChild
                     size="lg"
-                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-lg px-12 py-6 h-auto"
+                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-base sm:text-lg px-6 sm:px-12 py-5 sm:py-6 h-auto w-full sm:w-auto"
                   >
                     <a
                       href="https://www.buymeacoffee.com/winthenight"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2"
+                      className="flex items-center justify-center gap-2"
                     >
-                      <Heart className="w-5 h-5" />
-                      Support Win The Night
+                      <Heart className="w-5 h-5 flex-shrink-0" />
+                      <span>Support Win The Night</span>
                     </a>
                   </Button>
                 </div>
