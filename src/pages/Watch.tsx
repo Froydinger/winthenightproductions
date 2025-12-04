@@ -119,59 +119,122 @@ const Watch = () => {
           </div>
         </section>
 
-        {/* Shorts Carousel */}
-        <ShortsCarousel />
+        {/* Mobile: Shorts then Videos stacked vertically */}
+        <div className="lg:hidden">
+          <ShortsCarousel />
 
-        {/* Video Content Grid */}
-        <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Latest Episode */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Episode</h2>
+          {/* Video Content Grid - Mobile */}
+          <section className="relative py-16 px-6 md:px-12 overflow-hidden">
+            <div className="max-w-7xl mx-auto space-y-12">
+              {/* Latest Episode */}
+              <div className="flex flex-col">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Episode</h2>
+                </div>
+
+                <div className="w-full group">
+                  <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+                    <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                    <iframe
+                      className="relative w-full h-full z-10"
+                      src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
+                      title="Latest Episode - Chapter 7"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="w-full group">
-                <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-                  <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  <iframe
-                    className="relative w-full h-full z-10"
-                    src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                    title="Latest Episode - Chapter 7"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
+              {/* Editor's Pick */}
+              <div className="flex flex-col">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
+                </div>
+
+                <div className="w-full group">
+                  <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+                    <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                    <iframe
+                      className="relative w-full h-full z-10"
+                      src="https://www.youtube.com/embed/-7-R4fl4ubU"
+                      title="Editor's Pick - Win The Night"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+          </section>
+        </div>
 
-            {/* Editor's Pick – default YouTube embed */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
+        {/* Desktop: Shorts on left, Videos on right */}
+        <div className="hidden lg:block">
+          <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
+            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8">
+              {/* Left Column: Shorts (takes 5 columns) */}
+              <div className="col-span-5">
+                <ShortsCarousel />
               </div>
 
-              <div className="w-full group">
-                <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-                  <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                  <iframe
-                    className="relative w-full h-full z-10"
-                    src="https://www.youtube.com/embed/-7-R4fl4ubU"
-                    title="Editor's Pick - Win The Night"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
+              {/* Right Column: Videos (takes 7 columns) */}
+              <div className="col-span-7 space-y-12">
+                {/* Latest Episode */}
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Episode</h2>
+                  </div>
+
+                  <div className="w-full group">
+                    <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+                      <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                      <iframe
+                        className="relative w-full h-full z-10"
+                        src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
+                        title="Latest Episode - Chapter 7"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Editor's Pick */}
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
+                  </div>
+
+                  <div className="w-full group">
+                    <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
+                      <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                      <iframe
+                        className="relative w-full h-full z-10"
+                        src="https://www.youtube.com/embed/-7-R4fl4ubU"
+                        title="Editor's Pick - Win The Night"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
 
         {/* Footer */}
         <Footer />
