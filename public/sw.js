@@ -1,8 +1,5 @@
-const CACHE_NAME = 'win-the-night-v3';
+const CACHE_NAME = 'win-the-night-v4';
 const urlsToCache = [
-  '/',
-  '/updates',
-  '/index.html',
   '/icon-192.png',
   '/icon-512.png',
   '/manifest.json'
@@ -53,7 +50,36 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first strategy for static assets only
+  // Network-first for JS, CSS, and HTML to ensure fresh code after deployments
+  const isCode =
+    event.request.destination === 'script' ||
+    event.request.destination === 'style' ||
+    event.request.destination === 'document' ||
+    url.pathname.match(/\.(js|css|html)$/);
+
+  if (isCode) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Cache the new version for offline use
+          if (response && response.status === 200 && response.type === 'basic') {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Fallback to cache if network fails (offline mode)
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // Cache-first strategy for images and fonts only
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -71,13 +97,11 @@ self.addEventListener('fetch', (event) => {
             return response;
           }
 
-          // Only cache static assets (images, fonts, etc.)
+          // Only cache images and fonts
           const shouldCache =
             event.request.destination === 'image' ||
             event.request.destination === 'font' ||
-            event.request.destination === 'style' ||
-            event.request.destination === 'script' ||
-            url.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|ico|css|js)$/);
+            url.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|ico)$/);
 
           if (shouldCache) {
             const responseToCache = response.clone();
