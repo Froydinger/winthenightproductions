@@ -1,4 +1,4 @@
-import { Play, Users, Heart, Brain, Instagram, BookOpen, ExternalLink } from "lucide-react";
+import { Play, Users, Heart, Brain, Instagram, BookOpen, ExternalLink, MessageSquare } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -194,6 +194,16 @@ const FeaturesSection = () => {
               </p>
 
               <div className="space-y-2 pt-2">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full border-2 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/20 hover:border-neon-blue transition-all duration-300"
+                >
+                  <a href="/updates" className="flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4" />
+                    Community Updates
+                  </a>
+                </Button>
                 <Button
                   asChild
                   variant="outline"

@@ -5,6 +5,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ShortsCarousel from "@/components/ShortsCarousel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { MessageSquarePlus } from "lucide-react";
 
 interface Playlist {
   id: string;
@@ -235,6 +237,33 @@ const Watch = () => {
             </div>
           </section>
         </div>
+
+        {/* Community Update CTA */}
+        <section className="relative py-12 px-4">
+          <div className="container mx-auto max-w-4xl text-center">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-neon-blue/10 via-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/30 p-8 sm:p-12 hover:border-neon-blue/50 transition-all duration-300">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,217,255,0.1),transparent_70%)]" />
+              <div className="relative z-10 space-y-6">
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground">
+                  Have something to share?
+                </h3>
+                <p className="text-muted-foreground max-w-xl mx-auto">
+                  Join the conversation and share your thoughts, stories, or updates with our community.
+                </p>
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_30px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-lg px-8 py-6 h-auto"
+                >
+                  <a href="/updates" className="flex items-center gap-2">
+                    <MessageSquarePlus className="w-5 h-5" />
+                    Post an Update to the Community
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Footer */}
         <Footer />
