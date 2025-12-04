@@ -178,14 +178,14 @@ const Watch = () => {
         {/* Desktop: Shorts on left, Videos on right */}
         <div className="hidden lg:block">
           <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8">
-              {/* Left Column: Shorts (takes 5 columns) */}
-              <div className="col-span-5">
+            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 xl:gap-12">
+              {/* Left Column: Shorts - responsive sizing */}
+              <div className="col-span-5 xl:col-span-4">
                 <ShortsCarousel />
               </div>
 
-              {/* Right Column: Videos (takes 7 columns) */}
-              <div className="col-span-7 space-y-12">
+              {/* Right Column: Videos */}
+              <div className="col-span-7 xl:col-span-8 space-y-12">
                 {/* Latest Episode */}
                 <div className="flex flex-col">
                   <div className="flex items-center gap-3 mb-6">
