@@ -16,7 +16,7 @@ const FeaturesSection = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Weekly Episodes */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon cursor-pointer animate-fade-in-up">
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/30 to-charcoal/20 backdrop-blur-sm border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon cursor-pointer animate-fade-in-up">
             <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             <div className="relative z-10 space-y-4">
@@ -48,7 +48,7 @@ const FeaturesSection = () => {
 
           {/* Real Stories */}
           <Card
-            className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon cursor-pointer animate-fade-in-up"
+            className="group relative overflow-hidden bg-gradient-to-br from-card/30 to-charcoal/20 backdrop-blur-sm border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon cursor-pointer animate-fade-in-up"
             style={{ animationDelay: "150ms" }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-neon-dim/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -82,7 +82,7 @@ const FeaturesSection = () => {
 
           {/* Practical Tools */}
           <Card
-            className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon animate-fade-in-up"
+            className="group relative overflow-hidden bg-gradient-to-br from-card/30 to-charcoal/20 backdrop-blur-sm border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon animate-fade-in-up"
             style={{ animationDelay: "300ms" }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -175,7 +175,7 @@ const FeaturesSection = () => {
 
           {/* Supportive Community */}
           <Card
-            className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon animate-fade-in-up"
+            className="group relative overflow-hidden bg-gradient-to-br from-card/30 to-charcoal/20 backdrop-blur-sm border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon animate-fade-in-up"
             style={{ animationDelay: "450ms" }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-neon-dim/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
