@@ -85,7 +85,37 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
       .order("created_at", { ascending: true });
 
     if (data) {
-      setReplies(data);
+      // Fetch current avatars from user_profiles for non-anonymous replies
+      const userIds = data
+        .filter(reply => reply.user_id && !reply.is_anonymous)
+        .map(reply => reply.user_id)
+        .filter((id, index, self) => id && self.indexOf(id) === index); // unique IDs
+
+      let avatarMap: Record<string, string | null> = {};
+
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from("user_profiles")
+          .select("user_id, avatar_url")
+          .in("user_id", userIds);
+
+        if (profiles) {
+          avatarMap = profiles.reduce((acc, profile) => {
+            acc[profile.user_id] = profile.avatar_url;
+            return acc;
+          }, {} as Record<string, string | null>);
+        }
+      }
+
+      // Update replies with current avatars
+      const repliesWithCurrentAvatars = data.map(reply => ({
+        ...reply,
+        avatar_url: reply.user_id && !reply.is_anonymous && avatarMap[reply.user_id] !== undefined
+          ? avatarMap[reply.user_id]
+          : reply.avatar_url
+      }));
+
+      setReplies(repliesWithCurrentAvatars);
     }
   };
 
