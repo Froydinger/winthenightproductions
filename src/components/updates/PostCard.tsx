@@ -58,12 +58,14 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
   }, [post.id, session]);
 
   const fetchLikes = async () => {
-    const { count } = await supabase
-      .from("post_likes")
-      .select("*", { count: "exact", head: true })
-      .eq("post_id", post.id);
+    // Use the post_like_counts view for public like count
+    const { data: likeData } = await supabase
+      .from("post_like_counts")
+      .select("like_count")
+      .eq("post_id", post.id)
+      .single();
 
-    setLikeCount(count || 0);
+    setLikeCount(likeData?.like_count || 0);
 
     if (session?.user) {
       const { data } = await supabase
@@ -86,6 +88,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
 
     if (data) {
       // Fetch current avatars from user_profiles for non-anonymous replies
+      // Only authenticated users can access user_profiles
       const userIds = data
         .filter(reply => reply.user_id && !reply.is_anonymous)
         .map(reply => reply.user_id)
@@ -93,7 +96,7 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
 
       let avatarMap: Record<string, string | null> = {};
 
-      if (userIds.length > 0) {
+      if (session && userIds.length > 0) {
         const { data: profiles } = await supabase
           .from("user_profiles")
           .select("user_id, avatar_url")
