@@ -47,7 +47,7 @@ const AnimatedBackground = () => {
         return {
           id: baseId + i,
           x: seededRandom(baseId + i * 1.1) * 100,
-          y: seededRandom(baseId + i * 2.2) * 300, // Extended for very long pages
+          y: seededRandom(baseId + i * 2.2) * 500, // Extended for very long pages
           size: isBright 
             ? sizeRange[1] * 1.5 
             : sizeRange[0] + seededRandom(baseId + i * 3.3) * (sizeRange[1] - sizeRange[0]),
@@ -72,7 +72,7 @@ const AnimatedBackground = () => {
     <div className="absolute inset-0 overflow-hidden">
       {/* Layer 1: Gradient Background - Slowest parallax */}
       <div
-        className="absolute inset-x-0 -top-[50%] h-[400%] bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] animate-gradient-shift will-change-transform"
+        className="absolute inset-x-0 -top-[100%] h-[800%] bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] animate-gradient-shift will-change-transform"
         style={{
           transform: `translate3d(0, ${backgroundOffset * 0.5}px, 0)`,
         }}
@@ -80,7 +80,7 @@ const AnimatedBackground = () => {
 
       {/* Layer 2: Slow stars (far background) */}
       <div 
-        className="absolute inset-x-0 -top-[50%] h-[400%] will-change-transform"
+        className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
           transform: `translate3d(0, ${starsSlowOffset}px, 0)`,
         }}
@@ -105,7 +105,7 @@ const AnimatedBackground = () => {
 
       {/* Layer 3: Medium speed stars */}
       <div 
-        className="absolute inset-x-0 -top-[50%] h-[400%] will-change-transform"
+        className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
           transform: `translate3d(0, ${starsMediumOffset}px, 0)`,
         }}
@@ -130,7 +130,7 @@ const AnimatedBackground = () => {
 
       {/* Layer 4: Fast stars (foreground) */}
       <div 
-        className="absolute inset-x-0 -top-[50%] h-[400%] will-change-transform"
+        className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
           transform: `translate3d(0, ${starsFastOffset}px, 0)`,
         }}
@@ -155,7 +155,7 @@ const AnimatedBackground = () => {
 
       {/* Layer 5: Accent Radial Glow - multiple positions */}
       <div
-        className="absolute inset-x-0 -top-[50%] h-[400%] will-change-transform pointer-events-none"
+        className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform pointer-events-none"
         style={{
           transform: `translate3d(0, ${starsFastOffset * 0.5}px, 0)`,
           background: `
