@@ -11,7 +11,7 @@ const WatchLatestSection = () => {
     <section className="relative py-16 px-6 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr,1fr] gap-10 items-stretch">
         {/* Latest Episode card */}
-        <div className="bg-card/80 border border-border/50 rounded-2xl shadow-2xl overflow-hidden ring-1 ring-white/10">
+        <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-2xl shadow-2xl overflow-hidden ring-1 ring-white/5">
           <div className="px-6 pt-6 flex items-center gap-3">
             <div className="h-7 w-1 rounded-full bg-neon-blue" />
             <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Watch the latest</h2>
@@ -51,7 +51,7 @@ const WatchLatestSection = () => {
         </div>
 
         {/* Side support + CTA card */}
-        <div className="flex flex-col justify-between gap-4 bg-card/80 border border-border/50 rounded-2xl p-6 shadow-xl">
+        <div className="flex flex-col justify-between gap-4 bg-card/40 backdrop-blur-sm border border-border/30 rounded-2xl p-6 shadow-xl">
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-2">New here?</h3>
             <p className="text-sm text-muted-foreground mb-4">

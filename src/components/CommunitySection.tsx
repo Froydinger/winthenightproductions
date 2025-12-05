@@ -7,7 +7,7 @@ const CommunitySection = () => {
       <div className="container mx-auto max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Main Card */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/30 p-6 sm:p-10 lg:p-12 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon-strong animate-fade-in-up">
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-card/30 to-charcoal/20 backdrop-blur-sm border border-neon-blue/30 p-6 sm:p-10 lg:p-12 hover:border-neon-blue/60 transition-all duration-500 hover:shadow-neon-strong animate-fade-in-up">
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
@@ -90,7 +90,7 @@ const CommunitySection = () => {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="group relative p-6 rounded-xl bg-gradient-to-r from-card/40 to-charcoal/30 border border-neon-blue/20 hover:border-neon-blue/40 transition-all duration-300 hover:translate-x-2 animate-fade-in-up"
+                  className="group relative p-6 rounded-xl bg-gradient-to-r from-card/20 to-charcoal/10 backdrop-blur-sm border border-neon-blue/20 hover:border-neon-blue/40 transition-all duration-300 hover:translate-x-2 animate-fade-in-up"
                   style={{ animationDelay: `${(index + 2) * 100}ms` }}
                 >
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
