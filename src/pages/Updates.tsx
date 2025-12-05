@@ -116,7 +116,37 @@ const Updates = () => {
       console.error("Error fetching posts:", error);
       setPosts([]);
     } else if (data) {
-      setPosts(data);
+      // Fetch current avatars from user_profiles for non-anonymous posts
+      const userIds = data
+        .filter(post => post.user_id && !post.is_anonymous)
+        .map(post => post.user_id)
+        .filter((id, index, self) => id && self.indexOf(id) === index); // unique IDs
+
+      let avatarMap: Record<string, string | null> = {};
+
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from("user_profiles")
+          .select("user_id, avatar_url")
+          .in("user_id", userIds);
+
+        if (profiles) {
+          avatarMap = profiles.reduce((acc, profile) => {
+            acc[profile.user_id] = profile.avatar_url;
+            return acc;
+          }, {} as Record<string, string | null>);
+        }
+      }
+
+      // Update posts with current avatars
+      const postsWithCurrentAvatars = data.map(post => ({
+        ...post,
+        avatar_url: post.user_id && !post.is_anonymous && avatarMap[post.user_id] !== undefined
+          ? avatarMap[post.user_id]
+          : post.avatar_url
+      }));
+
+      setPosts(postsWithCurrentAvatars);
     }
   };
 
@@ -156,7 +186,37 @@ const Updates = () => {
           .order("created_at", { ascending: false });
 
         if (postsData) {
-          setLikedPosts(postsData);
+          // Fetch current avatars from user_profiles for non-anonymous posts
+          const userIds = postsData
+            .filter(post => post.user_id && !post.is_anonymous)
+            .map(post => post.user_id)
+            .filter((id, index, self) => id && self.indexOf(id) === index); // unique IDs
+
+          let avatarMap: Record<string, string | null> = {};
+
+          if (userIds.length > 0) {
+            const { data: profiles } = await supabase
+              .from("user_profiles")
+              .select("user_id, avatar_url")
+              .in("user_id", userIds);
+
+            if (profiles) {
+              avatarMap = profiles.reduce((acc, profile) => {
+                acc[profile.user_id] = profile.avatar_url;
+                return acc;
+              }, {} as Record<string, string | null>);
+            }
+          }
+
+          // Update posts with current avatars
+          const postsWithCurrentAvatars = postsData.map(post => ({
+            ...post,
+            avatar_url: post.user_id && !post.is_anonymous && avatarMap[post.user_id] !== undefined
+              ? avatarMap[post.user_id]
+              : post.avatar_url
+          }));
+
+          setLikedPosts(postsWithCurrentAvatars);
         }
       } else {
         setLikedPosts([]);
