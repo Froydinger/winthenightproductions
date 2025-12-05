@@ -123,10 +123,13 @@ const Watch = () => {
 
         {/* Mobile: Shorts then Videos stacked vertically */}
         <div className="lg:hidden">
-          <ShortsCarousel />
+          {/* Shorts Section */}
+          <section className="relative py-16 px-6 md:px-12 overflow-hidden">
+            <ShortsCarousel />
+          </section>
 
           {/* Video Content Grid - Mobile */}
-          <section className="relative py-16 px-6 md:px-12 overflow-hidden">
+          <section className="relative py-16 px-6 md:px-12 overflow-hidden border-t border-border/30">
             <div className="max-w-7xl mx-auto space-y-12">
               {/* Latest Episode */}
               <div className="flex flex-col">
