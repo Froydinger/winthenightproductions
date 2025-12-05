@@ -53,19 +53,10 @@
       transform-origin: bottom right !important;
     }
 
-    /* GPU acceleration for animations - improves performance on mobile */
+    /* Font smoothing for better text rendering */
     * {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Force GPU rendering for animated elements */
-    [class*="animate-"] {
-      transform: translateZ(0);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      -webkit-perspective: 1000;
-      perspective: 1000;
     }
   </style>
   
