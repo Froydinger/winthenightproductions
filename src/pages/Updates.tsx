@@ -97,7 +97,7 @@ const Updates = () => {
   const fetchPosts = async () => {
     // Get total count
     const { count } = await supabase
-      .from("posts")
+      .from("posts_safe")
       .select("*", { count: "exact", head: true });
 
     setTotalPosts(count || 0);
@@ -107,7 +107,7 @@ const Updates = () => {
     const to = from + postsPerPage - 1;
 
     const { data, error } = await supabase
-      .from("posts")
+      .from("posts_safe")
       .select("*")
       .order("created_at", { ascending: false })
       .range(from, to);
@@ -117,6 +117,7 @@ const Updates = () => {
       setPosts([]);
     } else if (data) {
       // Fetch current avatars from user_profiles for non-anonymous posts
+      // Only authenticated users can access user_profiles
       const userIds = data
         .filter(post => post.user_id && !post.is_anonymous)
         .map(post => post.user_id)
@@ -124,7 +125,7 @@ const Updates = () => {
 
       let avatarMap: Record<string, string | null> = {};
 
-      if (userIds.length > 0) {
+      if (session && userIds.length > 0) {
         const { data: profiles } = await supabase
           .from("user_profiles")
           .select("user_id, avatar_url")
@@ -180,7 +181,7 @@ const Updates = () => {
 
       if (postIds.length > 0) {
         const { data: postsData } = await supabase
-          .from("posts")
+          .from("posts_safe")
           .select("*")
           .in("id", postIds)
           .order("created_at", { ascending: false });
