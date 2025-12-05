@@ -255,9 +255,9 @@ const Watch = () => {
                   size="lg"
                   className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_30px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 h-auto w-full sm:w-auto"
                 >
-                  <a href="/updates" className="flex items-center justify-center gap-2">
+                  <a href="/updates" className="flex items-center justify-center gap-2 whitespace-nowrap">
                     <MessageSquarePlus className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                    <span>Post an Update to the Community</span>
+                    <span>Post an Update!</span>
                   </a>
                 </Button>
               </div>
