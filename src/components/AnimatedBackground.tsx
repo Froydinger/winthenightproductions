@@ -24,7 +24,7 @@ const AnimatedBackground = () => {
 
   // Generate fixed star positions once - memoized to prevent scattering
   const { slowStars, mediumStars, fastStars } = useMemo(() => {
-    const particleCount = isMobile ? 20 : 50;
+    const particleCount = isMobile ? 40 : 100;
     const slowCount = Math.floor(particleCount * 0.4);
     const mediumCount = Math.floor(particleCount * 0.4);
     const fastCount = particleCount - slowCount - mediumCount;
