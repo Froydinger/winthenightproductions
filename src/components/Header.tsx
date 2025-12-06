@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Menu,
   Shield,
   LogIn,
   LogOut,
   Settings,
+  ChevronDown,
   Home,
   PlayCircle,
   Users,
@@ -28,6 +29,8 @@ const Header = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [canScrollMore, setCanScrollMore] = useState(false);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
@@ -116,6 +119,22 @@ const Header = () => {
     }
   };
 
+  const checkScrollable = () => {
+    const el = scrollAreaRef.current;
+    if (el) {
+      const hasMoreToScroll = el.scrollHeight > el.clientHeight && 
+        el.scrollTop + el.clientHeight < el.scrollHeight - 10;
+      setCanScrollMore(hasMoreToScroll);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      // Check after sheet opens and content renders
+      setTimeout(checkScrollable, 100);
+    }
+  }, [isOpen]);
+
   // Organize menu items by type
   const pageLinks = [
     { label: "Home", href: "/", icon: Home },
@@ -178,7 +197,7 @@ const Header = () => {
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-h-0 py-4">
+            <div className="flex-1 overflow-y-auto min-h-0 py-4 relative" ref={scrollAreaRef} onScroll={checkScrollable}>
               <nav className="flex flex-col gap-4">
                 {/* Page Links Section */}
                 <div>
@@ -221,6 +240,13 @@ const Header = () => {
                   </div>
                 )}
               </nav>
+
+              {/* Scroll indicator */}
+              {canScrollMore && (
+                <div className="sticky bottom-0 left-0 right-0 flex justify-center py-2 bg-gradient-to-t from-background/95 to-transparent pointer-events-none">
+                  <ChevronDown className="h-5 w-5 text-neon-blue animate-bounce" />
+                </div>
+              )}
             </div>
 
             {/* Auth Section - Fixed at bottom */}
