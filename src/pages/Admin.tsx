@@ -204,23 +204,39 @@ const Admin = () => {
   const handleRoleChange = async (userId: string, newRole: 'admin' | 'user') => {
     try {
       // Check if user already has a role
-      const { data: existingRole } = await supabase
+      const { data: existingRole, error: checkError } = await supabase
         .from("user_roles")
         .select("id, role")
         .eq("user_id", userId)
-        .single();
+        .maybeSingle();
+
+      if (checkError) {
+        console.error("Error checking role:", checkError);
+      }
 
       if (existingRole) {
         // Update existing role
-        await supabase
+        const { error: updateError } = await supabase
           .from("user_roles")
           .update({ role: newRole })
           .eq("user_id", userId);
+
+        if (updateError) {
+          console.error("Update error:", updateError);
+          toast.error(`Failed to update role: ${updateError.message}`);
+          return;
+        }
       } else {
         // Insert new role
-        await supabase
+        const { error: insertError } = await supabase
           .from("user_roles")
           .insert({ user_id: userId, role: newRole });
+
+        if (insertError) {
+          console.error("Insert error:", insertError);
+          toast.error(`Failed to insert role: ${insertError.message}`);
+          return;
+        }
       }
 
       toast.success(`User role updated to ${newRole}`);
