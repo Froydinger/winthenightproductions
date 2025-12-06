@@ -73,6 +73,7 @@ const Header = () => {
   }, []);
 
   const checkAdminStatus = async (userId: string) => {
+    // Check database for admin role
     const { data } = await supabase
       .from("user_roles")
       .select("role")
@@ -80,7 +81,26 @@ const Header = () => {
       .eq("role", "admin")
       .single();
 
-    setIsAdmin(!!data);
+    if (data) {
+      setIsAdmin(true);
+      return;
+    }
+
+    // Whitelist check - get current user's email and verify against allowed emails
+    const { data: userData } = await supabase.auth.getUser();
+    const whitelistedEmails = ["j@froydinger.com"];
+    const userEmail = userData?.user?.email?.toLowerCase();
+    
+    if (userEmail && whitelistedEmails.includes(userEmail)) {
+      // Auto-grant admin role in database for whitelisted user
+      await supabase.from("user_roles").upsert({
+        user_id: userId,
+        role: "admin" as const,
+      }, { onConflict: "user_id" });
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
   };
 
   const handleSignOut = async () => {
@@ -145,18 +165,20 @@ const Header = () => {
           </SheetTrigger>
           <SheetContent
             side="right"
-            className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30"
+            className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30 flex flex-col"
           >
-            <div className="flex flex-col gap-6 mt-8">
-              <div className="flex items-center gap-3 pb-4 border-b border-neon-blue/20">
-                <img
-                  src={logo}
-                  alt="Win The Night"
-                  className="h-12 w-12 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.6)]"
-                />
-                <span className="text-xl font-bold text-foreground">Win The Night™</span>
-              </div>
+            <div className="flex items-center gap-3 pb-4 border-b border-neon-blue/20 mt-8 flex-shrink-0">
+              <img
+                src={logo}
+                alt="Win The Night"
+                className="h-12 w-12 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.6)]"
+              />
+              <span className="text-xl font-bold text-foreground">
+                Win The Night<span className="text-[0.5em] align-super">™</span>
+              </span>
+            </div>
 
+            <div className="flex-1 overflow-y-auto min-h-0 py-4">
               <nav className="flex flex-col gap-4">
                 {/* Page Links Section */}
                 <div>
@@ -199,58 +221,58 @@ const Header = () => {
                   </div>
                 )}
               </nav>
+            </div>
 
-              {/* Auth Section */}
-              <div className="pt-4 border-t border-neon-blue/20 space-y-3">
-                {session ? (
-                  <>
-                    <div className="px-4 py-2 bg-card/50 rounded-lg">
-                      <p className="text-xs text-muted-foreground mb-1">Signed in as</p>
-                      <p className="text-sm font-medium text-foreground truncate">{session.user.email}</p>
-                    </div>
+            {/* Auth Section - Fixed at bottom */}
+            <div className="flex-shrink-0 pt-4 border-t border-neon-blue/20 space-y-3">
+              {session ? (
+                <>
+                  <div className="px-4 py-2 bg-card/50 rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Signed in as</p>
+                    <p className="text-sm font-medium text-foreground truncate">{session.user.email}</p>
+                  </div>
 
-                    {isAdmin && (
-                      <Button
-                        onClick={() => {
-                          navigate("/admin");
-                          setIsOpen(false);
-                        }}
-                        className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
-                      >
-                        <Shield className="h-4 w-4 mr-2" />
-                        Admin Dashboard
-                      </Button>
-                    )}
-
+                  {isAdmin && (
                     <Button
                       onClick={() => {
-                        navigate("/updates");
+                        navigate("/admin");
                         setIsOpen(false);
                       }}
-                      variant="outline"
-                      className="w-full border-border hover:bg-accent"
+                      className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
                     >
-                      <Settings className="h-4 w-4 mr-2" />
-                      Profile Settings
+                      <Shield className="h-4 w-4 mr-2" />
+                      Admin Dashboard
                     </Button>
+                  )}
 
-                    <Button onClick={handleSignOut} variant="outline" className="w-full border-border hover:bg-accent">
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
-                    </Button>
-                  </>
-                ) : (
                   <Button
-                    onClick={() => setShowAuth(true)}
-                    className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
+                    onClick={() => {
+                      navigate("/updates");
+                      setIsOpen(false);
+                    }}
+                    variant="outline"
+                    className="w-full border-border hover:bg-accent"
                   >
-                    <LogIn className="h-4 w-4 mr-2" />
-                    Sign In
+                    <Settings className="h-4 w-4 mr-2" />
+                    Profile Settings
                   </Button>
-                )}
-              </div>
 
-              <div className="pt-4 border-t border-neon-blue/20">
+                  <Button onClick={handleSignOut} variant="outline" className="w-full border-border hover:bg-accent">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  onClick={() => setShowAuth(true)}
+                  className="w-full bg-neon-blue hover:bg-neon-blue/90 text-white"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              )}
+
+              <div className="pt-3 border-t border-neon-blue/20">
                 <p className="text-sm text-muted-foreground text-center">
                   One Connection. One Story.
                   <br />
