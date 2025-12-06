@@ -97,7 +97,7 @@ const Updates = () => {
   const fetchPosts = async () => {
     // Get total count
     const { count } = await supabase
-      .from("posts_safe")
+      .from("posts")
       .select("*", { count: "exact", head: true });
 
     setTotalPosts(count || 0);
@@ -107,7 +107,7 @@ const Updates = () => {
     const to = from + postsPerPage - 1;
 
     const { data, error } = await supabase
-      .from("posts_safe")
+      .from("posts")
       .select("*")
       .order("created_at", { ascending: false })
       .range(from, to);
@@ -133,7 +133,7 @@ const Updates = () => {
 
         if (profiles) {
           avatarMap = profiles.reduce((acc, profile) => {
-            acc[profile.user_id] = profile.avatar_url;
+            acc[profile.user_id!] = profile.avatar_url;
             return acc;
           }, {} as Record<string, string | null>);
         }
@@ -181,7 +181,7 @@ const Updates = () => {
 
       if (postIds.length > 0) {
         const { data: postsData } = await supabase
-          .from("posts_safe")
+          .from("posts")
           .select("*")
           .in("id", postIds)
           .order("created_at", { ascending: false });
@@ -203,7 +203,7 @@ const Updates = () => {
 
             if (profiles) {
               avatarMap = profiles.reduce((acc, profile) => {
-                acc[profile.user_id] = profile.avatar_url;
+                acc[profile.user_id!] = profile.avatar_url;
                 return acc;
               }, {} as Record<string, string | null>);
             }

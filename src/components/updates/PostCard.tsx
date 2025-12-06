@@ -58,14 +58,13 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
   }, [post.id, session]);
 
   const fetchLikes = async () => {
-    // Use the post_like_counts view for public like count
-    const { data: likeData } = await supabase
-      .from("post_like_counts")
-      .select("like_count")
-      .eq("post_id", post.id)
-      .single();
+    // Count likes directly from post_likes table
+    const { count } = await supabase
+      .from("post_likes")
+      .select("*", { count: "exact", head: true })
+      .eq("post_id", post.id);
 
-    setLikeCount(likeData?.like_count || 0);
+    setLikeCount(count || 0);
 
     if (session?.user) {
       const { data } = await supabase
