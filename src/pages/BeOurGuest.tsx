@@ -183,7 +183,7 @@ const BeOurGuest = () => {
               <iframe
                 src="https://cal.com/winthenight/discovery?overlayCalendar=true&layout=month_view"
                 width="100%"
-                height="1400px"
+                height="700px"
                 frameBorder="0"
                 style={{ minWidth: '100%' }}
                 title="Schedule a Discovery Call"
