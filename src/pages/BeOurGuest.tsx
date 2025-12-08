@@ -3,7 +3,6 @@ import { Calendar, Mic, Heart, Video, Shield, Users, UserPlus } from "lucide-rea
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { InlineWidget } from "react-calendly";
 import { useEffect } from "react";
 
 const BeOurGuest = () => {
@@ -180,24 +179,15 @@ const BeOurGuest = () => {
               </p>
             </div>
 
-            <Card className="p-6 sm:p-8 bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300">
-              <div className="calendly-container w-full">
-                <InlineWidget
-                  url="https://calendly.com/jkrd09/podcast-discovery"
-                  styles={{
-                    height: '1400px',
-                    minWidth: '100%',
-                    width: '100%',
-                  }}
-                  pageSettings={{
-                    backgroundColor: '0a0a0a',
-                    hideEventTypeDetails: false,
-                    hideLandingPageDetails: false,
-                    primaryColor: '5dccff',
-                    textColor: 'ffffff'
-                  }}
-                />
-              </div>
+            <Card className="overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300">
+              <iframe
+                src="https://cal.com/winthenight/discovery?overlayCalendar=true&layout=month_view"
+                width="100%"
+                height="1400px"
+                frameBorder="0"
+                style={{ minWidth: '100%' }}
+                title="Schedule a Discovery Call"
+              ></iframe>
             </Card>
 
             <div className="text-center mt-8">
