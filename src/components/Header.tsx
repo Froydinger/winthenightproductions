@@ -139,8 +139,8 @@ const Header = () => {
   // Organize menu items by type
   const pageLinks = [
     { label: "Home", href: "/", icon: Home },
-    { label: "Watch", href: "/watch", icon: PlayCircle },
     { label: "Blog", href: "/blog", icon: BookOpen },
+    { label: "Watch", href: "/watch", icon: PlayCircle },
     { label: "Community", href: "/updates", icon: Users },
     { label: "Be Our Guest", href: "/guest", icon: UserPlus },
     { label: "About", href: "/about", icon: Info },

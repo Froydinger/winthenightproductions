@@ -7,6 +7,7 @@ import { Calendar, User, MessageCircle, Heart, ExternalLink, ArrowLeft, Headphon
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 const formatDate = (dateString: string) => {
   try {
@@ -26,6 +27,11 @@ const BlogPost = () => {
   const { data: posts = [], isLoading } = useSubstackFeed();
 
   const post = posts.find(p => p.guid === postId);
+
+  // Scroll to top when component mounts or postId changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [postId]);
 
   if (isLoading) {
     return (
@@ -215,13 +221,22 @@ const BlogPost = () => {
               {/* Article Content */}
               <div
                 className="prose prose-invert prose-lg max-w-none
-                  prose-headings:text-foreground
-                  prose-p:text-muted-foreground
-                  prose-a:text-neon-blue prose-a:no-underline hover:prose-a:underline
-                  prose-strong:text-foreground
-                  prose-img:rounded-lg prose-img:shadow-lg
-                  prose-ul:text-muted-foreground
-                  prose-ol:text-muted-foreground"
+                  prose-headings:text-foreground prose-headings:font-bold prose-headings:mb-4 prose-headings:mt-8
+                  prose-h1:text-4xl prose-h1:leading-tight
+                  prose-h2:text-3xl prose-h2:leading-snug
+                  prose-h3:text-2xl prose-h3:leading-snug
+                  prose-h4:text-xl
+                  prose-p:text-muted-foreground prose-p:leading-loose prose-p:mb-6 prose-p:text-lg
+                  prose-a:text-neon-blue prose-a:font-medium prose-a:no-underline prose-a:transition-all
+                  hover:prose-a:text-neon-blue/80 hover:prose-a:underline
+                  prose-strong:text-foreground prose-strong:font-semibold
+                  prose-em:text-foreground/90 prose-em:italic
+                  prose-img:rounded-lg prose-img:shadow-2xl prose-img:my-8
+                  prose-ul:text-muted-foreground prose-ul:leading-loose prose-ul:my-6
+                  prose-ol:text-muted-foreground prose-ol:leading-loose prose-ol:my-6
+                  prose-li:mb-2 prose-li:text-lg
+                  prose-blockquote:border-l-4 prose-blockquote:border-neon-blue/50 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-foreground/80
+                  prose-code:text-neon-blue prose-code:bg-neon-blue/10 prose-code:px-2 prose-code:py-1 prose-code:rounded"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
 
