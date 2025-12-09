@@ -8,6 +8,7 @@ export interface SubstackPost {
   author: string;
   thumbnail: string;
   description: string;
+  content: string;
   guid: string;
   isPodcast: boolean;
   audioUrl?: string;
