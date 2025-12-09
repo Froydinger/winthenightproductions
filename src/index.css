@@ -107,4 +107,30 @@ All colors MUST be HSL.
   .animate-glow {
     animation: glow 2s ease-in-out infinite;
   }
+
+  /* Custom Scrollbar Styling */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(0, 217, 255, 0.4);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 217, 255, 0.6);
+    box-shadow: 0 0 8px rgba(0, 217, 255, 0.6);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 217, 255, 0.8);
+    box-shadow: 0 0 12px rgba(0, 217, 255, 0.8);
+  }
 }
