@@ -6,6 +6,8 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -16,7 +18,12 @@ import {
   MessageCircle,
   TrendingUp,
   Calendar,
-  UserCog
+  UserCog,
+  Video,
+  Trash2,
+  Pin,
+  PinOff,
+  ExternalLink
 } from "lucide-react";
 import {
   Table,
@@ -35,6 +42,16 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type UserWithRole = {
   id: string;
@@ -53,6 +70,16 @@ type SiteStats = {
   recentUsers: number;
 };
 
+type Post = {
+  id: string;
+  display_name: string;
+  content: string;
+  is_pinned: boolean;
+  is_anonymous: boolean;
+  created_at: string;
+  user_id: string | null;
+};
+
 const Admin = () => {
   const navigate = useNavigate();
   const [session, setSession] = useState<Session | null>(null);
@@ -60,6 +87,13 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<SiteStats | null>(null);
   const [users, setUsers] = useState<UserWithRole[]>([]);
+  const [editorsPickVideoId, setEditorsPickVideoId] = useState("");
+  const [savingEditorsPick, setSavingEditorsPick] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<UserWithRole | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [deletePostDialogOpen, setDeletePostDialogOpen] = useState(false);
+  const [postToDelete, setPostToDelete] = useState<Post | null>(null);
 
   useEffect(() => {
     checkAuth();
@@ -99,6 +133,8 @@ const Admin = () => {
     setIsAdmin(true);
     await loadStats();
     await loadUsers();
+    await loadEditorsPick();
+    await loadPosts();
     setLoading(false);
   };
 
@@ -174,6 +210,66 @@ const Admin = () => {
     }
   };
 
+  const loadEditorsPick = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("editors_pick_video_id")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.error("Failed to load editor's pick:", error);
+        return;
+      }
+
+      if (data?.editors_pick_video_id) {
+        setEditorsPickVideoId(data.editors_pick_video_id);
+      }
+    } catch (error) {
+      console.error("Failed to load editor's pick:", error);
+    }
+  };
+
+  const saveEditorsPick = async () => {
+    if (!editorsPickVideoId.trim()) {
+      toast.error("Please enter a video ID or URL");
+      return;
+    }
+
+    setSavingEditorsPick(true);
+    try {
+      // Extract video ID from URL if a full URL is provided
+      let videoId = editorsPickVideoId.trim();
+
+      // Handle various YouTube URL formats
+      const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = videoId.match(youtubeRegex);
+      if (match && match[1]) {
+        videoId = match[1];
+      }
+
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({ editors_pick_video_id: videoId })
+        .eq("id", 1);
+
+      if (error) {
+        console.error("Failed to save editor's pick:", error);
+        toast.error("Failed to save editor's pick");
+        return;
+      }
+
+      setEditorsPickVideoId(videoId);
+      toast.success("Editor's Pick updated successfully!");
+    } catch (error) {
+      console.error("Failed to save editor's pick:", error);
+      toast.error("Failed to save editor's pick");
+    } finally {
+      setSavingEditorsPick(false);
+    }
+  };
+
   const handleRoleChange = async (userId: string, newRole: 'admin' | 'user') => {
     try {
       // Use edge function to set role (bypasses RLS with service role)
@@ -198,6 +294,118 @@ const Admin = () => {
       console.error("Failed to update role:", error);
       toast.error("Failed to update user role");
     }
+  };
+
+  const handleDeleteUser = async () => {
+    if (!userToDelete) return;
+
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-users", {
+        body: { action: "deleteUser", userId: userToDelete.id }
+      });
+
+      if (error) {
+        console.error("Failed to delete user:", error);
+        toast.error(`Failed to delete user: ${error.message}`);
+        return;
+      }
+
+      if (data?.error) {
+        toast.error(`Failed to delete user: ${data.error}`);
+        return;
+      }
+
+      toast.success("User deleted successfully");
+      setDeleteDialogOpen(false);
+      setUserToDelete(null);
+      await loadUsers(); // Refresh the list
+      await loadStats(); // Refresh stats
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+      toast.error("Failed to delete user");
+    }
+  };
+
+  const confirmDeleteUser = (user: UserWithRole) => {
+    if (user.role === 'admin') {
+      toast.error("Cannot delete admin users");
+      return;
+    }
+    setUserToDelete(user);
+    setDeleteDialogOpen(true);
+  };
+
+  const loadPosts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id, display_name, content, is_pinned, is_anonymous, created_at, user_id")
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+      if (error) {
+        console.error("Failed to load posts:", error);
+        toast.error("Failed to load posts");
+        return;
+      }
+
+      setPosts(data || []);
+    } catch (error) {
+      console.error("Failed to load posts:", error);
+      toast.error("Failed to load posts");
+    }
+  };
+
+  const togglePinPost = async (post: Post) => {
+    try {
+      const { error } = await supabase
+        .from("posts")
+        .update({ is_pinned: !post.is_pinned })
+        .eq("id", post.id);
+
+      if (error) {
+        console.error("Failed to toggle pin:", error);
+        toast.error("Failed to update post");
+        return;
+      }
+
+      toast.success(post.is_pinned ? "Post unpinned" : "Post pinned");
+      await loadPosts();
+    } catch (error) {
+      console.error("Failed to toggle pin:", error);
+      toast.error("Failed to update post");
+    }
+  };
+
+  const handleDeletePost = async () => {
+    if (!postToDelete) return;
+
+    try {
+      const { error } = await supabase
+        .from("posts")
+        .delete()
+        .eq("id", postToDelete.id);
+
+      if (error) {
+        console.error("Failed to delete post:", error);
+        toast.error("Failed to delete post");
+        return;
+      }
+
+      toast.success("Post deleted successfully");
+      setDeletePostDialogOpen(false);
+      setPostToDelete(null);
+      await loadPosts();
+      await loadStats();
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+      toast.error("Failed to delete post");
+    }
+  };
+
+  const confirmDeletePost = (post: Post) => {
+    setPostToDelete(post);
+    setDeletePostDialogOpen(true);
   };
 
   if (loading) {
@@ -295,6 +503,63 @@ const Admin = () => {
           </div>
         )}
 
+        {/* Editor's Pick Management */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Video className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Editor&apos;s Pick Video</h2>
+          </div>
+
+          <div className="space-y-4">
+            <p className="text-muted-foreground text-sm">
+              Update the video shown in the Editor&apos;s Pick section on the Watch page. You can paste either a YouTube video ID or a full YouTube URL.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <Label htmlFor="editors-pick-video" className="text-foreground mb-2 block">
+                  YouTube Video ID or URL
+                </Label>
+                <Input
+                  id="editors-pick-video"
+                  type="text"
+                  placeholder="e.g., -7-R4fl4ubU or https://www.youtube.com/watch?v=..."
+                  value={editorsPickVideoId}
+                  onChange={(e) => setEditorsPickVideoId(e.target.value)}
+                  className="bg-background/50 border-border text-foreground"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <Button
+                  onClick={saveEditorsPick}
+                  disabled={savingEditorsPick || !editorsPickVideoId.trim()}
+                  className="bg-neon-blue hover:bg-neon-blue/90 text-black w-full sm:w-auto"
+                >
+                  {savingEditorsPick ? "Saving..." : "Update Video"}
+                </Button>
+              </div>
+            </div>
+
+            {editorsPickVideoId && (
+              <div className="mt-4 pt-4 border-t border-border/30">
+                <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+                <div className="relative w-full max-w-2xl aspect-video bg-card rounded-lg overflow-hidden">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/${editorsPickVideoId.includes('/') || editorsPickVideoId.includes('?') ? editorsPickVideoId.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1] || '' : editorsPickVideoId}`}
+                    title="Editor's Pick Preview"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </Card>
+
         {/* User Management */}
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
           <div className="flex items-center gap-3 mb-6">
@@ -346,23 +611,35 @@ const Admin = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Select
-                        value={user.role || 'none'}
-                        onValueChange={(value) => {
-                          if (value !== 'none' && value !== user.role) {
-                            handleRoleChange(user.id, value as 'admin' | 'user');
-                          }
-                        }}
-                      >
-                        <SelectTrigger className="w-[120px] bg-background/50 border-border">
-                          <SelectValue placeholder="Set role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">No role</SelectItem>
-                          <SelectItem value="user">User</SelectItem>
-                          <SelectItem value="admin">Admin</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="flex items-center gap-2">
+                        <Select
+                          value={user.role || 'none'}
+                          onValueChange={(value) => {
+                            if (value !== 'none' && value !== user.role) {
+                              handleRoleChange(user.id, value as 'admin' | 'user');
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="w-[120px] bg-background/50 border-border">
+                            <SelectValue placeholder="Set role" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">No role</SelectItem>
+                            <SelectItem value="user">User</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => confirmDeleteUser(user)}
+                          disabled={user.role === 'admin'}
+                          className="h-9 w-9 text-destructive hover:text-destructive hover:bg-destructive/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                          title={user.role === 'admin' ? "Cannot delete admin users" : "Delete user"}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -373,6 +650,106 @@ const Admin = () => {
           {users.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
               No users found
+            </div>
+          )}
+        </Card>
+
+        {/* Posts Management */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mt-8">
+          <div className="flex items-center gap-3 mb-6">
+            <FileText className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Posts Management</h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-border">
+                  <TableHead className="text-muted-foreground">Author</TableHead>
+                  <TableHead className="text-muted-foreground">Content</TableHead>
+                  <TableHead className="text-muted-foreground">Status</TableHead>
+                  <TableHead className="text-muted-foreground">Posted</TableHead>
+                  <TableHead className="text-muted-foreground">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {posts.map((post) => (
+                  <TableRow key={post.id} className="border-border">
+                    <TableCell>
+                      <div className="flex flex-col gap-1">
+                        <span className="text-foreground font-medium">
+                          {post.is_anonymous ? "Anonymous" : post.display_name}
+                        </span>
+                        {post.is_pinned && (
+                          <Badge variant="default" className="w-fit bg-neon-blue/20 text-neon-blue border-neon-blue/40">
+                            <Pin className="h-3 w-3 mr-1" />
+                            Pinned
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="max-w-md">
+                      <p className="text-foreground line-clamp-2">
+                        {post.content}
+                      </p>
+                    </TableCell>
+                    <TableCell>
+                      {post.is_anonymous ? (
+                        <Badge variant="outline">Anonymous</Badge>
+                      ) : (
+                        <Badge variant="secondary">Public</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => togglePinPost(post)}
+                          className="h-9 w-9 hover:bg-neon-blue/10 hover:text-neon-blue"
+                          title={post.is_pinned ? "Unpin post" : "Pin post"}
+                        >
+                          {post.is_pinned ? (
+                            <PinOff className="h-4 w-4" />
+                          ) : (
+                            <Pin className="h-4 w-4" />
+                          )}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => window.open("/updates", "_blank")}
+                          className="h-9 w-9 hover:bg-primary/10 hover:text-primary"
+                          title="View in updates"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => confirmDeletePost(post)}
+                          className="h-9 w-9 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          title="Delete post"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          {posts.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No posts found
             </div>
           )}
         </Card>
@@ -392,6 +769,66 @@ const Admin = () => {
           <Footer />
         </div>
       </div>
+
+      {/* Delete User Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent className="bg-card/95 backdrop-blur-xl border-2 border-destructive/30">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-foreground flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-destructive" />
+              Delete User
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-muted-foreground">
+              Are you sure you want to delete{" "}
+              <span className="font-semibold text-foreground">
+                {userToDelete?.display_name || userToDelete?.email}
+              </span>
+              ? This action cannot be undone and will permanently remove the user and all their data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-background/50 border-border hover:bg-background/70">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteUser}
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+            >
+              Delete User
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete Post Confirmation Dialog */}
+      <AlertDialog open={deletePostDialogOpen} onOpenChange={setDeletePostDialogOpen}>
+        <AlertDialogContent className="bg-card/95 backdrop-blur-xl border-2 border-destructive/30">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-foreground flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-destructive" />
+              Delete Post
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-muted-foreground">
+              Are you sure you want to delete this post by{" "}
+              <span className="font-semibold text-foreground">
+                {postToDelete?.is_anonymous ? "Anonymous" : postToDelete?.display_name}
+              </span>
+              ? This action cannot be undone and will permanently remove the post and all its replies.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-background/50 border-border hover:bg-background/70">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeletePost}
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+            >
+              Delete Post
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   );
 };
