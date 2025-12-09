@@ -1,1 +1,10 @@
 project_id = "ltzdvmssuujuoxmewugh"
+
+[functions.send-contact-email]
+verify_jwt = false
+
+[functions.fetch-link-metadata]
+verify_jwt = false
+
+[functions.get-admin-users]
+verify_jwt = true
