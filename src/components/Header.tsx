@@ -14,6 +14,7 @@ import {
   Mail,
   Heart,
   LifeBuoy,
+  BookOpen,
 } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -139,6 +140,7 @@ const Header = () => {
   const pageLinks = [
     { label: "Home", href: "/", icon: Home },
     { label: "Watch", href: "/watch", icon: PlayCircle },
+    { label: "Blog", href: "/blog", icon: BookOpen },
     { label: "Community", href: "/updates", icon: Users },
     { label: "Be Our Guest", href: "/guest", icon: UserPlus },
     { label: "About", href: "/about", icon: Info },
