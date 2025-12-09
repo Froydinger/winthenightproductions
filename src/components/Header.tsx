@@ -190,7 +190,14 @@ const Header = () => {
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-h-0 py-4 relative" ref={scrollAreaRef}>
+            <div
+              className="flex-1 overflow-y-auto min-h-0 py-4 relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neon-blue/40 hover:scrollbar-thumb-neon-blue/60"
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(0, 217, 255, 0.4) transparent'
+              }}
+              ref={scrollAreaRef}
+            >
               <nav className="flex flex-col gap-4">
                 {/* Page Links Section */}
                 <div>
