@@ -1,5 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 type Props = {
   open: boolean;
@@ -27,7 +28,7 @@ export const SupportModal: React.FC<Props> = ({ open, onClose, placement = "moda
             aria-hidden="true"
           />
           <motion.div
-            className="absolute left-1/2 top-1/2 w-[92%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border-2 border-neon-blue/30 bg-card/95 backdrop-blur-xl p-6 shadow-[0_0_24px_rgba(0,217,255,0.3),0_0_6px_rgba(0,217,255,0.4)]"
+            className="absolute left-1/2 top-1/2 w-[95%] max-w-2xl h-[85vh] max-h-[800px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border-2 border-neon-blue/30 bg-card/95 backdrop-blur-xl shadow-[0_0_24px_rgba(0,217,255,0.3),0_0_6px_rgba(0,217,255,0.4)] flex flex-col overflow-hidden"
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
@@ -36,32 +37,34 @@ export const SupportModal: React.FC<Props> = ({ open, onClose, placement = "moda
             aria-modal="true"
             aria-label="Support Win The Night"
           >
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">Support Win The Night</h2>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-              If our work helps you end the day stronger, consider buying us a coffee.
-              Payments complete securely on Buy Me a Coffee.
-            </p>
-
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-black font-semibold px-6 py-3 shadow-neon hover:shadow-[0_0_30px_rgba(0,217,255,0.6)] transition-all duration-300 hover:scale-105"
-              >
-                ☕ Buy us a coffee
-              </a>
+            {/* Header with close button */}
+            <div className="flex items-center justify-between p-4 border-b border-neon-blue/20 flex-shrink-0">
+              <h2 className="text-xl font-bold text-foreground">Support Win The Night</h2>
               <button
                 onClick={onClose}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-card border-2 border-neon-blue/30 text-foreground font-semibold px-6 py-3 hover:bg-neon-blue/10 hover:border-neon-blue/50 transition-all duration-300"
+                className="p-2 rounded-lg hover:bg-neon-blue/10 border border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300"
+                aria-label="Close"
               >
-                Close
+                <X className="w-5 h-5 text-neon-blue" />
               </button>
             </div>
 
-            <p className="mt-4 text-xs text-muted-foreground/70">
-              We track attribution with UTM parameters; no cookies are set by this button.
-            </p>
+            {/* Iframe container */}
+            <div className="flex-1 relative overflow-hidden">
+              <iframe
+                src={href}
+                className="absolute inset-0 w-full h-full border-0"
+                title="Buy Me a Coffee - Win The Night"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Footer note */}
+            <div className="p-3 border-t border-neon-blue/20 flex-shrink-0 bg-card/50">
+              <p className="text-xs text-center text-muted-foreground/70">
+                Secure payments processed by Buy Me a Coffee
+              </p>
+            </div>
           </motion.div>
         </motion.div>
       )}
