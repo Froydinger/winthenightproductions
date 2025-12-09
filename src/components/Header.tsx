@@ -30,7 +30,8 @@ const Header = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [canScrollMore, setCanScrollMore] = useState(false);
+  const [scrollIndicatorOpacity, setScrollIndicatorOpacity] = useState(1);
+  const [isScrollable, setIsScrollable] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -123,9 +124,18 @@ const Header = () => {
   const checkScrollable = () => {
     const el = scrollAreaRef.current;
     if (el) {
-      const hasMoreToScroll = el.scrollHeight > el.clientHeight && 
-        el.scrollTop + el.clientHeight < el.scrollHeight - 10;
-      setCanScrollMore(hasMoreToScroll);
+      // Check if content is scrollable
+      const contentIsScrollable = el.scrollHeight > el.clientHeight;
+      setIsScrollable(contentIsScrollable);
+
+      // Calculate distance from bottom
+      const scrollBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+
+      // Fade out the indicator as we get within 60px of the bottom
+      // Opacity goes from 1 (at 60px+) to 0 (at 0px)
+      const fadeThreshold = 60;
+      const opacity = Math.min(1, scrollBottom / fadeThreshold);
+      setScrollIndicatorOpacity(opacity);
     }
   };
 
@@ -199,7 +209,7 @@ const Header = () => {
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-h-0 py-4 relative" ref={scrollAreaRef} onScroll={checkScrollable}>
+            <div className="flex-1 overflow-y-auto min-h-0 py-4 pb-20 relative" ref={scrollAreaRef} onScroll={checkScrollable}>
               <nav className="flex flex-col gap-4">
                 {/* Page Links Section */}
                 <div>
@@ -243,9 +253,12 @@ const Header = () => {
                 )}
               </nav>
 
-              {/* Scroll indicator */}
-              {canScrollMore && (
-                <div className="sticky -bottom-4 left-0 right-0 flex justify-center pt-16 pb-6 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none">
+              {/* Scroll indicator - fades smoothly as you approach bottom */}
+              {isScrollable && (
+                <div
+                  className="sticky -bottom-4 left-0 right-0 flex justify-center pt-16 pb-6 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none transition-opacity duration-300"
+                  style={{ opacity: scrollIndicatorOpacity }}
+                >
                   <ChevronDown className="h-5 w-5 text-neon-blue animate-bounce" />
                 </div>
               )}
