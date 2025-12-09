@@ -53,7 +53,7 @@ const About = () => {
                   size="lg"
                   className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105"
                 >
-                  <a href="/#community">Join the Community</a>
+                  <a href="#community">Join the Community</a>
                 </Button>
                 <Button
                   asChild
