@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const SUBSTACK_URL = "https://winthenight.blog";
 
@@ -106,6 +106,11 @@ const BlogPostSkeleton = () => (
 
 const Blog = () => {
   const { data: posts = [], isLoading, error } = useSubstackFeed();
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <>
