@@ -110,27 +110,29 @@ All colors MUST be HSL.
 
   /* Custom Scrollbar Styling */
   .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    margin: 4px 0;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: rgba(0, 217, 255, 0.4);
-    border-radius: 3px;
+    background: rgba(0, 217, 255, 0.5);
+    border-radius: 4px;
     transition: all 0.3s ease;
+    min-height: 40px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 217, 255, 0.6);
+    background: rgba(0, 217, 255, 0.7);
     box-shadow: 0 0 8px rgba(0, 217, 255, 0.6);
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:active {
-    background: rgba(0, 217, 255, 0.8);
+    background: rgba(0, 217, 255, 0.9);
     box-shadow: 0 0 12px rgba(0, 217, 255, 0.8);
   }
 }
