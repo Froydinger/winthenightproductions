@@ -2,12 +2,19 @@ import { useSubstackFeed, SubstackPost } from "@/hooks/use-substack-feed";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { ExternalLink, Calendar, User, Bell } from "lucide-react";
+import { ExternalLink, Calendar, User, Bell, Filter, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const SUBSTACK_URL = "https://winthenight.blog";
 
@@ -106,11 +113,38 @@ const BlogPostSkeleton = () => (
 
 const Blog = () => {
   const { data: posts = [], isLoading, error } = useSubstackFeed();
+  const [selectedAuthor, setSelectedAuthor] = useState<string>("all");
+  const [visibleCount, setVisibleCount] = useState(9);
 
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  // Get unique authors from posts
+  const authors = useMemo(() => {
+    const uniqueAuthors = Array.from(new Set(posts.map(post => post.author)));
+    return uniqueAuthors.sort();
+  }, [posts]);
+
+  // Filter posts by selected author
+  const filteredPosts = useMemo(() => {
+    if (selectedAuthor === "all") return posts;
+    return posts.filter(post => post.author === selectedAuthor);
+  }, [posts, selectedAuthor]);
+
+  // Get visible posts based on pagination
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredPosts.length;
+
+  // Reset visible count when filter changes
+  useEffect(() => {
+    setVisibleCount(9);
+  }, [selectedAuthor]);
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 9);
+  };
 
   return (
     <>
@@ -137,7 +171,7 @@ const Blog = () => {
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
                 Insights, stories, and reflections on mental health, personal growth, and winning your nights.
               </p>
-              
+
               {/* CTA Buttons */}
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
@@ -162,6 +196,35 @@ const Blog = () => {
               </div>
             </div>
 
+            {/* Author Filter */}
+            {!isLoading && !error && posts.length > 0 && authors.length > 1 && (
+              <div className="flex justify-center mb-8">
+                <div className="bg-card/40 backdrop-blur-xl border border-neon-blue/20 rounded-xl p-4 inline-flex items-center gap-3 shadow-[0_0_30px_rgba(93,204,255,0.1)]">
+                  <Filter className="h-5 w-5 text-neon-blue" />
+                  <span className="text-sm font-medium text-foreground">Filter by Author:</span>
+                  <Select value={selectedAuthor} onValueChange={setSelectedAuthor}>
+                    <SelectTrigger className="w-48 bg-background/50 border-neon-blue/30 hover:border-neon-blue/50 transition-colors">
+                      <SelectValue placeholder="All Authors" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card/95 backdrop-blur-xl border-neon-blue/30">
+                      <SelectItem value="all" className="hover:bg-neon-blue/10 cursor-pointer">
+                        All Authors ({posts.length})
+                      </SelectItem>
+                      {authors.map((author) => (
+                        <SelectItem
+                          key={author}
+                          value={author}
+                          className="hover:bg-neon-blue/10 cursor-pointer"
+                        >
+                          {author} ({posts.filter(p => p.author === author).length})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+
             {/* Posts Grid */}
             {isLoading ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -179,27 +242,56 @@ const Blog = () => {
                   </a>
                 </Button>
               </div>
-            ) : posts.length === 0 ? (
+            ) : filteredPosts.length === 0 ? (
               <div className="text-center py-16">
-                <p className="text-muted-foreground mb-4">No posts available yet</p>
-                <Button asChild variant="outline">
-                  <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
-                    Check out our Substack
-                    <ExternalLink className="h-4 w-4 ml-2" />
-                  </a>
-                </Button>
+                <div className="bg-card/40 backdrop-blur-xl border border-border/30 rounded-2xl p-12 max-w-md mx-auto">
+                  <p className="text-muted-foreground mb-4">
+                    {selectedAuthor === "all"
+                      ? "No posts available yet"
+                      : `No posts found by ${selectedAuthor}`}
+                  </p>
+                  {selectedAuthor !== "all" && (
+                    <Button
+                      onClick={() => setSelectedAuthor("all")}
+                      variant="outline"
+                      className="mb-4 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/10"
+                    >
+                      View All Posts
+                    </Button>
+                  )}
+                  <Button asChild variant="outline">
+                    <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
+                      Check out our Substack
+                      <ExternalLink className="h-4 w-4 ml-2" />
+                    </a>
+                  </Button>
+                </div>
               </div>
             ) : (
               <>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {posts.map((post) => (
+                  {visiblePosts.map((post) => (
                     <BlogPostCard key={post.guid} post={post} />
                   ))}
                 </div>
-                
+
+                {/* Load More Button */}
+                {hasMore && (
+                  <div className="flex justify-center mt-12">
+                    <Button
+                      onClick={handleLoadMore}
+                      className="bg-neon-blue hover:bg-neon-blue/90 text-white shadow-[0_0_20px_rgba(93,204,255,0.2)] transition-all duration-300 hover:scale-105"
+                      size="lg"
+                    >
+                      <ChevronDown className="h-5 w-5 mr-2" />
+                      Load More Posts ({filteredPosts.length - visibleCount} remaining)
+                    </Button>
+                  </div>
+                )}
+
                 {/* Footer CTA */}
                 <div className="mt-16 text-center">
-                  <div className="inline-flex flex-col items-center gap-4 p-8 bg-card/30 backdrop-blur-sm border border-border/50 rounded-2xl">
+                  <div className="inline-flex flex-col items-center gap-4 p-8 bg-card/40 backdrop-blur-xl border border-neon-blue/20 rounded-2xl shadow-[0_0_30px_rgba(93,204,255,0.1)]">
                     <p className="text-foreground font-medium text-lg">
                       Stay updated with our latest stories
                     </p>
@@ -208,7 +300,7 @@ const Blog = () => {
                     </p>
                     <Button
                       asChild
-                      className="bg-neon-blue hover:bg-neon-blue/90 text-white"
+                      className="bg-neon-blue hover:bg-neon-blue/90 text-white shadow-[0_0_20px_rgba(93,204,255,0.2)]"
                     >
                       <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
                         <Bell className="h-4 w-4 mr-2" />
