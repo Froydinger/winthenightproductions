@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
-const SUBSTACK_RSS_URL = "https://winthenight.substack.com/feed";
-const RSS_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_RSS_URL)}&count=50`;
+// Try both substack domains - the .substack.com one is more reliable
+const SUBSTACK_URLS = [
+  "https://winthenight.substack.com/feed",
+  "https://winthenight.blog/feed"
+];
+
+const getRssApiUrl = (feedUrl: string) => 
+  `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=50`;
 
 export interface SubstackPost {
   title: string;
@@ -32,28 +38,35 @@ export const useSubstackFeed = () => {
   return useQuery({
     queryKey: ["substack-feed"],
     queryFn: async (): Promise<SubstackPost[]> => {
-      try {
-        const response = await fetchWithTimeout(RSS_API_URL);
-        const data = await response.json();
-        console.log("Substack feed fetched:", data.items?.length || 0, "posts");
-        
-        if (data.status === "ok" && data.items) {
-          return data.items.map((item: any) => ({
-            title: item.title || "",
-            link: item.link || "",
-            pubDate: item.pubDate || "",
-            author: item.author || "Win The Night",
-            thumbnail: item.thumbnail || item.enclosure?.link || "",
-            description: item.description || "",
-            content: item.content || "",
-            guid: item.guid || item.link || "",
-          }));
+      // Try each URL until one works
+      for (const feedUrl of SUBSTACK_URLS) {
+        try {
+          const rssApiUrl = getRssApiUrl(feedUrl);
+          console.log("Trying Substack feed:", feedUrl);
+          const response = await fetchWithTimeout(rssApiUrl);
+          const data = await response.json();
+          
+          if (data.status === "ok" && data.items && data.items.length > 0) {
+            console.log("Substack feed fetched from", feedUrl, ":", data.items.length, "posts");
+            return data.items.map((item: any) => ({
+              title: item.title || "",
+              link: item.link || "",
+              pubDate: item.pubDate || "",
+              author: item.author || "Win The Night",
+              thumbnail: item.thumbnail || item.enclosure?.link || "",
+              description: item.description || "",
+              content: item.content || "",
+              guid: item.guid || item.link || "",
+            }));
+          }
+        } catch (error) {
+          console.warn("Failed to fetch from", feedUrl, error);
+          continue;
         }
-        return [];
-      } catch (error) {
-        console.error("Error fetching Substack feed:", error);
-        return [];
       }
+      
+      console.error("All Substack feed URLs failed");
+      return [];
     },
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     refetchOnWindowFocus: false,

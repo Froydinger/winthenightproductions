@@ -147,54 +147,25 @@ const Admin = () => {
 
   const loadUsers = async () => {
     try {
-      // Get all users with their profiles
-      const { data: profiles, error: profilesError } = await supabase
-        .from("user_profiles")
-        .select("user_id, display_name, avatar_url, created_at")
-        .order("created_at", { ascending: false });
-
-      if (profilesError) {
-        console.error("Failed to load profiles:", profilesError);
-        toast.error("Failed to load user profiles");
+      // Use edge function to get users with emails (requires admin auth)
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        console.error("No session for loading users");
         return;
       }
 
-      if (!profiles) return;
+      const { data, error } = await supabase.functions.invoke("get-admin-users");
 
-      // Get all user roles
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("user_id, role");
-
-      // For client-side, we'll use a workaround to get emails
-      // We'll query auth.users through a database function or just show user IDs
-      // For now, let's try to get the current user's email and admin status
-      const usersWithRoles: UserWithRole[] = [];
-
-      for (const profile of profiles) {
-        const userRole = roles?.find(r => r.user_id === profile.user_id);
-
-        // Try to get email from posts (denormalized data)
-        const { data: userPost } = await supabase
-          .from("posts")
-          .select("user_id")
-          .eq("user_id", profile.user_id)
-          .limit(1)
-          .single();
-
-        // For admin panel, we'll need to show a truncated user_id as email fallback
-        // In production, you'd want to create a database view or function that safely exposes emails to admins
-        usersWithRoles.push({
-          id: profile.user_id,
-          email: `user_${profile.user_id.substring(0, 8)}`, // Fallback - shows first 8 chars of UUID
-          created_at: profile.created_at || new Date().toISOString(),
-          display_name: profile.display_name,
-          avatar_url: profile.avatar_url,
-          role: userRole?.role as 'admin' | 'user' || null,
-        });
+      if (error) {
+        console.error("Failed to fetch users via edge function:", error);
+        toast.error("Failed to load users");
+        return;
       }
 
-      setUsers(usersWithRoles);
+      if (data?.users) {
+        console.log("Loaded users:", data.users);
+        setUsers(data.users);
+      }
     } catch (error) {
       console.error("Failed to load users:", error);
       toast.error("Failed to load users");
