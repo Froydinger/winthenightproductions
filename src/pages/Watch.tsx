@@ -7,6 +7,7 @@ import ShortsCarousel from "@/components/ShortsCarousel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Playlist {
   id: string;
@@ -30,10 +31,33 @@ const Watch = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
+  const [editorsPickVideoId, setEditorsPickVideoId] = useState("-7-R4fl4ubU"); // Default fallback
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadEditorsPick();
   }, []);
+
+  const loadEditorsPick = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("editors_pick_video_id")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.error("Failed to load editor's pick:", error);
+        return;
+      }
+
+      if (data?.editors_pick_video_id) {
+        setEditorsPickVideoId(data.editors_pick_video_id);
+      }
+    } catch (error) {
+      console.error("Failed to load editor's pick:", error);
+    }
+  };
 
   // Modal is still here if you ever want to trigger it again
   const openVideoModal = (videoId: string) => {
@@ -166,7 +190,7 @@ const Watch = () => {
                     <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                     <iframe
                       className="relative w-full h-full z-10"
-                      src="https://www.youtube.com/embed/-7-R4fl4ubU"
+                      src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
                       title="Editor's Pick - Win The Night"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -226,7 +250,7 @@ const Watch = () => {
                       <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                       <iframe
                         className="relative w-full h-full z-10"
-                        src="https://www.youtube.com/embed/-7-R4fl4ubU"
+                        src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
                         title="Editor's Pick - Win The Night"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
