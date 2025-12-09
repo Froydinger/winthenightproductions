@@ -9,6 +9,7 @@ export interface SubstackPost {
   thumbnail: string;
   description: string;
   guid: string;
+  isPodcast: boolean;
 }
 
 export const useSubstackFeed = () => {
