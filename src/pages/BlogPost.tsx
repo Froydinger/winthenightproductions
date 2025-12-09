@@ -222,7 +222,7 @@ const BlogPost = () => {
                   prose-img:rounded-lg prose-img:shadow-lg
                   prose-ul:text-muted-foreground
                   prose-ol:text-muted-foreground"
-                dangerouslySetInnerHTML={{ __html: post.description }}
+                dangerouslySetInnerHTML={{ __html: post.content }}
               />
 
               {/* Bottom CTA */}

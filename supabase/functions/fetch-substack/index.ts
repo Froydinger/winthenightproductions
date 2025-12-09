@@ -14,6 +14,7 @@ interface SubstackPost {
   author: string;
   thumbnail: string;
   description: string;
+  content: string;
   guid: string;
   isPodcast: boolean;
   audioUrl?: string;
@@ -95,13 +96,17 @@ function parseRSSItems(xml: string): SubstackPost[] {
     const title = extractTagContent(itemXml, "title");
     const isPodcast = isPodcastEpisode(itemXml, title);
 
+    const description = extractTagContent(itemXml, "description");
+    const fullContent = extractTagContent(itemXml, "content:encoded") || description;
+
     const post: SubstackPost = {
       title,
       link: extractTagContent(itemXml, "link"),
       pubDate: extractTagContent(itemXml, "pubDate"),
       author: extractTagContent(itemXml, "dc:creator") || extractTagContent(itemXml, "author") || "Win The Night",
       thumbnail: extractThumbnail(itemXml),
-      description: extractTagContent(itemXml, "description"),
+      description,
+      content: fullContent,
       guid: extractTagContent(itemXml, "guid") || extractTagContent(itemXml, "link"),
       isPodcast,
       audioUrl: isPodcast ? extractAudioUrl(itemXml) : undefined,
