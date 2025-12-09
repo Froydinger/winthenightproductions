@@ -1,10 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, List } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Playlist {
   id: string;
@@ -27,6 +33,7 @@ const playlists: Playlist[] = [
 const ChapterPage = () => {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
+  const [chaptersDialogOpen, setChaptersDialogOpen] = useState(false);
 
   const playlist = playlists.find(p => p.id === chapterId);
 
@@ -60,7 +67,7 @@ const ChapterPage = () => {
         {/* Hero Section */}
         <div className="relative pt-24 pb-12 px-6 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center justify-between gap-4 mb-6">
               <Button
                 variant="outline"
                 onClick={() => navigate('/watch')}
@@ -68,6 +75,15 @@ const ChapterPage = () => {
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Watch
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={() => setChaptersDialogOpen(true)}
+                className="border-neon-blue/30 text-muted-foreground hover:text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-colors"
+              >
+                <List className="mr-2 h-4 w-4" />
+                Chapters
               </Button>
             </div>
 
@@ -155,6 +171,38 @@ const ChapterPage = () => {
         {/* Footer */}
         <Footer />
       </div>
+
+      {/* Chapters Dialog */}
+      <Dialog open={chaptersDialogOpen} onOpenChange={setChaptersDialogOpen}>
+        <DialogContent className="max-w-md bg-card/95 backdrop-blur-xl border-2 border-neon-blue/30">
+          <DialogHeader>
+            <DialogTitle className="text-foreground flex items-center gap-3">
+              <div className="h-7 w-1 bg-neon-blue rounded-full"></div>
+              All Chapters
+            </DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            {playlists.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => {
+                  navigate(`/watch/${p.id}`);
+                  setChaptersDialogOpen(false);
+                }}
+                className={`px-4 py-3 rounded-lg border transition-all duration-300 font-semibold text-sm ${
+                  p.id === chapterId
+                    ? "bg-neon-blue/20 border-neon-blue text-neon-blue"
+                    : p.id === "specials"
+                    ? "bg-card border-neon-blue/50 hover:border-neon-blue hover:bg-neon-blue/10 text-foreground hover:text-neon-blue"
+                    : "bg-card border-border/50 hover:border-neon-blue/50 hover:bg-card/80 text-muted-foreground hover:text-neon-blue"
+                }`}
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 };
