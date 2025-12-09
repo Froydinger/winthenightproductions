@@ -245,7 +245,7 @@ const Header = () => {
 
               {/* Scroll indicator */}
               {canScrollMore && (
-                <div className="sticky bottom-0 left-0 right-0 flex justify-center py-2 bg-gradient-to-t from-background/95 to-transparent pointer-events-none">
+                <div className="sticky bottom-0 left-0 right-0 flex justify-center pt-12 pb-2 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none">
                   <ChevronDown className="h-5 w-5 text-neon-blue animate-bounce" />
                 </div>
               )}
