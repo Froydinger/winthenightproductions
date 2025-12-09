@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 interface Playlist {
   id: string;
@@ -58,13 +60,15 @@ const ChapterPage = () => {
         {/* Hero Section */}
         <div className="relative pt-24 pb-12 px-6 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-4 mb-4">
-              <button
+            <div className="flex items-center gap-4 mb-6">
+              <Button
+                variant="ghost"
                 onClick={() => navigate('/watch')}
-                className="text-muted-foreground hover:text-neon-blue transition-colors text-sm"
+                className="text-muted-foreground hover:text-neon-blue hover:bg-neon-blue/10 transition-colors"
               >
-                ← Back to Watch
-              </button>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Watch
+              </Button>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
