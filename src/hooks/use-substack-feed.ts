@@ -10,6 +10,7 @@ export interface SubstackPost {
   description: string;
   guid: string;
   isPodcast: boolean;
+  audioUrl?: string;
 }
 
 export const useSubstackFeed = () => {

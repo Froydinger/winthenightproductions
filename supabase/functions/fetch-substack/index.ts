@@ -16,6 +16,7 @@ interface SubstackPost {
   description: string;
   guid: string;
   isPodcast: boolean;
+  audioUrl?: string;
 }
 
 function extractCDATA(text: string): string {
@@ -51,6 +52,15 @@ function isPodcastEpisode(itemXml: string, title: string): boolean {
   return false;
 }
 
+function extractAudioUrl(itemXml: string): string {
+  // Extract audio URL from enclosure tag
+  const enclosureMatch = itemXml.match(/<enclosure[^>]*url="([^"]+)"[^>]*type="([^"]+)"[^>]*>/i);
+  if (enclosureMatch && enclosureMatch[2].includes("audio")) {
+    return enclosureMatch[1];
+  }
+  return "";
+}
+
 function extractThumbnail(itemXml: string): string {
   // Try enclosure first (but skip if it's an audio file)
   const enclosureMatch = itemXml.match(/<enclosure[^>]*url="([^"]+)"[^>]*type="([^"]+)"[^>]*>/i);
@@ -83,6 +93,7 @@ function parseRSSItems(xml: string): SubstackPost[] {
   while ((match = itemRegex.exec(xml)) !== null) {
     const itemXml = match[1];
     const title = extractTagContent(itemXml, "title");
+    const isPodcast = isPodcastEpisode(itemXml, title);
 
     const post: SubstackPost = {
       title,
@@ -92,7 +103,8 @@ function parseRSSItems(xml: string): SubstackPost[] {
       thumbnail: extractThumbnail(itemXml),
       description: extractTagContent(itemXml, "description"),
       guid: extractTagContent(itemXml, "guid") || extractTagContent(itemXml, "link"),
-      isPodcast: isPodcastEpisode(itemXml, title),
+      isPodcast,
+      audioUrl: isPodcast ? extractAudioUrl(itemXml) : undefined,
     };
 
     if (post.title && post.link) {
