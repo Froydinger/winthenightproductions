@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.get-admin-users]
 verify_jwt = true
+
+[functions.fetch-substack]
+verify_jwt = false
+
+[functions.admin-users]
+verify_jwt = true
