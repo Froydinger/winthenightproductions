@@ -203,8 +203,8 @@ const Header = () => {
               <nav className="flex flex-col gap-4">
                 {/* Page Links Section */}
                 <div>
-                  <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">Pages</h3>
-                  <div className="flex flex-col gap-1">
+                  <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-3">Pages</h3>
+                  <div className="grid grid-cols-2 gap-2 px-2">
                     {pageLinks.map((item) => {
                       const Icon = item.icon;
                       return (
@@ -212,10 +212,10 @@ const Header = () => {
                           key={item.label}
                           href={item.href}
                           onClick={() => setIsOpen(false)}
-                          className="w-full text-left px-4 py-3 rounded-lg text-foreground hover:bg-neon-blue/20 hover:text-neon-blue transition-all duration-300 font-medium flex items-center gap-3"
+                          className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border/50 bg-card/50 hover:bg-neon-blue/20 hover:border-neon-blue/50 hover:text-neon-blue text-foreground transition-all duration-300 group"
                         >
-                          <Icon className="h-4 w-4" />
-                          {item.label}
+                          <Icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                          <span className="text-xs font-medium text-center leading-tight">{item.label}</span>
                         </a>
                       );
                     })}
@@ -225,15 +225,15 @@ const Header = () => {
                 {/* Section Anchors - Only show on home page */}
                 {isHomePage && (
                   <div className="pt-2 border-t border-border/30">
-                    <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-2">
+                    <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-3">
                       Jump to Section
                     </h3>
-                    <div className="flex flex-col gap-1">
+                    <div className="grid grid-cols-1 gap-2 px-2">
                       {sectionAnchors.map((item) => (
                         <button
                           key={item.id}
                           onClick={() => scrollToSection(item.id)}
-                          className="w-full text-left px-4 py-3 rounded-lg text-foreground/80 hover:bg-neon-blue/10 hover:text-neon-blue transition-all duration-300 font-normal text-sm"
+                          className="w-full text-center px-4 py-2.5 rounded-lg border border-border/30 bg-card/30 hover:bg-neon-blue/10 hover:border-neon-blue/30 hover:text-neon-blue text-foreground/80 transition-all duration-300 text-sm font-medium"
                         >
                           {item.label}
                         </button>
