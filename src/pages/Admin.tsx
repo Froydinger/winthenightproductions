@@ -154,7 +154,9 @@ const Admin = () => {
         return;
       }
 
-      const { data, error } = await supabase.functions.invoke("get-admin-users");
+      const { data, error } = await supabase.functions.invoke("admin-users", {
+        body: { action: "list" }
+      });
 
       if (error) {
         console.error("Failed to fetch users via edge function:", error);
@@ -174,40 +176,20 @@ const Admin = () => {
 
   const handleRoleChange = async (userId: string, newRole: 'admin' | 'user') => {
     try {
-      // Check if user already has a role
-      const { data: existingRole, error: checkError } = await supabase
-        .from("user_roles")
-        .select("id, role")
-        .eq("user_id", userId)
-        .maybeSingle();
+      // Use edge function to set role (bypasses RLS with service role)
+      const { data, error } = await supabase.functions.invoke("admin-users", {
+        body: { action: "setRole", userId, role: newRole }
+      });
 
-      if (checkError) {
-        console.error("Error checking role:", checkError);
+      if (error) {
+        console.error("Failed to set role:", error);
+        toast.error(`Failed to update role: ${error.message}`);
+        return;
       }
 
-      if (existingRole) {
-        // Update existing role
-        const { error: updateError } = await supabase
-          .from("user_roles")
-          .update({ role: newRole })
-          .eq("user_id", userId);
-
-        if (updateError) {
-          console.error("Update error:", updateError);
-          toast.error(`Failed to update role: ${updateError.message}`);
-          return;
-        }
-      } else {
-        // Insert new role
-        const { error: insertError } = await supabase
-          .from("user_roles")
-          .insert({ user_id: userId, role: newRole });
-
-        if (insertError) {
-          console.error("Insert error:", insertError);
-          toast.error(`Failed to insert role: ${insertError.message}`);
-          return;
-        }
+      if (data?.error) {
+        toast.error(`Failed to update role: ${data.error}`);
+        return;
       }
 
       toast.success(`User role updated to ${newRole}`);

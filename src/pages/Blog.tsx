@@ -68,7 +68,7 @@ const BlogPostCard = ({ post }: { post: SubstackPost }) => {
         </a>
         
         <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-          {getExcerpt(post.description || post.content)}
+          {getExcerpt(post.description)}
         </p>
         
         <div className="flex items-center gap-3 pt-2">
@@ -115,11 +115,15 @@ const Blog = () => {
         <meta name="description" content="Insights, stories, and reflections from Win The Night. Mental health perspectives, personal growth, and community stories." />
       </Helmet>
       
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-        <AnimatedBackground />
+      <main className="min-h-screen relative">
+        {/* Global Animated Background */}
+        <div className="fixed inset-0 z-0">
+          <AnimatedBackground />
+        </div>
+
         <Header />
 
-        <main className="relative z-10 pt-24 pb-16">
+        <div className="relative z-10 pt-24 pb-16">
           <div className="container mx-auto px-4">
             {/* Hero Section */}
             <div className="text-center mb-12">
@@ -234,10 +238,10 @@ const Blog = () => {
               </>
             )}
           </div>
-        </main>
+        </div>
 
         <Footer />
-      </div>
+      </main>
     </>
   );
 };
