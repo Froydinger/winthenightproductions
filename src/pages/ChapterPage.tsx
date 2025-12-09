@@ -62,9 +62,9 @@ const ChapterPage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
               <Button
-                variant="ghost"
+                variant="outline"
                 onClick={() => navigate('/watch')}
-                className="text-muted-foreground hover:text-neon-blue hover:bg-neon-blue/10 transition-colors"
+                className="border-neon-blue/30 text-muted-foreground hover:text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-colors"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Watch
