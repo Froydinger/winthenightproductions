@@ -33,7 +33,7 @@ export const SupportModal: React.FC<Props> = ({ open, onClose, placement = "moda
             aria-hidden="true"
           />
           <motion.div
-            className="absolute left-1/2 top-1/2 w-[92%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border-2 border-neon-blue/30 bg-card/95 backdrop-blur-xl p-6 shadow-[0_0_24px_rgba(0,217,255,0.3),0_0_6px_rgba(0,217,255,0.4)]"
+            className="fixed left-0 right-0 top-0 bottom-0 m-auto w-[92%] max-w-md h-fit rounded-2xl border-2 border-neon-blue/30 bg-card/95 backdrop-blur-xl p-6 shadow-[0_0_24px_rgba(0,217,255,0.3),0_0_6px_rgba(0,217,255,0.4)]"
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
