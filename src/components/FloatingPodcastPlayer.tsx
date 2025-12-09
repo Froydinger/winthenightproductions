@@ -28,6 +28,19 @@ export const FloatingPodcastPlayer = () => {
   const podcastEpisodes = posts.filter(post => post.isPodcast && post.audioUrl);
 
   useEffect(() => {
+    console.log("FloatingPodcastPlayer - Total posts:", posts.length);
+    console.log("FloatingPodcastPlayer - Podcast episodes with audio:", podcastEpisodes.length);
+    if (posts.length > 0) {
+      console.log("FloatingPodcastPlayer - Sample posts:", posts.slice(0, 2).map(p => ({
+        title: p.title,
+        isPodcast: p.isPodcast,
+        hasAudioUrl: !!p.audioUrl,
+        audioUrl: p.audioUrl
+      })));
+    }
+  }, [posts, podcastEpisodes.length]);
+
+  useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.play();
