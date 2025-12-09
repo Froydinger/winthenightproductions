@@ -56,7 +56,7 @@ const ChapterPage = () => {
       {/* Content */}
       <div className="relative z-10">
         {/* Hero Section */}
-        <div className="relative py-12 px-6 md:px-12 lg:px-24">
+        <div className="relative pt-24 pb-12 px-6 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-4 mb-4">
               <button
