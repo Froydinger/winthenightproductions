@@ -21,6 +21,34 @@ const CORS_PROXIES = [
   "https://api.codetabs.com/v1/proxy?quest=",
 ];
 
+// Sanitize HTML content - remove subscribe boxes, forms, and other unwanted elements
+function sanitizeContent(html: string): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  // Remove unwanted elements
+  const unwantedSelectors = [
+    'form',                          // All forms (subscribe forms)
+    'input',                         // All input fields
+    'button[type="submit"]',         // Submit buttons
+    '.subscription-widget',          // Substack subscription widgets
+    '.subscribe',                    // Subscribe sections
+    '[class*="subscribe"]',          // Any class containing "subscribe"
+    '[id*="subscribe"]',             // Any ID containing "subscribe"
+    'iframe',                        // Embedded iframes
+    '.paywall',                      // Paywall content
+    '[data-component="SubscribeWidget"]', // Substack subscribe widget
+    'script',                        // Script tags
+    'style',                         // Style tags (inline styles)
+  ];
+
+  unwantedSelectors.forEach(selector => {
+    doc.querySelectorAll(selector).forEach(el => el.remove());
+  });
+
+  return doc.body.innerHTML;
+}
+
 function parseRSSFeed(xmlText: string): SubstackPost[] {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xmlText, "text/xml");
@@ -86,7 +114,7 @@ function parseRSSFeed(xmlText: string): SubstackPost[] {
         author,
         thumbnail,
         description,
-        content,
+        content: sanitizeContent(content), // Sanitize content to remove subscribe boxes and forms
         guid,
         isPodcast,
         audioUrl,
