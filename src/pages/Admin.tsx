@@ -6,8 +6,6 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -19,7 +17,6 @@ import {
   TrendingUp,
   Calendar,
   UserCog,
-  Video,
   Trash2,
   Pin,
   PinOff,
@@ -87,8 +84,6 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<SiteStats | null>(null);
   const [users, setUsers] = useState<UserWithRole[]>([]);
-  const [editorsPickVideoId, setEditorsPickVideoId] = useState("");
-  const [savingEditorsPick, setSavingEditorsPick] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<UserWithRole | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -133,7 +128,6 @@ const Admin = () => {
     setIsAdmin(true);
     await loadStats();
     await loadUsers();
-    await loadEditorsPick();
     await loadPosts();
     setLoading(false);
   };
@@ -207,66 +201,6 @@ const Admin = () => {
     } catch (error) {
       console.error("Failed to load users:", error);
       toast.error("Failed to load users");
-    }
-  };
-
-  const loadEditorsPick = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("watch_settings")
-        .select("editors_pick_video_id")
-        .eq("id", 1)
-        .single();
-
-      if (error) {
-        console.error("Failed to load editor's pick:", error);
-        return;
-      }
-
-      if (data?.editors_pick_video_id) {
-        setEditorsPickVideoId(data.editors_pick_video_id);
-      }
-    } catch (error) {
-      console.error("Failed to load editor's pick:", error);
-    }
-  };
-
-  const saveEditorsPick = async () => {
-    if (!editorsPickVideoId.trim()) {
-      toast.error("Please enter a video ID or URL");
-      return;
-    }
-
-    setSavingEditorsPick(true);
-    try {
-      // Extract video ID from URL if a full URL is provided
-      let videoId = editorsPickVideoId.trim();
-
-      // Handle various YouTube URL formats
-      const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-      const match = videoId.match(youtubeRegex);
-      if (match && match[1]) {
-        videoId = match[1];
-      }
-
-      const { error } = await supabase
-        .from("watch_settings")
-        .update({ editors_pick_video_id: videoId })
-        .eq("id", 1);
-
-      if (error) {
-        console.error("Failed to save editor's pick:", error);
-        toast.error("Failed to save editor's pick");
-        return;
-      }
-
-      setEditorsPickVideoId(videoId);
-      toast.success("Editor's Pick updated successfully!");
-    } catch (error) {
-      console.error("Failed to save editor's pick:", error);
-      toast.error("Failed to save editor's pick");
-    } finally {
-      setSavingEditorsPick(false);
     }
   };
 
@@ -502,63 +436,6 @@ const Admin = () => {
             </Card>
           </div>
         )}
-
-        {/* Editor's Pick Management */}
-        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <Video className="h-6 w-6 text-neon-blue" />
-            <h2 className="text-2xl font-bold text-foreground">Editor&apos;s Pick Video</h2>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-muted-foreground text-sm">
-              Update the video shown in the Editor&apos;s Pick section on the Watch page. You can paste either a YouTube video ID or a full YouTube URL.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <Label htmlFor="editors-pick-video" className="text-foreground mb-2 block">
-                  YouTube Video ID or URL
-                </Label>
-                <Input
-                  id="editors-pick-video"
-                  type="text"
-                  placeholder="e.g., -7-R4fl4ubU or https://www.youtube.com/watch?v=..."
-                  value={editorsPickVideoId}
-                  onChange={(e) => setEditorsPickVideoId(e.target.value)}
-                  className="bg-background/50 border-border text-foreground"
-                />
-              </div>
-
-              <div className="flex items-end">
-                <Button
-                  onClick={saveEditorsPick}
-                  disabled={savingEditorsPick || !editorsPickVideoId.trim()}
-                  className="bg-neon-blue hover:bg-neon-blue/90 text-black w-full sm:w-auto"
-                >
-                  {savingEditorsPick ? "Saving..." : "Update Video"}
-                </Button>
-              </div>
-            </div>
-
-            {editorsPickVideoId && (
-              <div className="mt-4 pt-4 border-t border-border/30">
-                <p className="text-sm text-muted-foreground mb-2">Preview:</p>
-                <div className="relative w-full max-w-2xl aspect-video bg-card rounded-lg overflow-hidden">
-                  <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${editorsPickVideoId.includes('/') || editorsPickVideoId.includes('?') ? editorsPickVideoId.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1] || '' : editorsPickVideoId}`}
-                    title="Editor's Pick Preview"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </Card>
 
         {/* User Management */}
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
