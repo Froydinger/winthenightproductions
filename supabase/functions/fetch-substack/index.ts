@@ -30,7 +30,9 @@ function extractCDATA(text: string): string {
 }
 
 function extractTagContent(xml: string, tagName: string): string {
-  const regex = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`, 'i');
+  // Escape special regex characters in tag name (for tags like content:encoded)
+  const escapedTagName = tagName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/:/g, ':');
+  const regex = new RegExp(`<${escapedTagName}[^>]*>([\\s\\S]*?)<\\/${escapedTagName}>`, 'i');
   const match = xml.match(regex);
   if (match) {
     return extractCDATA(match[1].trim());
@@ -97,7 +99,14 @@ function parseRSSItems(xml: string): SubstackPost[] {
     const isPodcast = isPodcastEpisode(itemXml, title);
 
     const description = extractTagContent(itemXml, "description");
-    const fullContent = extractTagContent(itemXml, "content:encoded") || description;
+    // Try multiple content field names
+    let fullContent = extractTagContent(itemXml, "content:encoded");
+    if (!fullContent) {
+      fullContent = extractTagContent(itemXml, "content");
+    }
+    if (!fullContent) {
+      fullContent = description;
+    }
 
     const post: SubstackPost = {
       title,
