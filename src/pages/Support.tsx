@@ -4,9 +4,12 @@ import { Coffee, Heart, Zap, Mic, Users } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useEffect } from "react";
+import { SupportModal } from "@/components/SupportModal";
+import { useEffect, useState } from "react";
 
 const Support = () => {
+  const [showSupportModal, setShowSupportModal] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -112,19 +115,12 @@ const Support = () => {
                 </p>
                 <div className="pt-2 sm:pt-4">
                   <Button
-                    asChild
+                    onClick={() => setShowSupportModal(true)}
                     size="lg"
                     className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-base sm:text-lg px-6 sm:px-12 py-5 sm:py-6 h-auto w-full sm:w-auto"
                   >
-                    <a
-                      href="https://www.buymeacoffee.com/winthenight"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2"
-                    >
-                      <Heart className="w-5 h-5 flex-shrink-0" />
-                      <span>Support Win The Night</span>
-                    </a>
+                    <Heart className="w-5 h-5 flex-shrink-0" />
+                    <span>Support Win The Night</span>
                   </Button>
                 </div>
               </div>
@@ -144,6 +140,13 @@ const Support = () => {
         {/* Footer */}
         <Footer />
       </div>
+
+      {/* Support Modal */}
+      <SupportModal
+        open={showSupportModal}
+        onClose={() => setShowSupportModal(false)}
+        placement="support_page"
+      />
     </main>
   );
 };
