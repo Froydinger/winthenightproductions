@@ -13,7 +13,14 @@ export interface SubstackPost {
   audioUrl?: string;
 }
 
-const SUBSTACK_FEED_URL = "https://winthenight.substack.com/feed";
+// Request more posts from Substack RSS feed
+// Testing different URL patterns to fetch maximum posts
+const SUBSTACK_FEED_URLS = [
+  "https://winthenight.substack.com/feed?limit=100",  // Try with limit parameter
+  "https://winthenight.substack.com/feed?count=100",  // Try with count parameter
+  "https://winthenight.substack.com/feed",            // Standard feed as fallback
+];
+
 // Try multiple CORS proxies as fallbacks
 const CORS_PROXIES = [
   "https://corsproxy.io/?",
@@ -129,68 +136,97 @@ export const useSubstackFeed = () => {
   return useQuery({
     queryKey: ["substack-feed"],
     queryFn: async (): Promise<SubstackPost[]> => {
-      console.log("Starting Substack RSS feed fetch...");
+      console.log("Starting Substack RSS feed fetch with multiple URL strategies...");
 
-      // Try each CORS proxy in sequence
-      for (let i = 0; i < CORS_PROXIES.length; i++) {
-        const proxy = CORS_PROXIES[i];
-        try {
-          console.log(`Attempting fetch with proxy ${i + 1}/${CORS_PROXIES.length}:`, proxy);
+      let bestResult: SubstackPost[] = [];
+      let maxPostsFound = 0;
 
-          const proxyUrl = `${proxy}${encodeURIComponent(SUBSTACK_FEED_URL)}`;
-          const response = await fetch(proxyUrl, {
-            signal: AbortSignal.timeout(10000), // 10 second timeout
-          });
+      // Try each feed URL variant to find which returns the most posts
+      for (let feedIndex = 0; feedIndex < SUBSTACK_FEED_URLS.length; feedIndex++) {
+        const feedUrl = SUBSTACK_FEED_URLS[feedIndex];
+        console.log(`\n🔍 Testing feed URL ${feedIndex + 1}/${SUBSTACK_FEED_URLS.length}:`, feedUrl);
 
-          if (!response.ok) {
-            console.warn(`Proxy ${i + 1} failed with status:`, response.status);
-            continue; // Try next proxy
-          }
+        // Try each CORS proxy for this feed URL
+        for (let proxyIndex = 0; proxyIndex < CORS_PROXIES.length; proxyIndex++) {
+          const proxy = CORS_PROXIES[proxyIndex];
+          try {
+            console.log(`  Attempting with proxy ${proxyIndex + 1}/${CORS_PROXIES.length}`);
 
-          const xmlText = await response.text();
-          console.log(`✓ RSS feed fetched via proxy ${i + 1}, length:`, xmlText.length);
-
-          const allPosts = parseRSSFeed(xmlText);
-          console.log("Parsed", allPosts.length, "total posts from RSS");
-
-          if (allPosts.length === 0) {
-            console.warn("No posts parsed, trying next proxy...");
-            continue;
-          }
-
-          // Filter out podcast posts - only show blog articles
-          const blogPosts = allPosts.filter(post => !post.isPodcast);
-
-          console.log("✓ Filtered to", blogPosts.length, "blog posts (removed", allPosts.length - blogPosts.length, "podcast episodes)");
-
-          if (blogPosts.length > 0) {
-            console.log("First blog post:", {
-              title: blogPosts[0].title,
-              hasContent: !!blogPosts[0].content,
-              contentLength: blogPosts[0].content.length,
+            const proxyUrl = `${proxy}${encodeURIComponent(feedUrl)}`;
+            const response = await fetch(proxyUrl, {
+              signal: AbortSignal.timeout(10000), // 10 second timeout
             });
-          }
 
-          return blogPosts;
-        } catch (error) {
-          console.error(`Proxy ${i + 1} error:`, error);
-          // Continue to next proxy
+            if (!response.ok) {
+              console.warn(`  ✗ Proxy ${proxyIndex + 1} failed with status:`, response.status);
+              continue; // Try next proxy
+            }
+
+            const xmlText = await response.text();
+            const allPosts = parseRSSFeed(xmlText);
+
+            if (allPosts.length === 0) {
+              console.warn(`  ✗ No posts parsed from this URL+proxy combination`);
+              continue;
+            }
+
+            // Filter out podcast posts - only show blog articles
+            const blogPosts = allPosts.filter(post => !post.isPodcast);
+
+            console.log(`  ✓ Found ${allPosts.length} total posts, ${blogPosts.length} blog posts (filtered ${allPosts.length - blogPosts.length} podcasts)`);
+
+            // Keep track of the best result (most blog posts found)
+            if (blogPosts.length > maxPostsFound) {
+              maxPostsFound = blogPosts.length;
+              bestResult = blogPosts;
+              console.log(`  🎯 NEW BEST: ${blogPosts.length} blog posts from this feed URL!`);
+
+              // If we got a good amount, show date range
+              if (blogPosts.length > 0) {
+                const oldestPost = blogPosts[blogPosts.length - 1];
+                const newestPost = blogPosts[0];
+                console.log(`  📅 Date range: ${new Date(oldestPost.pubDate).toLocaleDateString()} to ${new Date(newestPost.pubDate).toLocaleDateString()}`);
+              }
+            }
+
+            // Successfully fetched - break out of proxy loop for this feed URL
+            break;
+          } catch (error) {
+            console.error(`  ✗ Proxy ${proxyIndex + 1} error:`, error);
+            // Continue to next proxy
+          }
+        }
+
+        // If we found posts with this feed URL, we can move on
+        if (maxPostsFound > 0) {
+          // Continue trying other feed URLs to see if any return more posts
+          continue;
         }
       }
 
-      // All proxies failed, try direct fetch as last resort
-      console.log("All proxies failed, attempting direct fetch...");
-      try {
-        const response = await fetch(SUBSTACK_FEED_URL);
-        if (response.ok) {
-          const xmlText = await response.text();
-          const allPosts = parseRSSFeed(xmlText);
-          const blogPosts = allPosts.filter(post => !post.isPodcast);
-          console.log("✓ Direct fetch succeeded, got", blogPosts.length, "blog posts");
-          return blogPosts;
+      // If we found posts from any URL strategy, return the best result
+      if (maxPostsFound > 0) {
+        console.log(`\n✅ FINAL RESULT: Returning ${maxPostsFound} blog posts`);
+        return bestResult;
+      }
+
+      // All feed URLs and proxies failed, try direct fetch as last resort
+      console.log("\n⚠️ All feed URLs and proxies failed, attempting direct fetch...");
+      for (const feedUrl of SUBSTACK_FEED_URLS) {
+        try {
+          const response = await fetch(feedUrl);
+          if (response.ok) {
+            const xmlText = await response.text();
+            const allPosts = parseRSSFeed(xmlText);
+            const blogPosts = allPosts.filter(post => !post.isPodcast);
+            if (blogPosts.length > 0) {
+              console.log(`✓ Direct fetch succeeded with ${feedUrl}, got ${blogPosts.length} blog posts`);
+              return blogPosts;
+            }
+          }
+        } catch (error) {
+          console.error(`Direct fetch failed for ${feedUrl}:`, error);
         }
-      } catch (error) {
-        console.error("Direct fetch also failed:", error);
       }
 
       console.error("❌ All fetch attempts failed");
@@ -198,7 +234,7 @@ export const useSubstackFeed = () => {
     },
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     refetchOnWindowFocus: true,
-    retry: 1, // Reduce retries since we already try multiple proxies
+    retry: 1, // Reduce retries since we already try multiple strategies
     retryDelay: 2000,
   });
 };
