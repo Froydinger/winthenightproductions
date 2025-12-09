@@ -32,6 +32,7 @@ const Watch = () => {
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
   const [editorsPickVideoId, setEditorsPickVideoId] = useState("TXzfkLNW4e4"); // Default fallback
+  const [playingVideos, setPlayingVideos] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -65,6 +66,10 @@ const Watch = () => {
     setVideoModalOpen(true);
   };
 
+  const handlePlayVideo = (videoId: string) => {
+    setPlayingVideos(prev => new Set(prev).add(videoId));
+  };
+
   return (
     <main className="min-h-screen relative">
       <div className="fixed inset-0 z-0">
@@ -79,15 +84,38 @@ const Watch = () => {
           <div className="max-w-7xl mx-auto">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
-              <iframe
-                className="relative w-full h-full z-10"
-                src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                title="Win The Night – Chapter 7"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
+              {!playingVideos.has('hero') ? (
+                <div
+                  className="relative w-full h-full z-10 cursor-pointer group"
+                  onClick={() => handlePlayVideo('hero')}
+                >
+                  <img
+                    src="https://img.youtube.com/vi/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD/maxresdefault.jpg"
+                    alt="Win The Night – Chapter 7"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://img.youtube.com/vi/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD/hqdefault.jpg";
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                    <div className="w-20 h-20 bg-neon-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <svg className="w-10 h-10 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <iframe
+                  className="relative w-full h-full z-10"
+                  src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD&autoplay=1"
+                  title="Win The Night – Chapter 7"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              )}
             </div>
 
             {/* Headline */}
@@ -165,15 +193,38 @@ const Watch = () => {
                 <div className="w-full group">
                   <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                     <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                    <iframe
-                      className="relative w-full h-full z-10"
-                      src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                      title="Latest Episode - Chapter 7"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
+                    {!playingVideos.has('latest-mobile') ? (
+                      <div
+                        className="relative w-full h-full z-10 cursor-pointer"
+                        onClick={() => handlePlayVideo('latest-mobile')}
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD/maxresdefault.jpg"
+                          alt="Latest Episode"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://img.youtube.com/vi/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD/hqdefault.jpg";
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                          <div className="w-16 h-16 bg-neon-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <iframe
+                        className="relative w-full h-full z-10"
+                        src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD&autoplay=1"
+                        title="Latest Episode - Chapter 7"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -188,15 +239,38 @@ const Watch = () => {
                 <div className="w-full group">
                   <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                     <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                    <iframe
-                      className="relative w-full h-full z-10"
-                      src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
-                      title="Editor's Pick - Win The Night"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
+                    {!playingVideos.has('editors-pick-mobile') ? (
+                      <div
+                        className="relative w-full h-full z-10 cursor-pointer"
+                        onClick={() => handlePlayVideo('editors-pick-mobile')}
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${editorsPickVideoId}/maxresdefault.jpg`}
+                          alt="Editor's Pick"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = `https://img.youtube.com/vi/${editorsPickVideoId}/hqdefault.jpg`;
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                          <div className="w-16 h-16 bg-blue-600/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <iframe
+                        className="relative w-full h-full z-10"
+                        src={`https://www.youtube.com/embed/${editorsPickVideoId}?autoplay=1`}
+                        title="Editor's Pick - Win The Night"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -225,15 +299,38 @@ const Watch = () => {
                   <div className="w-full group">
                     <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                       <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                      <iframe
-                        className="relative w-full h-full z-10"
-                        src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                        title="Latest Episode - Chapter 7"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                      />
+                      {!playingVideos.has('latest-desktop') ? (
+                        <div
+                          className="relative w-full h-full z-10 cursor-pointer"
+                          onClick={() => handlePlayVideo('latest-desktop')}
+                        >
+                          <img
+                            src="https://img.youtube.com/vi/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD/maxresdefault.jpg"
+                            alt="Latest Episode"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "https://img.youtube.com/vi/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD/hqdefault.jpg";
+                            }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                            <div className="w-16 h-16 bg-neon-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                              <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <iframe
+                          className="relative w-full h-full z-10"
+                          src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD&autoplay=1"
+                          title="Latest Episode - Chapter 7"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -248,15 +345,38 @@ const Watch = () => {
                   <div className="w-full group">
                     <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                       <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                      <iframe
-                        className="relative w-full h-full z-10"
-                        src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
-                        title="Editor's Pick - Win The Night"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                      />
+                      {!playingVideos.has('editors-pick-desktop') ? (
+                        <div
+                          className="relative w-full h-full z-10 cursor-pointer"
+                          onClick={() => handlePlayVideo('editors-pick-desktop')}
+                        >
+                          <img
+                            src={`https://img.youtube.com/vi/${editorsPickVideoId}/maxresdefault.jpg`}
+                            alt="Editor's Pick"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = `https://img.youtube.com/vi/${editorsPickVideoId}/hqdefault.jpg`;
+                            }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                            <div className="w-16 h-16 bg-blue-600/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <iframe
+                          className="relative w-full h-full z-10"
+                          src={`https://www.youtube.com/embed/${editorsPickVideoId}?autoplay=1`}
+                          title="Editor's Pick - Win The Night"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
