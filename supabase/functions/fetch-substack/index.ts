@@ -15,6 +15,7 @@ interface SubstackPost {
   thumbnail: string;
   description: string;
   guid: string;
+  isPodcast: boolean;
 }
 
 function extractCDATA(text: string): string {
@@ -35,25 +36,40 @@ function extractTagContent(xml: string, tagName: string): string {
   return "";
 }
 
+function isPodcastEpisode(itemXml: string, title: string): boolean {
+  // Check if enclosure is audio
+  const enclosureMatch = itemXml.match(/<enclosure[^>]*type="([^"]+)"[^>]*>/i);
+  if (enclosureMatch && enclosureMatch[1].includes("audio")) {
+    return true;
+  }
+
+  // Check if title contains episode indicators
+  if (title.match(/\bEP\.\s*\d+|\bEpisode\s+\d+/i)) {
+    return true;
+  }
+
+  return false;
+}
+
 function extractThumbnail(itemXml: string): string {
-  // Try enclosure first
-  const enclosureMatch = itemXml.match(/<enclosure[^>]*url="([^"]+)"[^>]*>/i);
-  if (enclosureMatch) {
+  // Try enclosure first (but skip if it's an audio file)
+  const enclosureMatch = itemXml.match(/<enclosure[^>]*url="([^"]+)"[^>]*type="([^"]+)"[^>]*>/i);
+  if (enclosureMatch && !enclosureMatch[2].includes("audio")) {
     return enclosureMatch[1];
   }
-  
+
   // Try media:content
   const mediaMatch = itemXml.match(/<media:content[^>]*url="([^"]+)"[^>]*>/i);
   if (mediaMatch) {
     return mediaMatch[1];
   }
-  
+
   // Try to find image in content
   const imgMatch = itemXml.match(/<img[^>]*src="([^"]+)"[^>]*>/i);
   if (imgMatch) {
     return imgMatch[1];
   }
-  
+
   return "";
 }
 
@@ -66,17 +82,19 @@ function parseRSSItems(xml: string): SubstackPost[] {
   
   while ((match = itemRegex.exec(xml)) !== null) {
     const itemXml = match[1];
-    
+    const title = extractTagContent(itemXml, "title");
+
     const post: SubstackPost = {
-      title: extractTagContent(itemXml, "title"),
+      title,
       link: extractTagContent(itemXml, "link"),
       pubDate: extractTagContent(itemXml, "pubDate"),
       author: extractTagContent(itemXml, "dc:creator") || extractTagContent(itemXml, "author") || "Win The Night",
       thumbnail: extractThumbnail(itemXml),
       description: extractTagContent(itemXml, "description"),
       guid: extractTagContent(itemXml, "guid") || extractTagContent(itemXml, "link"),
+      isPodcast: isPodcastEpisode(itemXml, title),
     };
-    
+
     if (post.title && post.link) {
       items.push(post);
     }

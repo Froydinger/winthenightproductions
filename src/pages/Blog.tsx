@@ -2,10 +2,11 @@ import { useSubstackFeed, SubstackPost } from "@/hooks/use-substack-feed";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { ExternalLink, Calendar, User, MessageCircle, Heart, Bell } from "lucide-react";
+import { ExternalLink, Calendar, User, MessageCircle, Heart, Bell, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Helmet } from "react-helmet";
+import { useState } from "react";
 
 const SUBSTACK_URL = "https://winthenight.blog";
 
@@ -34,21 +35,33 @@ const getExcerpt = (content: string, maxLength: number = 200) => {
 };
 
 const BlogPostCard = ({ post }: { post: SubstackPost }) => {
+  const [expanded, setExpanded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const showLogo = post.isPodcast || !post.thumbnail || imageError;
+  const logoUrl = "/icon-512.png";
+
   return (
     <article className="group relative bg-card/30 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:border-neon-blue/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(93,204,255,0.15)]">
-      {post.thumbnail && (
-        <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
-          <div className="aspect-video overflow-hidden">
-            <img
-              src={post.thumbnail}
-              alt={post.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-          </div>
-        </a>
-      )}
-      
+      <div className="aspect-video overflow-hidden bg-gradient-to-br from-neon-blue/10 to-purple-500/10 flex items-center justify-center">
+        {showLogo ? (
+          <img
+            src={logoUrl}
+            alt="Win The Night Logo"
+            className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <img
+            src={post.thumbnail}
+            alt={post.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            onError={() => setImageError(true)}
+          />
+        )}
+      </div>
+
       <div className="p-6 space-y-4">
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <span className="flex items-center gap-1.5">
@@ -60,18 +73,35 @@ const BlogPostCard = ({ post }: { post: SubstackPost }) => {
             {post.author}
           </span>
         </div>
-        
-        <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
-          <h2 className="text-xl font-bold text-foreground group-hover:text-neon-blue transition-colors duration-300 line-clamp-2">
-            {post.title}
-          </h2>
-        </a>
-        
-        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-          {getExcerpt(post.description)}
-        </p>
-        
-        <div className="flex items-center gap-3 pt-2">
+
+        <h2 className="text-xl font-bold text-foreground group-hover:text-neon-blue transition-colors duration-300">
+          {post.title}
+        </h2>
+
+        <div className={`text-muted-foreground text-sm leading-relaxed transition-all duration-300 ${expanded ? '' : 'line-clamp-3'}`}>
+          <div dangerouslySetInnerHTML={{ __html: post.description }} />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 pt-2">
+          <Button
+            onClick={() => setExpanded(!expanded)}
+            variant="ghost"
+            size="sm"
+            className="text-neon-blue hover:text-neon-blue hover:bg-neon-blue/10"
+          >
+            {expanded ? (
+              <>
+                Show Less
+                <ChevronUp className="h-3.5 w-3.5 ml-2" />
+              </>
+            ) : (
+              <>
+                Read More
+                <ChevronDown className="h-3.5 w-3.5 ml-2" />
+              </>
+            )}
+          </Button>
+
           <Button
             asChild
             variant="outline"
@@ -79,8 +109,20 @@ const BlogPostCard = ({ post }: { post: SubstackPost }) => {
             className="border-neon-blue/50 text-neon-blue hover:bg-neon-blue/10"
           >
             <a href={post.link} target="_blank" rel="noopener noreferrer">
-              Read on Substack
-              <ExternalLink className="h-3.5 w-3.5 ml-2" />
+              <Heart className="h-3.5 w-3.5 mr-2" />
+              Like on Substack
+            </a>
+          </Button>
+
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="border-neon-blue/50 text-neon-blue hover:bg-neon-blue/10"
+          >
+            <a href={post.link} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="h-3.5 w-3.5 mr-2" />
+              Comment
             </a>
           </Button>
         </div>
