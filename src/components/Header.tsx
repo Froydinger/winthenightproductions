@@ -22,6 +22,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import AuthDialog from "@/components/updates/AuthDialog";
 import { Button } from "@/components/ui/button";
+import SidebarPodcastPlayer from "@/components/SidebarPodcastPlayer";
 
 const Header = () => {
   const [logoVisible, setLogoVisible] = useState(false);
@@ -240,6 +241,9 @@ const Header = () => {
                     </div>
                   </div>
                 )}
+
+                {/* Podcast Player */}
+                <SidebarPodcastPlayer />
               </nav>
             </div>
 
