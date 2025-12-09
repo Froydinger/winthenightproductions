@@ -67,14 +67,11 @@ const Footer = () => {
                 <span>Support Us</span>
               </Link>
               <a
-                href="https://winthenight.blog"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/blog"
                 className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
               >
                 <BookOpen className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Blog (Substack)</span>
-                <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span>Blog</span>
               </a>
               <Link
                 to="/crisis-resources"
