@@ -31,7 +31,7 @@ const Watch = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
-  const [editorsPickVideoId, setEditorsPickVideoId] = useState("-7-R4fl4ubU"); // Default fallback
+  const [editorsPickVideoId, setEditorsPickVideoId] = useState("TXzfkLNW4e4"); // Default fallback
 
   useEffect(() => {
     window.scrollTo(0, 0);
