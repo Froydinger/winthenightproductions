@@ -191,10 +191,11 @@ const Header = () => {
             </div>
 
             <div
-              className="flex-1 overflow-y-auto min-h-0 py-4 relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neon-blue/40 hover:scrollbar-thumb-neon-blue/60"
+              className="flex-1 overflow-y-scroll min-h-0 py-4 pr-1 relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neon-blue/40 hover:scrollbar-thumb-neon-blue/60"
               style={{
                 scrollbarWidth: 'thin',
-                scrollbarColor: 'rgba(0, 217, 255, 0.4) transparent'
+                scrollbarColor: 'rgba(0, 217, 255, 0.4) transparent',
+                scrollbarGutter: 'stable'
               }}
               ref={scrollAreaRef}
             >
