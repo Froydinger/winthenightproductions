@@ -24,7 +24,7 @@ const formatDate = (dateString: string) => {
 
 const BlogPost = () => {
   const { postId } = useParams<{ postId: string }>();
-  const { data: posts = [], isLoading } = useSubstackFeed();
+  const { data: posts = [], isLoading, isError } = useSubstackFeed();
 
   const post = posts.find(p => p.guid === postId);
 
@@ -33,6 +33,7 @@ const BlogPost = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [postId]);
 
+  // Show loading state while fetching
   if (isLoading) {
     return (
       <>
@@ -71,7 +72,8 @@ const BlogPost = () => {
     );
   }
 
-  if (!post) {
+  // Show not found if post doesn't exist after loading
+  if (!post || isError) {
     return (
       <>
         <Helmet>
