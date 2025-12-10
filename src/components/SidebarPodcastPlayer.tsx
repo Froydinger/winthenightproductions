@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useSubstackPodcast, SubstackPodcastEpisode } from "@/hooks/use-substack-podcast";
 import { useSubstackFeed } from "@/hooks/use-substack-feed";
-import { Headphones, Play, Pause, ExternalLink, ChevronDown, ChevronUp, X } from "lucide-react";
+import { useAudio, AudioEpisode } from "@/context/AudioContext";
+import { Headphones, Play, Pause, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 
 const SUBSTACK_PODCAST_URL = "https://winthenight.substack.com/podcast";
 
@@ -17,41 +18,42 @@ const formatDate = (dateString: string) => {
   }
 };
 
-const SidebarPodcastPlayer = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [currentEpisode, setCurrentEpisode] = useState<SubstackPodcastEpisode | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+const ListenNowSection = () => {
+  const [isExpanded, setIsExpanded] = useState(true);
   const { data: podcastEpisodes = [], isLoading: isPodcastLoading } = useSubstackPodcast(5);
   const { data: allPosts = [], isLoading: isFeedLoading } = useSubstackFeed();
+  const { currentEpisode, isPlaying, setCurrentEpisode, setIsPlaying } = useAudio();
 
   // Fallback to blog feed's podcast posts if dedicated endpoint is empty
   const blogPodcasts = allPosts
     .filter(post => post.isPodcast && post.audioUrl)
     .slice(0, 5)
-    .map((post, index) => ({
+    .map((post) => ({
       id: post.guid,
       title: post.title,
       description: post.description,
       audioUrl: post.audioUrl || "",
       pubDate: post.pubDate,
-      duration: undefined,
     }));
 
   const episodes = podcastEpisodes.length > 0 ? podcastEpisodes : blogPodcasts;
   const isLoading = isPodcastLoading || (isFeedLoading && podcastEpisodes.length === 0);
 
-  const handlePlayEpisode = (episode: SubstackPodcastEpisode) => {
+  const handlePlayEpisode = (episode: SubstackPodcastEpisode | AudioEpisode) => {
+    const audioEpisode: AudioEpisode = {
+      id: episode.id,
+      title: episode.title,
+      description: episode.description,
+      audioUrl: episode.audioUrl,
+      pubDate: episode.pubDate,
+    };
+
     if (currentEpisode?.id === episode.id) {
       setIsPlaying(!isPlaying);
     } else {
-      setCurrentEpisode(episode);
+      setCurrentEpisode(audioEpisode);
       setIsPlaying(true);
     }
-  };
-
-  const handleClosePlayer = () => {
-    setCurrentEpisode(null);
-    setIsPlaying(false);
   };
 
   if (isLoading) {
@@ -60,7 +62,7 @@ const SidebarPodcastPlayer = () => {
         <div className="flex items-center gap-2 px-4 mb-3">
           <Headphones className="h-4 w-4 text-neon-blue animate-pulse" />
           <span className="text-xs font-semibold text-neon-blue uppercase tracking-wider">
-            Loading Podcasts...
+            Loading Episodes...
           </span>
         </div>
       </div>
@@ -77,7 +79,7 @@ const SidebarPodcastPlayer = () => {
         <div className="flex items-center gap-2">
           <Headphones className="h-4 w-4 text-neon-blue" />
           <span className="text-xs font-semibold text-neon-blue uppercase tracking-wider">
-            Audio RSS Feed
+            Listen Now
           </span>
         </div>
         {isExpanded ? (
@@ -97,37 +99,6 @@ const SidebarPodcastPlayer = () => {
             </div>
           ) : (
             <>
-              {/* Now Playing */}
-              {currentEpisode && (
-                <div className="bg-accent/50 rounded-lg p-3 mb-3 border border-neon-blue/30">
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-xs text-neon-blue font-medium">Now Playing</p>
-                    <button
-                      onClick={handleClosePlayer}
-                      className="p-1 hover:bg-accent rounded transition-colors"
-                      aria-label="Close player"
-                    >
-                      <X className="h-3 w-3 text-muted-foreground" />
-                    </button>
-                  </div>
-                  <p className="text-xs text-foreground line-clamp-2 mb-3">
-                    {currentEpisode.title}
-                  </p>
-                  {/* Native Audio Player */}
-                  <audio
-                    controls
-                    autoPlay={isPlaying}
-                    className="w-full h-8"
-                    style={{ minHeight: '32px' }}
-                    onPlay={() => setIsPlaying(true)}
-                    onPause={() => setIsPlaying(false)}
-                  >
-                    <source src={currentEpisode.audioUrl} type="audio/mpeg" />
-                    Your browser does not support audio.
-                  </audio>
-                </div>
-              )}
-
               {/* Episode List */}
               <div className="space-y-1">
                 {episodes.map((episode) => (
@@ -181,4 +152,4 @@ const SidebarPodcastPlayer = () => {
   );
 };
 
-export default SidebarPodcastPlayer;
+export default ListenNowSection;
