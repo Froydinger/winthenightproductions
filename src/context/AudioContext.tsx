@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 
 export interface AudioEpisode {
   id: string;
@@ -36,8 +36,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (saved) {
       try {
         const state = JSON.parse(saved);
-        setCurrentEpisode(state.episode);
-        setCurrentTime(state.currentTime || 0);
+        if (state.episode && state.episode.audioUrl) {
+          setCurrentEpisode(state.episode);
+          setCurrentTime(state.currentTime || 0);
+        }
       } catch (e) {
         console.error('Failed to restore audio state:', e);
       }
@@ -57,19 +59,40 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [currentEpisode, currentTime]);
 
+  // Update audio src when episode changes
+  useEffect(() => {
+    if (!audioRef.current) return;
+    if (currentEpisode?.audioUrl) {
+      audioRef.current.src = currentEpisode.audioUrl;
+      audioRef.current.currentTime = currentTime;
+      if (isPlaying) {
+        audioRef.current.play().catch(err => {
+          console.error('Failed to play audio:', err);
+          setIsPlaying(false);
+        });
+      }
+    }
+  }, [currentEpisode?.audioUrl]);
+
   // Handle play/pause
   useEffect(() => {
     if (!audioRef.current) return;
 
-    if (isPlaying) {
-      audioRef.current.play().catch(err => {
+    const playAudio = async () => {
+      try {
+        await audioRef.current!.play();
+      } catch (err) {
         console.error('Failed to play audio:', err);
         setIsPlaying(false);
-      });
+      }
+    };
+
+    if (isPlaying && currentEpisode) {
+      playAudio();
     } else {
       audioRef.current.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, currentEpisode]);
 
   // Update current time
   useEffect(() => {
@@ -81,33 +104,39 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
+      setDuration(audio.duration || 0);
     };
 
     const handleEnded = () => {
       setIsPlaying(false);
     };
 
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
     };
   }, []);
 
-  // Restore playback time when episode changes
-  useEffect(() => {
-    if (!audioRef.current || !currentEpisode) return;
-    audioRef.current.currentTime = currentTime;
-  }, [currentEpisode, currentTime]);
-
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
   return (
     <AudioContext.Provider
@@ -127,8 +156,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       {children}
       <audio
         ref={audioRef}
-        src={currentEpisode?.audioUrl}
         crossOrigin="anonymous"
+        preload="metadata"
       />
     </AudioContext.Provider>
   );

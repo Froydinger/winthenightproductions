@@ -202,7 +202,9 @@ const Header = () => {
             >
               <nav className="flex flex-col gap-4">
                 {/* Listen Now - Podcast Player at Top */}
-                <SidebarPodcastPlayer />
+                <div className="pb-3 border-b border-border/30">
+                  <SidebarPodcastPlayer />
+                </div>
 
                 {/* Page Links Section */}
                 <div>
