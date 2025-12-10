@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSubstackPodcast, SubstackPodcastEpisode } from "@/hooks/use-substack-podcast";
+import { useSubstackFeed } from "@/hooks/use-substack-feed";
 import { Headphones, Play, Pause, ExternalLink, ChevronDown, ChevronUp, X } from "lucide-react";
 
 const SUBSTACK_PODCAST_URL = "https://winthenight.substack.com/podcast";
@@ -20,7 +21,24 @@ const SidebarPodcastPlayer = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentEpisode, setCurrentEpisode] = useState<SubstackPodcastEpisode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const { data: episodes = [], isLoading } = useSubstackPodcast(5);
+  const { data: podcastEpisodes = [], isLoading: isPodcastLoading } = useSubstackPodcast(5);
+  const { data: allPosts = [], isLoading: isFeedLoading } = useSubstackFeed();
+
+  // Fallback to blog feed's podcast posts if dedicated endpoint is empty
+  const blogPodcasts = allPosts
+    .filter(post => post.isPodcast && post.audioUrl)
+    .slice(0, 5)
+    .map((post, index) => ({
+      id: post.guid,
+      title: post.title,
+      description: post.description,
+      audioUrl: post.audioUrl || "",
+      pubDate: post.pubDate,
+      duration: undefined,
+    }));
+
+  const episodes = podcastEpisodes.length > 0 ? podcastEpisodes : blogPodcasts;
+  const isLoading = isPodcastLoading || (isFeedLoading && podcastEpisodes.length === 0);
 
   const handlePlayEpisode = (episode: SubstackPodcastEpisode) => {
     if (currentEpisode?.id === episode.id) {

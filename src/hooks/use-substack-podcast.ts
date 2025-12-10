@@ -31,10 +31,10 @@ export const useSubstackPodcast = (limit: number = 5) => {
     queryFn: async (): Promise<SubstackPodcastEpisode[]> => {
       try {
         console.log("Fetching Substack podcast episodes...");
-        
+
         // Use a CORS proxy since Substack doesn't allow direct browser access
         const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_PODCAST_RSS)}&count=${limit}`;
-        
+
         const response = await fetchWithTimeout(proxyUrl);
         const data = await response.json();
 
@@ -44,18 +44,27 @@ export const useSubstackPodcast = (limit: number = 5) => {
         }
 
         const episodes: SubstackPodcastEpisode[] = data.items
-          .filter((item: any) => item.enclosure?.link) // Only items with audio
+          .filter((item: any) => {
+            // Check multiple possible enclosure properties that rss2json might use
+            const hasAudio = item.enclosure?.link || item.enclosure?.url || item.media?.content?.[0]?.url;
+            return hasAudio;
+          })
           .slice(0, limit)
-          .map((item: any, index: number) => ({
-            id: item.guid || `episode-${index}`,
-            title: item.title || "Untitled Episode",
-            description: item.description?.replace(/<[^>]*>/g, '').substring(0, 200) || "",
-            audioUrl: item.enclosure?.link || "",
-            pubDate: item.pubDate || new Date().toISOString(),
-            duration: item.enclosure?.duration || undefined,
-          }));
+          .map((item: any, index: number) => {
+            // Handle multiple enclosure property variations from rss2json
+            const audioUrl = item.enclosure?.link || item.enclosure?.url || item.media?.content?.[0]?.url || "";
 
-        console.log(`Found ${episodes.length} Substack podcast episodes`);
+            return {
+              id: item.guid || item.link || `episode-${index}`,
+              title: item.title || "Untitled Episode",
+              description: item.description?.replace(/<[^>]*>/g, '').substring(0, 200) || item.summary?.replace(/<[^>]*>/g, '').substring(0, 200) || "",
+              audioUrl,
+              pubDate: item.pubDate || item.published || new Date().toISOString(),
+              duration: item.enclosure?.duration || item.media?.content?.[0]?.duration || undefined,
+            };
+          });
+
+        console.log(`Found ${episodes.length} Substack podcast episodes`, episodes);
         return episodes;
       } catch (error) {
         console.error("Error fetching Substack podcast:", error);
