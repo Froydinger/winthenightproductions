@@ -201,6 +201,9 @@ const Header = () => {
               ref={scrollAreaRef}
             >
               <nav className="flex flex-col gap-4">
+                {/* Listen Now - Podcast Player at Top */}
+                <SidebarPodcastPlayer />
+
                 {/* Page Links Section */}
                 <div>
                   <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-3">Pages</h3>
@@ -242,8 +245,6 @@ const Header = () => {
                   </div>
                 )}
 
-                {/* Podcast Player */}
-                <SidebarPodcastPlayer />
               </nav>
             </div>
 

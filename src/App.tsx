@@ -4,6 +4,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { AudioProvider } from "@/context/AudioContext";
+import { FloatingAudioButton } from "@/components/FloatingAudioButton";
+import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BeOurGuest = lazy(() => import("./pages/BeOurGuest"));
@@ -34,33 +37,36 @@ const LoadingSkeleton = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<LoadingSkeleton />}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/guest" element={<BeOurGuest />} />
-            {/* Redirect old guest routes to /guest */}
-            <Route path="/be-our-guest" element={<Navigate to="/guest" replace />} />
-            <Route path="/be-ourguest" element={<Navigate to="/guest" replace />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/crisis-resources" element={<CrisisResources />} />
-            <Route path="/watch" element={<Watch />} />
-            <Route path="/watch/:chapterId" element={<ChapterPage />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/updates" element={<Updates />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:postId" element={<BlogPost />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AudioProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <FloatingAudioButton />
+          <Suspense fallback={<LoadingSkeleton />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/guest" element={<BeOurGuest />} />
+              {/* Redirect old guest routes to /guest */}
+              <Route path="/be-our-guest" element={<Navigate to="/guest" replace />} />
+              <Route path="/be-ourguest" element={<Navigate to="/guest" replace />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/crisis-resources" element={<CrisisResources />} />
+              <Route path="/watch" element={<Watch />} />
+              <Route path="/watch/:chapterId" element={<ChapterPage />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/updates" element={<Updates />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:postId" element={<BlogPost />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AudioProvider>
   </QueryClientProvider>
 );
 
