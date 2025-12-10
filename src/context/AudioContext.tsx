@@ -65,14 +65,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (currentEpisode?.audioUrl) {
       audioRef.current.src = currentEpisode.audioUrl;
       audioRef.current.currentTime = currentTime;
-      if (isPlaying) {
-        audioRef.current.play().catch(err => {
-          console.error('Failed to play audio:', err);
-          setIsPlaying(false);
-        });
-      }
     }
-  }, [currentEpisode?.audioUrl]);
+  }, [currentEpisode?.audioUrl, currentTime]);
 
   // Handle play/pause
   useEffect(() => {

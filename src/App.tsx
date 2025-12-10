@@ -5,8 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AudioProvider } from "@/context/AudioContext";
-import { FloatingAudioButton } from "@/components/FloatingAudioButton";
-import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BeOurGuest = lazy(() => import("./pages/BeOurGuest"));
@@ -20,6 +18,7 @@ const About = lazy(() => import("./pages/About"));
 const Updates = lazy(() => import("./pages/Updates"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Listen = lazy(() => import("./pages/Listen"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -42,7 +41,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <FloatingAudioButton />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -54,6 +52,7 @@ const App = () => (
               <Route path="/crisis-resources" element={<CrisisResources />} />
               <Route path="/watch" element={<Watch />} />
               <Route path="/watch/:chapterId" element={<ChapterPage />} />
+              <Route path="/listen" element={<Listen />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
