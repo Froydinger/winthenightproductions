@@ -26,7 +26,8 @@ const BlogPost = () => {
   const { postId } = useParams<{ postId: string }>();
   const { data: posts = [], isLoading, isError } = useSubstackFeed();
 
-  const post = posts.find(p => p.guid === postId);
+  const decodedPostId = postId ? decodeURIComponent(postId) : '';
+  const post = posts.find(p => p.guid === decodedPostId);
 
   // Scroll to top when component mounts or postId changes
   useEffect(() => {
