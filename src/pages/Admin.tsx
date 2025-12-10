@@ -6,6 +6,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -18,9 +19,9 @@ import {
   Calendar,
   UserCog,
   Trash2,
-  Pin,
-  PinOff,
-  ExternalLink
+  ExternalLink,
+  Video,
+  Save
 } from "lucide-react";
 import {
   Table,
@@ -71,7 +72,6 @@ type Post = {
   id: string;
   display_name: string;
   content: string;
-  is_pinned: boolean;
   is_anonymous: boolean;
   created_at: string;
   user_id: string | null;
@@ -89,6 +89,8 @@ const Admin = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [deletePostDialogOpen, setDeletePostDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<Post | null>(null);
+  const [editorsPickVideoId, setEditorsPickVideoId] = useState("");
+  const [savingEditorsPick, setSavingEditorsPick] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -129,6 +131,7 @@ const Admin = () => {
     await loadStats();
     await loadUsers();
     await loadPosts();
+    await loadEditorsPick();
     setLoading(false);
   };
 
@@ -269,11 +272,60 @@ const Admin = () => {
     setDeleteDialogOpen(true);
   };
 
+  const loadEditorsPick = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("editors_pick_video_id")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to load editor's pick:", error);
+        return;
+      }
+
+      if (data?.editors_pick_video_id) {
+        setEditorsPickVideoId(data.editors_pick_video_id);
+      }
+    } catch (error) {
+      console.error("Failed to load editor's pick:", error);
+    }
+  };
+
+  const saveEditorsPick = async () => {
+    if (!editorsPickVideoId.trim()) {
+      toast.error("Please enter a video ID");
+      return;
+    }
+
+    setSavingEditorsPick(true);
+    try {
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({ editors_pick_video_id: editorsPickVideoId.trim() })
+        .eq("id", 1);
+
+      if (error) {
+        console.error("Failed to save editor's pick:", error);
+        toast.error("Failed to save editor's pick");
+        return;
+      }
+
+      toast.success("Editor's pick updated!");
+    } catch (error) {
+      console.error("Failed to save editor's pick:", error);
+      toast.error("Failed to save editor's pick");
+    } finally {
+      setSavingEditorsPick(false);
+    }
+  };
+
   const loadPosts = async () => {
     try {
       const { data, error } = await supabase
         .from("posts")
-        .select("id, display_name, content, is_pinned, is_anonymous, created_at, user_id")
+        .select("id, display_name, content, is_anonymous, created_at, user_id")
         .order("created_at", { ascending: false })
         .limit(20);
 
@@ -287,27 +339,6 @@ const Admin = () => {
     } catch (error) {
       console.error("Failed to load posts:", error);
       toast.error("Failed to load posts");
-    }
-  };
-
-  const togglePinPost = async (post: Post) => {
-    try {
-      const { error } = await supabase
-        .from("posts")
-        .update({ is_pinned: !post.is_pinned })
-        .eq("id", post.id);
-
-      if (error) {
-        console.error("Failed to toggle pin:", error);
-        toast.error("Failed to update post");
-        return;
-      }
-
-      toast.success(post.is_pinned ? "Post unpinned" : "Post pinned");
-      await loadPosts();
-    } catch (error) {
-      console.error("Failed to toggle pin:", error);
-      toast.error("Failed to update post");
     }
   };
 
@@ -437,6 +468,56 @@ const Admin = () => {
           </div>
         )}
 
+        {/* Watch Page Settings */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Video className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Watch Page Settings</h2>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Editor's Pick Video ID
+              </label>
+              <p className="text-xs text-muted-foreground mb-3">
+                Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from youtube.com/watch?v=dQw4w9WgXcQ)
+              </p>
+              <div className="flex gap-3">
+                <Input
+                  value={editorsPickVideoId}
+                  onChange={(e) => setEditorsPickVideoId(e.target.value)}
+                  placeholder="Enter YouTube video ID"
+                  className="max-w-md bg-background/50 border-border"
+                />
+                <Button
+                  onClick={saveEditorsPick}
+                  disabled={savingEditorsPick}
+                  className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  {savingEditorsPick ? "Saving..." : "Save"}
+                </Button>
+              </div>
+              {editorsPickVideoId && (
+                <div className="mt-4">
+                  <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                  <div className="aspect-video max-w-sm rounded-lg overflow-hidden border border-border/50">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
+                      title="Editor's Pick Preview"
+                      className="w-full h-full"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </Card>
+
         {/* User Management */}
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
           <div className="flex items-center gap-3 mb-6">
@@ -553,17 +634,9 @@ const Admin = () => {
                 {posts.map((post) => (
                   <TableRow key={post.id} className="border-border">
                     <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-foreground font-medium">
-                          {post.is_anonymous ? "Anonymous" : post.display_name}
-                        </span>
-                        {post.is_pinned && (
-                          <Badge variant="default" className="w-fit bg-neon-blue/20 text-neon-blue border-neon-blue/40">
-                            <Pin className="h-3 w-3 mr-1" />
-                            Pinned
-                          </Badge>
-                        )}
-                      </div>
+                      <span className="text-foreground font-medium">
+                        {post.is_anonymous ? "Anonymous" : post.display_name}
+                      </span>
                     </TableCell>
                     <TableCell className="max-w-md">
                       <p className="text-foreground line-clamp-2">
@@ -585,19 +658,6 @@ const Admin = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => togglePinPost(post)}
-                          className="h-9 w-9 hover:bg-neon-blue/10 hover:text-neon-blue"
-                          title={post.is_pinned ? "Unpin post" : "Pin post"}
-                        >
-                          {post.is_pinned ? (
-                            <PinOff className="h-4 w-4" />
-                          ) : (
-                            <Pin className="h-4 w-4" />
-                          )}
-                        </Button>
                         <Button
                           variant="ghost"
                           size="icon"

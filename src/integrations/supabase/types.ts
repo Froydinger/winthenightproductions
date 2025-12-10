@@ -174,6 +174,27 @@ export type Database = {
         }
         Relationships: []
       }
+      watch_settings: {
+        Row: {
+          created_at: string
+          editors_pick_video_id: string | null
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          editors_pick_video_id?: string | null
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          editors_pick_video_id?: string | null
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

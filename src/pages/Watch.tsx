@@ -44,7 +44,7 @@ const Watch = () => {
         .from("watch_settings")
         .select("editors_pick_video_id")
         .eq("id", 1)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Failed to load editor's pick:", error);

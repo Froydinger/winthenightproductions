@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useYouTubePodcast, YouTubePodcastEpisode } from "@/hooks/use-youtube-podcast";
-import { Headphones, Play, ExternalLink, ChevronDown, ChevronUp, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useSubstackPodcast, SubstackPodcastEpisode } from "@/hooks/use-substack-podcast";
+import { Headphones, Play, Pause, ExternalLink, ChevronDown, ChevronUp, X } from "lucide-react";
 
-const YOUTUBE_MUSIC_PODCAST_URL = "https://music.youtube.com/@winthenight";
-const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@winthenight";
+const SUBSTACK_PODCAST_URL = "https://winthenight.substack.com/podcast";
 
 const formatDate = (dateString: string) => {
   try {
@@ -20,19 +18,22 @@ const formatDate = (dateString: string) => {
 
 const SidebarPodcastPlayer = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentEpisode, setCurrentEpisode] = useState<YouTubePodcastEpisode | null>(null);
-  const { data: episodes = [], isLoading } = useYouTubePodcast(3);
+  const [currentEpisode, setCurrentEpisode] = useState<SubstackPodcastEpisode | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const { data: episodes = [], isLoading } = useSubstackPodcast(5);
 
-  const handlePlayEpisode = (episode: YouTubePodcastEpisode) => {
+  const handlePlayEpisode = (episode: SubstackPodcastEpisode) => {
     if (currentEpisode?.id === episode.id) {
-      setCurrentEpisode(null);
+      setIsPlaying(!isPlaying);
     } else {
       setCurrentEpisode(episode);
+      setIsPlaying(true);
     }
   };
 
   const handleClosePlayer = () => {
     setCurrentEpisode(null);
+    setIsPlaying(false);
   };
 
   if (isLoading) {
@@ -62,7 +63,7 @@ const SidebarPodcastPlayer = () => {
         <div className="flex items-center gap-2">
           <Headphones className="h-4 w-4 text-neon-blue" />
           <span className="text-xs font-semibold text-neon-blue uppercase tracking-wider">
-            Podcast
+            Audio RSS Feed
           </span>
         </div>
         {isExpanded ? (
@@ -76,7 +77,7 @@ const SidebarPodcastPlayer = () => {
         <div className="px-2 space-y-2">
           {/* Now Playing */}
           {currentEpisode && (
-            <div className="bg-accent/50 rounded-lg p-2 mb-3 border border-neon-blue/30">
+            <div className="bg-accent/50 rounded-lg p-3 mb-3 border border-neon-blue/30">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-xs text-neon-blue font-medium">Now Playing</p>
                 <button
@@ -87,19 +88,21 @@ const SidebarPodcastPlayer = () => {
                   <X className="h-3 w-3 text-muted-foreground" />
                 </button>
               </div>
-              <p className="text-xs text-foreground line-clamp-1 mb-2">
+              <p className="text-xs text-foreground line-clamp-2 mb-3">
                 {currentEpisode.title}
               </p>
-              {/* Compact YouTube Player - Audio focused but video visible for ToS compliance */}
-              <div className="relative w-full aspect-video rounded overflow-hidden bg-black">
-                <iframe
-                  src={`https://www.youtube.com/embed/${currentEpisode.id}?autoplay=1&rel=0&modestbranding=1`}
-                  title={currentEpisode.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
-              </div>
+              {/* Native Audio Player */}
+              <audio
+                controls
+                autoPlay={isPlaying}
+                className="w-full h-8"
+                style={{ minHeight: '32px' }}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              >
+                <source src={currentEpisode.audioUrl} type="audio/mpeg" />
+                Your browser does not support audio.
+              </audio>
             </div>
           )}
 
@@ -115,13 +118,13 @@ const SidebarPodcastPlayer = () => {
                     : "hover:bg-accent/50 border border-transparent"
                 }`}
               >
-                {/* Thumbnail */}
-                <div className="flex-shrink-0 w-12 h-9 rounded overflow-hidden bg-card">
-                  <img
-                    src={episode.thumbnail}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
+                {/* Play Icon */}
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-blue/20 flex items-center justify-center">
+                  {currentEpisode?.id === episode.id && isPlaying ? (
+                    <Pause className="h-3 w-3 text-neon-blue" />
+                  ) : (
+                    <Play className="h-3 w-3 text-neon-blue ml-0.5" />
+                  )}
                 </div>
                 {/* Info */}
                 <div className="flex-1 min-w-0 text-left">
@@ -132,38 +135,20 @@ const SidebarPodcastPlayer = () => {
                     {formatDate(episode.pubDate)}
                   </p>
                 </div>
-                {/* Play indicator */}
-                <div className="flex-shrink-0">
-                  {currentEpisode?.id === episode.id ? (
-                    <div className="w-5 h-5 rounded-full bg-neon-blue flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 bg-white rounded-sm" />
-                    </div>
-                  ) : (
-                    <Play className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </div>
               </button>
             ))}
           </div>
 
           {/* More Episodes Link */}
-          <div className="pt-2 space-y-1">
+          <div className="pt-2">
             <a
-              href={YOUTUBE_MUSIC_PODCAST_URL}
+              href={SUBSTACK_PODCAST_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full px-3 py-2 text-xs font-medium text-neon-blue hover:text-neon-blue/80 bg-neon-blue/10 hover:bg-neon-blue/20 rounded-lg transition-all duration-200 border border-neon-blue/20 hover:border-neon-blue/40"
             >
               <ExternalLink className="h-3 w-3" />
-              More on YouTube Music
-            </a>
-            <a
-              href={YOUTUBE_CHANNEL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full px-3 py-1.5 text-[10px] text-muted-foreground hover:text-foreground transition-colors"
-            >
-              View on YouTube
+              More on Substack
             </a>
           </div>
         </div>
