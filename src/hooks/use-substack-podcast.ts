@@ -33,7 +33,8 @@ export const useSubstackPodcast = (limit: number = 5) => {
         console.log("Fetching Substack podcast episodes from:", SUBSTACK_PODCAST_RSS);
 
         // Use a CORS proxy since Substack doesn't allow direct browser access
-        const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_PODCAST_RSS)}&count=${limit}`;
+        // Note: rss2json free tier doesn't support 'count' parameter without API key
+        const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_PODCAST_RSS)}`;
         console.log("Using proxy URL:", proxyUrl);
 
         const response = await fetchWithTimeout(proxyUrl);
