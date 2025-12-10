@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { LogOut, Camera, Loader2, Trash2 } from "lucide-react";
-import { getAvatarUrlSync } from "@/lib/avatar-utils";
 
 interface ProfileSettingsProps {
   open: boolean;
@@ -30,10 +29,6 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  // Admin gets the logo, everyone else can upload custom avatars
-  const isAdmin = session.user.email === "j@froydinger.com";
-  const adminAvatarUrl = getAvatarUrlSync(session.user.email);
 
   useEffect(() => {
     if (open) {
@@ -149,7 +144,7 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
 
     const profileData = {
       display_name: displayName,
-      avatar_url: isAdmin ? adminAvatarUrl : customAvatarUrl,
+      avatar_url: customAvatarUrl,
     };
 
     if (existing) {
@@ -175,9 +170,6 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
     toast.success("Signed out");
   };
 
-  // Display avatar: admin gets logo, others get custom or fallback
-  const displayAvatarUrl = isAdmin ? adminAvatarUrl : customAvatarUrl;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-card/95 backdrop-blur-lg border-border max-w-md">
@@ -189,25 +181,23 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
           <div className="flex flex-col items-center gap-4">
             <div className="relative group">
               <Avatar className="h-24 w-24 ring-4 ring-primary/30">
-                <AvatarImage src={displayAvatarUrl || undefined} />
+                <AvatarImage src={customAvatarUrl || undefined} />
                 <AvatarFallback className="bg-primary/20 text-primary text-3xl">
                   {displayName[0]?.toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
               
-              {/* Upload overlay - only for non-admin users */}
-              {!isAdmin && (
-                <div 
-                  className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  {uploading ? (
-                    <Loader2 className="h-8 w-8 text-white animate-spin" />
-                  ) : (
-                    <Camera className="h-8 w-8 text-white" />
-                  )}
-                </div>
-              )}
+              {/* Upload overlay */}
+              <div 
+                className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {uploading ? (
+                  <Loader2 className="h-8 w-8 text-white animate-spin" />
+                ) : (
+                  <Camera className="h-8 w-8 text-white" />
+                )}
+              </div>
             </div>
 
             <input
@@ -218,40 +208,34 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
               className="hidden"
             />
 
-            {isAdmin ? (
-              <p className="text-sm text-muted-foreground text-center">
-                Your avatar is the Win The Night logo
-              </p>
-            ) : (
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex gap-2">
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="border-primary/30 hover:border-primary"
+                >
+                  <Camera className="h-4 w-4 mr-2" />
+                  {customAvatarUrl ? 'Change' : 'Upload'} Avatar
+                </Button>
+                {customAvatarUrl && (
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => fileInputRef.current?.click()}
+                    onClick={handleRemoveAvatar}
                     disabled={uploading}
-                    className="border-primary/30 hover:border-primary"
+                    className="border-destructive/30 text-destructive hover:bg-destructive/10"
                   >
-                    <Camera className="h-4 w-4 mr-2" />
-                    {customAvatarUrl ? 'Change' : 'Upload'} Avatar
+                    <Trash2 className="h-4 w-4" />
                   </Button>
-                  {customAvatarUrl && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleRemoveAvatar}
-                      disabled={uploading}
-                      className="border-destructive/30 text-destructive hover:bg-destructive/10"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  JPG, PNG or WebP. Max 2MB.
-                </p>
+                )}
               </div>
-            )}
+              <p className="text-xs text-muted-foreground">
+                JPG, PNG or WebP. Max 2MB.
+              </p>
+            </div>
           </div>
 
           {/* Display Name */}
