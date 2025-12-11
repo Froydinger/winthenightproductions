@@ -41,7 +41,7 @@ const HeroSection = () => {
           {/* Main Content */}
           <div className="space-y-6 max-w-4xl mx-auto">
             <p
-              className="text-xl sm:text-3xl lg:text-4xl font-light leading-relaxed"
+              className="text-xl sm:text-3xl lg:text-4xl font-thin leading-relaxed"
               style={{ animationDelay: "200ms" }}
             >
               <span className="text-foreground">
@@ -54,7 +54,7 @@ const HeroSection = () => {
                 </span>
                 <span className="sm:inline"> </span>
               </span>
-              <span className="text-neon-blue font-bold">One Conversation at a Time.</span>
+              <span className="text-neon-blue">One <span className="font-bold">Conversation</span> at a Time.</span>
             </p>
 
             <Accordion type="single" collapsible className="max-w-3xl mx-auto" style={{ animationDelay: "400ms" }}>
