@@ -18,12 +18,13 @@ interface ProfileSettingsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   session: Session;
+  onProfileUpdate?: () => void;
 }
 
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
 
-const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) => {
+const ProfileSettings = ({ open, onOpenChange, session, onProfileUpdate }: ProfileSettingsProps) => {
   const [displayName, setDisplayName] = useState("");
   const [customAvatarUrl, setCustomAvatarUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -162,6 +163,11 @@ const ProfileSettings = ({ open, onOpenChange, session }: ProfileSettingsProps) 
     setLoading(false);
     toast.success("Profile updated!");
     onOpenChange(false);
+
+    // Trigger timeline refresh to show updated avatar
+    if (onProfileUpdate) {
+      onProfileUpdate();
+    }
   };
 
   const handleSignOut = async () => {

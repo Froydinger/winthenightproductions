@@ -225,6 +225,15 @@ const Updates = () => {
     }
   };
 
+  const handleProfileUpdate = () => {
+    // Refresh timeline to show updated avatar
+    if (activeTab === "all") {
+      fetchPosts();
+    } else if (activeTab === "liked") {
+      fetchLikedPosts();
+    }
+  };
+
   return (
     <main className="min-h-screen relative">
       <div className="fixed inset-0 z-0">
@@ -382,6 +391,7 @@ const Updates = () => {
           open={showSettings}
           onOpenChange={setShowSettings}
           session={session}
+          onProfileUpdate={handleProfileUpdate}
         />
       )}
     </main>
