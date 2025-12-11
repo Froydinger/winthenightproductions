@@ -3,7 +3,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
-import { Play, Pause, Copy, Check, Music, Disc3 } from "lucide-react";
+import { Play, Pause, Disc3 } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
@@ -24,7 +24,6 @@ const Listen = () => {
   const [currentEpisode, setCurrentEpisode] = useState<CurrentEpisode | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -64,55 +63,7 @@ const Listen = () => {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const handleCopyRSS = async () => {
-    try {
-      await navigator.clipboard.writeText(RSS_FEED_URL);
-      setCopiedToClipboard(true);
-      setTimeout(() => setCopiedToClipboard(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy RSS URL:", err);
-    }
-  };
-
   const progress = duration ? (currentTime / duration) * 100 : 0;
-
-  const handleOpenRSSInApp = async () => {
-    // Try using Web Share API if available (works on mobile and some desktop browsers)
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Win The Night Podcast",
-          text: "Subscribe to Win The Night on your favorite podcast app",
-          url: RSS_FEED_URL,
-        });
-        return;
-      } catch (err) {
-        // User cancelled share or other error - continue to fallback
-        if (err instanceof Error && err.name !== "AbortError") {
-          console.error("Share failed:", err);
-        }
-      }
-    }
-
-    // Fallback: Try opening with feed:// protocol for apps that support it
-    // Then also try to copy to clipboard as backup
-    try {
-      window.location.href = `feed://${RSS_FEED_URL.replace(/^https?:\/\//, "")}`;
-      // Also copy to clipboard as backup since feed:// may not work
-      await navigator.clipboard.writeText(RSS_FEED_URL);
-      setCopiedToClipboard(true);
-      setTimeout(() => setCopiedToClipboard(false), 2000);
-    } catch (err) {
-      // If feed:// fails, at least copy to clipboard
-      try {
-        await navigator.clipboard.writeText(RSS_FEED_URL);
-        setCopiedToClipboard(true);
-        setTimeout(() => setCopiedToClipboard(false), 2000);
-      } catch (clipboardErr) {
-        console.error("Failed to copy or open RSS:", clipboardErr);
-      }
-    }
-  };
 
   if (isLoading) {
     return (
@@ -325,104 +276,6 @@ const Listen = () => {
                 ))}
               </div>
             )}
-          </div>
-        </section>
-
-        {/* Subscribe to Podcast Apps Section */}
-        <section className="relative py-16 px-4 md:px-12 lg:px-24 border-t border-border/30">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-              <h2 className="text-3xl font-bold text-foreground m-0">Subscribe in Your Podcast App</h2>
-            </div>
-
-            <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
-              Add this podcast to your favorite app. Use the RSS feed URL below to subscribe and get new episodes automatically:
-            </p>
-
-            {/* RSS URL and Action Buttons */}
-            <div className="bg-gradient-to-r from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-xl p-6 md:p-8 space-y-4">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground font-medium">RSS Feed URL:</p>
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <code className="flex-1 px-4 py-3 bg-background/50 rounded-lg border border-border/50 text-xs text-muted-foreground overflow-auto font-mono break-all">
-                    {RSS_FEED_URL}
-                  </code>
-                  <button
-                    onClick={handleCopyRSS}
-                    className="flex-shrink-0 px-4 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap"
-                  >
-                    {copiedToClipboard ? (
-                      <>
-                        <Check className="h-4 w-4" />
-                        <span className="hidden sm:inline">Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-4 w-4" />
-                        <span className="hidden sm:inline">Copy URL</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="pt-4 space-y-3 border-t border-neon-blue/20">
-                <p className="text-sm text-muted-foreground font-medium">Subscribe with your podcast app:</p>
-
-                {/* Podcast App Buttons Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <a
-                    href={`podcasts://podcasts.apple.com/podcast/win-the-night-productions/id1713936873`}
-                    className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-xs font-semibold transition-all duration-300 text-center"
-                  >
-                    Apple Podcasts
-                  </a>
-                  <a
-                    href={`https://open.spotify.com/show/3XVqPrLkFrRzjjWF6rXNgc`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-xs font-semibold transition-all duration-300 text-center"
-                  >
-                    Spotify
-                  </a>
-                  <a
-                    href={`https://pca.st/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold transition-all duration-300 text-center"
-                  >
-                    Pocket Casts
-                  </a>
-                  <a
-                    href={`https://overcast.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold transition-all duration-300 text-center"
-                  >
-                    Overcast
-                  </a>
-                  <a
-                    href={`https://castro.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-all duration-300 text-center"
-                  >
-                    Castro
-                  </a>
-                  <button
-                    onClick={handleOpenRSSInApp}
-                    className="px-3 py-2 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white text-xs font-semibold transition-all duration-300 text-center"
-                  >
-                    More Apps
-                  </button>
-                </div>
-
-                <p className="text-xs text-muted-foreground text-center">
-                  Click your favorite app above, or use the RSS URL below in any other podcast app.
-                </p>
-              </div>
-            </div>
           </div>
         </section>
 
