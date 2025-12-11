@@ -66,38 +66,37 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Update audio src when episode changes
   useEffect(() => {
-    if (!audioRef.current) return;
-    if (currentEpisode?.audioUrl) {
-      audioRef.current.src = currentEpisode.audioUrl;
-      audioRef.current.currentTime = currentTime;
-      if (isPlaying) {
-        audioRef.current.play().catch(err => {
-          console.error('Failed to play audio:', err);
-          setIsPlaying(false);
-        });
-      }
+    if (!audioRef.current || !currentEpisode?.audioUrl) return;
+    
+    const audio = audioRef.current;
+    const currentSrc = audio.src;
+    const newSrc = currentEpisode.audioUrl;
+    
+    // Only update src if it actually changed
+    if (!currentSrc.endsWith(newSrc) && currentSrc !== newSrc) {
+      audio.src = newSrc;
+      audio.load();
     }
   }, [currentEpisode?.audioUrl]);
 
   // Handle play/pause
   useEffect(() => {
-    if (!audioRef.current) return;
+    const audio = audioRef.current;
+    if (!audio || !currentEpisode?.audioUrl) return;
 
-    const playAudio = async () => {
-      try {
-        await audioRef.current!.play();
-      } catch (err) {
-        console.error('Failed to play audio:', err);
-        setIsPlaying(false);
+    if (isPlaying) {
+      // Small delay to ensure audio is ready
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.error('Failed to play audio:', err);
+          setIsPlaying(false);
+        });
       }
-    };
-
-    if (isPlaying && currentEpisode) {
-      playAudio();
     } else {
-      audioRef.current.pause();
+      audio.pause();
     }
-  }, [isPlaying, currentEpisode]);
+  }, [isPlaying, currentEpisode?.audioUrl]);
 
   // Update current time
   useEffect(() => {
