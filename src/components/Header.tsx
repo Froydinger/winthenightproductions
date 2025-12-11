@@ -23,6 +23,7 @@ import { Session } from "@supabase/supabase-js";
 import AuthDialog from "@/components/updates/AuthDialog";
 import { Button } from "@/components/ui/button";
 import SidebarPodcastPlayer from "@/components/SidebarPodcastPlayer";
+import { useAudio } from "@/context/AudioContext";
 
 const Header = () => {
   const [logoVisible, setLogoVisible] = useState(false);
@@ -34,6 +35,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
+  const { isPlaying } = useAudio();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,10 +172,12 @@ const Header = () => {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <button
-              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-300"
+              className={`p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300 ${
+                isPlaying ? "shadow-[0_0_12px_rgba(93,204,255,0.6)] bg-neon-blue/20" : ""
+              }`}
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5 text-white" strokeWidth={1.5} />
+              <Menu className={`w-5 h-5 transition-colors ${isPlaying ? "text-neon-blue" : "text-white"}`} strokeWidth={1.5} />
             </button>
           </SheetTrigger>
           <SheetContent
