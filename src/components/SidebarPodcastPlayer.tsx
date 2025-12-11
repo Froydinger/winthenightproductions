@@ -11,7 +11,21 @@ const SidebarPodcastPlayer = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // Keep track of the current episode by URL to avoid re-renders from object reference changes
   const currentEpisode = episodes[selectedIndex];
+  const currentAudioUrl = currentEpisode?.audioUrl;
+
+  // Update audio src when URL changes
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentAudioUrl) return;
+
+    // Update src if it changed (different episode selected)
+    if (audio.src !== currentAudioUrl) {
+      audio.src = currentAudioUrl;
+      audio.load(); // Load the new audio source
+    }
+  }, [currentAudioUrl]);
 
   // Sync global playing state with audio element
   useEffect(() => {
@@ -32,21 +46,15 @@ const SidebarPodcastPlayer = () => {
     };
     const handlePause = () => setIsPlaying(false);
     const handleEnded = () => setIsPlaying(false);
-    const handleError = () => {
-      console.error("Audio loading error:", audio.error?.message);
-      setIsPlaying(false);
-    };
 
     audio.addEventListener("play", handlePlay);
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("error", handleError);
 
     return () => {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("error", handleError);
     };
   }, [setIsPlaying, setCurrentEpisode, currentEpisode]);
 
@@ -93,11 +101,9 @@ const SidebarPodcastPlayer = () => {
         {/* Native Audio Player - this always works */}
         <audio
           ref={audioRef}
-          src={currentEpisode.audioUrl}
           controls
           controlsList="nodownload"
-          preload="auto"
-          crossOrigin="anonymous"
+          preload="metadata"
           className="w-full h-10 rounded-md"
           style={{
             filter: "invert(1) hue-rotate(180deg)",
