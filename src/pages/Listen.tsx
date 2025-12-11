@@ -3,7 +3,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
-import { Play, Pause, Copy, Check, Music } from "lucide-react";
+import { Play, Pause, Copy, Check, Music, Disc3 } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
@@ -141,27 +141,27 @@ const Listen = () => {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-12 px-4">
+        <section className="relative pt-16 pb-6 px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <div className="text-center mb-8">
+              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-2">
                 Listen to{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
                   Win The Night.
                 </span>
               </h1>
-              <p className="text-lg md:text-xl text-zinc-100 max-w-2xl mx-auto leading-relaxed font-medium">
+              <p className="text-sm md:text-base text-zinc-100 max-w-2xl mx-auto leading-relaxed">
                 Podcast episodes on real conversations, mental health, connection, and honest human experience.
               </p>
             </div>
 
             {/* Now Playing Section */}
             {currentEpisode && (
-              <div className="bg-gradient-to-br from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-2xl p-8 md:p-12 mb-12">
+              <div className="bg-gradient-to-br from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-2xl p-6 md:p-8 mb-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                   {/* Episode Artwork */}
                   <div className="flex justify-center md:justify-start">
-                    <div className="w-48 h-48 rounded-xl overflow-hidden border border-neon-blue/30 shadow-2xl bg-background/50">
+                    <div className="w-40 h-40 rounded-xl overflow-hidden border border-neon-blue/30 shadow-2xl bg-background/50">
                       <img
                         src={logo}
                         alt={currentEpisode.title}
@@ -249,6 +249,19 @@ const Listen = () => {
                   onEnded={() => setIsPlaying(false)}
                   preload="auto"
                 />
+
+                {/* YouTube Music Button */}
+                <div className="mt-6">
+                  <a
+                    href={YOUTUBE_MUSIC_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
+                  >
+                    <Disc3 className="h-5 w-5" />
+                    Listen on YouTube Music
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -355,26 +368,58 @@ const Listen = () => {
               </div>
 
               <div className="pt-4 space-y-3 border-t border-neon-blue/20">
-                <button
-                  onClick={handleOpenRSSInApp}
-                  className="w-full px-6 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
-                >
-                  <Play className="h-4 w-4" />
-                  Open in Podcast App
-                </button>
+                <p className="text-sm text-muted-foreground font-medium">Subscribe with your podcast app:</p>
 
-                <a
-                  href={YOUTUBE_MUSIC_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
-                >
-                  <Music className="h-4 w-4" />
-                  Listen on YouTube Music
-                </a>
+                {/* Podcast App Buttons Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <a
+                    href={`podcasts://podcasts.apple.com/podcast/win-the-night-productions/id1713936873`}
+                    className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Apple Podcasts
+                  </a>
+                  <a
+                    href={`https://open.spotify.com/show/3XVqPrLkFrRzjjWF6rXNgc`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Spotify
+                  </a>
+                  <a
+                    href={`https://pca.st/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Pocket Casts
+                  </a>
+                  <a
+                    href={`https://overcast.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Overcast
+                  </a>
+                  <a
+                    href={`https://castro.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Castro
+                  </a>
+                  <button
+                    onClick={handleOpenRSSInApp}
+                    className="px-3 py-2 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    More Apps
+                  </button>
+                </div>
 
-                <p className="text-xs text-muted-foreground mt-2 text-center">
-                  Choose your preferred way to listen: open in your default podcast app, use the RSS URL below, or listen on YouTube Music.
+                <p className="text-xs text-muted-foreground text-center">
+                  Click your favorite app above, or use the RSS URL below in any other podcast app.
                 </p>
               </div>
             </div>
