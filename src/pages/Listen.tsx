@@ -3,7 +3,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
-import { Play, Pause, Copy, Check, Music } from "lucide-react";
+import { Play, Pause, Copy, Check, Music, Disc3 } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
@@ -249,6 +249,19 @@ const Listen = () => {
                   onEnded={() => setIsPlaying(false)}
                   preload="auto"
                 />
+
+                {/* YouTube Music Button */}
+                <div className="mt-6">
+                  <a
+                    href={YOUTUBE_MUSIC_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
+                  >
+                    <Disc3 className="h-5 w-5" />
+                    Listen on YouTube Music
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -405,17 +418,7 @@ const Listen = () => {
                   </button>
                 </div>
 
-                <a
-                  href={YOUTUBE_MUSIC_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
-                >
-                  <Music className="h-4 w-4" />
-                  Listen on YouTube Music
-                </a>
-
-                <p className="text-xs text-muted-foreground mt-2 text-center">
+                <p className="text-xs text-muted-foreground text-center">
                   Click your favorite app above, or use the RSS URL below in any other podcast app.
                 </p>
               </div>
