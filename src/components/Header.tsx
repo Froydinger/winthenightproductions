@@ -300,10 +300,10 @@ const Header = () => {
               )}
 
               <div className="pt-3 border-t border-neon-blue/20">
-                <p className="text-sm text-muted-foreground text-center">
-                  One Connection. One Story.
+                <p className="text-sm text-muted-foreground text-center font-thin">
+                  One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span>
                   <br />
-                  One Conversation at a Time.
+                  One <span className="font-bold">Conversation</span> at a Time.
                 </p>
               </div>
             </div>

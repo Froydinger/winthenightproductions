@@ -22,8 +22,8 @@ const Footer = () => {
               loading="lazy"
               decoding="async"
             />
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-              One Connection. One Story. One Conversation at a Time.
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs font-thin">
+              One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span> One <span className="font-bold">Conversation</span> at a Time.
             </p>
           </div>
 
