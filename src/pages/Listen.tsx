@@ -75,39 +75,10 @@ const Listen = () => {
 
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
-  // Podcast app subscribe links
-  const podcastApps = [
-    {
-      name: "Apple Podcasts",
-      icon: "🎙️",
-      url: `https://podcasts.apple.com/podcast/win-the-night-productions/id1713936873`,
-    },
-    {
-      name: "Spotify",
-      icon: "🎵",
-      url: `https://open.spotify.com/show/3XVqPrLkFrRzjjWF6rXNgc`,
-    },
-    {
-      name: "Google Podcasts",
-      icon: "📻",
-      url: `https://podcasts.google.com/feed/${encodeURIComponent(RSS_FEED_URL)}`,
-    },
-    {
-      name: "Overcast",
-      icon: "📱",
-      url: `https://overcast.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`,
-    },
-    {
-      name: "Castro",
-      icon: "🎧",
-      url: `https://castro.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`,
-    },
-    {
-      name: "Pocket Casts",
-      icon: "🔊",
-      url: `https://pca.st/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`,
-    },
-  ];
+  const handleOpenRSSInApp = () => {
+    // Use feed:// protocol which many podcast apps support
+    window.location.href = `feed://${RSS_FEED_URL.replace(/^https?:\/\//, "")}`;
+  };
 
   if (isLoading) {
     return (
@@ -315,57 +286,50 @@ const Listen = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-3 mb-8">
               <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-              <h2 className="text-3xl font-bold text-foreground m-0">Subscribe to Your Favorite App</h2>
+              <h2 className="text-3xl font-bold text-foreground m-0">Subscribe in Your Podcast App</h2>
             </div>
 
             <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
-              Get new episodes delivered automatically to your favorite podcast app. Choose where you listen:
+              Add this podcast to your favorite app. Use the RSS feed URL below to subscribe and get new episodes automatically:
             </p>
 
-            {/* Podcast Apps Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-              {podcastApps.map((app) => (
-                <a
-                  key={app.name}
-                  href={app.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col items-center gap-3 p-4 rounded-xl border border-border/50 bg-card/50 hover:bg-neon-blue/20 hover:border-neon-blue/50 transition-all duration-300"
-                >
-                  <span className="text-4xl">{app.icon}</span>
-                  <span className="text-sm font-semibold text-foreground text-center group-hover:text-neon-blue transition-colors">
-                    {app.name}
-                  </span>
-                </a>
-              ))}
-            </div>
+            {/* RSS URL and Action Buttons */}
+            <div className="bg-gradient-to-r from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-xl p-6 md:p-8 space-y-4">
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground font-medium">RSS Feed URL:</p>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <code className="flex-1 px-4 py-3 bg-background/50 rounded-lg border border-border/50 text-xs text-muted-foreground overflow-auto font-mono break-all">
+                    {RSS_FEED_URL}
+                  </code>
+                  <button
+                    onClick={handleCopyRSS}
+                    className="flex-shrink-0 px-4 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap"
+                  >
+                    {copiedToClipboard ? (
+                      <>
+                        <Check className="h-4 w-4" />
+                        <span className="hidden sm:inline">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4" />
+                        <span className="hidden sm:inline">Copy URL</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
 
-            {/* Copy RSS URL Section */}
-            <div className="bg-gradient-to-r from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-xl p-6 md:p-8">
-              <h3 className="text-lg font-semibold text-foreground mb-3">Or use your own app</h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Copy this RSS feed URL and paste it into any podcast app:
-              </p>
-              <div className="flex items-center gap-3">
-                <code className="flex-1 px-4 py-3 bg-background/50 rounded-lg border border-border/50 text-xs text-muted-foreground overflow-auto font-mono break-all">
-                  {RSS_FEED_URL}
-                </code>
+              <div className="pt-2">
                 <button
-                  onClick={handleCopyRSS}
-                  className="flex-shrink-0 px-4 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
+                  onClick={handleOpenRSSInApp}
+                  className="w-full px-6 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 text-center"
                 >
-                  {copiedToClipboard ? (
-                    <>
-                      <Check className="h-4 w-4" />
-                      <span className="hidden sm:inline">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4" />
-                      <span className="hidden sm:inline">Copy</span>
-                    </>
-                  )}
+                  Open in Podcast App
                 </button>
+                <p className="text-xs text-muted-foreground mt-2 text-center">
+                  Click above to open in your default podcast app, or copy the URL and paste it into your app of choice.
+                </p>
               </div>
             </div>
           </div>
