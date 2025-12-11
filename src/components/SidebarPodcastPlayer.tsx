@@ -27,23 +27,25 @@ const SidebarPodcastPlayer = () => {
     }
   }, [currentAudioUrl]);
 
+  // Sync current episode to global state whenever it changes
+  useEffect(() => {
+    if (currentEpisode) {
+      setCurrentEpisode({
+        id: currentEpisode.id,
+        title: currentEpisode.title,
+        description: currentEpisode.description,
+        audioUrl: currentEpisode.audioUrl,
+        pubDate: currentEpisode.pubDate,
+      });
+    }
+  }, [currentEpisode, setCurrentEpisode]);
+
   // Sync global playing state with audio element
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handlePlay = () => {
-      setIsPlaying(true);
-      if (currentEpisode) {
-        setCurrentEpisode({
-          id: currentEpisode.id,
-          title: currentEpisode.title,
-          description: currentEpisode.description,
-          audioUrl: currentEpisode.audioUrl,
-          pubDate: currentEpisode.pubDate,
-        });
-      }
-    };
+    const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     const handleEnded = () => setIsPlaying(false);
 
@@ -56,7 +58,7 @@ const SidebarPodcastPlayer = () => {
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [setIsPlaying, setCurrentEpisode, currentEpisode]);
+  }, [setIsPlaying]);
 
   const handleSelectEpisode = (index: number) => {
     setSelectedIndex(index);
