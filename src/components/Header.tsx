@@ -14,6 +14,7 @@ import {
   Heart,
   LifeBuoy,
   BookOpen,
+  Music,
 } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -22,7 +23,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import AuthDialog from "@/components/updates/AuthDialog";
 import { Button } from "@/components/ui/button";
-import SidebarPodcastPlayer from "@/components/SidebarPodcastPlayer";
 import { useAudio } from "@/context/AudioContext";
 
 const Header = () => {
@@ -135,6 +135,7 @@ const Header = () => {
     { label: "Home", href: "/", icon: Home },
     { label: "Blog", href: "/blog", icon: BookOpen },
     { label: "Watch", href: "/watch", icon: PlayCircle },
+    { label: "Listen", href: "/listen", icon: Music },
     { label: "Community", href: "/updates", icon: Users },
     { label: "Be Our Guest", href: "/guest", icon: UserPlus },
     { label: "About", href: "/about", icon: Info },
@@ -205,11 +206,6 @@ const Header = () => {
               ref={scrollAreaRef}
             >
               <nav className="flex flex-col gap-4">
-                {/* Listen Now - Podcast Player at Top */}
-                <div className="pb-3 border-b border-border/30">
-                  <SidebarPodcastPlayer />
-                </div>
-
                 {/* Page Links Section */}
                 <div>
                   <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-3">Pages</h3>
