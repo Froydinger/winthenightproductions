@@ -32,21 +32,15 @@ const SidebarPodcastPlayer = () => {
     };
     const handlePause = () => setIsPlaying(false);
     const handleEnded = () => setIsPlaying(false);
-    const handleError = () => {
-      console.error("Audio loading error:", audio.error?.message);
-      setIsPlaying(false);
-    };
 
     audio.addEventListener("play", handlePlay);
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("error", handleError);
 
     return () => {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("error", handleError);
     };
   }, [setIsPlaying, setCurrentEpisode, currentEpisode]);
 
@@ -96,8 +90,7 @@ const SidebarPodcastPlayer = () => {
           src={currentEpisode.audioUrl}
           controls
           controlsList="nodownload"
-          preload="auto"
-          crossOrigin="anonymous"
+          preload="metadata"
           className="w-full h-10 rounded-md"
           style={{
             filter: "invert(1) hue-rotate(180deg)",
