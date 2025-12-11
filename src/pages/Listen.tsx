@@ -141,27 +141,27 @@ const Listen = () => {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-12 px-4">
+        <section className="relative pt-16 pb-6 px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <div className="text-center mb-8">
+              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-2">
                 Listen to{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
                   Win The Night.
                 </span>
               </h1>
-              <p className="text-lg md:text-xl text-zinc-100 max-w-2xl mx-auto leading-relaxed font-medium">
+              <p className="text-sm md:text-base text-zinc-100 max-w-2xl mx-auto leading-relaxed">
                 Podcast episodes on real conversations, mental health, connection, and honest human experience.
               </p>
             </div>
 
             {/* Now Playing Section */}
             {currentEpisode && (
-              <div className="bg-gradient-to-br from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-2xl p-8 md:p-12 mb-12">
+              <div className="bg-gradient-to-br from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-2xl p-6 md:p-8 mb-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                   {/* Episode Artwork */}
                   <div className="flex justify-center md:justify-start">
-                    <div className="w-48 h-48 rounded-xl overflow-hidden border border-neon-blue/30 shadow-2xl bg-background/50">
+                    <div className="w-40 h-40 rounded-xl overflow-hidden border border-neon-blue/30 shadow-2xl bg-background/50">
                       <img
                         src={logo}
                         alt={currentEpisode.title}
