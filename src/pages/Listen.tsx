@@ -136,7 +136,7 @@ const Listen = () => {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative pt-20 pb-12 px-4">
+        <section className="relative pt-32 pb-12 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
