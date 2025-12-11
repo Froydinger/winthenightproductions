@@ -3,8 +3,10 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, Copy, Check } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
+
+const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
 
 interface CurrentEpisode {
   id: string;
@@ -21,6 +23,7 @@ const Listen = () => {
   const [currentEpisode, setCurrentEpisode] = useState<CurrentEpisode | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,7 +63,51 @@ const Listen = () => {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
+  const handleCopyRSS = async () => {
+    try {
+      await navigator.clipboard.writeText(RSS_FEED_URL);
+      setCopiedToClipboard(true);
+      setTimeout(() => setCopiedToClipboard(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy RSS URL:", err);
+    }
+  };
+
   const progress = duration ? (currentTime / duration) * 100 : 0;
+
+  // Podcast app subscribe links
+  const podcastApps = [
+    {
+      name: "Apple Podcasts",
+      icon: "🎙️",
+      url: `https://podcasts.apple.com/podcast/win-the-night-productions/id1713936873`,
+    },
+    {
+      name: "Spotify",
+      icon: "🎵",
+      url: `https://open.spotify.com/show/3XVqPrLkFrRzjjWF6rXNgc`,
+    },
+    {
+      name: "Google Podcasts",
+      icon: "📻",
+      url: `https://podcasts.google.com/feed/${encodeURIComponent(RSS_FEED_URL)}`,
+    },
+    {
+      name: "Overcast",
+      icon: "📱",
+      url: `https://overcast.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`,
+    },
+    {
+      name: "Castro",
+      icon: "🎧",
+      url: `https://castro.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`,
+    },
+    {
+      name: "Pocket Casts",
+      icon: "🔊",
+      url: `https://pca.st/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`,
+    },
+  ];
 
   if (isLoading) {
     return (
@@ -89,7 +136,7 @@ const Listen = () => {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative pt-20 pb-12 px-4">
+        <section className="relative pt-32 pb-12 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
@@ -260,6 +307,67 @@ const Listen = () => {
                 ))}
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Subscribe to Podcast Apps Section */}
+        <section className="relative py-16 px-4 md:px-12 lg:px-24 border-t border-border/30">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
+              <h2 className="text-3xl font-bold text-foreground m-0">Subscribe to Your Favorite App</h2>
+            </div>
+
+            <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
+              Get new episodes delivered automatically to your favorite podcast app. Choose where you listen:
+            </p>
+
+            {/* Podcast Apps Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+              {podcastApps.map((app) => (
+                <a
+                  key={app.name}
+                  href={app.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col items-center gap-3 p-4 rounded-xl border border-border/50 bg-card/50 hover:bg-neon-blue/20 hover:border-neon-blue/50 transition-all duration-300"
+                >
+                  <span className="text-4xl">{app.icon}</span>
+                  <span className="text-sm font-semibold text-foreground text-center group-hover:text-neon-blue transition-colors">
+                    {app.name}
+                  </span>
+                </a>
+              ))}
+            </div>
+
+            {/* Copy RSS URL Section */}
+            <div className="bg-gradient-to-r from-neon-blue/10 to-purple-500/10 border border-neon-blue/30 rounded-xl p-6 md:p-8">
+              <h3 className="text-lg font-semibold text-foreground mb-3">Or use your own app</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Copy this RSS feed URL and paste it into any podcast app:
+              </p>
+              <div className="flex items-center gap-3">
+                <code className="flex-1 px-4 py-3 bg-background/50 rounded-lg border border-border/50 text-xs text-muted-foreground overflow-auto font-mono break-all">
+                  {RSS_FEED_URL}
+                </code>
+                <button
+                  onClick={handleCopyRSS}
+                  className="flex-shrink-0 px-4 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
+                >
+                  {copiedToClipboard ? (
+                    <>
+                      <Check className="h-4 w-4" />
+                      <span className="hidden sm:inline">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" />
+                      <span className="hidden sm:inline">Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
