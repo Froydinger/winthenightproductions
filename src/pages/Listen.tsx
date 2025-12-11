@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
 import { Play, Pause, Copy, Check } from "lucide-react";
-import logo from "@/assets/win-the-night-productions-logo.png";
+import logo from "@/assets/win-the-night-logo.webp";
 
 const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
 
