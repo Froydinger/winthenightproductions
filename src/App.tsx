@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AudioProvider } from "@/context/AudioContext";
-import { FloatingAudioButton } from "@/components/FloatingAudioButton";
+
 import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -42,7 +42,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <FloatingAudioButton />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Index />} />
