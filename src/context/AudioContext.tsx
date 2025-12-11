@@ -39,6 +39,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (state.episode && state.episode.audioUrl) {
           setCurrentEpisode(state.episode);
           setCurrentTime(state.currentTime || 0);
+          // Restore the playing state if it was playing before
+          if (state.isPlaying) {
+            setIsPlaying(true);
+          }
         }
       } catch (e) {
         console.error('Failed to restore audio state:', e);
@@ -54,10 +58,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         JSON.stringify({
           episode: currentEpisode,
           currentTime,
+          isPlaying,
         })
       );
     }
-  }, [currentEpisode, currentTime]);
+  }, [currentEpisode, currentTime, isPlaying]);
 
   // Update audio src when episode changes
   useEffect(() => {
