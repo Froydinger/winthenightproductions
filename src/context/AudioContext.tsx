@@ -64,79 +64,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [currentEpisode, currentTime, isPlaying]);
 
-  // Update audio src when episode changes
-  useEffect(() => {
-    if (!audioRef.current || !currentEpisode?.audioUrl) return;
-    
-    const audio = audioRef.current;
-    const currentSrc = audio.src;
-    const newSrc = currentEpisode.audioUrl;
-    
-    // Only update src if it actually changed
-    if (!currentSrc.endsWith(newSrc) && currentSrc !== newSrc) {
-      audio.src = newSrc;
-      audio.load();
-    }
-  }, [currentEpisode?.audioUrl]);
-
-  // Handle play/pause
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !currentEpisode?.audioUrl) return;
-
-    if (isPlaying) {
-      // Small delay to ensure audio is ready
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(err => {
-          console.error('Failed to play audio:', err);
-          setIsPlaying(false);
-        });
-      }
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying, currentEpisode?.audioUrl]);
-
-  // Update current time
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
-
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration || 0);
-    };
-
-    const handleEnded = () => {
-      setIsPlaying(false);
-    };
-
-    const handlePlay = () => {
-      setIsPlaying(true);
-    };
-
-    const handlePause = () => {
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-
-    return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-    };
-  }, []);
+  // Note: Audio playback is handled by native <audio> elements in components
+  // This context only tracks the global playing state for UI indicators (like menu glow)
 
   const togglePlay = useCallback(() => {
     setIsPlaying(!isPlaying);
@@ -158,11 +87,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }}
     >
       {children}
-      <audio
-        ref={audioRef}
-        crossOrigin="anonymous"
-        preload="metadata"
-      />
     </AudioContext.Provider>
   );
 };
