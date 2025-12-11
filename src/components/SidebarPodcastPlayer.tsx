@@ -11,7 +11,21 @@ const SidebarPodcastPlayer = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // Keep track of the current episode by URL to avoid re-renders from object reference changes
   const currentEpisode = episodes[selectedIndex];
+  const currentAudioUrl = currentEpisode?.audioUrl;
+
+  // Update audio src when URL changes
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentAudioUrl) return;
+
+    // Update src if it changed (different episode selected)
+    if (audio.src !== currentAudioUrl) {
+      audio.src = currentAudioUrl;
+      audio.load(); // Load the new audio source
+    }
+  }, [currentAudioUrl]);
 
   // Sync global playing state with audio element
   useEffect(() => {
@@ -87,7 +101,6 @@ const SidebarPodcastPlayer = () => {
         {/* Native Audio Player - this always works */}
         <audio
           ref={audioRef}
-          src={currentEpisode.audioUrl}
           controls
           controlsList="nodownload"
           preload="metadata"
