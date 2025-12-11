@@ -3,10 +3,11 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
-import { Play, Pause, Copy, Check } from "lucide-react";
+import { Play, Pause, Copy, Check, Music } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
 
 const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
+const YOUTUBE_MUSIC_URL = "https://music.youtube.com/playlist?list=PL4DJfmhGyz_7MiglVq4jbJYhftobxRuFf";
 
 interface CurrentEpisode {
   id: string;
@@ -320,15 +321,27 @@ const Listen = () => {
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-4 space-y-3 border-t border-neon-blue/20">
                 <button
                   onClick={handleOpenRSSInApp}
-                  className="w-full px-6 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 text-center"
+                  className="w-full px-6 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
                 >
+                  <Play className="h-4 w-4" />
                   Open in Podcast App
                 </button>
+
+                <a
+                  href={YOUTUBE_MUSIC_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
+                >
+                  <Music className="h-4 w-4" />
+                  Listen on YouTube Music
+                </a>
+
                 <p className="text-xs text-muted-foreground mt-2 text-center">
-                  Click above to open in your default podcast app, or copy the URL and paste it into your app of choice.
+                  Choose your preferred way to listen: open in your default podcast app, use the RSS URL below, or listen on YouTube Music.
                 </p>
               </div>
             </div>
