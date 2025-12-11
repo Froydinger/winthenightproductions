@@ -355,13 +355,55 @@ const Listen = () => {
               </div>
 
               <div className="pt-4 space-y-3 border-t border-neon-blue/20">
-                <button
-                  onClick={handleOpenRSSInApp}
-                  className="w-full px-6 py-3 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white font-semibold transition-all duration-300 text-center flex items-center justify-center gap-2"
-                >
-                  <Play className="h-4 w-4" />
-                  Open in Podcast App
-                </button>
+                <p className="text-sm text-muted-foreground font-medium">Subscribe with your podcast app:</p>
+
+                {/* Podcast App Buttons Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <a
+                    href={`podcasts://podcasts.apple.com/podcast/win-the-night-productions/id1713936873`}
+                    className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Apple Podcasts
+                  </a>
+                  <a
+                    href={`https://open.spotify.com/show/3XVqPrLkFrRzjjWF6rXNgc`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Spotify
+                  </a>
+                  <a
+                    href={`https://pca.st/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Pocket Casts
+                  </a>
+                  <a
+                    href={`https://overcast.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Overcast
+                  </a>
+                  <a
+                    href={`https://castro.fm/subscribe?url=${encodeURIComponent(RSS_FEED_URL)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    Castro
+                  </a>
+                  <button
+                    onClick={handleOpenRSSInApp}
+                    className="px-3 py-2 rounded-lg bg-neon-blue hover:bg-neon-blue/90 text-white text-xs font-semibold transition-all duration-300 text-center"
+                  >
+                    More Apps
+                  </button>
+                </div>
 
                 <a
                   href={YOUTUBE_MUSIC_URL}
@@ -374,7 +416,7 @@ const Listen = () => {
                 </a>
 
                 <p className="text-xs text-muted-foreground mt-2 text-center">
-                  Choose your preferred way to listen: open in your default podcast app, use the RSS URL below, or listen on YouTube Music.
+                  Click your favorite app above, or use the RSS URL below in any other podcast app.
                 </p>
               </div>
             </div>
