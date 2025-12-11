@@ -1,64 +1,15 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
-import { useAudio } from "@/context/AudioContext";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import logo from "@/assets/win-the-night-productions-logo.png";
 
 const SidebarPodcastPlayer = () => {
   const { data: episodes = [], isLoading } = useSubstackPodcast(10);
-  const { isPlaying, setIsPlaying, setCurrentEpisode } = useAudio();
   const [showEpisodes, setShowEpisodes] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Keep track of the current episode by URL to avoid re-renders from object reference changes
   const currentEpisode = episodes[selectedIndex];
-  const currentAudioUrl = currentEpisode?.audioUrl;
-
-  // Update audio src when URL changes
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !currentAudioUrl) return;
-
-    // Update src if it changed (different episode selected)
-    if (audio.src !== currentAudioUrl) {
-      audio.src = currentAudioUrl;
-      audio.load(); // Load the new audio source
-    }
-  }, [currentAudioUrl]);
-
-  // Sync current episode to global state whenever it changes
-  useEffect(() => {
-    if (currentEpisode) {
-      setCurrentEpisode({
-        id: currentEpisode.id,
-        title: currentEpisode.title,
-        description: currentEpisode.description,
-        audioUrl: currentEpisode.audioUrl,
-        pubDate: currentEpisode.pubDate,
-      });
-    }
-  }, [currentEpisode, setCurrentEpisode]);
-
-  // Sync global playing state with audio element
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-    const handleEnded = () => setIsPlaying(false);
-
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, [setIsPlaying]);
 
   const handleSelectEpisode = (index: number) => {
     setSelectedIndex(index);
@@ -100,12 +51,13 @@ const SidebarPodcastPlayer = () => {
           </div>
         </div>
 
-        {/* Native Audio Player - this always works */}
+        {/* Native Audio Player */}
         <audio
           ref={audioRef}
+          src={currentEpisode.audioUrl}
           controls
           controlsList="nodownload"
-          preload="metadata"
+          preload="auto"
           className="w-full h-10 rounded-md"
           style={{
             filter: "invert(1) hue-rotate(180deg)",
