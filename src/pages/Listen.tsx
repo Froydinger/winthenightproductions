@@ -76,9 +76,42 @@ const Listen = () => {
 
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
-  const handleOpenRSSInApp = () => {
-    // Use feed:// protocol which many podcast apps support
-    window.location.href = `feed://${RSS_FEED_URL.replace(/^https?:\/\//, "")}`;
+  const handleOpenRSSInApp = async () => {
+    // Try using Web Share API if available (works on mobile and some desktop browsers)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Win The Night Podcast",
+          text: "Subscribe to Win The Night on your favorite podcast app",
+          url: RSS_FEED_URL,
+        });
+        return;
+      } catch (err) {
+        // User cancelled share or other error - continue to fallback
+        if (err instanceof Error && err.name !== "AbortError") {
+          console.error("Share failed:", err);
+        }
+      }
+    }
+
+    // Fallback: Try opening with feed:// protocol for apps that support it
+    // Then also try to copy to clipboard as backup
+    try {
+      window.location.href = `feed://${RSS_FEED_URL.replace(/^https?:\/\//, "")}`;
+      // Also copy to clipboard as backup since feed:// may not work
+      await navigator.clipboard.writeText(RSS_FEED_URL);
+      setCopiedToClipboard(true);
+      setTimeout(() => setCopiedToClipboard(false), 2000);
+    } catch (err) {
+      // If feed:// fails, at least copy to clipboard
+      try {
+        await navigator.clipboard.writeText(RSS_FEED_URL);
+        setCopiedToClipboard(true);
+        setTimeout(() => setCopiedToClipboard(false), 2000);
+      } catch (clipboardErr) {
+        console.error("Failed to copy or open RSS:", clipboardErr);
+      }
+    }
   };
 
   if (isLoading) {
