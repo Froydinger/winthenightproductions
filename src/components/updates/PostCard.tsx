@@ -8,7 +8,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle, Trash2, Send, Pencil } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
-import { getAvatarUrlSync } from "@/lib/avatar-utils";
 import LinkPreview from "./LinkPreview";
 
 interface Post {
