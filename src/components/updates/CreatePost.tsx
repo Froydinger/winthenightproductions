@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { normalizeUrl } from "@/lib/url-utils";
@@ -120,14 +119,7 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
 
   return (
     <Card className="bg-card/80 backdrop-blur-lg border-border p-4 sm:p-6 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300">
-      <div className="flex items-start gap-3 sm:gap-4">
-        <Avatar className="shrink-0 ring-2 ring-primary/30">
-          <AvatarImage src={!isAnonymous && avatarUrl ? avatarUrl : undefined} />
-          <AvatarFallback className="bg-primary/20 text-primary">
-            {isAnonymous ? "?" : userProfile?.display_name?.[0]?.toUpperCase() || "U"}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex-1 space-y-4 min-w-0">
+      <div className="space-y-4">
           <Textarea
             placeholder="Share an update..."
             value={content}
@@ -196,7 +188,6 @@ const CreatePost = ({ session, onPostCreated, onSignInClick, isAdmin }: CreatePo
               </Button>
             )}
           </div>
-        </div>
       </div>
     </Card>
   );

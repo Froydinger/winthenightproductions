@@ -4,7 +4,6 @@ import { Session } from "@supabase/supabase-js";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle, Trash2, Send, Pencil } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
@@ -277,49 +276,38 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     console.log('Is link URL:', isLinkUrl);
   }
 
-  // Use the avatar_url from the post (already set when post was created)
-  const displayAvatarUrl = post.avatar_url;
-
   return (
     <Card className="bg-card/80 backdrop-blur-lg p-4 sm:p-6 border-border">
-      <div className="flex items-start gap-3 sm:gap-4 mb-4">
-        <Avatar className="shrink-0">
-          <AvatarImage src={displayAvatarUrl || undefined} />
-          <AvatarFallback className="bg-primary/20 text-primary">
-            {post.display_name[0].toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-2">
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold text-foreground truncate">{post.display_name}</p>
-              <p className="text-sm text-muted-foreground">
-                {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
-              </p>
-            </div>
-            {(session?.user?.id === post.user_id || isAdmin) && (
-              <div className="flex gap-1 shrink-0">
-                {session?.user?.id === post.user_id && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleEdit}
-                    className="text-muted-foreground hover:text-foreground hover:bg-accent"
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                )}
+      <div className="mb-4">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold text-foreground">{post.display_name}</p>
+            <p className="text-sm text-muted-foreground">
+              {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+            </p>
+          </div>
+          {(session?.user?.id === post.user_id || isAdmin) && (
+            <div className="flex gap-1 shrink-0">
+              {session?.user?.id === post.user_id && (
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={handleDelete}
-                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                  onClick={handleEdit}
+                  className="text-muted-foreground hover:text-foreground hover:bg-accent"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Pencil className="h-4 w-4" />
                 </Button>
-              </div>
-            )}
-          </div>
+              )}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleDelete}
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -424,26 +412,15 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
       {showReplies && (
         <div className="mt-4 space-y-4 pt-4 border-t border-border">
           {replies.map((reply) => {
-            // Use the avatar_url from the reply (already set when reply was created)
-            const replyAvatarUrl = reply.avatar_url;
-
             return (
-            <div key={reply.id} className="flex gap-3">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={replyAvatarUrl || undefined} />
-                <AvatarFallback className="bg-primary/20 text-primary text-xs">
-                  {reply.display_name[0].toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <p className="font-semibold text-sm text-foreground">{reply.display_name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(reply.created_at), { addSuffix: true })}
-                  </p>
-                </div>
-                <p className="text-sm text-foreground mt-1">{reply.content}</p>
+            <div key={reply.id} className="py-2">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-sm text-foreground">{reply.display_name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {formatDistanceToNow(new Date(reply.created_at), { addSuffix: true })}
+                </p>
               </div>
+              <p className="text-sm text-foreground mt-1">{reply.content}</p>
             </div>
             );
           })}
