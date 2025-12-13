@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { getAvatarUrlSync } from "@/lib/avatar-utils";
 import { normalizeUrl } from "@/lib/url-utils";
 import MediaUpload from "./MediaUpload";
 
