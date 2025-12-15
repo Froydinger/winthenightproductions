@@ -315,28 +315,27 @@ const Lander = () => {
             </svg>
           </motion.div>
 
-          {/* LOGO */}
+          {/* LOGO - dead simple centering */}
           <motion.div
-            className="absolute left-1/2 top-[38%] sm:top-[35%] z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+            className="absolute inset-0 flex items-center justify-center z-10"
             style={{
               y: disableParallax ? 0 : logoY,
               scale: disableParallax ? 1 : logoScale,
               opacity: disableParallax ? 1 : logoOpacity,
             }}
           >
-            <motion.div
-              className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]"
-              style={{ opacity: useTransform(smoothProgress, [0.15, 0.35], [0, 0.8]) }}
-            />
-            <img
-              src={logoImage}
-              alt="Win The Night Productions"
-              className="relative w-28 h-28 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
-            />
+            <div className="relative -mt-[20vh]">
+              <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
+              <img
+                src={logoImage}
+                alt="Win The Night Productions"
+                className="relative w-28 h-28 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
+              />
+            </div>
           </motion.div>
 
           {/* SLOGAN */}
-          <div className="absolute inset-x-0 top-[58%] sm:top-[54%] z-20 flex flex-col items-center px-4">
+          <div className="absolute inset-0 flex items-center justify-center z-20 mt-[15vh]">
             <div className="text-center space-y-1 sm:space-y-2">
               <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
                 <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
