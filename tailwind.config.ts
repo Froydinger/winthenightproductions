@@ -137,6 +137,47 @@ export default {
             opacity: "1",
           },
         },
+        "rise-from-mountain": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(100px) scale(0.8)",
+          },
+          "50%": {
+            opacity: "1",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+        "shelf-reveal": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(40px) rotateX(-15deg)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) rotateX(0)",
+          },
+        },
+        "parallax-slow": {
+          "0%": {
+            transform: "translateY(0)",
+          },
+          "100%": {
+            transform: "translateY(-20%)",
+          },
+        },
+        "twinkle": {
+          "0%, 100%": {
+            opacity: "0.3",
+            transform: "scale(1)",
+          },
+          "50%": {
+            opacity: "1",
+            transform: "scale(1.2)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -149,6 +190,9 @@ export default {
         "breathe": "breathe 100s ease-in-out infinite",
         "wiggle": "wiggle 3s ease-in-out infinite",
         "blink": "blink 3s ease-in-out infinite",
+        "rise-from-mountain": "rise-from-mountain 1.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        "shelf-reveal": "shelf-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+        "twinkle": "twinkle 3s ease-in-out infinite",
       },
       boxShadow: {
         "neon": "0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3)",
