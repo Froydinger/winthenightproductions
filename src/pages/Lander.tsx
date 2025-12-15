@@ -62,9 +62,9 @@ const Lander = () => {
     [0, 0, 1, 1, 0]
   );
 
-  // Mountain parallax - clamped to keep mountains on screen (only subtle movement)
-  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "8%" : "15%"]);
-  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "12%" : "20%"]);
+  // Mountain parallax - reduced on mobile for performance
+  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "20%" : "40%"]);
+  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "40%" : "80%"]);
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
@@ -185,20 +185,20 @@ const Lander = () => {
             <div className="absolute inset-0 bg-neon-blue/15 mix-blend-overlay" />
           </div>
 
-          {/* Back mountain layer - positioned to show mountains covering sky */}
+          {/* Back mountain layer - starts higher, darkened more */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0"
+            className="absolute -bottom-[10vh] left-0 right-0 h-[120vh] sm:h-[140vh]"
             style={{ y: disableParallax ? 0 : mountainBackY }}
           >
             <img
               src={mountainsBack}
               alt=""
-              className="w-full h-auto object-contain object-bottom brightness-[0.3]"
-              style={{ minWidth: '120%', marginLeft: '-10%' }}
+              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.3]"
+              style={{ minWidth: '120%', left: '-10%' }}
             />
           </motion.div>
 
-          {/* LOGO - positioned to emerge between mountains */}
+          {/* LOGO - dead simple centering */}
           <motion.div
             className="absolute inset-0 flex items-center justify-center z-10"
             style={{
@@ -207,7 +207,7 @@ const Lander = () => {
               opacity: disableParallax ? 1 : logoOpacity,
             }}
           >
-            <div className="relative mt-[5vh] sm:mt-0">
+            <div className="relative -mt-[5vh] sm:-mt-[18vh]">
               <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
               <img
                 src={logoImage}
@@ -260,16 +260,16 @@ const Lander = () => {
             </div>
           </div>
 
-          {/* Front mountain layer - in front of logo */}
+          {/* Front mountain layer - starts higher */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 z-30"
+            className="absolute -bottom-[5vh] left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
             style={{ y: disableParallax ? 0 : mountainFrontY }}
           >
             <img
               src={mountainsFront}
               alt=""
-              className="w-full h-auto object-contain object-bottom brightness-[0.5]"
-              style={{ minWidth: '120%', marginLeft: '-10%' }}
+              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
+              style={{ minWidth: '120%', left: '-10%' }}
             />
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
           </motion.div>
