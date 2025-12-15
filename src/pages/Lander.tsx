@@ -185,29 +185,29 @@ const Lander = () => {
             <div className="absolute inset-0 bg-neon-blue/15 mix-blend-overlay" />
           </div>
 
-          {/* Back mountain layer - starts higher, darkened more */}
+          {/* Back mountain layer - positioned to show mountains covering sky */}
           <motion.div
-            className="absolute -bottom-[10vh] left-0 right-0 h-[120vh] sm:h-[140vh]"
+            className="absolute bottom-0 left-0 right-0"
             style={{ y: disableParallax ? 0 : mountainBackY }}
           >
             <img
               src={mountainsBack}
               alt=""
-              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.3]"
-              style={{ minWidth: '120%', left: '-10%' }}
+              className="w-full h-auto object-contain object-bottom brightness-[0.3]"
+              style={{ minWidth: '120%', marginLeft: '-10%' }}
             />
           </motion.div>
 
-          {/* LOGO - dead simple centering */}
+          {/* LOGO - positioned to emerge between mountains */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center z-10"
+            className="absolute inset-0 flex items-end justify-center z-10 pb-[25vh] sm:pb-[30vh]"
             style={{
               y: disableParallax ? 0 : logoY,
               scale: disableParallax ? 1 : logoScale,
               opacity: disableParallax ? 1 : logoOpacity,
             }}
           >
-            <div className="relative -mt-[5vh] sm:-mt-[18vh]">
+            <div className="relative">
               <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
               <img
                 src={logoImage}
@@ -260,16 +260,16 @@ const Lander = () => {
             </div>
           </div>
 
-          {/* Front mountain layer - starts higher */}
+          {/* Front mountain layer - in front of logo */}
           <motion.div
-            className="absolute -bottom-[5vh] left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
+            className="absolute bottom-0 left-0 right-0 z-30"
             style={{ y: disableParallax ? 0 : mountainFrontY }}
           >
             <img
               src={mountainsFront}
               alt=""
-              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
-              style={{ minWidth: '120%', left: '-10%' }}
+              className="w-full h-auto object-contain object-bottom brightness-[0.5]"
+              style={{ minWidth: '120%', marginLeft: '-10%' }}
             />
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
           </motion.div>
