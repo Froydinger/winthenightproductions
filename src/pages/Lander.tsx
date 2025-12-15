@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useSpring, useInView } from "framer-mo
 import logoImage from "@/assets/win-the-night-logo.webp";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Youtube, ChevronDown, Play, Heart, Users, Brain, Check, Sparkles } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -201,8 +202,10 @@ const Lander = () => {
   );
 
   return (
-    <main className="min-h-screen bg-background">
-      {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
+        {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
       {/* Scroll tracking container - invisible, just for measuring scroll progress */}
       <div
         ref={containerRef}
@@ -644,12 +647,13 @@ const Lander = () => {
         </div>
       </section>
 
-      {/* ===== SECTION 5: CTA + FOOTER ===== */}
-      <div className="relative z-10">
-        <CTASection />
-        <Footer />
-      </div>
-    </main>
+        {/* ===== SECTION 5: CTA + FOOTER ===== */}
+        <div className="relative z-10">
+          <CTASection />
+          <Footer />
+        </div>
+      </main>
+    </>
   );
 };
 
