@@ -135,4 +135,16 @@ All colors MUST be HSL.
     background: rgba(0, 217, 255, 0.9);
     box-shadow: 0 0 12px rgba(0, 217, 255, 0.8);
   }
+
+  /* Star twinkle animation for landing page */
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.3);
+    }
+  }
 }
