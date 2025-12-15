@@ -68,16 +68,9 @@ const Lander = () => {
   const mountainMidY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "30%" : "60%"]);
   const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "40%" : "80%"]);
 
-  // Stars parallax - disabled on mobile
+  // Stars parallax
   const starsY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "20%" : "50%"]);
   const starsOpacity = useTransform(smoothProgress, [0, 0.7], [1, 0]);
-
-  // Section scroll behavior
-  const sectionY = useTransform(
-    smoothProgress,
-    isMobile ? [0.75, 1] : [0.6, 1],
-    ["0vh", isMobile ? "-20vh" : "-30vh"]
-  );
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
@@ -201,19 +194,16 @@ const Lander = () => {
   const disableParallax = prefersReducedMotion;
 
   return (
-    <main className="min-h-screen bg-background overflow-x-hidden">
+    <main className="min-h-screen bg-background">
       {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
-      {/* Mobile: 500vh for more scroll time, Desktop: 350vh */}
+      {/* Tall scroll container - sticky child stays fixed while we scroll through this */}
       <div
         ref={containerRef}
         className="relative"
-        style={{ height: isMobile ? "450vh" : "350vh" }}
+        style={{ height: isMobile ? "400vh" : "350vh" }}
       >
-        {/* Sticky viewport */}
-        <motion.div
-          className="sticky top-0 h-screen w-full overflow-hidden"
-          style={{ y: disableParallax ? 0 : sectionY }}
-        >
+        {/* Sticky viewport - stays pinned while scrolling through parent */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
           {/* Top blur edge for smooth transition */}
           <motion.div
             className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-50 pointer-events-none backdrop-blur-sm"
@@ -452,7 +442,7 @@ const Lander = () => {
               ))}
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
 
       {/* ===== SECTION 2: WHAT WE'RE ABOUT ===== */}
