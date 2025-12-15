@@ -230,7 +230,7 @@ const Lander = () => {
             />
           )}
 
-          {/* Back mountain layer - more ridges, blue tones */}
+          {/* Back mountain layer - organic rolling hills */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[60vh] sm:h-[70vh]"
             style={{ y: disableParallax ? 0 : mountainBackY }}
@@ -243,13 +243,13 @@ const Lander = () => {
                 </linearGradient>
               </defs>
               <path
-                d="M0,700 L0,420 L40,400 L80,420 L120,380 L180,400 L220,350 L280,380 L320,340 L380,370 L420,320 L480,350 L520,290 L580,330 L620,280 L680,320 L720,260 L780,300 L820,240 L880,280 L920,220 L980,270 L1020,230 L1080,280 L1120,240 L1180,290 L1220,250 L1280,300 L1320,260 L1380,320 L1420,280 L1440,300 L1440,700 Z"
+                d="M0,700 L0,380 Q60,350 120,370 Q180,390 240,340 Q280,310 340,330 Q420,360 480,290 Q520,250 600,280 Q680,310 720,260 Q780,220 860,250 Q940,280 1000,230 Q1080,190 1160,240 Q1220,280 1280,250 Q1340,220 1400,260 L1440,280 L1440,700 Z"
                 fill="url(#mountainBackGrad)"
               />
             </svg>
           </motion.div>
 
-          {/* Mid mountain layer - more natural ridges, blue tones */}
+          {/* Mid mountain layer - varied peaks with curves */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[50vh] sm:h-[55vh]"
             style={{ y: disableParallax ? 0 : mountainMidY }}
@@ -266,12 +266,11 @@ const Lander = () => {
                 </linearGradient>
               </defs>
               <path
-                d="M0,550 L0,400 L50,420 L90,380 L140,410 L180,360 L240,400 L280,340 L340,380 L380,320 L440,360 L480,280 L540,330 L580,270 L640,320 L680,220 L740,280 L780,240 L840,290 L880,230 L940,280 L980,240 L1040,300 L1080,250 L1140,310 L1180,260 L1240,320 L1280,280 L1340,340 L1380,300 L1440,340 L1440,550 Z"
+                d="M0,550 L0,420 Q80,380 160,400 Q200,410 260,350 Q300,310 380,340 Q440,370 500,280 Q540,230 620,260 Q700,290 760,200 Q820,150 900,220 Q960,280 1020,240 Q1100,200 1180,260 Q1260,320 1340,280 Q1400,250 1440,290 L1440,550 Z"
                 fill="url(#mountainMidGrad)"
               />
-              <path d="M680,220 L655,260 L705,260 Z" fill="url(#snowGrad)" />
-              <path d="M480,280 L458,315 L502,315 Z" fill="url(#snowGrad)" />
-              <path d="M880,230 L858,268 L902,268 Z" fill="url(#snowGrad)" />
+              <path d="M760,200 Q780,180 800,200 L800,240 Q780,260 760,240 Z" fill="url(#snowGrad)" />
+              <path d="M500,280 Q515,260 530,280 L530,310 Q515,330 500,310 Z" fill="url(#snowGrad)" />
             </svg>
           </motion.div>
 
@@ -337,7 +336,7 @@ const Lander = () => {
             </div>
           </div>
 
-          {/* Front mountain layer - most ridges, darkest blue */}
+          {/* Front mountain layer - organic silhouette with trees */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[40vh] sm:h-[45vh] z-30"
             style={{ y: disableParallax ? 0 : mountainFrontY }}
@@ -350,17 +349,18 @@ const Lander = () => {
                 </linearGradient>
               </defs>
               <path
-                d="M0,450 L0,380 L30,360 L60,385 L90,350 L130,375 L160,340 L200,365 L240,330 L280,360 L320,320 L360,350 L400,310 L450,345 L490,300 L540,335 L580,290 L630,325 L670,280 L720,320 L760,270 L810,310 L850,265 L900,305 L940,260 L990,300 L1030,255 L1080,295 L1120,250 L1170,290 L1210,255 L1260,300 L1300,265 L1350,310 L1390,280 L1440,320 L1440,450 Z"
+                d="M0,450 L0,360 Q40,340 80,355 Q140,375 200,330 Q260,290 340,320 Q400,350 480,290 Q540,240 640,280 Q720,320 800,260 Q880,200 980,250 Q1060,300 1140,240 Q1200,190 1280,230 Q1360,270 1440,220 L1440,450 Z"
                 fill="url(#mountainFrontGrad)"
               />
               {/* Trees only on desktop for performance */}
               {!isMobile && (
                 <g fill="#040610">
-                  {Array.from({ length: 50 }).map((_, i) => {
-                    const x = 20 + i * 28;
-                    const baseY = 390 - Math.sin(i * 0.4 + x * 0.003) * 50;
-                    const height = 10 + (i % 4) * 6;
-                    return <path key={i} d={`M${x},${baseY} L${x - 4},${baseY} L${x},${baseY - height} L${x + 4},${baseY} Z`} />;
+                  {Array.from({ length: 35 }).map((_, i) => {
+                    const x = 30 + i * 40 + Math.sin(i * 2.1) * 15;
+                    const baseY = 380 - Math.sin(i * 0.5 + x * 0.002) * 40;
+                    const height = 8 + Math.random() * 16;
+                    const width = 3 + Math.random() * 3;
+                    return <path key={i} d={`M${x},${baseY} L${x - width},${baseY} L${x},${baseY - height} L${x + width},${baseY} Z`} />;
                   })}
                 </g>
               )}
@@ -378,7 +378,7 @@ const Lander = () => {
                 className="text-base sm:text-xl md:text-2xl text-foreground/80 tracking-wide"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
               >
-                Scroll to explore
+                Scroll to explore...
               </span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
