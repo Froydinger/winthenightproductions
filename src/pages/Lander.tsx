@@ -62,9 +62,9 @@ const Lander = () => {
     [0, 0, 1, 1, 0]
   );
 
-  // Mountain parallax - reduced on mobile for performance
-  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "20%" : "40%"]);
-  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "40%" : "80%"]);
+  // Mountain parallax - clamped to keep mountains on screen (only subtle movement)
+  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "8%" : "15%"]);
+  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "12%" : "20%"]);
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
@@ -200,14 +200,14 @@ const Lander = () => {
 
           {/* LOGO - positioned to emerge between mountains */}
           <motion.div
-            className="absolute inset-0 flex items-end justify-center z-10 pb-[25vh] sm:pb-[30vh]"
+            className="absolute inset-0 flex items-center justify-center z-10"
             style={{
               y: disableParallax ? 0 : logoY,
               scale: disableParallax ? 1 : logoScale,
               opacity: disableParallax ? 1 : logoOpacity,
             }}
           >
-            <div className="relative">
+            <div className="relative mt-[5vh] sm:mt-0">
               <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
               <img
                 src={logoImage}
