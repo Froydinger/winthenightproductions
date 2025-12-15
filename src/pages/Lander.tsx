@@ -1,6 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import logoImage from "@/assets/win-the-night-logo.webp";
+import skyBackground from "@/assets/lander/skybackground.png";
+import mountainsBack from "@/assets/lander/mountains-back.png";
+import mountainsFront from "@/assets/lander/mountains-front.png";
 import Header from "@/components/Header";
 import FeaturesSection from "@/components/FeaturesSection";
 import WatchLatestSection from "@/components/WatchLatestSection";
@@ -61,12 +64,7 @@ const Lander = () => {
 
   // Mountain parallax - reduced on mobile for performance
   const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "20%" : "40%"]);
-  const mountainMidY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "30%" : "60%"]);
   const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "40%" : "80%"]);
-
-  // Stars parallax
-  const starsY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "20%" : "50%"]);
-  const starsOpacity = useTransform(smoothProgress, [0, 0.7], [1, 0]);
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
@@ -127,19 +125,6 @@ const Lander = () => {
     [20, 0]
   );
 
-  // Generate fewer stars on mobile for performance
-  const stars = useRef(
-    Array.from({ length: isMobile ? 80 : 200 }, (_, i) => ({
-      id: i,
-      size: Math.random() * 2 + 1,
-      left: Math.random() * 100,
-      top: Math.random() * 70,
-      opacity: Math.random() * 0.7 + 0.3,
-      delay: Math.random() * 4,
-      duration: 2 + Math.random() * 3,
-    }))
-  ).current;
-
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
 
@@ -189,90 +174,26 @@ const Lander = () => {
             }}
           />
 
-          {/* Starfield background */}
-          <motion.div
-            className="absolute inset-0"
-            style={{
-              y: disableParallax ? 0 : starsY,
-              opacity: starsOpacity
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050510] via-[#0a0a18] to-[#0f0f20]" />
-            {stars.map((star) => (
-              <div
-                key={star.id}
-                className="absolute rounded-full bg-white"
-                style={{
-                  width: star.size,
-                  height: star.size,
-                  left: `${star.left}%`,
-                  top: `${star.top}%`,
-                  opacity: star.opacity,
-                  animation: isMobile ? undefined : `twinkle ${star.duration}s ease-in-out infinite`,
-                  animationDelay: `${star.delay}s`,
-                }}
-              />
-            ))}
-            {/* Nebula glow effects - smaller on mobile */}
-            <div className="absolute top-1/4 left-1/4 w-64 sm:w-[500px] h-64 sm:h-[500px] bg-neon-blue/5 rounded-full blur-[80px] sm:blur-[120px]" />
-            <div className="absolute top-1/3 right-1/4 w-48 sm:w-[400px] h-48 sm:h-[400px] bg-neon-purple/8 rounded-full blur-[60px] sm:blur-[100px]" />
-          </motion.div>
-
-          {/* Aurora effect - simpler on mobile */}
-          {!isMobile && (
-            <motion.div
-              className="absolute inset-x-0 top-0 h-2/3 pointer-events-none"
-              style={{
-                background: "linear-gradient(180deg, transparent 0%, rgba(0,217,255,0.08) 20%, rgba(157,78,221,0.04) 50%, transparent 100%)",
-              }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          {/* Sky background */}
+          <div className="absolute inset-0">
+            <img
+              src={skyBackground}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
             />
-          )}
+          </div>
 
-          {/* Back mountain layer */}
+          {/* Back mountain layer - darkened more */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[60vh] sm:h-[70vh]"
+            className="absolute bottom-0 left-0 right-0 h-[70vh] sm:h-[80vh]"
             style={{ y: disableParallax ? 0 : mountainBackY }}
           >
-            <svg viewBox="0 0 1440 700" className="absolute bottom-0 w-full h-full" preserveAspectRatio="xMidYMax slice">
-              <defs>
-                <linearGradient id="mountainBackGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#1a1a2e" />
-                  <stop offset="100%" stopColor="#0d0d18" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M0,700 L0,400 L150,350 L300,380 L400,300 L520,350 L620,250 L720,320 L820,220 L920,300 L1020,240 L1120,310 L1220,270 L1320,340 L1440,300 L1440,700 Z"
-                fill="url(#mountainBackGrad)"
-              />
-            </svg>
-          </motion.div>
-
-          {/* Mid mountain layer */}
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[50vh] sm:h-[55vh]"
-            style={{ y: disableParallax ? 0 : mountainMidY }}
-          >
-            <svg viewBox="0 0 1440 550" className="absolute bottom-0 w-full h-full" preserveAspectRatio="xMidYMax slice">
-              <defs>
-                <linearGradient id="mountainMidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#141428" />
-                  <stop offset="100%" stopColor="#0a0a14" />
-                </linearGradient>
-                <linearGradient id="snowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.5)" />
-                  <stop offset="100%" stopColor="transparent" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M0,550 L0,400 L80,380 L180,420 L280,340 L380,380 L480,280 L580,340 L680,200 L780,300 L880,240 L980,340 L1080,280 L1180,380 L1280,320 L1380,380 L1440,360 L1440,550 Z"
-                fill="url(#mountainMidGrad)"
-              />
-              <path d="M680,200 L650,250 L710,250 Z" fill="url(#snowGrad)" />
-              <path d="M480,280 L455,320 L505,320 Z" fill="url(#snowGrad)" />
-              <path d="M880,240 L855,280 L905,280 Z" fill="url(#snowGrad)" />
-            </svg>
+            <img
+              src={mountainsBack}
+              alt=""
+              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.4]"
+              style={{ minWidth: '120%', left: '-10%' }}
+            />
           </motion.div>
 
           {/* LOGO - dead simple centering */}
@@ -339,32 +260,15 @@ const Lander = () => {
 
           {/* Front mountain layer */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[40vh] sm:h-[45vh] z-30"
+            className="absolute bottom-0 left-0 right-0 h-[60vh] sm:h-[70vh] z-30"
             style={{ y: disableParallax ? 0 : mountainFrontY }}
           >
-            <svg viewBox="0 0 1440 450" className="absolute bottom-0 w-full h-full" preserveAspectRatio="xMidYMax slice">
-              <defs>
-                <linearGradient id="mountainFrontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#0c0c18" />
-                  <stop offset="100%" stopColor="#060610" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M0,450 L0,360 L60,380 L160,340 L260,370 L360,310 L460,350 L560,290 L660,330 L760,270 L860,320 L960,280 L1060,340 L1160,300 L1260,360 L1360,320 L1440,350 L1440,450 Z"
-                fill="url(#mountainFrontGrad)"
-              />
-              {/* Trees only on desktop for performance */}
-              {!isMobile && (
-                <g fill="#040408">
-                  {Array.from({ length: 40 }).map((_, i) => {
-                    const x = 30 + i * 36;
-                    const baseY = 380 - Math.sin(i * 0.3 + x * 0.005) * 60;
-                    const height = 12 + (i % 3) * 8;
-                    return <path key={i} d={`M${x},${baseY} L${x - 5},${baseY} L${x},${baseY - height} L${x + 5},${baseY} Z`} />;
-                  })}
-                </g>
-              )}
-            </svg>
+            <img
+              src={mountainsFront}
+              alt=""
+              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.6]"
+              style={{ minWidth: '120%', left: '-10%' }}
+            />
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
           </motion.div>
 
