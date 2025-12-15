@@ -197,7 +197,7 @@ const Lander = () => {
               opacity: starsOpacity
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-[#020408] via-[#051020] to-[#0a1628]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050510] via-[#0a0a18] to-[#0f0f20]" />
             {stars.map((star) => (
               <div
                 key={star.id}
@@ -213,24 +213,24 @@ const Lander = () => {
                 }}
               />
             ))}
-            {/* Nebula glow effects - blue tones */}
-            <div className="absolute top-1/4 left-1/4 w-64 sm:w-[500px] h-64 sm:h-[500px] bg-blue-500/5 rounded-full blur-[80px] sm:blur-[120px]" />
-            <div className="absolute top-1/3 right-1/4 w-48 sm:w-[400px] h-48 sm:h-[400px] bg-cyan-500/5 rounded-full blur-[60px] sm:blur-[100px]" />
+            {/* Nebula glow effects - smaller on mobile */}
+            <div className="absolute top-1/4 left-1/4 w-64 sm:w-[500px] h-64 sm:h-[500px] bg-neon-blue/5 rounded-full blur-[80px] sm:blur-[120px]" />
+            <div className="absolute top-1/3 right-1/4 w-48 sm:w-[400px] h-48 sm:h-[400px] bg-neon-purple/8 rounded-full blur-[60px] sm:blur-[100px]" />
           </motion.div>
 
-          {/* Aurora effect - blue tones */}
+          {/* Aurora effect - simpler on mobile */}
           {!isMobile && (
             <motion.div
               className="absolute inset-x-0 top-0 h-2/3 pointer-events-none"
               style={{
-                background: "linear-gradient(180deg, transparent 0%, rgba(0,100,180,0.06) 20%, rgba(0,150,200,0.03) 50%, transparent 100%)",
+                background: "linear-gradient(180deg, transparent 0%, rgba(0,217,255,0.08) 20%, rgba(157,78,221,0.04) 50%, transparent 100%)",
               }}
               animate={{ opacity: [0.3, 0.6, 0.3] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             />
           )}
 
-          {/* Back mountain layer - organic rolling hills */}
+          {/* Back mountain layer */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[60vh] sm:h-[70vh]"
             style={{ y: disableParallax ? 0 : mountainBackY }}
@@ -238,18 +238,18 @@ const Lander = () => {
             <svg viewBox="0 0 1440 700" className="absolute bottom-0 w-full h-full" preserveAspectRatio="xMidYMax slice">
               <defs>
                 <linearGradient id="mountainBackGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#1a2a3a" />
-                  <stop offset="100%" stopColor="#0c1824" />
+                  <stop offset="0%" stopColor="#1a1a2e" />
+                  <stop offset="100%" stopColor="#0d0d18" />
                 </linearGradient>
               </defs>
               <path
-                d="M0,700 L0,380 Q60,350 120,370 Q180,390 240,340 Q280,310 340,330 Q420,360 480,290 Q520,250 600,280 Q680,310 720,260 Q780,220 860,250 Q940,280 1000,230 Q1080,190 1160,240 Q1220,280 1280,250 Q1340,220 1400,260 L1440,280 L1440,700 Z"
+                d="M0,700 L0,400 L150,350 L300,380 L400,300 L520,350 L620,250 L720,320 L820,220 L920,300 L1020,240 L1120,310 L1220,270 L1320,340 L1440,300 L1440,700 Z"
                 fill="url(#mountainBackGrad)"
               />
             </svg>
           </motion.div>
 
-          {/* Mid mountain layer - varied peaks with curves */}
+          {/* Mid mountain layer */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[50vh] sm:h-[55vh]"
             style={{ y: disableParallax ? 0 : mountainMidY }}
@@ -257,20 +257,21 @@ const Lander = () => {
             <svg viewBox="0 0 1440 550" className="absolute bottom-0 w-full h-full" preserveAspectRatio="xMidYMax slice">
               <defs>
                 <linearGradient id="mountainMidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#152535" />
-                  <stop offset="100%" stopColor="#0a1520" />
+                  <stop offset="0%" stopColor="#141428" />
+                  <stop offset="100%" stopColor="#0a0a14" />
                 </linearGradient>
                 <linearGradient id="snowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(200,220,255,0.4)" />
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.5)" />
                   <stop offset="100%" stopColor="transparent" />
                 </linearGradient>
               </defs>
               <path
-                d="M0,550 L0,420 Q80,380 160,400 Q200,410 260,350 Q300,310 380,340 Q440,370 500,280 Q540,230 620,260 Q700,290 760,200 Q820,150 900,220 Q960,280 1020,240 Q1100,200 1180,260 Q1260,320 1340,280 Q1400,250 1440,290 L1440,550 Z"
+                d="M0,550 L0,400 L80,380 L180,420 L280,340 L380,380 L480,280 L580,340 L680,200 L780,300 L880,240 L980,340 L1080,280 L1180,380 L1280,320 L1380,380 L1440,360 L1440,550 Z"
                 fill="url(#mountainMidGrad)"
               />
-              <path d="M760,200 Q780,180 800,200 L800,240 Q780,260 760,240 Z" fill="url(#snowGrad)" />
-              <path d="M500,280 Q515,260 530,280 L530,310 Q515,330 500,310 Z" fill="url(#snowGrad)" />
+              <path d="M680,200 L650,250 L710,250 Z" fill="url(#snowGrad)" />
+              <path d="M480,280 L455,320 L505,320 Z" fill="url(#snowGrad)" />
+              <path d="M880,240 L855,280 L905,280 Z" fill="url(#snowGrad)" />
             </svg>
           </motion.div>
 
@@ -336,7 +337,7 @@ const Lander = () => {
             </div>
           </div>
 
-          {/* Front mountain layer - organic silhouette with trees */}
+          {/* Front mountain layer */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[40vh] sm:h-[45vh] z-30"
             style={{ y: disableParallax ? 0 : mountainFrontY }}
@@ -344,23 +345,22 @@ const Lander = () => {
             <svg viewBox="0 0 1440 450" className="absolute bottom-0 w-full h-full" preserveAspectRatio="xMidYMax slice">
               <defs>
                 <linearGradient id="mountainFrontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#101828" />
-                  <stop offset="100%" stopColor="#060a12" />
+                  <stop offset="0%" stopColor="#0c0c18" />
+                  <stop offset="100%" stopColor="#060610" />
                 </linearGradient>
               </defs>
               <path
-                d="M0,450 L0,360 Q40,340 80,355 Q140,375 200,330 Q260,290 340,320 Q400,350 480,290 Q540,240 640,280 Q720,320 800,260 Q880,200 980,250 Q1060,300 1140,240 Q1200,190 1280,230 Q1360,270 1440,220 L1440,450 Z"
+                d="M0,450 L0,360 L60,380 L160,340 L260,370 L360,310 L460,350 L560,290 L660,330 L760,270 L860,320 L960,280 L1060,340 L1160,300 L1260,360 L1360,320 L1440,350 L1440,450 Z"
                 fill="url(#mountainFrontGrad)"
               />
               {/* Trees only on desktop for performance */}
               {!isMobile && (
-                <g fill="#040610">
-                  {Array.from({ length: 35 }).map((_, i) => {
-                    const x = 30 + i * 40 + Math.sin(i * 2.1) * 15;
-                    const baseY = 380 - Math.sin(i * 0.5 + x * 0.002) * 40;
-                    const height = 8 + Math.random() * 16;
-                    const width = 3 + Math.random() * 3;
-                    return <path key={i} d={`M${x},${baseY} L${x - width},${baseY} L${x},${baseY - height} L${x + width},${baseY} Z`} />;
+                <g fill="#040408">
+                  {Array.from({ length: 40 }).map((_, i) => {
+                    const x = 30 + i * 36;
+                    const baseY = 380 - Math.sin(i * 0.3 + x * 0.005) * 60;
+                    const height = 12 + (i % 3) * 8;
+                    return <path key={i} d={`M${x},${baseY} L${x - 5},${baseY} L${x},${baseY - height} L${x + 5},${baseY} Z`} />;
                   })}
                 </g>
               )}
@@ -378,7 +378,7 @@ const Lander = () => {
                 className="text-base sm:text-xl md:text-2xl text-foreground/80 tracking-wide"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
               >
-                Scroll to explore...
+                Scroll to explore
               </span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
