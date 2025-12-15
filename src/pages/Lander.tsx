@@ -27,10 +27,10 @@ const Lander = () => {
     restDelta: 0.001,
   });
 
-  // Logo animation - starts hidden behind mountains, rises to just above slogan
-  const logoY = useTransform(smoothProgress, [0, 0.15, 0.35, 0.5], ["45vh", "25vh", "0vh", "-10vh"]);
-  const logoScale = useTransform(smoothProgress, [0, 0.2, 0.4], [0.7, 1, 1.1]);
-  const logoOpacity = useTransform(smoothProgress, [0, 0.05, 0.15, 0.5, 0.65], [0, 0, 1, 1, 0]);
+  // Logo animation - starts hidden behind mountains, rises to just above slogan (centered)
+  const logoY = useTransform(smoothProgress, [0, 0.15, 0.3, 0.5], ["50vh", "30vh", "5vh", "-5vh"]);
+  const logoScale = useTransform(smoothProgress, [0, 0.2, 0.35], [0.6, 0.9, 1]);
+  const logoOpacity = useTransform(smoothProgress, [0, 0.08, 0.18, 0.5, 0.65], [0, 0, 1, 1, 0]);
 
   // Mountain parallax layers (different speeds for depth)
   const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", "40%"]);
@@ -40,13 +40,6 @@ const Lander = () => {
   // Stars parallax
   const starsY = useTransform(smoothProgress, [0, 1], ["0%", "50%"]);
   const starsOpacity = useTransform(smoothProgress, [0, 0.6], [1, 0]);
-
-  // Slogan - appears BELOW the logo with proper staggered timing
-  const sloganLines = [
-    { text: "One Connection.", delay: 0.2 },
-    { text: "One Story.", delay: 0.28 },
-    { text: "One Conversation at a Time.", delay: 0.36 },
-  ];
 
   // Overall section fade out
   const sectionOpacity = useTransform(smoothProgress, [0.65, 0.85], [1, 0]);
@@ -168,12 +161,11 @@ const Lander = () => {
             </svg>
           </motion.div>
 
-          {/* LOGO - Starts behind mountains, rises to just above slogan */}
+          {/* LOGO - Starts behind mountains, rises to just above slogan (perfectly centered) */}
           <motion.div
-            className="absolute left-1/2 z-10 -translate-x-1/2 flex flex-col items-center"
+            className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
             style={{
-              top: "10%",
-              y: prefersReducedMotion ? 0 : logoY,
+              y: prefersReducedMotion ? "-80%" : logoY,
               scale: prefersReducedMotion ? 1 : logoScale,
               opacity: prefersReducedMotion ? 1 : logoOpacity,
             }}
@@ -188,46 +180,54 @@ const Lander = () => {
             <img
               src={logoImage}
               alt="Win The Night Productions"
-              className="relative w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.5)]"
+              className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.5)]"
             />
           </motion.div>
 
-          {/* SLOGAN - Positioned below the logo area, revealed line by line */}
-          <div className="absolute inset-x-0 top-[55%] sm:top-[52%] z-20 flex flex-col items-center px-4">
-            <div className="text-center space-y-2 sm:space-y-3">
-              {sloganLines.map((line, index) => {
-                const startReveal = line.delay;
-                const endReveal = startReveal + 0.12;
+          {/* SLOGAN - Centered, ultra-thin with bold keywords */}
+          <div className="absolute inset-x-0 top-[55%] sm:top-[53%] z-20 flex flex-col items-center px-4">
+            <div className="text-center space-y-1 sm:space-y-2">
+              {/* Line 1: One Connection. */}
+              <motion.div
+                className="overflow-hidden"
+                style={{
+                  opacity: useTransform(smoothProgress, [0.2, 0.32, 0.55, 0.7], [0, 1, 1, 0]),
+                  y: useTransform(smoothProgress, [0.2, 0.32], [50, 0]),
+                }}
+              >
+                <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
+                  One <span className="font-bold">Connection.</span>
+                </span>
+              </motion.div>
 
-                return (
-                  <motion.div
-                    key={index}
-                    className="overflow-hidden"
-                    style={{
-                      opacity: useTransform(
-                        smoothProgress,
-                        [startReveal, endReveal, 0.55, 0.7],
-                        [0, 1, 1, 0]
-                      ),
-                      y: useTransform(smoothProgress, [startReveal, endReveal], [50, 0]),
-                    }}
-                  >
-                    <span
-                      className={`block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight ${
-                        index === 2 ? "text-primary" : "text-foreground"
-                      }`}
-                      style={{
-                        textShadow:
-                          index === 2
-                            ? "0 0 30px rgba(0,217,255,0.6), 0 0 60px rgba(0,217,255,0.3)"
-                            : "0 2px 20px rgba(0,0,0,0.5)",
-                      }}
-                    >
-                      {line.text}
-                    </span>
-                  </motion.div>
-                );
-              })}
+              {/* Line 2: One Story. */}
+              <motion.div
+                className="overflow-hidden"
+                style={{
+                  opacity: useTransform(smoothProgress, [0.28, 0.4, 0.55, 0.7], [0, 1, 1, 0]),
+                  y: useTransform(smoothProgress, [0.28, 0.4], [50, 0]),
+                }}
+              >
+                <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
+                  One <span className="font-bold">Story.</span>
+                </span>
+              </motion.div>
+
+              {/* Line 3: One Conversation at a Time. */}
+              <motion.div
+                className="overflow-hidden"
+                style={{
+                  opacity: useTransform(smoothProgress, [0.36, 0.48, 0.55, 0.7], [0, 1, 1, 0]),
+                  y: useTransform(smoothProgress, [0.36, 0.48], [50, 0]),
+                }}
+              >
+                <span
+                  className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-primary tracking-tight font-extralight"
+                  style={{ textShadow: "0 0 30px rgba(0,217,255,0.6), 0 0 60px rgba(0,217,255,0.3)" }}
+                >
+                  One <span className="font-bold">Conversation</span> at a Time.
+                </span>
+              </motion.div>
             </div>
 
 {/* CTA Button */}
