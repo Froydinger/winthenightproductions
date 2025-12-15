@@ -338,7 +338,7 @@ const Lander = () => {
           </motion.div>
 
           {/* SLOGAN */}
-          <div className="absolute inset-0 flex items-center justify-center z-20 mt-[15vh]">
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 mt-[15vh] px-4">
             <div className="text-center space-y-1 sm:space-y-2">
               <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
                 <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
@@ -360,29 +360,24 @@ const Lander = () => {
                   One <span className="font-bold">Conversation</span> at a Time.
                 </span>
               </motion.div>
-            </div>
 
-            {/* CTA Button */}
-            <motion.div
-              className="mt-5 sm:mt-8"
-              style={{ opacity: ctaButtonOpacity, y: ctaButtonY }}
-            >
-              <Button
-                asChild
-                size={isMobile ? "default" : "lg"}
-                className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-sm sm:text-lg font-bold px-5 py-4 sm:px-8 sm:py-6 rounded-xl sm:rounded-2xl"
+              {/* CTA Button */}
+              <motion.div
+                className="pt-5 sm:pt-8"
+                style={{ opacity: ctaButtonOpacity, y: ctaButtonY }}
               >
-                <a
-                  href="https://youtube.com/@winthenight?sub_confirmation=1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 sm:gap-3"
+                <Button
+                  asChild
+                  size={isMobile ? "default" : "lg"}
+                  className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-sm sm:text-lg font-bold px-5 py-4 sm:px-8 sm:py-6 rounded-xl sm:rounded-2xl"
                 >
-                  <Youtube className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform" />
-                  Subscribe on YouTube
-                </a>
-              </Button>
-            </motion.div>
+                  <a href="/watch" className="flex items-center gap-2 sm:gap-3">
+                    <Play className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+                    Watch Now
+                  </a>
+                </Button>
+              </motion.div>
+            </div>
           </div>
 
           {/* Front mountain layer */}
