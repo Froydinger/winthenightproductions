@@ -378,7 +378,7 @@ const Lander = () => {
                 className="text-base sm:text-xl md:text-2xl text-foreground/80 tracking-wide"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
               >
-                Scroll to explore
+                Scroll to explore...
               </span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
