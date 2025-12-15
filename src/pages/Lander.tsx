@@ -174,24 +174,26 @@ const Lander = () => {
             }}
           />
 
-          {/* Sky background */}
+          {/* Sky background - darker with blue tint */}
           <div className="absolute inset-0">
             <img
               src={skyBackground}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
             />
+            {/* Neon blue tint overlay */}
+            <div className="absolute inset-0 bg-neon-blue/15 mix-blend-overlay" />
           </div>
 
-          {/* Back mountain layer - darkened more */}
+          {/* Back mountain layer - starts higher, darkened more */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[70vh] sm:h-[80vh]"
+            className="absolute -bottom-[10vh] left-0 right-0 h-[120vh] sm:h-[140vh]"
             style={{ y: disableParallax ? 0 : mountainBackY }}
           >
             <img
               src={mountainsBack}
               alt=""
-              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.4]"
+              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.3]"
               style={{ minWidth: '120%', left: '-10%' }}
             />
           </motion.div>
@@ -258,15 +260,15 @@ const Lander = () => {
             </div>
           </div>
 
-          {/* Front mountain layer */}
+          {/* Front mountain layer - starts higher */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[60vh] sm:h-[70vh] z-30"
+            className="absolute -bottom-[5vh] left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
             style={{ y: disableParallax ? 0 : mountainFrontY }}
           >
             <img
               src={mountainsFront}
               alt=""
-              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.6]"
+              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
               style={{ minWidth: '120%', left: '-10%' }}
             />
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
