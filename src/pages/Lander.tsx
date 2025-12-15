@@ -194,7 +194,14 @@ const Lander = () => {
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
 
-  // Hero visibility - fades out at the end
+  // Hero blur - happens first (0.7 to 0.85)
+  const heroBlur = useTransform(
+    smoothProgress,
+    [0.7, 0.85],
+    [0, 20]
+  );
+
+  // Hero visibility - fades out after blur (0.85 to 1)
   const heroOpacity = useTransform(
     smoothProgress,
     [0.85, 1],
@@ -206,20 +213,21 @@ const Lander = () => {
       <Header />
       <main className="min-h-screen bg-background">
         {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
-      {/* Scroll tracking container - invisible, just for measuring scroll progress */}
-      <div
-        ref={containerRef}
-        className="relative"
-        style={{ height: isMobile ? "400vh" : "350vh" }}
-      />
+        {/* Scroll tracking container - invisible, just for measuring scroll progress */}
+        <div
+          ref={containerRef}
+          className="relative"
+          style={{ height: isMobile ? "400vh" : "350vh" }}
+        />
 
-      {/* Fixed hero viewport - stays pinned to screen, fades based on scroll */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-screen w-full overflow-hidden pointer-events-none"
-        style={{
-          opacity: heroOpacity,
-          zIndex: 10,
-        }}
+        {/* Fixed hero viewport - stays pinned to screen, blurs then fades based on scroll */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-screen w-full overflow-hidden pointer-events-none"
+          style={{
+            opacity: heroOpacity,
+            filter: useTransform(heroBlur, (v) => `blur(${v}px)`),
+            zIndex: 10,
+          }}
       >
         {/* Re-enable pointer events for interactive elements */}
         <div className="absolute inset-0 pointer-events-auto">
