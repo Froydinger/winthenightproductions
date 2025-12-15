@@ -194,7 +194,14 @@ const Lander = () => {
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
 
-  // Hero visibility - fades out at the end
+  // Hero blur - happens first (0.7 to 0.85)
+  const heroBlur = useTransform(
+    smoothProgress,
+    [0.7, 0.85],
+    [0, 20]
+  );
+
+  // Hero visibility - fades out after blur (0.85 to 1)
   const heroOpacity = useTransform(
     smoothProgress,
     [0.85, 1],
@@ -206,20 +213,21 @@ const Lander = () => {
       <Header />
       <main className="min-h-screen bg-background">
         {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
-      {/* Scroll tracking container - invisible, just for measuring scroll progress */}
-      <div
-        ref={containerRef}
-        className="relative"
-        style={{ height: isMobile ? "400vh" : "350vh" }}
-      />
+        {/* Scroll tracking container - invisible, just for measuring scroll progress */}
+        <div
+          ref={containerRef}
+          className="relative"
+          style={{ height: isMobile ? "400vh" : "350vh" }}
+        />
 
-      {/* Fixed hero viewport - stays pinned to screen, fades based on scroll */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-screen w-full overflow-hidden pointer-events-none"
-        style={{
-          opacity: heroOpacity,
-          zIndex: 10,
-        }}
+        {/* Fixed hero viewport - stays pinned to screen, blurs then fades based on scroll */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-screen w-full overflow-hidden pointer-events-none"
+          style={{
+            opacity: heroOpacity,
+            filter: useTransform(heroBlur, (v) => `blur(${v}px)`),
+            zIndex: 10,
+          }}
       >
         {/* Re-enable pointer events for interactive elements */}
         <div className="absolute inset-0 pointer-events-auto">
@@ -327,7 +335,7 @@ const Lander = () => {
               opacity: disableParallax ? 1 : logoOpacity,
             }}
           >
-            <div className="relative -mt-[20vh]">
+            <div className="relative -mt-[12vh] sm:-mt-[18vh]">
               <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
               <img
                 src={logoImage}
@@ -338,7 +346,7 @@ const Lander = () => {
           </motion.div>
 
           {/* SLOGAN */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 mt-[15vh] px-4">
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 mt-[18vh] sm:mt-[15vh] px-4">
             <div className="text-center space-y-1 sm:space-y-2">
               <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
                 <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
