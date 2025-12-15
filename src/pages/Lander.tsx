@@ -317,7 +317,7 @@ const Lander = () => {
 
           {/* LOGO */}
           <motion.div
-            className="absolute left-1/2 top-[32%] sm:top-[35%] z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+            className="absolute left-1/2 top-[38%] sm:top-[35%] z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
             style={{
               y: disableParallax ? 0 : logoY,
               scale: disableParallax ? 1 : logoScale,
@@ -336,7 +336,7 @@ const Lander = () => {
           </motion.div>
 
           {/* SLOGAN */}
-          <div className="absolute inset-x-0 top-[52%] sm:top-[54%] z-20 flex flex-col items-center px-4">
+          <div className="absolute inset-x-0 top-[58%] sm:top-[54%] z-20 flex flex-col items-center px-4">
             <div className="text-center space-y-1 sm:space-y-2">
               <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
                 <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
