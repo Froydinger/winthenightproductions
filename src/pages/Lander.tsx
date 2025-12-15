@@ -1,25 +1,20 @@
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import logoImage from "@/assets/win-the-night-logo.webp";
+import Header from "@/components/Header";
+import FeaturesSection from "@/components/FeaturesSection";
+import WatchLatestSection from "@/components/WatchLatestSection";
+import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Youtube, ChevronDown, Play, Heart, Users, Brain, Check, Sparkles } from "lucide-react";
+import { ChevronDown, Play } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Lander = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
-  const topicsRef = useRef<HTMLDivElement>(null);
-  const communityRef = useRef<HTMLDivElement>(null);
-
   const isMobile = useIsMobile();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  const featuresInView = useInView(featuresRef, { once: true, margin: "-50px" });
-  const topicsInView = useInView(topicsRef, { once: true, margin: "-50px" });
-  const communityInView = useInView(communityRef, { once: true, margin: "-50px" });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -144,52 +139,6 @@ const Lander = () => {
       duration: 2 + Math.random() * 3,
     }))
   ).current;
-
-  // Features data
-  const features = [
-    {
-      icon: Play,
-      title: "Weekly Episodes",
-      description: "Mental health content that feels like talking with a friend at night.",
-      link: "/watch",
-      linkText: "Watch Now",
-    },
-    {
-      icon: Heart,
-      title: "Real Stories",
-      description: "Stories about loss, healing, and rediscovery. No fake positivity.",
-      link: "/guest",
-      linkText: "Share Yours",
-    },
-    {
-      icon: Brain,
-      title: "Practical Tools",
-      description: "Blog posts and mental wellness tools to support your journey.",
-      link: "/blog",
-      linkText: "Read Blog",
-    },
-    {
-      icon: Users,
-      title: "Community",
-      description: "A community that treats you like a human. You're welcome as you are.",
-      link: "/updates",
-      linkText: "Join Us",
-    },
-  ];
-
-  // Topics data
-  const topics = [
-    { title: "Inner Child Work", description: "Deep dives into healing childhood wounds and understanding patterns." },
-    { title: "Generational Trauma", description: "Exploring how family history shapes our present and future." },
-    { title: "Healing Journey", description: "Practical frameworks for navigating your own path to wholeness." },
-  ];
-
-  // Community benefits
-  const benefits = [
-    "No fake positivity, just real stories",
-    "Supportive, introspective community",
-    "Episodes that feel like talking with a friend",
-  ];
 
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
@@ -340,7 +289,7 @@ const Lander = () => {
               <img
                 src={logoImage}
                 alt="Win The Night Productions"
-                className="relative w-28 h-28 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
+                className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-72 lg:h-72 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
               />
             </div>
           </motion.div>
@@ -466,193 +415,20 @@ const Lander = () => {
         </div>
       </motion.div>
 
-      {/* ===== SECTION 2: WHAT WE'RE ABOUT ===== */}
-      <section ref={featuresRef} className="relative py-16 sm:py-24 px-4 bg-gradient-to-b from-background via-charcoal/20 to-background">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 -left-32 w-64 sm:w-96 h-64 sm:h-96 bg-neon-blue/10 rounded-full blur-[100px] sm:blur-[150px]" />
-          <div className="absolute bottom-1/4 -right-32 w-64 sm:w-96 h-64 sm:h-96 bg-neon-purple/10 rounded-full blur-[100px] sm:blur-[150px]" />
-        </div>
-
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            className="text-center mb-10 sm:mb-16 space-y-3 sm:space-y-4"
-            initial={{ opacity: 0, y: 40 }}
-            animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-foreground">What We're About</h2>
-            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto font-light">
-              A different kind of mental health space—honest, introspective, and human.
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-card/40 to-charcoal/30 backdrop-blur-sm border border-neon-blue/20 p-5 sm:p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-neon"
-                initial={{ opacity: 0, y: 30 }}
-                animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="relative z-10 space-y-3 sm:space-y-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-neon-blue/20 flex items-center justify-center group-hover:bg-neon-blue/30 transition-all duration-500 group-hover:scale-110">
-                    <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-neon-blue" />
-                  </div>
-
-                  <h3 className="text-lg sm:text-2xl font-bold text-foreground group-hover:text-neon-blue transition-colors">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.description}</p>
-
-                  <Button
-                    asChild
-                    variant="outline"
-                    size={isMobile ? "sm" : "default"}
-                    className="border-neon-blue/50 text-neon-blue hover:bg-neon-blue/20 hover:border-neon-blue transition-all"
-                  >
-                    <a href={feature.link}>{feature.linkText}</a>
-                  </Button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION 3: TOPICS WE EXPLORE ===== */}
-      <section ref={topicsRef} className="relative py-16 sm:py-24 px-4">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] sm:w-[800px] h-[200px] sm:h-[400px] bg-neon-blue/5 rounded-full blur-[100px] sm:blur-[150px]" />
-        </div>
-
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <motion.div
-            className="text-center mb-10 sm:mb-16 space-y-3 sm:space-y-4"
-            initial={{ opacity: 0, y: 40 }}
-            animate={topicsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-neon-blue/20 text-neon-blue text-xs sm:text-sm font-medium mb-2 sm:mb-4">
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
-              Topics We Explore
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-bold text-foreground">Why People Stay Connected</h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto font-light">
-              Real conversations that matter. No algorithms. No highlight reels.
-            </p>
-          </motion.div>
-
-          <div className="grid gap-4 sm:gap-6">
-            {topics.map((topic, index) => (
-              <motion.div
-                key={index}
-                className="group relative p-5 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-r from-card/30 to-charcoal/20 backdrop-blur-sm border border-neon-blue/20 hover:border-neon-blue/50 transition-all duration-500 hover:translate-x-2 sm:hover:translate-x-4"
-                initial={{ opacity: 0, x: -30 }}
-                animate={topicsInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-              >
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
-                <h4 className="text-lg sm:text-2xl font-bold text-foreground mb-1 sm:mb-2 group-hover:text-neon-blue transition-colors">
-                  {topic.title}
-                </h4>
-                <p className="text-sm sm:text-base text-muted-foreground">{topic.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION 4: COMMUNITY FEEL ===== */}
-      <section ref={communityRef} className="relative py-16 sm:py-24 px-4 bg-gradient-to-b from-background via-charcoal/10 to-background">
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            {/* Left - Main message */}
-            <motion.div
-              className="space-y-5 sm:space-y-8"
-              initial={{ opacity: 0, y: 30 }}
-              animate={communityInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                A mental health community that feels like a{" "}
-                <span className="text-primary">late night talk.</span>
-              </h2>
-
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                We're here to hold space for honest conversations about anxiety, trauma, creativity, and
-                everything in between.
-              </p>
-
-              <div className="space-y-3 sm:space-y-4">
-                {benefits.map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-center gap-3 sm:gap-4 group"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={communityInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  >
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md sm:rounded-lg bg-neon-blue/30 flex items-center justify-center flex-shrink-0 group-hover:bg-neon-blue group-hover:scale-110 transition-all duration-300">
-                      <Check className="w-3 h-3 sm:w-4 sm:h-4 text-neon-blue group-hover:text-black" />
-                    </div>
-                    <span className="text-sm sm:text-base text-foreground/90">{benefit}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Right - Visual/CTA */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, y: 30 }}
-              animate={communityInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-br from-neon-blue/20 via-card/50 to-neon-purple/10 border border-neon-blue/30 p-6 sm:p-12">
-                <div className="absolute top-0 right-0 w-32 sm:w-40 h-32 sm:h-40 bg-neon-blue/20 rounded-full blur-[60px] sm:blur-[80px]" />
-                <div className="absolute bottom-0 left-0 w-24 sm:w-32 h-24 sm:h-32 bg-neon-purple/20 rounded-full blur-[40px] sm:blur-[60px]" />
-
-                <div className="relative z-10 text-center space-y-4 sm:space-y-6">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-neon-blue/20 flex items-center justify-center">
-                    <Youtube className="w-8 h-8 sm:w-10 sm:h-10 text-neon-blue" />
-                  </div>
-
-                  <div>
-                    <p className="text-xl sm:text-2xl font-bold text-foreground mb-1 sm:mb-2">Join 1k+ others</p>
-                    <p className="text-sm sm:text-base text-muted-foreground">finding connection and healing</p>
-                  </div>
-
-                  <Button
-                    asChild
-                    size="lg"
-                    className="w-full bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-neon-strong transition-all duration-500 hover:scale-105 font-bold py-5 sm:py-6 rounded-lg sm:rounded-xl"
-                  >
-                    <a
-                      href="https://youtube.com/@winthenight?sub_confirmation=1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Subscribe Free
-                    </a>
-                  </Button>
-
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    New episodes drop weekly on YouTube
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-        {/* ===== SECTION 5: CTA + FOOTER ===== */}
+        {/* Content sections from main page */}
         <div className="relative z-10">
-          <CTASection />
+          <div id="features" className="scroll-mt-8">
+            <FeaturesSection />
+          </div>
+          <div id="latest-videos">
+            <WatchLatestSection />
+          </div>
+          <div id="community">
+            <CommunitySection />
+          </div>
+          <div id="cta">
+            <CTASection />
+          </div>
           <Footer />
         </div>
       </main>
