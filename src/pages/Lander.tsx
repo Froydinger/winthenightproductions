@@ -335,7 +335,7 @@ const Lander = () => {
               opacity: disableParallax ? 1 : logoOpacity,
             }}
           >
-            <div className="relative -mt-[12vh] sm:-mt-[18vh]">
+            <div className="relative -mt-[5vh] sm:-mt-[18vh]">
               <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
               <img
                 src={logoImage}
@@ -346,7 +346,7 @@ const Lander = () => {
           </motion.div>
 
           {/* SLOGAN */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 mt-[18vh] sm:mt-[15vh] px-4">
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 mt-[12vh] sm:mt-[15vh] px-4">
             <div className="text-center space-y-1 sm:space-y-2">
               <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
                 <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
