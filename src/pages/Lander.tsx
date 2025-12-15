@@ -193,17 +193,33 @@ const Lander = () => {
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
 
+  // Hero visibility - fades out at the end
+  const heroOpacity = useTransform(
+    smoothProgress,
+    [0.85, 1],
+    [1, 0]
+  );
+
   return (
     <main className="min-h-screen bg-background">
       {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
-      {/* Tall scroll container - sticky child stays fixed while we scroll through this */}
+      {/* Scroll tracking container - invisible, just for measuring scroll progress */}
       <div
         ref={containerRef}
         className="relative"
         style={{ height: isMobile ? "400vh" : "350vh" }}
+      />
+
+      {/* Fixed hero viewport - stays pinned to screen, fades based on scroll */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-screen w-full overflow-hidden pointer-events-none"
+        style={{
+          opacity: heroOpacity,
+          zIndex: 10,
+        }}
       >
-        {/* Sticky viewport - stays pinned while scrolling through parent */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Re-enable pointer events for interactive elements */}
+        <div className="absolute inset-0 pointer-events-auto">
           {/* Top blur edge for smooth transition */}
           <motion.div
             className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-50 pointer-events-none backdrop-blur-sm"
@@ -443,7 +459,7 @@ const Lander = () => {
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* ===== SECTION 2: WHAT WE'RE ABOUT ===== */}
       <section ref={featuresRef} className="relative py-16 sm:py-24 px-4 bg-gradient-to-b from-background via-charcoal/20 to-background">
