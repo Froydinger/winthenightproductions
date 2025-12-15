@@ -27,10 +27,10 @@ const Lander = () => {
     restDelta: 0.001,
   });
 
-  // Logo animation - rises and scales
-  const logoY = useTransform(smoothProgress, [0, 0.3, 0.5], ["20vh", "-5vh", "-15vh"]);
-  const logoScale = useTransform(smoothProgress, [0, 0.3, 0.5], [0.8, 1.1, 1.2]);
-  const logoOpacity = useTransform(smoothProgress, [0, 0.1, 0.5, 0.7], [0.3, 1, 1, 0]);
+  // Logo animation - starts hidden behind mountains, rises to just above slogan
+  const logoY = useTransform(smoothProgress, [0, 0.15, 0.35, 0.5], ["45vh", "25vh", "0vh", "-10vh"]);
+  const logoScale = useTransform(smoothProgress, [0, 0.2, 0.4], [0.7, 1, 1.1]);
+  const logoOpacity = useTransform(smoothProgress, [0, 0.05, 0.15, 0.5, 0.65], [0, 0, 1, 1, 0]);
 
   // Mountain parallax layers (different speeds for depth)
   const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", "40%"]);
@@ -168,11 +168,11 @@ const Lander = () => {
             </svg>
           </motion.div>
 
-          {/* LOGO - Positioned in the sky, above mountains */}
+          {/* LOGO - Starts behind mountains, rises to just above slogan */}
           <motion.div
             className="absolute left-1/2 z-10 -translate-x-1/2 flex flex-col items-center"
             style={{
-              top: "15%",
+              top: "10%",
               y: prefersReducedMotion ? 0 : logoY,
               scale: prefersReducedMotion ? 1 : logoScale,
               opacity: prefersReducedMotion ? 1 : logoOpacity,
@@ -182,13 +182,13 @@ const Lander = () => {
             <motion.div
               className="absolute -inset-10 rounded-full bg-neon-blue/20 blur-[60px]"
               style={{
-                opacity: useTransform(smoothProgress, [0.1, 0.4], [0.3, 0.8]),
+                opacity: useTransform(smoothProgress, [0.15, 0.35], [0, 0.8]),
               }}
             />
             <img
               src={logoImage}
               alt="Win The Night Productions"
-              className="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.5)]"
+              className="relative w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-contain drop-shadow-[0_0_40px_rgba(0,217,255,0.5)]"
             />
           </motion.div>
 
@@ -295,20 +295,25 @@ const Lander = () => {
             <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
           </motion.div>
 
-          {/* Scroll indicator */}
+          {/* Scroll indicator - dead center, serif font */}
           <motion.div
-            className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2"
+            className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none"
             style={{ opacity: scrollIndicatorOpacity }}
           >
-            <span className="text-xs sm:text-sm text-muted-foreground/60 tracking-widest uppercase">
-              Scroll to explore
-            </span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDown className="w-6 h-6 text-primary/70" />
-            </motion.div>
+            <div className="flex flex-col items-center gap-4">
+              <span
+                className="text-lg sm:text-xl md:text-2xl text-foreground/80 tracking-wide"
+                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+              >
+                Scroll to explore
+              </span>
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown className="w-8 h-8 text-foreground/60" />
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Floating particles */}
