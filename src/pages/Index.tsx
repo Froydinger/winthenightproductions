@@ -6,14 +6,12 @@ import CommunitySection from "@/components/CommunitySection";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import ScrollRevealLanding from "@/components/ScrollRevealLanding";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState, useEffect } from "react";
 
 const Index = () => {
   const isMobile = useIsMobile();
   const [showBackground, setShowBackground] = useState(false);
-  const [landingComplete, setLandingComplete] = useState(false);
 
   // Defer AnimatedBackground until after LCP
   useEffect(() => {
@@ -35,9 +33,6 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-background via-charcoal to-background" />
         )}
       </div>
-
-      {/* Scroll Reveal Landing Page - Epic intro sequence */}
-      <ScrollRevealLanding onComplete={() => setLandingComplete(true)} />
 
       {/* Blur zones - removed on mobile for performance, simplified on desktop */}
       {!isMobile && (
@@ -65,7 +60,7 @@ const Index = () => {
         </>
       )}
 
-      {/* Sticky Header - shows after scrolling past landing */}
+      {/* Sticky Header */}
       <Header />
 
       {/* Content Sections */}
