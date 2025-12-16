@@ -10,8 +10,7 @@ import WatchLatestSection from "@/components/WatchLatestSection";
 import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, Play } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Lander = () => {
@@ -112,17 +111,6 @@ const Lander = () => {
     smoothProgress,
     isMobile ? [0.30, 0.43] : [0.30, 0.40],
     [40, 0]
-  );
-
-  const ctaButtonOpacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.40, 0.52, 0.75, 0.88] : [0.38, 0.48, 0.9, 1],
-    [0, 1, 1, 0]
-  );
-  const ctaButtonY = useTransform(
-    smoothProgress,
-    isMobile ? [0.40, 0.52] : [0.38, 0.48],
-    [20, 0]
   );
 
   // Disable parallax completely when reduced motion is preferred
@@ -246,22 +234,16 @@ const Lander = () => {
                 </span>
               </motion.div>
 
-              {/* CTA Button - always clickable */}
+              {/* Scroll to learn more callout */}
               <motion.div
-                className="pt-5 sm:pt-8 pointer-events-auto"
-                style={{ opacity: ctaButtonOpacity, y: ctaButtonY, pointerEvents: 'auto' }}
+                className="pt-8 sm:pt-12"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
-                <Button
-                  asChild
-                  size={isMobile ? "default" : "lg"}
-                  className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-sm sm:text-lg font-bold px-5 py-4 sm:px-8 sm:py-6 rounded-xl sm:rounded-2xl pointer-events-auto"
-                  style={{ pointerEvents: 'auto' }}
-                >
-                  <a href="/watch" className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
-                    <Play className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
-                    Watch Now
-                  </a>
-                </Button>
+                <div className="flex flex-col items-center gap-2 text-foreground/70">
+                  <span className="text-sm sm:text-base font-semibold">Scroll down to learn more</span>
+                  <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
               </motion.div>
             </div>
           </div>
