@@ -191,7 +191,7 @@ const Lander = () => {
             className="absolute left-0 right-0 h-[120vh] sm:h-[140vh]"
             style={{
               y: disableParallax ? 0 : mountainBackY,
-              bottom: isMobile ? "-2vh" : "-10vh"
+              bottom: isMobile ? "15vh" : "-10vh"
             }}
           >
             <img
@@ -255,7 +255,7 @@ const Lander = () => {
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <span className="text-sm sm:text-base font-semibold">Scroll down to learn more</span>
+                  <span className="text-sm sm:text-base font-semibold" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Scroll down to learn more</span>
                   <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
                 </motion.div>
               </motion.div>
@@ -267,7 +267,7 @@ const Lander = () => {
             className="absolute left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
             style={{
               y: disableParallax ? 0 : mountainFrontY,
-              bottom: isMobile ? "0vh" : "-5vh"
+              bottom: isMobile ? "25vh" : "-5vh"
             }}
           >
             <img
