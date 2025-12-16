@@ -113,6 +113,17 @@ const Lander = () => {
     [40, 0]
   );
 
+  const scrollCalloutOpacity = useTransform(
+    smoothProgress,
+    isMobile ? [0.43, 0.52, 0.75, 0.88] : [0.40, 0.50, 0.9, 1],
+    [0, 1, 1, 0]
+  );
+  const scrollCalloutY = useTransform(
+    smoothProgress,
+    isMobile ? [0.43, 0.52] : [0.40, 0.50],
+    [20, 0]
+  );
+
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
 
@@ -237,13 +248,16 @@ const Lander = () => {
               {/* Scroll to learn more callout */}
               <motion.div
                 className="pt-3 sm:pt-12"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                style={{ opacity: scrollCalloutOpacity, y: scrollCalloutY }}
               >
-                <div className="flex flex-col items-center gap-2 text-foreground/70">
+                <motion.div
+                  className="flex flex-col items-center gap-2 text-foreground/70"
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
                   <span className="text-sm sm:text-base font-semibold">Scroll down to learn more</span>
                   <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
+                </motion.div>
               </motion.div>
             </div>
           </div>
