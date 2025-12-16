@@ -128,17 +128,19 @@ const Lander = () => {
   // Disable parallax completely when reduced motion is preferred
   const disableParallax = prefersReducedMotion;
 
-  // Hero blur - happens first (0.7 to 0.85)
+  // Hero blur - happens later on wide screens, earlier on mobile
+  // This gives more time to view the hero section before it starts fading
   const heroBlur = useTransform(
     smoothProgress,
-    [0.7, 0.85],
+    isMobile ? [0.75, 0.9] : [0.8, 0.95],
     [0, 20]
   );
 
-  // Hero visibility - fades out after blur (0.85 to 1)
+  // Hero visibility - fades out after blur
+  // Delayed to give the section more breathing room
   const heroOpacity = useTransform(
     smoothProgress,
-    [0.85, 1],
+    isMobile ? [0.9, 1] : [0.95, 1],
     [1, 0]
   );
 
@@ -163,8 +165,8 @@ const Lander = () => {
             zIndex: 10,
           }}
       >
-        {/* Re-enable pointer events for interactive elements */}
-        <div className="absolute inset-0 pointer-events-auto">
+        {/* Re-enable pointer events for interactive elements - stays active even when fading */}
+        <div className="absolute inset-0 pointer-events-auto" style={{ pointerEvents: 'auto' }}>
           {/* Top blur edge for smooth transition */}
           <motion.div
             className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-50 pointer-events-none backdrop-blur-sm"
@@ -187,8 +189,11 @@ const Lander = () => {
 
           {/* Back mountain layer - starts higher, darkened more */}
           <motion.div
-            className="absolute -bottom-[10vh] left-0 right-0 h-[120vh] sm:h-[140vh]"
-            style={{ y: disableParallax ? 0 : mountainBackY }}
+            className="absolute left-0 right-0 h-[120vh] sm:h-[140vh]"
+            style={{
+              y: disableParallax ? 0 : mountainBackY,
+              bottom: isMobile ? "-2vh" : "-10vh"
+            }}
           >
             <img
               src={mountainsBack}
@@ -241,17 +246,18 @@ const Lander = () => {
                 </span>
               </motion.div>
 
-              {/* CTA Button */}
+              {/* CTA Button - always clickable */}
               <motion.div
-                className="pt-5 sm:pt-8"
-                style={{ opacity: ctaButtonOpacity, y: ctaButtonY }}
+                className="pt-5 sm:pt-8 pointer-events-auto"
+                style={{ opacity: ctaButtonOpacity, y: ctaButtonY, pointerEvents: 'auto' }}
               >
                 <Button
                   asChild
                   size={isMobile ? "default" : "lg"}
-                  className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-sm sm:text-lg font-bold px-5 py-4 sm:px-8 sm:py-6 rounded-xl sm:rounded-2xl"
+                  className="group bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-500 hover:scale-110 animate-glow-pulse text-sm sm:text-lg font-bold px-5 py-4 sm:px-8 sm:py-6 rounded-xl sm:rounded-2xl pointer-events-auto"
+                  style={{ pointerEvents: 'auto' }}
                 >
-                  <a href="/watch" className="flex items-center gap-2 sm:gap-3">
+                  <a href="/watch" className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
                     <Play className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
                     Watch Now
                   </a>
@@ -262,8 +268,11 @@ const Lander = () => {
 
           {/* Front mountain layer - starts higher */}
           <motion.div
-            className="absolute -bottom-[5vh] left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
-            style={{ y: disableParallax ? 0 : mountainFrontY }}
+            className="absolute left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
+            style={{
+              y: disableParallax ? 0 : mountainFrontY,
+              bottom: isMobile ? "0vh" : "-5vh"
+            }}
           >
             <img
               src={mountainsFront}
