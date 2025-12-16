@@ -252,7 +252,7 @@ const Lander = () => {
 
               {/* Scroll to learn more callout */}
               <motion.div
-                className="pt-3 sm:pt-12"
+                className="pt-3 sm:pt-12 pb-0 sm:pb-20"
                 style={{ opacity: scrollCalloutOpacity, y: scrollCalloutY }}
               >
                 <motion.div
