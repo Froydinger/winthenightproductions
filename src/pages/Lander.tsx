@@ -46,7 +46,7 @@ const Lander = () => {
       ? [0, 0.15, 0.35, 0.55] // Mobile: slower rise
       : [0, 0.12, 0.28, 0.45],
     isMobile
-      ? ["30vh", "10vh", "-10vh", "-20vh"]
+      ? ["30vh", "10vh", "-5vh", "-10vh"]
       : ["40vh", "20vh", "-5vh", "-15vh"]
   );
   const logoScale = useTransform(
@@ -63,8 +63,8 @@ const Lander = () => {
   );
 
   // Mountain parallax - subtle effect to keep mountains visible throughout
-  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", "30%"]);
-  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", "40%"]);
+  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "8%" : "30%"]);
+  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "12%" : "40%"]);
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
@@ -351,6 +351,9 @@ const Lander = () => {
           >
             <AnimatedBackground />
           </motion.div>
+
+          {/* Invisible buffer spacer - gives user time to scroll before content appears */}
+          <div className="h-screen" />
 
           <div id="features" className="scroll-mt-8 relative z-10">
             <FeaturesSection />
