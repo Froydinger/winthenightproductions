@@ -10,7 +10,6 @@ import WatchLatestSection from "@/components/WatchLatestSection";
 import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import AnimatedBackground from "@/components/AnimatedBackground";
 import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -337,26 +336,19 @@ const Lander = () => {
 
         {/* Content sections from main page */}
         <div className="relative z-10">
-          {/* Animated starry background */}
-          <div className="absolute inset-0 pointer-events-none">
-            <AnimatedBackground />
-          </div>
-
-          <div id="features" className="scroll-mt-8 relative z-20">
+          <div id="features" className="scroll-mt-8">
             <FeaturesSection />
           </div>
-          <div id="latest-videos" className="relative z-20">
+          <div id="latest-videos">
             <WatchLatestSection />
           </div>
-          <div id="community" className="relative z-20">
+          <div id="community">
             <CommunitySection />
           </div>
-          <div id="cta" className="relative z-20">
+          <div id="cta">
             <CTASection />
           </div>
-          <div className="relative z-20">
-            <Footer />
-          </div>
+          <Footer />
         </div>
       </main>
     </>
