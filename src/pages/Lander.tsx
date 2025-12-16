@@ -10,6 +10,7 @@ import WatchLatestSection from "@/components/WatchLatestSection";
 import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -62,8 +63,8 @@ const Lander = () => {
   );
 
   // Mountain parallax - subtle effect to keep mountains visible throughout
-  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "25%" : "30%"]);
-  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "35%" : "40%"]);
+  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", "30%"]);
+  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", "40%"]);
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
@@ -252,7 +253,7 @@ const Lander = () => {
 
               {/* Scroll to learn more callout */}
               <motion.div
-                className="pt-3 sm:pt-12"
+                className="pt-3 sm:pt-12 pb-0 sm:pb-20"
                 style={{ opacity: scrollCalloutOpacity, y: scrollCalloutY }}
               >
                 <motion.div
@@ -336,19 +337,26 @@ const Lander = () => {
 
         {/* Content sections from main page */}
         <div className="relative z-10">
-          <div id="features" className="scroll-mt-8">
+          {/* Animated starry background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <AnimatedBackground />
+          </div>
+
+          <div id="features" className="scroll-mt-8 relative z-20">
             <FeaturesSection />
           </div>
-          <div id="latest-videos">
+          <div id="latest-videos" className="relative z-20">
             <WatchLatestSection />
           </div>
-          <div id="community">
+          <div id="community" className="relative z-20">
             <CommunitySection />
           </div>
-          <div id="cta">
+          <div id="cta" className="relative z-20">
             <CTASection />
           </div>
-          <Footer />
+          <div className="relative z-20">
+            <Footer />
+          </div>
         </div>
       </main>
     </>
