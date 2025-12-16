@@ -188,10 +188,11 @@ const Lander = () => {
 
           {/* Back mountain layer - starts higher, darkened more */}
           <motion.div
-            className="absolute left-0 right-0 h-[120vh] sm:h-[140vh]"
+            className="absolute left-0 right-0"
             style={{
+              height: isMobile ? "360vh" : "280vh",
               y: disableParallax ? 0 : mountainBackY,
-              bottom: isMobile ? "15vh" : "-10vh"
+              bottom: isMobile ? "30vh" : "-40vh"
             }}
           >
             <img
@@ -262,12 +263,13 @@ const Lander = () => {
             </div>
           </div>
 
-          {/* Front mountain layer - positioned lower to hide bottom edge */}
+          {/* Front mountain layer - larger on mobile to hide bottom edge */}
           <motion.div
-            className="absolute left-0 right-0 h-[80vh] sm:h-[100vh] z-30"
+            className="absolute left-0 right-0 z-30"
             style={{
+              height: isMobile ? "300vh" : "200vh",
               y: disableParallax ? 0 : mountainFrontY,
-              bottom: isMobile ? "10vh" : "-15vh"
+              bottom: isMobile ? "-20vh" : "-30vh"
             }}
           >
             <img
