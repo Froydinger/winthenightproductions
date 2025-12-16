@@ -61,9 +61,9 @@ const Lander = () => {
     [0, 0, 1, 1, 0]
   );
 
-  // Mountain parallax - reduced on mobile for performance
-  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "20%" : "40%"]);
-  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "40%" : "80%"]);
+  // Mountain parallax - increased for more dramatic 3D effect
+  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "50%" : "60%"]);
+  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "100%" : "80%"]);
 
   // Blur edge
   const blurEdgeOpacity = useTransform(
