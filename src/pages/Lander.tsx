@@ -10,6 +10,7 @@ import WatchLatestSection from "@/components/WatchLatestSection";
 import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -141,6 +142,13 @@ const Lander = () => {
     smoothProgress,
     isMobile ? [0.9, 1] : [0.95, 1],
     [1, 0]
+  );
+
+  // Background fade in as hero fades out
+  const backgroundOpacity = useTransform(
+    smoothProgress,
+    isMobile ? [0.85, 1] : [0.9, 1],
+    [0, 1]
   );
 
   return (
@@ -336,19 +344,29 @@ const Lander = () => {
 
         {/* Content sections from main page */}
         <div className="relative z-10">
-          <div id="features" className="scroll-mt-8">
+          {/* Animated starry background - behind all content, fades in smoothly */}
+          <motion.div
+            className="fixed inset-0 z-0 pointer-events-none"
+            style={{ opacity: backgroundOpacity }}
+          >
+            <AnimatedBackground />
+          </motion.div>
+
+          <div id="features" className="scroll-mt-8 relative z-10">
             <FeaturesSection />
           </div>
-          <div id="latest-videos">
+          <div id="latest-videos" className="relative z-10">
             <WatchLatestSection />
           </div>
-          <div id="community">
+          <div id="community" className="relative z-10">
             <CommunitySection />
           </div>
-          <div id="cta">
+          <div id="cta" className="relative z-10">
             <CTASection />
           </div>
-          <Footer />
+          <div className="relative z-10">
+            <Footer />
+          </div>
         </div>
       </main>
     </>
