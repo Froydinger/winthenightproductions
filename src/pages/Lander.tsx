@@ -353,7 +353,7 @@ const Lander = () => {
           </motion.div>
 
           {/* Invisible buffer spacer - gives user time to scroll before content appears */}
-          <div className="h-screen" />
+          <div className="h-32 sm:h-48" />
 
           <div id="features" className="scroll-mt-8 relative z-10">
             <FeaturesSection />
