@@ -152,7 +152,7 @@ const Lander = () => {
         <div
           ref={containerRef}
           className="relative"
-          style={{ height: isMobile ? "400vh" : "350vh" }}
+          style={{ height: isMobile ? "350vh" : "300vh" }}
         />
 
         {/* Fixed hero viewport - stays pinned to screen, blurs then fades based on scroll */}
@@ -181,6 +181,8 @@ const Lander = () => {
               src={skyBackground}
               alt=""
               className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
+              loading="lazy"
+              decoding="async"
             />
             {/* Neon blue tint overlay */}
             <div className="absolute inset-0 bg-neon-blue/15 mix-blend-overlay" />
@@ -200,6 +202,8 @@ const Lander = () => {
               alt=""
               className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.3]"
               style={{ minWidth: '120%', left: '-10%' }}
+              loading="lazy"
+              decoding="async"
             />
           </motion.div>
 
@@ -269,7 +273,7 @@ const Lander = () => {
             style={{
               height: isMobile ? "300vh" : "200vh",
               y: disableParallax ? 0 : mountainFrontY,
-              bottom: isMobile ? "-20vh" : "-30vh"
+              bottom: isMobile ? "-20vh" : "-10vh"
             }}
           >
             <img
@@ -277,6 +281,8 @@ const Lander = () => {
               alt=""
               className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
               style={{ minWidth: '120%', left: '-10%' }}
+              loading="lazy"
+              decoding="async"
             />
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
           </motion.div>
@@ -302,13 +308,13 @@ const Lander = () => {
             </div>
           </motion.div>
 
-          {/* Floating particles - desktop only */}
+          {/* Floating particles - desktop only, reduced for performance */}
           {!isMobile && (
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-5">
-              {Array.from({ length: 12 }).map((_, i) => (
+              {Array.from({ length: 8 }).map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-1 h-1 rounded-full bg-primary/40"
+                  className="absolute w-1 h-1 rounded-full bg-primary/40 will-change-transform"
                   style={{ left: `${15 + Math.random() * 70}%`, bottom: "-5%" }}
                   animate={{
                     y: [0, -800],
