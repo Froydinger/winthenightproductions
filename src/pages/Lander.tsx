@@ -236,7 +236,7 @@ const Lander = () => {
 
               {/* Scroll to learn more callout */}
               <motion.div
-                className="pt-8 sm:pt-12"
+                className="pt-3 sm:pt-12"
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
