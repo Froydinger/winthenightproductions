@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Youtube, ExternalLink, Play } from "lucide-react";
+import { Youtube, ExternalLink, Play, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const CTASection = () => {
@@ -94,20 +95,19 @@ const CTASection = () => {
                 </Button>
               </div>
 
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="group border-2 border-neon-blue/60 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue transition-all duration-500 hover:scale-105 text-base sm:text-lg px-6 py-5 sm:px-8 sm:py-6 rounded-2xl backdrop-blur-sm font-semibold"
+              <motion.div
+                className="flex flex-col items-center gap-4 pt-4"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
-                <a href="/guest" className="flex items-center gap-3">
-                  Be Our Guest!
-                </a>
-              </Button>
-
-              <p className="text-sm text-muted-foreground pt-4">
-                Join 1k+ others finding connection and healing
-              </p>
+                <p className="text-sm text-muted-foreground">
+                  Join 1k+ others finding connection and healing
+                </p>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <span className="text-sm font-semibold">Scroll down to learn more</span>
+                  <ChevronDown className="w-4 h-4" />
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>

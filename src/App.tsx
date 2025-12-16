@@ -46,7 +46,7 @@ const App = () => (
         <BrowserRouter>
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<Lander />} />
               <Route path="/guest" element={<BeOurGuest />} />
               {/* Redirect old guest routes to /guest */}
               <Route path="/be-our-guest" element={<Navigate to="/guest" replace />} />
@@ -62,7 +62,6 @@ const App = () => (
               <Route path="/updates" element={<Updates />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:postId" element={<BlogPost />} />
-              <Route path="/lander" element={<Lander />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
