@@ -1,5 +1,6 @@
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useParallax } from "@/hooks/useParallax";
+import { useIsTabVisible } from "@/hooks/usePageVisibility";
 import { useMemo } from "react";
 
 interface Star {
@@ -15,12 +16,14 @@ interface Star {
 
 const AnimatedBackground = () => {
   const isMobile = useIsMobile();
-  
+  const isTabVisible = useIsTabVisible();
+
   // Multi-layer parallax with different speeds
-  const backgroundOffset = useParallax({ speed: 0.2 });
-  const starsSlowOffset = useParallax({ speed: 0.3 });
-  const starsMediumOffset = useParallax({ speed: 0.5 });
-  const starsFastOffset = useParallax({ speed: 0.7 });
+  // Disable parallax calculations when tab is hidden to save CPU
+  const backgroundOffset = useParallax({ speed: 0.2, disabled: !isTabVisible });
+  const starsSlowOffset = useParallax({ speed: 0.3, disabled: !isTabVisible });
+  const starsMediumOffset = useParallax({ speed: 0.5, disabled: !isTabVisible });
+  const starsFastOffset = useParallax({ speed: 0.7, disabled: !isTabVisible });
 
   // Generate fixed star positions once - memoized to prevent scattering
   const { slowStars, mediumStars, fastStars } = useMemo(() => {
@@ -68,21 +71,32 @@ const AnimatedBackground = () => {
     };
   }, [isMobile]);
 
+  // CSS animation pause style when tab is hidden
+  const animationStyle = isTabVisible
+    ? {}
+    : { animationPlayState: "paused" as const };
+
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={!isTabVisible ? { willChange: "auto" } : {}}
+    >
       {/* Layer 1: Gradient Background - Slowest parallax */}
       <div
         className="absolute inset-x-0 -top-[100%] h-[800%] bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] animate-gradient-shift will-change-transform"
         style={{
           transform: `translate3d(0, ${backgroundOffset * 0.5}px, 0)`,
+          ...animationStyle,
+          willChange: isTabVisible ? "transform" : "auto",
         }}
       />
 
       {/* Layer 2: Slow stars (far background) */}
-      <div 
+      <div
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
           transform: `translate3d(0, ${starsSlowOffset}px, 0)`,
+          willChange: isTabVisible ? "transform" : "auto",
         }}
       >
         {slowStars.map((star) => (
@@ -98,16 +112,18 @@ const AnimatedBackground = () => {
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
               boxShadow: star.brightness > 1 ? '0 0 8px 2px rgba(93, 204, 255, 0.6)' : 'none',
+              ...animationStyle,
             }}
           />
         ))}
       </div>
 
       {/* Layer 3: Medium speed stars */}
-      <div 
+      <div
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
           transform: `translate3d(0, ${starsMediumOffset}px, 0)`,
+          willChange: isTabVisible ? "transform" : "auto",
         }}
       >
         {mediumStars.map((star) => (
@@ -123,16 +139,18 @@ const AnimatedBackground = () => {
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
               boxShadow: star.brightness > 1 ? '0 0 10px 3px rgba(93, 204, 255, 0.7)' : 'none',
+              ...animationStyle,
             }}
           />
         ))}
       </div>
 
       {/* Layer 4: Fast stars (foreground) */}
-      <div 
+      <div
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
           transform: `translate3d(0, ${starsFastOffset}px, 0)`,
+          willChange: isTabVisible ? "transform" : "auto",
         }}
       >
         {fastStars.map((star) => (
@@ -148,6 +166,7 @@ const AnimatedBackground = () => {
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
               boxShadow: star.brightness > 1 ? '0 0 12px 4px rgba(93, 204, 255, 0.8)' : '0 0 4px 1px rgba(93, 204, 255, 0.3)',
+              ...animationStyle,
             }}
           />
         ))}
@@ -163,6 +182,7 @@ const AnimatedBackground = () => {
             radial-gradient(ellipse 60% 30% at 70% 60%, rgba(93, 204, 255, 0.06), transparent 50%),
             radial-gradient(ellipse 70% 35% at 40% 80%, rgba(93, 204, 255, 0.07), transparent 50%)
           `,
+          willChange: isTabVisible ? "transform" : "auto",
         }}
       />
     </div>

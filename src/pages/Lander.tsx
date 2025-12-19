@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useIsTabVisible } from "@/hooks/usePageVisibility";
 import logoImage from "@/assets/win-the-night-logo.webp";
 import skyBackground from "@/assets/lander/skybackground.png";
 import mountainsBack from "@/assets/lander/mountains-back.png";
@@ -17,6 +18,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const Lander = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const isTabVisible = useIsTabVisible();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -265,8 +267,8 @@ const Lander = () => {
               >
                 <motion.div
                   className="flex flex-col items-center gap-2 text-foreground/70"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  animate={isTabVisible ? { y: [0, 8, 0] } : { y: 0 }}
+                  transition={{ duration: 3, repeat: isTabVisible ? Infinity : 0, ease: "easeInOut" }}
                 >
                   <span className="text-sm sm:text-base" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Scroll down to learn more</span>
                   <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -308,8 +310,8 @@ const Lander = () => {
                 Scroll to explore
               </span>
               <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                animate={isTabVisible ? { y: [0, 8, 0] } : { y: 0 }}
+                transition={{ duration: 2, repeat: isTabVisible ? Infinity : 0, ease: "easeInOut" }}
               >
                 <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-foreground/60" />
               </motion.div>
@@ -317,7 +319,8 @@ const Lander = () => {
           </motion.div>
 
           {/* Floating particles - desktop only, reduced for performance */}
-          {!isMobile && (
+          {/* Only render when tab is visible to save memory */}
+          {!isMobile && isTabVisible && (
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-5">
               {Array.from({ length: 8 }).map((_, i) => (
                 <motion.div
