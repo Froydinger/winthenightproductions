@@ -44,19 +44,19 @@ const SnowflakeAnimation = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       // Randomly add a snowflake to the pile
-      if (piled.length < 80) {
+      if (piled.length < 240) {
         setPiled((prev) => [
           ...prev,
           {
             id: Date.now() + Math.random(),
             left: Math.random() * 100,
-            bottom: Math.random() * 25, // Stack up to 25px high
-            size: 8 + Math.random() * 6,
-            opacity: 0.5 + Math.random() * 0.3,
+            bottom: 0, // All on the very bottom edge
+            size: 10 + Math.random() * 6,
+            opacity: 0.7 + Math.random() * 0.3,
           },
         ]);
       }
-    }, 800); // Add one every 800ms (slower buildup)
+    }, 600); // Add one every 600ms
 
     return () => clearInterval(interval);
   }, [piled.length]);
