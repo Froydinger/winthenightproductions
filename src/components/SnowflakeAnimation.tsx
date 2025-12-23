@@ -62,18 +62,25 @@ const SnowflakeAnimation = () => {
           }
         });
 
-        // Add landed snowflakes to pile (if not melting and under limit)
-        if (landed.length > 0 && !isMelting && piled.length < 240) {
-          setPiled((p) => [
-            ...p,
-            ...landed.map((f) => ({
-              id: f.id,
-              left: f.left,
-              size: f.size,
-              opacity: f.opacity, // Keep same opacity as when falling
-              melting: false,
-            })),
-          ]);
+        // Add landed snowflakes to pile (always - they finished falling)
+        if (landed.length > 0 && !isMelting) {
+          setPiled((p) => {
+            const newPile = [
+              ...p,
+              ...landed.map((f) => ({
+                id: f.id,
+                left: f.left,
+                size: f.size,
+                opacity: f.opacity,
+                melting: false,
+              })),
+            ];
+            // Trim pile to max 240 (remove oldest first)
+            if (newPile.length > 240) {
+              return newPile.slice(newPile.length - 240);
+            }
+            return newPile;
+          });
         }
 
         // Spawn new snowflakes to replace landed ones
@@ -84,7 +91,7 @@ const SnowflakeAnimation = () => {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [createSnowflake, isMelting, piled.length]);
+  }, [createSnowflake, isMelting]);
 
   // Melt pile every 60 seconds
   useEffect(() => {
