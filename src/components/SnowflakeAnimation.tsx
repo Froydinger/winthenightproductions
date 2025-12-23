@@ -1,72 +1,102 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-interface Snowflake {
+interface FallingSnowflake {
   id: number;
   left: number;
   size: number;
   duration: number;
-  delay: number;
   opacity: number;
+  startTime: number;
 }
 
 interface PiledSnowflake {
   id: number;
   left: number;
-  bottom: number;
   size: number;
   opacity: number;
+  melting: boolean;
 }
 
 const SnowflakeAnimation = () => {
+  const [falling, setFalling] = useState<FallingSnowflake[]>([]);
   const [piled, setPiled] = useState<PiledSnowflake[]>([]);
-  const [clearKey, setClearKey] = useState(0);
+  const [isMelting, setIsMelting] = useState(false);
+  const nextId = useRef(0);
 
-  // Generate falling snowflakes
-  const generateSnowflakes = useCallback((): Snowflake[] => {
-    return Array.from({ length: 25 }, (_, i) => ({
-      id: i + clearKey * 1000,
+  // Create a new falling snowflake
+  const createSnowflake = useCallback((): FallingSnowflake => {
+    return {
+      id: nextId.current++,
       left: Math.random() * 100,
-      size: 10 + Math.random() * 8, // 10-18px
-      duration: 15 + Math.random() * 20, // 15-35s (slower)
-      delay: Math.random() * -35,
-      opacity: 0.4 + Math.random() * 0.35, // slightly more subtle
-    }));
-  }, [clearKey]);
+      size: 10 + Math.random() * 8,
+      duration: 12 + Math.random() * 15, // 12-27s to fall
+      opacity: 0.4 + Math.random() * 0.35,
+      startTime: Date.now(),
+    };
+  }, []);
 
-  const [snowflakes, setSnowflakes] = useState<Snowflake[]>(generateSnowflakes);
-
-  // Regenerate snowflakes when clearKey changes
+  // Initialize with some snowflakes
   useEffect(() => {
-    setSnowflakes(generateSnowflakes());
-  }, [clearKey, generateSnowflakes]);
+    const initial = Array.from({ length: 20 }, () => ({
+      ...createSnowflake(),
+      startTime: Date.now() - Math.random() * 20000, // Start at different points
+    }));
+    setFalling(initial);
+  }, [createSnowflake]);
 
-  // Add snowflakes to pile when they land
+  // Check for landed snowflakes and spawn new ones
   useEffect(() => {
     const interval = setInterval(() => {
-      // Randomly add a snowflake to the pile
-      if (piled.length < 240) {
-        setPiled((prev) => [
-          ...prev,
-          {
-            id: Date.now() + Math.random(),
-            left: Math.random() * 100,
-            bottom: 0, // All on the very bottom edge
-            size: 10 + Math.random() * 6,
-            opacity: 0.7 + Math.random() * 0.3,
-          },
-        ]);
-      }
-    }, 600); // Add one every 600ms
+      const now = Date.now();
+
+      setFalling((prev) => {
+        const stillFalling: FallingSnowflake[] = [];
+        const landed: FallingSnowflake[] = [];
+
+        prev.forEach((flake) => {
+          const elapsed = now - flake.startTime;
+          if (elapsed >= flake.duration * 1000) {
+            landed.push(flake);
+          } else {
+            stillFalling.push(flake);
+          }
+        });
+
+        // Add landed snowflakes to pile (if not melting and under limit)
+        if (landed.length > 0 && !isMelting && piled.length < 240) {
+          setPiled((p) => [
+            ...p,
+            ...landed.map((f) => ({
+              id: f.id,
+              left: f.left,
+              size: f.size,
+              opacity: f.opacity + 0.2, // Slightly more visible when piled
+              melting: false,
+            })),
+          ]);
+        }
+
+        // Spawn new snowflakes to replace landed ones
+        const newFlakes = landed.map(() => createSnowflake());
+
+        return [...stillFalling, ...newFlakes];
+      });
+    }, 100);
 
     return () => clearInterval(interval);
-  }, [piled.length]);
+  }, [createSnowflake, isMelting, piled.length]);
 
-  // Clear pile every 60 seconds
+  // Melt pile every 60 seconds
   useEffect(() => {
     const clearTimer = setInterval(() => {
-      setPiled([]);
-      setClearKey((k) => k + 1);
-    }, 60000); // 60 seconds
+      setIsMelting(true);
+      setPiled((prev) => prev.map((flake) => ({ ...flake, melting: true })));
+
+      setTimeout(() => {
+        setPiled([]);
+        setIsMelting(false);
+      }, 2000);
+    }, 60000);
 
     return () => clearInterval(clearTimer);
   }, []);
@@ -85,12 +115,12 @@ const SnowflakeAnimation = () => {
           }
           @keyframes melt {
             0% {
-              opacity: 1;
-              transform: scale(1);
+              opacity: var(--flake-opacity, 0.8);
+              transform: translateY(0) scale(1);
             }
             100% {
               opacity: 0;
-              transform: scale(0.5);
+              transform: translateY(10px) scale(0.3);
             }
           }
           .snowflake {
@@ -110,12 +140,16 @@ const SnowflakeAnimation = () => {
             z-index: 99999;
             font-family: sans-serif;
             text-shadow: 0 0 2px rgba(255,255,255,0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+          }
+          .piled-snowflake.melting {
+            animation: melt 2s ease-out forwards;
           }
         `}
       </style>
 
       {/* Falling snowflakes */}
-      {snowflakes.map((flake) => (
+      {falling.map((flake) => (
         <div
           key={flake.id}
           className="snowflake"
@@ -123,8 +157,7 @@ const SnowflakeAnimation = () => {
             left: `${flake.left}%`,
             fontSize: flake.size,
             opacity: flake.opacity,
-            animation: `fall ${flake.duration}s linear infinite`,
-            animationDelay: `${flake.delay}s`,
+            animation: `fall ${flake.duration}s linear forwards`,
           }}
         >
           ❄
@@ -135,12 +168,12 @@ const SnowflakeAnimation = () => {
       {piled.map((flake) => (
         <div
           key={flake.id}
-          className="piled-snowflake"
+          className={`piled-snowflake ${flake.melting ? 'melting' : ''}`}
           style={{
             left: `${flake.left}%`,
-            bottom: flake.bottom,
             fontSize: flake.size,
-            opacity: flake.opacity,
+            ['--flake-opacity' as string]: flake.opacity,
+            opacity: flake.melting ? undefined : flake.opacity,
           }}
         >
           ❄
