@@ -23,13 +23,13 @@ const SnowflakeAnimation = () => {
 
   // Generate falling snowflakes
   const generateSnowflakes = useCallback((): Snowflake[] => {
-    return Array.from({ length: 50 }, (_, i) => ({
+    return Array.from({ length: 25 }, (_, i) => ({
       id: i + clearKey * 1000,
       left: Math.random() * 100,
-      size: 10 + Math.random() * 10, // 10-20px
-      duration: 12 + Math.random() * 15, // 12-27s
-      delay: Math.random() * -27,
-      opacity: 0.5 + Math.random() * 0.4,
+      size: 10 + Math.random() * 8, // 10-18px
+      duration: 15 + Math.random() * 20, // 15-35s (slower)
+      delay: Math.random() * -35,
+      opacity: 0.4 + Math.random() * 0.35, // slightly more subtle
     }));
   }, [clearKey]);
 
@@ -44,19 +44,19 @@ const SnowflakeAnimation = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       // Randomly add a snowflake to the pile
-      if (piled.length < 150) {
+      if (piled.length < 80) {
         setPiled((prev) => [
           ...prev,
           {
             id: Date.now() + Math.random(),
             left: Math.random() * 100,
-            bottom: Math.random() * 30, // Stack up to 30px high
-            size: 8 + Math.random() * 8,
-            opacity: 0.6 + Math.random() * 0.3,
+            bottom: Math.random() * 25, // Stack up to 25px high
+            size: 8 + Math.random() * 6,
+            opacity: 0.5 + Math.random() * 0.3,
           },
         ]);
       }
-    }, 400); // Add one every 400ms
+    }, 800); // Add one every 800ms (slower buildup)
 
     return () => clearInterval(interval);
   }, [piled.length]);
