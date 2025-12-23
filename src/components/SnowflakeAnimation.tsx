@@ -63,12 +63,12 @@ const SnowflakeAnimation = () => {
 
   // Clear pile every 60 seconds
   useEffect(() => {
-    const clearInterval = setInterval(() => {
+    const clearTimer = setInterval(() => {
       setPiled([]);
       setClearKey((k) => k + 1);
     }, 60000); // 60 seconds
 
-    return () => clearInterval(clearInterval);
+    return () => clearInterval(clearTimer);
   }, []);
 
   return (
