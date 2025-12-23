@@ -70,7 +70,7 @@ const SnowflakeAnimation = () => {
               id: f.id,
               left: f.left,
               size: f.size,
-              opacity: f.opacity + 0.2, // Slightly more visible when piled
+              opacity: f.opacity, // Keep same opacity as when falling
               melting: false,
             })),
           ]);
