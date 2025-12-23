@@ -64,7 +64,8 @@ const SnowflakeAnimation = () => {
 
         prev.forEach((flake) => {
           const elapsed = now - flake.startTime;
-          if (elapsed >= flake.duration * 1000) {
+          // Add 500ms buffer to ensure visual animation completes before landing
+          if (elapsed >= (flake.duration * 1000) + 500) {
             landed.push(flake);
           } else {
             stillFalling.push(flake);
