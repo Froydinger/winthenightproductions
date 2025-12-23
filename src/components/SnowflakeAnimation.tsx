@@ -16,7 +16,7 @@ const SnowflakeAnimation = () => {
 
   const snowflakes = useMemo(() => {
     // Fewer snowflakes on mobile for performance
-    const count = isMobile ? 25 : 50;
+    const count = isMobile ? 30 : 60;
 
     // Seeded random for consistent snowflake positions
     const seededRandom = (seed: number) => {
@@ -29,10 +29,10 @@ const SnowflakeAnimation = () => {
       return {
         id: i,
         x: seededRandom(i * 1.3) * 100,
-        size: 2 + seededRandom(i * 2.1) * 4, // 2-6px
-        opacity: 0.4 + seededRandom(i * 3.7) * 0.6, // 0.4-1.0
-        duration: 8 + seededRandom(i * 4.2) * 12, // 8-20s
-        delay: seededRandom(i * 5.5) * 10, // 0-10s initial delay
+        size: 3 + seededRandom(i * 2.1) * 5, // 3-8px
+        opacity: 0.6 + seededRandom(i * 3.7) * 0.4, // 0.6-1.0
+        duration: 6 + seededRandom(i * 4.2) * 10, // 6-16s
+        delay: seededRandom(i * 5.5) * -16, // Negative delay so some start mid-animation
         sway: rand > 0.5, // 50% chance to sway
       };
     });
@@ -51,7 +51,7 @@ const SnowflakeAnimation = () => {
           style={{
             position: "absolute",
             left: `${flake.x}%`,
-            top: "-10px",
+            top: 0,
             width: `${flake.size}px`,
             height: `${flake.size}px`,
             backgroundColor: "white",
@@ -59,9 +59,7 @@ const SnowflakeAnimation = () => {
             opacity: flake.opacity,
             animationDuration: `${flake.duration}s`,
             animationDelay: `${flake.delay}s`,
-            boxShadow: flake.size > 4
-              ? "0 0 4px rgba(255, 255, 255, 0.8)"
-              : "none",
+            boxShadow: "0 0 6px rgba(255, 255, 255, 0.8)",
           }}
         />
       ))}
