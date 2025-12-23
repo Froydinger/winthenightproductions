@@ -35,8 +35,8 @@ const Index = () => {
         )}
       </div>
 
-      {/* Snowflake animation overlay - deferred for LCP optimization */}
-      {showBackground && <SnowflakeAnimation />}
+      {/* Snowflake animation overlay */}
+      <SnowflakeAnimation />
 
       {/* Blur zones - removed on mobile for performance, simplified on desktop */}
       {!isMobile && (
