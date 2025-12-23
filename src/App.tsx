@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AudioProvider } from "@/context/AudioContext";
-import { ReducedMotionProvider } from "@/context/ReducedMotionContext";
 import SnowflakeAnimation from "@/components/SnowflakeAnimation";
 
 import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
@@ -40,13 +39,12 @@ const LoadingSkeleton = () => (
 );
 
 const App = () => (
-  <ReducedMotionProvider>
-    <QueryClientProvider client={queryClient}>
-      <AudioProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <AudioProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
           <SnowflakeAnimation />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
@@ -71,11 +69,10 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AudioProvider>
-    </QueryClientProvider>
-  </ReducedMotionProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AudioProvider>
+  </QueryClientProvider>
 );
 
 export default App;
