@@ -1,11 +1,12 @@
 const SnowflakeAnimation = () => {
-  // Generate snowflakes with varying properties
-  const snowflakes = Array.from({ length: 50 }, (_, i) => ({
+  const snowflakes = Array.from({ length: 60 }, (_, i) => ({
     id: i,
-    left: `${(i * 2) % 100}%`,
-    size: 6 + (i % 5) * 2,
-    duration: 10 + (i % 10),
-    delay: (i % 20) * -1,
+    left: Math.random() * 100,
+    size: 8 + Math.random() * 12, // 8-20px
+    duration: 15 + Math.random() * 20, // 15-35s (slow gentle fall)
+    delay: Math.random() * -35, // Start at random points
+    opacity: 0.4 + Math.random() * 0.4, // 0.4-0.8
+    rotation: Math.random() * 360,
   }));
 
   return (
@@ -14,20 +15,20 @@ const SnowflakeAnimation = () => {
         {`
           @keyframes fall {
             0% {
-              transform: translateY(-10px);
+              transform: translateY(-20px) rotate(0deg);
             }
             100% {
-              transform: translateY(100vh);
+              transform: translateY(100vh) rotate(360deg);
             }
           }
           .snowflake {
             position: fixed;
             top: 0;
-            background: white;
-            border-radius: 50%;
+            color: white;
             pointer-events: none;
             z-index: 99999;
-            box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            font-family: sans-serif;
+            text-shadow: 0 0 2px rgba(255,255,255,0.5);
           }
         `}
       </style>
@@ -36,13 +37,15 @@ const SnowflakeAnimation = () => {
           key={flake.id}
           className="snowflake"
           style={{
-            left: flake.left,
-            width: flake.size,
-            height: flake.size,
+            left: `${flake.left}%`,
+            fontSize: flake.size,
+            opacity: flake.opacity,
             animation: `fall ${flake.duration}s linear infinite`,
             animationDelay: `${flake.delay}s`,
           }}
-        />
+        >
+          ❄
+        </div>
       ))}
     </>
   );
