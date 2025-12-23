@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useReducedMotion } from "@/context/ReducedMotionContext";
 
 interface FallingSnowflake {
   id: number;
@@ -23,6 +24,7 @@ const SnowflakeAnimation = () => {
   const [isMelting, setIsMelting] = useState(false);
   const [snowEnabled, setSnowEnabled] = useState(true);
   const nextId = useRef(0);
+  const { reducedMotion, toggleReducedMotion } = useReducedMotion();
 
   // Create a new falling snowflake
   const createSnowflake = useCallback((): FallingSnowflake => {
@@ -64,7 +66,8 @@ const SnowflakeAnimation = () => {
 
         prev.forEach((flake) => {
           const elapsed = now - flake.startTime;
-          if (elapsed >= flake.duration * 1000) {
+          // Add 500ms buffer to ensure visual animation completes before landing
+          if (elapsed >= (flake.duration * 1000) + 500) {
             landed.push(flake);
           } else {
             stillFalling.push(flake);
@@ -193,6 +196,36 @@ const SnowflakeAnimation = () => {
           .snow-toggle.disabled {
             opacity: 0.5;
           }
+          .motion-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 80px;
+            z-index: 99999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            color: white;
+          }
+          .motion-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+          }
+          .motion-toggle.disabled {
+            opacity: 0.5;
+          }
+          .motion-toggle svg {
+            width: 24px;
+            height: 24px;
+          }
         `}
       </style>
 
@@ -236,6 +269,31 @@ const SnowflakeAnimation = () => {
         aria-label={snowEnabled ? 'Turn off snow' : 'Turn on snow'}
       >
         ❄
+      </button>
+
+      {/* Motion/accessibility toggle button */}
+      <button
+        className={`motion-toggle ${reducedMotion ? 'disabled' : ''}`}
+        onClick={toggleReducedMotion}
+        title={reducedMotion ? 'Enable motion effects' : 'Reduce motion (accessibility)'}
+        aria-label={reducedMotion ? 'Enable motion effects' : 'Reduce motion for accessibility'}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {reducedMotion ? (
+            // Paused/static icon when motion is reduced
+            <>
+              <rect x="6" y="4" width="4" height="16" rx="1" />
+              <rect x="14" y="4" width="4" height="16" rx="1" />
+            </>
+          ) : (
+            // Motion/waves icon when motion is enabled
+            <>
+              <path d="M5 12h14" />
+              <path d="M5 12c0-2 1.5-4 4-4s4 2 4 4-1.5 4-4 4" />
+              <path d="M19 12c0 2-1.5 4-4 4" />
+            </>
+          )}
+        </svg>
       </button>
     </>
   );
