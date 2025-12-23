@@ -41,10 +41,16 @@ const SnowflakeAnimation = () => {
   // Initialize with some snowflakes when enabled
   useEffect(() => {
     if (snowEnabled) {
-      const initial = Array.from({ length: 20 }, () => ({
-        ...createSnowflake(),
-        startTime: Date.now() - Math.random() * 20000, // Start at different points
-      }));
+      // Stagger snowflakes aggressively across their full duration range
+      const initial = Array.from({ length: 20 }, (_, i) => {
+        const flake = createSnowflake();
+        // Spread evenly across 0-27 seconds (max duration) so they're well distributed
+        const staggerOffset = (i / 20) * 27000;
+        return {
+          ...flake,
+          startTime: Date.now() - staggerOffset,
+        };
+      });
       setFalling(initial);
     } else {
       // Clear everything when disabled
