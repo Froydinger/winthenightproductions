@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import logoImage from "@/assets/win-the-night-logo.webp";
 import skyBackground from "@/assets/lander/skybackground.png";
@@ -13,16 +13,12 @@ import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useReducedMotion } from "@/context/ReducedMotionContext";
 
 const Lander = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-  }, []);
+  const { reducedMotion } = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -126,7 +122,7 @@ const Lander = () => {
   );
 
   // Disable parallax completely when reduced motion is preferred
-  const disableParallax = prefersReducedMotion;
+  const disableParallax = reducedMotion;
 
   // Hero blur - happens later on wide screens, earlier on mobile
   // This gives more time to view the hero section before it starts fading
