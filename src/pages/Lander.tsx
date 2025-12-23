@@ -147,6 +147,112 @@ const Lander = () => {
     [0, 1]
   );
 
+  // Static hero for reduced motion mode
+  if (reducedMotion) {
+    return (
+      <>
+        <Header />
+        <main className="min-h-screen bg-background">
+          {/* Static Hero Section */}
+          <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+            {/* Background with sky and mountains - static */}
+            <div className="absolute inset-0">
+              <img
+                src={skyBackground}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
+              />
+              <div className="absolute inset-0 bg-neon-blue/15 mix-blend-overlay" />
+            </div>
+
+            {/* Back mountains - static */}
+            <div className="absolute inset-0">
+              <img
+                src={mountainsBack}
+                alt=""
+                className="absolute bottom-0 w-full h-auto object-cover object-bottom brightness-[0.3]"
+                style={{ minWidth: '120%', left: '-10%' }}
+              />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center justify-center px-4 -mt-20">
+              {/* Logo */}
+              <div className="relative mb-8">
+                <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
+                <img
+                  src={logoImage}
+                  alt="Win The Night Productions"
+                  className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
+                />
+              </div>
+
+              {/* Slogan */}
+              <div className="text-center space-y-1 sm:space-y-2">
+                <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
+                  One <span className="font-bold">Connection.</span>
+                </span>
+                <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
+                  One <span className="font-bold">Story.</span>
+                </span>
+                <span
+                  className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-primary tracking-tight font-extralight"
+                  style={{ textShadow: "0 0 20px rgba(0,217,255,0.5), 0 0 40px rgba(0,217,255,0.3)" }}
+                >
+                  One <span className="font-bold">Conversation</span> at a Time.
+                </span>
+
+                {/* Scroll indicator */}
+                <div className="pt-8 sm:pt-12">
+                  <div className="flex flex-col items-center gap-2 text-foreground/70">
+                    <span className="text-sm sm:text-base" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+                      Scroll down to learn more
+                    </span>
+                    <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Front mountains - static */}
+            <div className="absolute bottom-0 left-0 right-0 z-20">
+              <img
+                src={mountainsFront}
+                alt=""
+                className="w-full h-auto object-cover object-bottom brightness-[0.5]"
+                style={{ minWidth: '120%', marginLeft: '-10%' }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
+            </div>
+          </div>
+
+          {/* Content sections */}
+          <div className="relative z-10">
+            <div className="fixed inset-0 z-0 pointer-events-none">
+              <AnimatedBackground />
+            </div>
+
+            <div id="features" className="scroll-mt-8 relative z-10">
+              <FeaturesSection />
+            </div>
+            <div id="latest-videos" className="relative z-10">
+              <WatchLatestSection />
+            </div>
+            <div id="community" className="relative z-10">
+              <CommunitySection />
+            </div>
+            <div id="cta" className="relative z-10">
+              <CTASection />
+            </div>
+            <div className="relative z-10">
+              <Footer />
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -197,7 +303,7 @@ const Lander = () => {
             className="absolute left-0 right-0"
             style={{
               height: isMobile ? "360vh" : "280vh",
-              y: disableParallax ? 0 : mountainBackY,
+              y: mountainBackY,
               bottom: "15vh"
             }}
           >
@@ -215,9 +321,9 @@ const Lander = () => {
           <motion.div
             className="absolute inset-0 flex items-center justify-center z-10"
             style={{
-              y: disableParallax ? 0 : logoY,
-              scale: disableParallax ? 1 : logoScale,
-              opacity: disableParallax ? 1 : logoOpacity,
+              y: logoY,
+              scale: logoScale,
+              opacity: logoOpacity,
             }}
           >
             <div className="relative -mt-[5vh] sm:-mt-[18vh]">
@@ -276,7 +382,7 @@ const Lander = () => {
             className="absolute left-0 right-0 z-30"
             style={{
               height: isMobile ? "300vh" : "200vh",
-              y: disableParallax ? 0 : mountainFrontY,
+              y: mountainFrontY,
               bottom: "0vh"
             }}
           >
@@ -313,7 +419,7 @@ const Lander = () => {
           </motion.div>
 
           {/* Floating particles - desktop only, reduced for performance */}
-          {!isMobile && (
+          {!isMobile && !reducedMotion && (
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-5">
               {Array.from({ length: 8 }).map((_, i) => (
                 <motion.div
