@@ -1,5 +1,4 @@
 import AnimatedBackground from "@/components/AnimatedBackground";
-import SnowflakeAnimation from "@/components/SnowflakeAnimation";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
@@ -35,8 +34,6 @@ const Index = () => {
         )}
       </div>
 
-      {/* Snowflake animation overlay */}
-      <SnowflakeAnimation />
 
       {/* Blur zones - removed on mobile for performance, simplified on desktop */}
       {!isMobile && (
