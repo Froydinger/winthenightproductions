@@ -39,14 +39,13 @@ const LoadingSkeleton = () => (
 );
 
 const App = () => (
-  <>
-    <SnowflakeAnimation />
-    <QueryClientProvider client={queryClient}>
-      <AudioProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <AudioProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <SnowflakeAnimation />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Lander />} />
@@ -56,6 +55,7 @@ const App = () => (
               <Route path="/be-ourguest" element={<Navigate to="/guest" replace />} />
               <Route path="/support" element={<Support />} />
               <Route path="/crisis-resources" element={<CrisisResources />} />
+              <Route path="/crisis" element={<Navigate to="/crisis-resources" replace />} />
               <Route path="/watch" element={<Watch />} />
               <Route path="/watch/:chapterId" element={<ChapterPage />} />
               <Route path="/listen" element={<Listen />} />
@@ -69,11 +69,10 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AudioProvider>
-    </QueryClientProvider>
-  </>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AudioProvider>
+  </QueryClientProvider>
 );
 
 export default App;

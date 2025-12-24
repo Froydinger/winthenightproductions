@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 
 interface FallingSnowflake {
   id: number;
@@ -18,11 +19,15 @@ interface PiledSnowflake {
 }
 
 const SnowflakeAnimation = () => {
+  const location = useLocation();
   const [falling, setFalling] = useState<FallingSnowflake[]>([]);
   const [piled, setPiled] = useState<PiledSnowflake[]>([]);
   const [isMelting, setIsMelting] = useState(false);
   const [snowEnabled, setSnowEnabled] = useState(true);
   const nextId = useRef(0);
+
+  // Disable snow on crisis resources page (insensitive for that context)
+  const isCrisisPage = location.pathname === "/crisis-resources" || location.pathname === "/crisis";
 
   // Create a new falling snowflake
   const createSnowflake = useCallback((): FallingSnowflake => {
@@ -36,19 +41,36 @@ const SnowflakeAnimation = () => {
     };
   }, []);
 
-  // Initialize with some snowflakes when enabled
+  // Gradually add snowflakes when enabled (builds up naturally)
   useEffect(() => {
-    if (snowEnabled) {
-      const initial = Array.from({ length: 20 }, () => ({
-        ...createSnowflake(),
-        startTime: Date.now() - Math.random() * 20000, // Start at different points
-      }));
-      setFalling(initial);
-    } else {
-      // Clear everything when disabled
+    if (!snowEnabled) {
       setFalling([]);
       setPiled([]);
+      return;
     }
+
+    // Start with just 2 snowflakes
+    setFalling([createSnowflake(), createSnowflake()]);
+
+    // Gradually add more snowflakes over time until we reach 20
+    let count = 2;
+    const maxFlakes = 20;
+
+    const addInterval = setInterval(() => {
+      if (count >= maxFlakes) {
+        clearInterval(addInterval);
+        return;
+      }
+
+      // Add 1-2 snowflakes at a time
+      const toAdd = Math.min(2, maxFlakes - count);
+      const newFlakes = Array.from({ length: toAdd }, () => createSnowflake());
+
+      setFalling((prev) => [...prev, ...newFlakes]);
+      count += toAdd;
+    }, 1500); // Add more every 1.5 seconds
+
+    return () => clearInterval(addInterval);
   }, [createSnowflake, snowEnabled]);
 
   // Check for landed snowflakes and spawn new ones
@@ -84,9 +106,9 @@ const SnowflakeAnimation = () => {
                 melting: false,
               })),
             ];
-            // Trim pile to max 240 (remove oldest first)
-            if (newPile.length > 240) {
-              return newPile.slice(newPile.length - 240);
+            // Trim pile to max 720 (remove oldest first)
+            if (newPile.length > 720) {
+              return newPile.slice(newPile.length - 720);
             }
             return newPile;
           });
@@ -122,6 +144,11 @@ const SnowflakeAnimation = () => {
   const toggleSnow = () => {
     setSnowEnabled((prev) => !prev);
   };
+
+  // Don't render anything on crisis page
+  if (isCrisisPage) {
+    return null;
+  }
 
   return (
     <>
