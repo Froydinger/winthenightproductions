@@ -108,7 +108,7 @@ const Admin = () => {
 
     setSession(session);
 
-    // Check if user is admin in database
+    // Check if user is admin in database only - no client-side whitelist
     const { data: roleData } = await supabase
       .from("user_roles")
       .select("role")
@@ -116,12 +116,7 @@ const Admin = () => {
       .eq("role", "admin")
       .single();
 
-    // Also check whitelist for bootstrap access
-    const whitelistedEmails = ["j@froydinger.com"];
-    const userEmail = session.user.email?.toLowerCase();
-    const isWhitelisted = userEmail && whitelistedEmails.includes(userEmail);
-
-    if (!roleData && !isWhitelisted) {
+    if (!roleData) {
       navigate("/");
       toast.error("Access denied. Admin only.");
       return;

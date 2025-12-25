@@ -78,7 +78,7 @@ const Header = () => {
   }, []);
 
   const checkAdminStatus = async (userId: string) => {
-    // Check database for admin role
+    // Check database for admin role only - no client-side whitelist
     const { data } = await supabase
       .from("user_roles")
       .select("role")
@@ -86,26 +86,7 @@ const Header = () => {
       .eq("role", "admin")
       .single();
 
-    if (data) {
-      setIsAdmin(true);
-      return;
-    }
-
-    // Whitelist check - get current user's email and verify against allowed emails
-    const { data: userData } = await supabase.auth.getUser();
-    const whitelistedEmails = ["j@froydinger.com"];
-    const userEmail = userData?.user?.email?.toLowerCase();
-    
-    if (userEmail && whitelistedEmails.includes(userEmail)) {
-      // Auto-grant admin role in database for whitelisted user
-      await supabase.from("user_roles").upsert({
-        user_id: userId,
-        role: "admin" as const,
-      }, { onConflict: "user_id" });
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
+    setIsAdmin(!!data);
   };
 
   const handleSignOut = async () => {
