@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import DOMPurify from "dompurify";
 
 export interface SubstackPost {
   title: string;
@@ -28,32 +29,26 @@ const CORS_PROXIES = [
   "https://api.codetabs.com/v1/proxy?quest=",
 ];
 
-// Sanitize HTML content - remove subscribe boxes, forms, and other unwanted elements
+// Sanitize HTML content using DOMPurify for comprehensive XSS protection
 function sanitizeContent(html: string): string {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-
-  // Remove unwanted elements
-  const unwantedSelectors = [
-    'form',                          // All forms (subscribe forms)
-    'input',                         // All input fields
-    'button[type="submit"]',         // Submit buttons
-    '.subscription-widget',          // Substack subscription widgets
-    '.subscribe',                    // Subscribe sections
-    '[class*="subscribe"]',          // Any class containing "subscribe"
-    '[id*="subscribe"]',             // Any ID containing "subscribe"
-    'iframe',                        // Embedded iframes
-    '.paywall',                      // Paywall content
-    '[data-component="SubscribeWidget"]', // Substack subscribe widget
-    'script',                        // Script tags
-    'style',                         // Style tags (inline styles)
-  ];
-
-  unwantedSelectors.forEach(selector => {
-    doc.querySelectorAll(selector).forEach(el => el.remove());
+  // Use DOMPurify for comprehensive XSS sanitization
+  // This handles event handlers, SVG attacks, data URIs, and other XSS vectors
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      'p', 'br', 'strong', 'em', 'u', 'b', 'i',
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li',
+      'a', 'img',
+      'blockquote', 'code', 'pre',
+      'div', 'span',
+      'table', 'thead', 'tbody', 'tr', 'th', 'td',
+      'figure', 'figcaption'
+    ],
+    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id'],
+    ALLOWED_URI_REGEXP: /^(?:https?|mailto):/i,
+    FORBID_TAGS: ['script', 'style', 'iframe', 'form', 'input', 'button', 'object', 'embed'],
+    FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur']
   });
-
-  return doc.body.innerHTML;
 }
 
 function parseRSSFeed(xmlText: string): SubstackPost[] {
