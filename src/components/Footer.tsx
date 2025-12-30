@@ -1,4 +1,4 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy, Mail, Coffee } from "lucide-react";
+import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy, Mail, Coffee, Scale } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/win-the-night-logo.webp";
 import { ContactDialog } from "@/components/ContactDialog";
@@ -80,6 +80,13 @@ const Footer = () => {
                 <LifeBuoy className="w-4 h-4 transition-colors" />
                 <span>Crisis Resources</span>
               </Link>
+              <a
+                href="/legal"
+                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
+              >
+                <Scale className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
+                <span>Legal</span>
+              </a>
             </nav>
           </div>
 
