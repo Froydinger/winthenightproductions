@@ -40,7 +40,10 @@ const Privacy = () => {
               </h1>
 
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                Last updated: December 29, 2025
+              </p>
+              <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+                Unified Privacy Policy for Win The Night Productions and All Apps
               </p>
             </div>
           </div>
@@ -52,97 +55,124 @@ const Privacy = () => {
             <Card className="bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 space-y-8">
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Introduction</h2>
+                <h2 className="text-2xl font-bold text-foreground">1. Introduction</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Win The Night ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+                  Win The Night Productions ("WTN," "we," "us," "our") operates the following services:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                  <li>ArcAi: <a href="https://askarc.chat" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://askarc.chat</a></li>
+                  <li>Noteily: <a href="https://noteily.app" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://noteily.app</a></li>
+                  <li>Pending.Press: <a href="https://pending.press" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://pending.press</a></li>
+                </ul>
+                <p className="text-muted-foreground leading-relaxed">
+                  This Privacy Policy covers all three services and explains our minimal data practices. We designed these products to be free to use and privacy-first.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Information We Collect</h2>
+                <h2 className="text-2xl font-bold text-foreground">2. Our Data Philosophy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We may collect information about you in a variety of ways. The information we may collect on the site includes:
+                  We do not collect, store, sell, or share personal data. The only user-related interaction is authentication via Google Sign-In to let you access and use the apps. We do not retain profile details, content, or usage analytics tied to you.
                 </p>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">3. Authentication (Google Sign-In)</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  All services use Google Sign-In solely to let you log in. We do not extract or persist personal data from your Google account beyond what is strictly necessary to complete the sign-in session. We do not build user profiles, track behavior, or combine data across products.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">4. Product-Specific Details</h2>
+
+                <div className="ml-4 space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold text-foreground">A. ArcAi (askarc.chat)</h3>
+                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                      <li><strong className="text-foreground">Purpose:</strong> Chatbot interface that uses Google Gemini to generate responses.</li>
+                      <li><strong className="text-foreground">Data:</strong> We do not collect or store chat content, prompts, or outputs. No user analytics or tracking.</li>
+                      <li><strong className="text-foreground">Sign-In:</strong> Auth via Google Sign-In only for session access. No personal data retention.</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold text-foreground">B. Noteily (noteily.app)</h3>
+                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                      <li><strong className="text-foreground">Purpose:</strong> Notes app that uses Lovable Cloud infrastructure for app functionality.</li>
+                      <li><strong className="text-foreground">Data:</strong> We do not collect or store your notes, attachments, or collaboration data on WTN-owned systems. We do not mine content, and we do not run ads, analytics, or trackers.</li>
+                      <li><strong className="text-foreground">Sign-In:</strong> Auth via Google Sign-In only. No personal data retention.</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold text-foreground">C. Pending.Press (pending.press)</h3>
+                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                      <li><strong className="text-foreground">Purpose:</strong> Digital magazine.</li>
+                      <li><strong className="text-foreground">Ads:</strong> This is the only product that uses advertising (Google AdSense). AdSense may place cookies or similar technologies to deliver and measure ads, independent of WTN. We do not sell or share personal data.</li>
+                      <li><strong className="text-foreground">Sign-In:</strong> May use Google Sign-In for account access where needed. No personal data retention by WTN beyond session authentication.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">5. Cookies and Tracking</h2>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li>Personal Data: Name, email address, and other contact information you voluntarily provide</li>
-                  <li>Usage Data: Information about how you use our website and services</li>
-                  <li>Cookies and Tracking Technologies: We may use cookies and similar tracking technologies to track activity on our service</li>
+                  <li><strong className="text-foreground">ArcAi and Noteily:</strong> No tracking cookies. Only the essential session mechanism associated with Google Sign-In may be used to keep you logged in.</li>
+                  <li><strong className="text-foreground">Pending.Press:</strong> Google AdSense may use its own cookies or identifiers to serve and measure ads. WTN does not collect or store personal data from these cookies.</li>
                 </ul>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">How We Use Your Information</h2>
+                <h2 className="text-2xl font-bold text-foreground">6. Data Sharing</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We use the information we collect in the following ways:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li>To provide, operate, and maintain our website and services</li>
-                  <li>To improve, personalize, and expand our website and services</li>
-                  <li>To understand and analyze how you use our website</li>
-                  <li>To communicate with you, including for customer service and support</li>
-                  <li>To send you updates and marketing communications (with your consent)</li>
-                  <li>To process your transactions and manage your requests</li>
-                </ul>
-              </div>
-
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Sharing Your Information</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  We do not sell, trade, or rent your personal information to third parties. We may share your information in the following situations:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li>With service providers who assist us in operating our website and services</li>
-                  <li>To comply with legal obligations</li>
-                  <li>To protect and defend our rights and property</li>
-                  <li>With your consent or at your direction</li>
-                </ul>
-              </div>
-
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Data Security</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that no security measures are perfect or impenetrable.
+                  We do not sell personal data. We do not share personal data with third parties. Where third-party services (e.g., Google Sign-In, Google AdSense) operate, they do so under their own policies and controls.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Your Rights</h2>
+                <h2 className="text-2xl font-bold text-foreground">7. Security</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Depending on your location, you may have certain rights regarding your personal information, including:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li>The right to access your personal information</li>
-                  <li>The right to correct inaccurate or incomplete information</li>
-                  <li>The right to request deletion of your personal information</li>
-                  <li>The right to opt-out of marketing communications</li>
-                </ul>
-              </div>
-
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Third-Party Links</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of these third-party sites. We encourage you to review the privacy policies of any third-party sites you visit.
+                  We implement basic security controls appropriate to session-based access. Because we do not retain personal data, there is no personal dataset at WTN to be disclosed or breached.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Children's Privacy</h2>
+                <h2 className="text-2xl font-bold text-foreground">8. Data Retention</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Our services are not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
+                  WTN does not retain personal data. Authentication is session-based; we do not keep user profiles, content, or usage logs tied to individuals.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Changes to This Privacy Policy</h2>
+                <h2 className="text-2xl font-bold text-foreground">9. Your Rights</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+                  Because we do not collect or store personal data, there is no data to access, correct, delete, or port. If you have questions about sessions or sign-in, contact us using the details below.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Contact Us</h2>
+                <h2 className="text-2xl font-bold text-foreground">10. Children's Privacy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  If you have any questions about this Privacy Policy, please contact us through our{" "}
+                  Our services are not directed to children under 13. We do not knowingly collect personal information from children.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">11. Changes to This Policy</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  If we make material changes, we will update this page and the "Last updated" date. Continued use after updates constitutes acceptance of the revised policy.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">12. Contact</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  Win The Night Productions
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  For privacy questions, please contact us through our{" "}
                   <a href="/contact" className="text-neon-blue hover:underline">
                     contact page
                   </a>
