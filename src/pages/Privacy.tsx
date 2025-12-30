@@ -72,7 +72,7 @@ const Privacy = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">2. Our Data Philosophy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We do not collect, store, sell, or share personal data. The only user-related interaction is authentication via Google Sign-In to let you access and use the apps. We do not retain profile details, content, or usage analytics tied to you.
+                  We prioritize privacy and minimal data collection. Authentication is handled via Google Sign-In. We do not sell or share personal data with third parties. We do not retain detailed profile information or run user analytics. Data that is stored (such as chat history in ArcAi or notes in Noteily) is encrypted at rest and used solely for providing core functionality.
                 </p>
               </div>
 
@@ -91,8 +91,8 @@ const Privacy = () => {
                     <h3 className="text-xl font-semibold text-foreground">A. ArcAi (askarc.chat)</h3>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                       <li><strong className="text-foreground">Purpose:</strong> Chatbot interface that uses Google Gemini to generate responses.</li>
-                      <li><strong className="text-foreground">Data:</strong> We do not collect or store chat content, prompts, or outputs. No user analytics or tracking.</li>
-                      <li><strong className="text-foreground">Sign-In:</strong> Auth via Google Sign-In only for session access. No personal data retention.</li>
+                      <li><strong className="text-foreground">Data:</strong> Chat content, prompts, and outputs are stored encrypted at rest for functionality purposes. No user analytics or tracking beyond conversation history.</li>
+                      <li><strong className="text-foreground">Sign-In:</strong> Auth via Google Sign-In only for session access. Chat history is tied to your authenticated session.</li>
                     </ul>
                   </div>
 
@@ -134,28 +134,45 @@ const Privacy = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">7. Security</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We implement basic security controls appropriate to session-based access. Because we do not retain personal data, there is no personal dataset at WTN to be disclosed or breached.
+                  We implement industry-standard security controls to protect your data. All stored data (including chat history in ArcAi and notes in Noteily) is encrypted at rest. We use secure authentication via Google Sign-In and maintain appropriate technical and organizational measures to safeguard your information. While we take reasonable steps to protect your data, no method of transmission or storage is 100% secure.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">8. Data Retention</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  WTN does not retain personal data. Authentication is session-based; we do not keep user profiles, content, or usage logs tied to individuals.
+                  Data retention varies by service:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                  <li><strong className="text-foreground">ArcAi:</strong> Chat conversations are retained encrypted at rest and tied to your authenticated session. You can delete your chat history at any time.</li>
+                  <li><strong className="text-foreground">Noteily:</strong> Your notes are stored on Lovable Cloud infrastructure for as long as you maintain your account. You retain full control to edit or delete your content.</li>
+                  <li><strong className="text-foreground">Pending.Press:</strong> Content submission and viewing data may be retained as necessary for publication purposes.</li>
+                </ul>
+                <p className="text-muted-foreground leading-relaxed">
+                  We do not keep detailed user profiles or behavioral tracking logs beyond what is necessary for core functionality.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">9. Your Rights</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Because we do not collect or store personal data, there is no data to access, correct, delete, or port. If you have questions about sessions or sign-in, contact us using the details below.
+                  Depending on your location, you may have certain rights regarding your data:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                  <li><strong className="text-foreground">Access:</strong> You can access your chat history in ArcAi and your notes in Noteily through your account.</li>
+                  <li><strong className="text-foreground">Deletion:</strong> You can delete your chat history in ArcAi or your notes in Noteily at any time through the respective applications.</li>
+                  <li><strong className="text-foreground">Correction:</strong> You can edit or update your content directly in the applications.</li>
+                  <li><strong className="text-foreground">Data Portability:</strong> You can export your notes from Noteily. For ArcAi chat history export requests, contact us.</li>
+                </ul>
+                <p className="text-muted-foreground leading-relaxed">
+                  If you have questions about your rights or want to exercise them, contact us using the details below.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">10. Children's Privacy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Our services are not directed to children under 13. We do not knowingly collect personal information from children.
+                  Our services are not directed to individuals under 18 years of age. We do not knowingly collect personal information from minors under 18. If you are under 18, please do not use our services.
                 </p>
               </div>
 

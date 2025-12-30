@@ -100,7 +100,7 @@ const Terms = () => {
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                   <li>You have the authority to use the Google account you provide</li>
                   <li>You will comply with Google's terms of service</li>
-                  <li>You are at least 13 years of age</li>
+                  <li>You are at least 18 years of age</li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed">
                   We do not store or retain your Google account information beyond what is necessary for session authentication.
@@ -126,10 +126,10 @@ const Terms = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">5. User Content</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">For ArcAi:</strong> We do not store chat content, prompts, or outputs. Conversations are not retained.
+                  <strong className="text-foreground">For ArcAi:</strong> Chat conversations, prompts, and outputs are stored encrypted at rest and tied to your authenticated session for functionality purposes. You retain the ability to delete your chat history at any time. We do not claim ownership of your conversations.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">For Noteily:</strong> You retain all ownership rights to notes and content you create. We do not claim ownership or rights to your content. We do not access, mine, or analyze your notes.
+                  <strong className="text-foreground">For Noteily:</strong> You retain all ownership rights to notes and content you create. We do not claim ownership or rights to your content. We do not access, mine, or analyze your notes. Your notes are stored encrypted on Lovable Cloud infrastructure.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   <strong className="text-foreground">For Pending.Press:</strong> Content published on the platform may be subject to separate editorial guidelines. You are responsible for ensuring you have the rights to any content you submit.
@@ -196,7 +196,8 @@ const Terms = () => {
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                   <li>Your right to access the services immediately ceases</li>
-                  <li>Because we do not retain personal data, there is no account data to be deleted</li>
+                  <li>You should delete any content you wish to preserve (chat history in ArcAi, notes in Noteily) before terminating your account</li>
+                  <li>We may retain certain data as required by law or for legitimate business purposes</li>
                   <li>Provisions regarding disclaimers, liability, and indemnification survive termination</li>
                 </ul>
               </div>
