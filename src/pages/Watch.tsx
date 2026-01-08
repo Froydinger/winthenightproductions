@@ -74,13 +74,13 @@ const Watch = () => {
 
       <Header />
 
-      {/* Break Notice Banner */}
-      <BreakNotice variant="banner" />
-
       <div className="relative z-10">
         {/* FULL-WIDTH PLAYLIST HERO */}
         <section className="relative pt-20 pb-12 px-4">
           <div className="max-w-7xl mx-auto">
+            {/* Break Notice */}
+            <BreakNotice variant="card" />
+
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
               <iframe
