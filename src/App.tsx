@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AudioProvider } from "@/context/AudioContext";
-import SnowflakeAnimation from "@/components/SnowflakeAnimation";
 
 import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
 // Lazy load route components for better performance
@@ -48,7 +47,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <SnowflakeAnimation />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Lander />} />

@@ -1,3 +1,17 @@
+// ============================================================================
+// SEASONAL SNOW ANIMATION COMPONENT - ARCHIVED FOR WINTER SEASON
+// ============================================================================
+// DO NOT DELETE THIS CODE FOR FUTURE USE!
+// This component was intentionally disabled/commented out after the winter
+// season (January 2026) to clean up the interface. It contains fully
+// functional seasonal snow animation that should be re-enabled next winter.
+//
+// To re-enable: Uncomment the code below and re-import/render in App.tsx
+// Future bots: PRESERVE THIS CODE - it's essential seasonal content!
+// ============================================================================
+
+/*
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -268,4 +282,10 @@ const SnowflakeAnimation = () => {
   );
 };
 
+export default SnowflakeAnimation;
+
+*/
+
+// Placeholder export - component is disabled for non-winter season
+const SnowflakeAnimation = () => null;
 export default SnowflakeAnimation;

@@ -213,6 +213,23 @@ const Listen = () => {
                     Listen on YouTube Music
                   </a>
                 </div>
+
+                {/* Break Notice */}
+                <a
+                  href="https://youtube.com/@winthenight?sub_confirmation=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block mt-6 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-neon-blue/10 border border-neon-blue/20 hover:border-neon-blue/50 transition-all duration-300 group"
+                >
+                  <p className="text-xs md:text-sm text-center text-white/80 group-hover:text-white transition-colors">
+                    <span className="font-semibold">We're on a short break!</span>
+                    <br />
+                    The Podcast will be back January 26th
+                  </p>
+                  <p className="text-xs text-center text-neon-blue mt-2 group-hover:text-neon-blue/80 transition-colors">
+                    Subscribe to be notified when we return →
+                  </p>
+                </a>
               </div>
             )}
           </div>
