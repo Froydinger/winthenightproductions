@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BreakNotice from "@/components/BreakNotice";
 import ShortsCarousel from "@/components/ShortsCarousel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,9 @@ const Watch = () => {
       </div>
 
       <Header />
+
+      {/* Break Notice Banner */}
+      <BreakNotice variant="banner" />
 
       <div className="relative z-10">
         {/* FULL-WIDTH PLAYLIST HERO */}
