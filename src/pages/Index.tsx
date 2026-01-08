@@ -70,9 +70,11 @@ const Index = () => {
         <div id="hero">
           <HeroSection />
         </div>
-        <div id="break-notice">
-          <BreakNotice variant="card" />
-        </div>
+        <section className="relative px-4 md:px-12 lg:px-24 py-8">
+          <div className="max-w-7xl mx-auto">
+            <BreakNotice variant="card" />
+          </div>
+        </section>
         <div id="features" className="scroll-mt-8">
           <FeaturesSection />
         </div>
