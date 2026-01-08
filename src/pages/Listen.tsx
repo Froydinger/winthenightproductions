@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BreakNotice from "@/components/BreakNotice";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
 import { Play, Pause, Disc3 } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.webp";
@@ -89,6 +90,9 @@ const Listen = () => {
       </div>
 
       <Header />
+
+      {/* Break Notice Banner */}
+      <BreakNotice variant="banner" />
 
       <div className="relative z-10">
         {/* Hero Section */}
@@ -215,28 +219,6 @@ const Listen = () => {
                 </div>
               </div>
             )}
-          </div>
-        </section>
-
-        {/* Break Notice */}
-        <section className="relative px-4 md:px-12 lg:px-24 pb-8">
-          <div className="max-w-7xl mx-auto">
-            <a
-              href="https://youtube.com/@winthenight?sub_confirmation=1"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-5 md:p-6 rounded-xl bg-gradient-to-r from-purple-500/20 to-neon-blue/20 border border-neon-blue/40 hover:border-neon-blue/70 transition-all duration-300 group shadow-lg hover:shadow-xl"
-            >
-              <p className="text-sm md:text-base text-center text-white mb-1">
-                <span className="font-bold text-neon-blue">We're on a short break!</span>
-              </p>
-              <p className="text-sm md:text-base text-center text-white/90 mb-2">
-                The Podcast will be back January 26th
-              </p>
-              <p className="text-xs md:text-sm text-center text-neon-blue font-semibold group-hover:text-neon-blue/80 transition-colors">
-                Subscribe to be notified when we return →
-              </p>
-            </a>
           </div>
         </section>
 
