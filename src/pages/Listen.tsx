@@ -91,9 +91,6 @@ const Listen = () => {
 
       <Header />
 
-      {/* Break Notice Banner */}
-      <BreakNotice variant="banner" />
-
       <div className="relative z-10">
         {/* Hero Section */}
         <section className="relative pt-16 pb-6 px-4">
@@ -109,6 +106,9 @@ const Listen = () => {
                 Podcast episodes on real conversations, mental health, connection, and honest human experience.
               </p>
             </div>
+
+            {/* Break Notice */}
+            <BreakNotice variant="card" />
 
             {/* Now Playing Section */}
             {currentEpisode && (
