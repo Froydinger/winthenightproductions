@@ -70,11 +70,11 @@ const Index = () => {
         <div id="hero">
           <HeroSection />
         </div>
+        <div id="break-notice">
+          <BreakNotice variant="card" />
+        </div>
         <div id="features" className="scroll-mt-8">
           <FeaturesSection />
-        </div>
-        <div id="break-notice">
-          <BreakNotice variant="section" />
         </div>
         <div id="latest-videos">
           <WatchLatestSection />
