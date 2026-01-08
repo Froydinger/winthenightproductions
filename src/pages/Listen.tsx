@@ -213,25 +213,30 @@ const Listen = () => {
                     Listen on YouTube Music
                   </a>
                 </div>
-
-                {/* Break Notice */}
-                <a
-                  href="https://youtube.com/@winthenight?sub_confirmation=1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block mt-6 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-neon-blue/10 border border-neon-blue/20 hover:border-neon-blue/50 transition-all duration-300 group"
-                >
-                  <p className="text-xs md:text-sm text-center text-white/80 group-hover:text-white transition-colors">
-                    <span className="font-semibold">We're on a short break!</span>
-                    <br />
-                    The Podcast will be back January 26th
-                  </p>
-                  <p className="text-xs text-center text-neon-blue mt-2 group-hover:text-neon-blue/80 transition-colors">
-                    Subscribe to be notified when we return →
-                  </p>
-                </a>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Break Notice */}
+        <section className="relative px-4 md:px-12 lg:px-24 pb-8">
+          <div className="max-w-7xl mx-auto">
+            <a
+              href="https://youtube.com/@winthenight?sub_confirmation=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-5 md:p-6 rounded-xl bg-gradient-to-r from-purple-500/20 to-neon-blue/20 border border-neon-blue/40 hover:border-neon-blue/70 transition-all duration-300 group shadow-lg hover:shadow-xl"
+            >
+              <p className="text-sm md:text-base text-center text-white mb-1">
+                <span className="font-bold text-neon-blue">We're on a short break!</span>
+              </p>
+              <p className="text-sm md:text-base text-center text-white/90 mb-2">
+                The Podcast will be back January 26th
+              </p>
+              <p className="text-xs md:text-sm text-center text-neon-blue font-semibold group-hover:text-neon-blue/80 transition-colors">
+                Subscribe to be notified when we return →
+              </p>
+            </a>
           </div>
         </section>
 
