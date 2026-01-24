@@ -8,9 +8,7 @@ const CTASection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   // Featured videos to showcase
-  const featuredVideos = [
-    { id: "-Cx1WhiVbPE", title: "Featured Episode" }
-  ];
+  const featuredVideos = [{ id: "-Cx1WhiVbPE", title: "Featured Episode" }];
 
   return (
     <>
@@ -23,7 +21,10 @@ const CTASection = () => {
 
             {/* Floating orbs */}
             <div className="absolute top-10 right-10 w-32 h-32 rounded-full bg-neon-blue/20 blur-3xl animate-float" />
-            <div className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-neon-dim/20 blur-3xl animate-float" style={{ animationDelay: "2s" }} />
+            <div
+              className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-neon-dim/20 blur-3xl animate-float"
+              style={{ animationDelay: "2s" }}
+            />
 
             <div className="relative z-10 text-center space-y-6">
               <div className="space-y-4">
@@ -85,10 +86,7 @@ const CTASection = () => {
                   variant="outline"
                   className="group border-2 border-foreground text-foreground hover:bg-foreground/10 hover:border-foreground transition-all duration-500 hover:scale-105 text-sm sm:text-base px-6 py-5 sm:px-8 sm:py-6 rounded-2xl backdrop-blur-sm"
                 >
-                  <a
-                    href="/about"
-                    className="flex items-center gap-3"
-                  >
+                  <a href="/about" className="flex items-center gap-3">
                     A Little More About Us
                     <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </a>
@@ -100,13 +98,8 @@ const CTASection = () => {
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
-                <p className="text-sm text-muted-foreground">
-                  Join 1k+ others finding connection and healing
-                </p>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <span className="text-sm font-semibold">Scroll down to learn more</span>
-                  <ChevronDown className="w-4 h-4" />
-                </div>
+                <p className="text-sm text-muted-foreground">Join 1k+ others finding connection and healing</p>
+                <div className="flex items-center gap-2 text-muted-foreground"></div>
               </motion.div>
             </div>
           </div>
