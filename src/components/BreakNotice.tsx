@@ -16,7 +16,7 @@ const BreakNotice = ({ variant = "default" }: { variant?: "banner" | "section" |
             <p className="text-xs md:text-sm text-white/90 group-hover:text-white transition-colors text-center">
               <span className="font-bold text-neon-blue">We're on a short break!</span>
               <span className="hidden md:inline md:mx-2">·</span>
-              <span>Back January 26th</span>
+              <span>Back February 2nd</span>
             </p>
             <p className="text-xs md:text-sm text-neon-blue font-semibold group-hover:text-neon-blue/80 transition-colors whitespace-nowrap">
               Subscribe to be notified →
@@ -39,7 +39,7 @@ const BreakNotice = ({ variant = "default" }: { variant?: "banner" | "section" |
           <span className="font-bold text-neon-blue">We're on a short break!</span>
         </p>
         <p className="text-sm md:text-base text-center text-white/90 mb-2">
-          The Podcast will be back January 26th
+          The Podcast will be back February 2nd
         </p>
         <p className="text-xs md:text-sm text-center text-neon-blue font-semibold group-hover:text-neon-blue/80 transition-colors">
           Subscribe to be notified when we return →
@@ -62,7 +62,7 @@ const BreakNotice = ({ variant = "default" }: { variant?: "banner" | "section" |
               <span className="font-bold text-neon-blue">We're on a short break!</span>
             </p>
             <p className="text-sm md:text-base text-center text-white/90 mb-2">
-              The Podcast will be back January 26th
+              The Podcast will be back February 2nd
             </p>
             <p className="text-xs md:text-sm text-center text-neon-blue font-semibold group-hover:text-neon-blue/80 transition-colors">
               Subscribe to be notified when we return →

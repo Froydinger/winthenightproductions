@@ -151,18 +151,31 @@ const Header = () => {
           />
         </a>
 
-        {/* Hamburger Menu */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild>
+        <div className="flex items-center gap-2">
+          {/* Admin Badge - Quick access to admin dashboard */}
+          {isAdmin && (
             <button
-              className={`p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300 ${
-                isPlaying ? "shadow-[0_0_12px_rgba(93,204,255,0.6)] bg-neon-blue/20" : ""
-              }`}
-              aria-label="Open menu"
+              onClick={() => navigate("/admin")}
+              className="p-1.5 rounded-lg bg-neon-blue/20 hover:bg-neon-blue/30 border border-neon-blue/50 hover:border-neon-blue transition-all duration-300 group"
+              aria-label="Admin Dashboard"
+              title="Admin Dashboard"
             >
-              <Menu className={`w-5 h-5 transition-colors ${isPlaying ? "text-neon-blue" : "text-white"}`} strokeWidth={1.5} />
+              <Shield className="w-4 h-4 text-neon-blue group-hover:scale-110 transition-transform" strokeWidth={2} />
             </button>
-          </SheetTrigger>
+          )}
+
+          {/* Hamburger Menu */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <button
+                className={`p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300 ${
+                  isPlaying ? "shadow-[0_0_12px_rgba(93,204,255,0.6)] bg-neon-blue/20" : ""
+                }`}
+                aria-label="Open menu"
+              >
+                <Menu className={`w-5 h-5 transition-colors ${isPlaying ? "text-neon-blue" : "text-white"}`} strokeWidth={1.5} />
+              </button>
+            </SheetTrigger>
           <SheetContent
             side="right"
             className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30 flex flex-col"

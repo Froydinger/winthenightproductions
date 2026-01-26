@@ -92,6 +92,19 @@ All colors MUST be HSL.
   select {
     font-size: 16px;
   }
+
+  /* Safe area support for dynamic island / notch */
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top, 0px), 0.5rem);
+  }
+
+  .mt-safe {
+    margin-top: env(safe-area-inset-top, 0px);
+  }
 }
 
 @layer utilities {
