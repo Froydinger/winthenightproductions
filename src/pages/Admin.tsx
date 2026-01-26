@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import Header from "@/components/Header";
+import AdminHeader from "@/components/AdminHeader";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -390,13 +390,12 @@ const Admin = () => {
         <AnimatedBackground />
       </div>
 
-      <Header />
+      <AdminHeader title="Admin Dashboard" backTo="/updates" backLabel="Updates" />
 
-      <div className="relative z-10 container mx-auto px-4 py-20 sm:py-24 max-w-7xl">
-        <div className="flex items-center gap-3 mb-8">
-          <Shield className="h-8 w-8 text-neon-blue" />
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Admin Dashboard</h1>
-        </div>
+      <div
+        className="relative z-10 container mx-auto px-4 pb-8 max-w-7xl"
+        style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 5rem)" }}
+      >
 
         {/* Stats Grid */}
         {stats && (
@@ -685,16 +684,6 @@ const Admin = () => {
             </div>
           )}
         </Card>
-
-        <div className="mt-6 text-center">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/updates")}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            ← Back to Updates
-          </Button>
-        </div>
 
         {/* Footer */}
         <div className="mt-12">
