@@ -4,7 +4,6 @@ import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommunitySection from "@/components/CommunitySection";
 import WatchLatestSection from "@/components/WatchLatestSection";
-import BreakNotice from "@/components/BreakNotice";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -70,11 +69,6 @@ const Index = () => {
         <div id="hero">
           <HeroSection />
         </div>
-        <section className="relative px-4 md:px-12 lg:px-24 py-8">
-          <div className="max-w-7xl mx-auto">
-            <BreakNotice variant="card" />
-          </div>
-        </section>
         <div id="features" className="scroll-mt-8">
           <FeaturesSection />
         </div>

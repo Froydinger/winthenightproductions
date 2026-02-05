@@ -91,6 +91,8 @@ const Admin = () => {
   const [postToDelete, setPostToDelete] = useState<Post | null>(null);
   const [editorsPickVideoId, setEditorsPickVideoId] = useState("");
   const [savingEditorsPick, setSavingEditorsPick] = useState(false);
+  const [mainPlaylistId, setMainPlaylistId] = useState("");
+  const [savingMainPlaylist, setSavingMainPlaylist] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -127,6 +129,7 @@ const Admin = () => {
     await loadUsers();
     await loadPosts();
     await loadEditorsPick();
+    await loadMainPlaylist();
     setLoading(false);
   };
 
@@ -316,6 +319,55 @@ const Admin = () => {
     }
   };
 
+  const loadMainPlaylist = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("main_playlist_id")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to load main playlist:", error);
+        return;
+      }
+
+      if (data?.main_playlist_id) {
+        setMainPlaylistId(data.main_playlist_id);
+      }
+    } catch (error) {
+      console.error("Failed to load main playlist:", error);
+    }
+  };
+
+  const saveMainPlaylist = async () => {
+    if (!mainPlaylistId.trim()) {
+      toast.error("Please enter a playlist ID");
+      return;
+    }
+
+    setSavingMainPlaylist(true);
+    try {
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({ main_playlist_id: mainPlaylistId.trim() })
+        .eq("id", 1);
+
+      if (error) {
+        console.error("Failed to save main playlist:", error);
+        toast.error("Failed to save main playlist");
+        return;
+      }
+
+      toast.success("Main playlist updated!");
+    } catch (error) {
+      console.error("Failed to save main playlist:", error);
+      toast.error("Failed to save main playlist");
+    } finally {
+      setSavingMainPlaylist(false);
+    }
+  };
+
   const loadPosts = async () => {
     try {
       const { data, error } = await supabase
@@ -501,6 +553,47 @@ const Admin = () => {
                     <iframe
                       src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
                       title="Editor's Pick Preview"
+                      className="w-full h-full"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Main Playlist */}
+            <div className="border-t border-border/30 pt-4">
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Main Watch Page Playlist ID
+              </label>
+              <p className="text-xs text-muted-foreground mb-3">
+                Enter the YouTube playlist ID (e.g., "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD")
+              </p>
+              <div className="flex gap-3">
+                <Input
+                  value={mainPlaylistId}
+                  onChange={(e) => setMainPlaylistId(e.target.value)}
+                  placeholder="Enter YouTube playlist ID"
+                  className="max-w-md bg-background/50 border-border"
+                />
+                <Button
+                  onClick={saveMainPlaylist}
+                  disabled={savingMainPlaylist}
+                  className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  {savingMainPlaylist ? "Saving..." : "Save"}
+                </Button>
+              </div>
+              {mainPlaylistId && (
+                <div className="mt-4">
+                  <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                  <div className="aspect-video max-w-sm rounded-lg overflow-hidden border border-border/50">
+                    <iframe
+                      src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                      title="Main Playlist Preview"
                       className="w-full h-full"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
