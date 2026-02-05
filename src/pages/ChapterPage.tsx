@@ -20,6 +20,7 @@ interface Playlist {
 }
 
 const playlists: Playlist[] = [
+  { id: "chapter-8", name: "Chapter 8", playlistId: "", description: "Coming soon – the next chapter of Win The Night" },
   { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD", description: "The latest chapter of Win The Night" },
   { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O", description: "Chapter 6 episodes" },
   { id: "chapter-5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS", description: "Chapter 5 episodes" },
@@ -114,6 +115,42 @@ const ChapterPage = () => {
           </div>
         </div>
 
+        {/* Coming Soon Section - Only for Chapter 8 */}
+        {playlist.id === "chapter-8" && (
+          <section className="relative pb-12 px-6 md:px-12 lg:px-24">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center py-20 px-6 rounded-2xl bg-gradient-to-br from-neon-blue/10 via-card/60 to-charcoal/40 backdrop-blur-sm border-2 border-neon-blue/30">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-neon-blue/20 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-neon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  Coming Soon
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
+                  Chapter 8 is in the works. Subscribe to be the first to know when it drops.
+                </p>
+                <a
+                  href="https://youtube.com/@winthenight?sub_confirmation=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
+                    <path
+                      fill="#FF0000"
+                      d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
+                    />
+                    <path fill="#FFFFFF" d="M10 15.5V8.5L15.5 12 10 15.5Z" />
+                  </svg>
+                  Subscribe on YouTube
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Shorts Playlist Section - Only for Specials Page */}
         {playlist.id === "specials" && (
           <section className="relative pb-8 px-6 md:px-12 lg:px-24">
@@ -140,33 +177,35 @@ const ChapterPage = () => {
           </section>
         )}
 
-        {/* Main Playlist Embed Section */}
-        <section className="relative pb-12 px-6 md:px-12 lg:px-24">
-          <div className="max-w-7xl mx-auto">
-            {playlist.id === "specials" && (
-              <div className="mb-8">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-foreground">Short Films & Specials</h2>
+        {/* Main Playlist Embed Section - Not for Chapter 8 (coming soon) */}
+        {playlist.id !== "chapter-8" && (
+          <section className="relative pb-12 px-6 md:px-12 lg:px-24">
+            <div className="max-w-7xl mx-auto">
+              {playlist.id === "specials" && (
+                <div className="mb-8">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground">Short Films & Specials</h2>
+                  </div>
+                  <p className="text-muted-foreground mb-6 max-w-3xl">
+                    Special episodes, short films, and extended clips.
+                  </p>
                 </div>
-                <p className="text-muted-foreground mb-6 max-w-3xl">
-                  Special episodes, short films, and extended clips.
-                </p>
+              )}
+              <div className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10 bg-card">
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/videoseries?list=${playlist.playlistId}`}
+                  title={playlist.name}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
               </div>
-            )}
-            <div className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10 bg-card">
-              <iframe
-                className="w-full h-full"
-                src={`https://www.youtube.com/embed/videoseries?list=${playlist.playlistId}`}
-                title={playlist.name}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Footer */}
         <Footer />

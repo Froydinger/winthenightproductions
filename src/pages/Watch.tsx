@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import BreakNotice from "@/components/BreakNotice";
 import ShortsCarousel from "@/components/ShortsCarousel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ interface Playlist {
 }
 
 const playlists: Playlist[] = [
+  { id: "chapter-8", name: "Chapter 8", playlistId: "" },
   { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
   { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
   { id: "chapter-5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS" },
@@ -33,10 +33,12 @@ const Watch = () => {
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
   const [editorsPickVideoId, setEditorsPickVideoId] = useState("TXzfkLNW4e4"); // Default fallback
+  const [mainPlaylistId, setMainPlaylistId] = useState("PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"); // Default fallback
 
   useEffect(() => {
     window.scrollTo(0, 0);
     loadEditorsPick();
+    loadMainPlaylist();
   }, []);
 
   const loadEditorsPick = async () => {
@@ -60,6 +62,27 @@ const Watch = () => {
     }
   };
 
+  const loadMainPlaylist = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("main_playlist_id")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to load main playlist:", error);
+        return;
+      }
+
+      if (data?.main_playlist_id) {
+        setMainPlaylistId(data.main_playlist_id);
+      }
+    } catch (error) {
+      console.error("Failed to load main playlist:", error);
+    }
+  };
+
   // Modal is still here if you ever want to trigger it again
   const openVideoModal = (videoId: string) => {
     setVideoModalId(videoId);
@@ -78,15 +101,12 @@ const Watch = () => {
         {/* FULL-WIDTH PLAYLIST HERO */}
         <section className="relative pt-20 pb-12 px-4">
           <div className="max-w-7xl mx-auto">
-            {/* Break Notice */}
-            <BreakNotice variant="card" />
-
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
               <iframe
                 className="relative w-full h-full z-10"
-                src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                title="Win The Night – Chapter 7"
+                src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                title="Win The Night – Latest Chapter"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
@@ -99,7 +119,7 @@ const Watch = () => {
               <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
                 Watch the latest from{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
-                  Chapter 7.
+                  Win The Night.
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-zinc-100 max-w-2xl mx-auto leading-relaxed font-medium">
@@ -171,8 +191,8 @@ const Watch = () => {
                     <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                     <iframe
                       className="relative w-full h-full z-10"
-                      src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                      title="Latest Episode - Chapter 7"
+                      src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                      title="Latest Episode"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       referrerPolicy="strict-origin-when-cross-origin"
@@ -231,8 +251,8 @@ const Watch = () => {
                       <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                       <iframe
                         className="relative w-full h-full z-10"
-                        src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"
-                        title="Latest Episode - Chapter 7"
+                        src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                        title="Latest Episode"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
