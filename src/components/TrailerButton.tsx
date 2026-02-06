@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import { Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const TrailerButton = () => {
   const [visible, setVisible] = useState(false);
@@ -33,7 +30,7 @@ const TrailerButton = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[60] flex justify-center pointer-events-none">
+      <div className="fixed top-10 left-0 right-0 z-[60] flex justify-center pointer-events-none">
         <button
           onClick={() => setOpen(true)}
           className="pointer-events-auto mt-1 inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-[16px] font-medium bg-neon-blue/20 backdrop-blur-md border border-neon-blue/40 text-neon-blue hover:bg-neon-blue/30 hover:border-neon-blue/60 transition-all duration-300"
