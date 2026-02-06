@@ -181,6 +181,8 @@ export type Database = {
           id: number
           main_playlist_id: string | null
           updated_at: string
+          watch_latest_button_link: string
+          watch_latest_button_text: string
         }
         Insert: {
           created_at?: string
@@ -188,6 +190,8 @@ export type Database = {
           id?: number
           main_playlist_id?: string | null
           updated_at?: string
+          watch_latest_button_link?: string
+          watch_latest_button_text?: string
         }
         Update: {
           created_at?: string
@@ -195,6 +199,8 @@ export type Database = {
           id?: number
           main_playlist_id?: string | null
           updated_at?: string
+          watch_latest_button_link?: string
+          watch_latest_button_text?: string
         }
         Relationships: []
       }
