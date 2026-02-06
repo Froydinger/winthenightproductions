@@ -1,11 +1,30 @@
 import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const WatchLatestSection = () => {
   const navigate = useNavigate();
+  const [mainPlaylistId, setMainPlaylistId] = useState("PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD");
+  const [buttonText, setButtonText] = useState("Jump straight to Chapter 7");
+  const [buttonLink, setButtonLink] = useState("/watch/chapter-7");
 
-  // Chapter 7 playlist embed. Stable and API-free.
-  const chapter7PlaylistSrc = "https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD";
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await supabase
+        .from("watch_settings")
+        .select("main_playlist_id, watch_latest_button_text, watch_latest_button_link")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (data) {
+        if (data.main_playlist_id) setMainPlaylistId(data.main_playlist_id);
+        if (data.watch_latest_button_text) setButtonText(data.watch_latest_button_text);
+        if (data.watch_latest_button_link) setButtonLink(data.watch_latest_button_link);
+      }
+    };
+    load();
+  }, []);
 
   return (
     <section className="relative py-16 px-6 md:px-12 lg:px-24">
@@ -24,8 +43,8 @@ const WatchLatestSection = () => {
           <div className="relative w-full aspect-video bg-black">
             <iframe
               className="w-full h-full"
-              src={chapter7PlaylistSrc}
-              title="Win The Night – Latest Chapter 7 Playlist"
+              src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+              title="Win The Night – Latest Chapter"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
@@ -42,10 +61,10 @@ const WatchLatestSection = () => {
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
-              onClick={() => navigate("/watch/chapter-7")}
+              onClick={() => navigate(buttonLink)}
               className="text-xs md:text-sm text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
             >
-              Jump straight to Chapter 7
+              {buttonText}
             </button>
           </div>
         </div>
@@ -64,9 +83,7 @@ const WatchLatestSection = () => {
             </p>
           </div>
 
-          {/* ✅ TWO-FOR-ONE CTA STACK */}
           <div className="flex flex-col gap-3">
-            {/* Watch Page Button */}
             <button
               onClick={() => navigate("/watch")}
               className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold bg-neon-blue text-white hover:bg-neon-blue/90 transition-colors"
@@ -75,7 +92,6 @@ const WatchLatestSection = () => {
               Open the Watch Hub
             </button>
 
-            {/* YouTube Subscribe Button */}
             <button
               onClick={() => window.open("https://www.youtube.com/@winthenight?sub_confirmation=1", "_blank")}
               className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform hover:-translate-y-0.5"

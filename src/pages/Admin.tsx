@@ -21,7 +21,8 @@ import {
   Trash2,
   ExternalLink,
   Video,
-  Save
+  Save,
+  Home
 } from "lucide-react";
 import {
   Table,
@@ -93,6 +94,9 @@ const Admin = () => {
   const [savingEditorsPick, setSavingEditorsPick] = useState(false);
   const [mainPlaylistId, setMainPlaylistId] = useState("");
   const [savingMainPlaylist, setSavingMainPlaylist] = useState(false);
+  const [watchLatestButtonText, setWatchLatestButtonText] = useState("");
+  const [watchLatestButtonLink, setWatchLatestButtonLink] = useState("");
+  const [savingWatchLatest, setSavingWatchLatest] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -130,6 +134,7 @@ const Admin = () => {
     await loadPosts();
     await loadEditorsPick();
     await loadMainPlaylist();
+    await loadWatchLatestSettings();
     setLoading(false);
   };
 
@@ -365,6 +370,54 @@ const Admin = () => {
       toast.error("Failed to save main playlist");
     } finally {
       setSavingMainPlaylist(false);
+    }
+  };
+
+  const loadWatchLatestSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("watch_latest_button_text, watch_latest_button_link")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to load watch latest settings:", error);
+        return;
+      }
+
+      if (data) {
+        if (data.watch_latest_button_text) setWatchLatestButtonText(data.watch_latest_button_text);
+        if (data.watch_latest_button_link) setWatchLatestButtonLink(data.watch_latest_button_link);
+      }
+    } catch (error) {
+      console.error("Failed to load watch latest settings:", error);
+    }
+  };
+
+  const saveWatchLatestSettings = async () => {
+    setSavingWatchLatest(true);
+    try {
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({
+          watch_latest_button_text: watchLatestButtonText.trim(),
+          watch_latest_button_link: watchLatestButtonLink.trim(),
+        })
+        .eq("id", 1);
+
+      if (error) {
+        console.error("Failed to save watch latest settings:", error);
+        toast.error("Failed to save watch latest settings");
+        return;
+      }
+
+      toast.success("Watch latest settings updated!");
+    } catch (error) {
+      console.error("Failed to save watch latest settings:", error);
+      toast.error("Failed to save watch latest settings");
+    } finally {
+      setSavingWatchLatest(false);
     }
   };
 
@@ -606,7 +659,59 @@ const Admin = () => {
           </div>
         </Card>
 
-        {/* User Management */}
+        {/* Home Page "Watch Latest" Tile Settings */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Home className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Home Page – Watch Latest Tile</h2>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-4">
+            The embedded playlist uses the <strong>Main Playlist</strong> set above. These settings control the callout button text and where it links to.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Button Text
+              </label>
+              <p className="text-xs text-muted-foreground mb-3">
+                e.g. "Jump straight to Chapter 8"
+              </p>
+              <Input
+                value={watchLatestButtonText}
+                onChange={(e) => setWatchLatestButtonText(e.target.value)}
+                placeholder="Jump straight to Chapter 7"
+                className="max-w-md bg-background/50 border-border"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Button Link
+              </label>
+              <p className="text-xs text-muted-foreground mb-3">
+                e.g. "/watch/chapter-8" — the app route the button navigates to
+              </p>
+              <Input
+                value={watchLatestButtonLink}
+                onChange={(e) => setWatchLatestButtonLink(e.target.value)}
+                placeholder="/watch/chapter-7"
+                className="max-w-md bg-background/50 border-border"
+              />
+            </div>
+
+            <Button
+              onClick={saveWatchLatestSettings}
+              disabled={savingWatchLatest}
+              className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+            >
+              <Save className="h-4 w-4 mr-2" />
+              {savingWatchLatest ? "Saving..." : "Save Watch Latest Settings"}
+            </Button>
+          </div>
+        </Card>
+
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
           <div className="flex items-center gap-3 mb-6">
             <UserCog className="h-6 w-6 text-neon-blue" />
