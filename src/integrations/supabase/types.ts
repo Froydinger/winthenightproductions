@@ -180,6 +180,9 @@ export type Database = {
           editors_pick_video_id: string | null
           id: number
           main_playlist_id: string | null
+          trailer_button_text: string | null
+          trailer_video_id: string | null
+          trailer_visible: boolean | null
           updated_at: string
           watch_latest_button_link: string
           watch_latest_button_text: string
@@ -190,6 +193,9 @@ export type Database = {
           editors_pick_video_id?: string | null
           id?: number
           main_playlist_id?: string | null
+          trailer_button_text?: string | null
+          trailer_video_id?: string | null
+          trailer_visible?: boolean | null
           updated_at?: string
           watch_latest_button_link?: string
           watch_latest_button_text?: string
@@ -200,6 +206,9 @@ export type Database = {
           editors_pick_video_id?: string | null
           id?: number
           main_playlist_id?: string | null
+          trailer_button_text?: string | null
+          trailer_video_id?: string | null
+          trailer_visible?: boolean | null
           updated_at?: string
           watch_latest_button_link?: string
           watch_latest_button_text?: string
