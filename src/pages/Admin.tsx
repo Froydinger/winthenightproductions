@@ -96,6 +96,7 @@ const Admin = () => {
   const [savingMainPlaylist, setSavingMainPlaylist] = useState(false);
   const [watchLatestButtonText, setWatchLatestButtonText] = useState("");
   const [watchLatestButtonLink, setWatchLatestButtonLink] = useState("");
+  const [watchLatestPlaylistId, setWatchLatestPlaylistId] = useState("");
   const [savingWatchLatest, setSavingWatchLatest] = useState(false);
 
   useEffect(() => {
@@ -377,7 +378,7 @@ const Admin = () => {
     try {
       const { data, error } = await supabase
         .from("watch_settings")
-        .select("watch_latest_button_text, watch_latest_button_link")
+        .select("watch_latest_button_text, watch_latest_button_link, watch_latest_playlist_id")
         .eq("id", 1)
         .maybeSingle();
 
@@ -389,6 +390,7 @@ const Admin = () => {
       if (data) {
         if (data.watch_latest_button_text) setWatchLatestButtonText(data.watch_latest_button_text);
         if (data.watch_latest_button_link) setWatchLatestButtonLink(data.watch_latest_button_link);
+        if (data.watch_latest_playlist_id) setWatchLatestPlaylistId(data.watch_latest_playlist_id);
       }
     } catch (error) {
       console.error("Failed to load watch latest settings:", error);
@@ -403,6 +405,7 @@ const Admin = () => {
         .update({
           watch_latest_button_text: watchLatestButtonText.trim(),
           watch_latest_button_link: watchLatestButtonLink.trim(),
+          watch_latest_playlist_id: watchLatestPlaylistId.trim(),
         })
         .eq("id", 1);
 
@@ -667,10 +670,39 @@ const Admin = () => {
           </div>
 
           <p className="text-sm text-muted-foreground mb-4">
-            The embedded playlist uses the <strong>Main Playlist</strong> set above. These settings control the callout button text and where it links to.
+            Controls the playlist/video embedded on the home page tile, along with the callout button text and link.
           </p>
 
           <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Playlist / Video ID
+              </label>
+              <p className="text-xs text-muted-foreground mb-3">
+                YouTube playlist ID (e.g. "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS") or video ID
+              </p>
+              <Input
+                value={watchLatestPlaylistId}
+                onChange={(e) => setWatchLatestPlaylistId(e.target.value)}
+                placeholder="PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS"
+                className="max-w-md bg-background/50 border-border"
+              />
+              {watchLatestPlaylistId && (
+                <div className="mt-3">
+                  <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                  <div className="aspect-video max-w-sm rounded-lg overflow-hidden border border-border/50">
+                    <iframe
+                      src={`https://www.youtube.com/embed/videoseries?list=${watchLatestPlaylistId}`}
+                      title="Watch Latest Preview"
+                      className="w-full h-full"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
             <div>
               <label className="text-sm font-medium text-foreground mb-2 block">
                 Button Text
