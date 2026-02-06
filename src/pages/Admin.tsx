@@ -98,6 +98,10 @@ const Admin = () => {
   const [watchLatestButtonLink, setWatchLatestButtonLink] = useState("");
   const [watchLatestPlaylistId, setWatchLatestPlaylistId] = useState("");
   const [savingWatchLatest, setSavingWatchLatest] = useState(false);
+  const [trailerVideoId, setTrailerVideoId] = useState("");
+  const [trailerButtonText, setTrailerButtonText] = useState("");
+  const [trailerVisible, setTrailerVisible] = useState(true);
+  const [savingTrailer, setSavingTrailer] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -136,6 +140,7 @@ const Admin = () => {
     await loadEditorsPick();
     await loadMainPlaylist();
     await loadWatchLatestSettings();
+    await loadTrailerSettings();
     setLoading(false);
   };
 
@@ -424,6 +429,56 @@ const Admin = () => {
     }
   };
 
+  const loadTrailerSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("watch_settings")
+        .select("trailer_video_id, trailer_button_text, trailer_visible")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to load trailer settings:", error);
+        return;
+      }
+
+      if (data) {
+        if (data.trailer_video_id) setTrailerVideoId(data.trailer_video_id);
+        if (data.trailer_button_text) setTrailerButtonText(data.trailer_button_text);
+        if (data.trailer_visible !== null) setTrailerVisible(data.trailer_visible);
+      }
+    } catch (error) {
+      console.error("Failed to load trailer settings:", error);
+    }
+  };
+
+  const saveTrailerSettings = async () => {
+    setSavingTrailer(true);
+    try {
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({
+          trailer_video_id: trailerVideoId.trim(),
+          trailer_button_text: trailerButtonText.trim(),
+          trailer_visible: trailerVisible,
+        })
+        .eq("id", 1);
+
+      if (error) {
+        console.error("Failed to save trailer settings:", error);
+        toast.error("Failed to save trailer settings");
+        return;
+      }
+
+      toast.success("Trailer settings updated!");
+    } catch (error) {
+      console.error("Failed to save trailer settings:", error);
+      toast.error("Failed to save trailer settings");
+    } finally {
+      setSavingTrailer(false);
+    }
+  };
+
   const loadPosts = async () => {
     try {
       const { data, error } = await supabase
@@ -570,6 +625,68 @@ const Admin = () => {
             </Card>
           </div>
         )}
+
+        {/* Trailer Button Settings */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Video className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Trailer Button</h2>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-4">
+            Controls the small "Watch the Trailer" button that appears at the top of every page.
+          </p>
+
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-medium text-foreground">Visible</label>
+              <button
+                onClick={() => setTrailerVisible(!trailerVisible)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  trailerVisible ? "bg-neon-blue" : "bg-muted"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    trailerVisible ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Button Text</label>
+              <Input
+                value={trailerButtonText}
+                onChange={(e) => setTrailerButtonText(e.target.value)}
+                placeholder="Watch the Trailer"
+                className="max-w-md bg-background/50 border-border"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">YouTube Video ID</label>
+              <p className="text-xs text-muted-foreground mb-3">
+                e.g. "765UBZfeylw" from youtu.be/765UBZfeylw
+              </p>
+              <Input
+                value={trailerVideoId}
+                onChange={(e) => setTrailerVideoId(e.target.value)}
+                placeholder="765UBZfeylw"
+                className="max-w-md bg-background/50 border-border"
+              />
+            </div>
+
+            <Button
+              onClick={saveTrailerSettings}
+              disabled={savingTrailer}
+              className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+            >
+              <Save className="h-4 w-4 mr-2" />
+              {savingTrailer ? "Saving..." : "Save Trailer Settings"}
+            </Button>
+          </div>
+        </Card>
 
         {/* Watch Page Settings */}
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">

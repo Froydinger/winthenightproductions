@@ -7,6 +7,7 @@ import { lazy, Suspense } from "react";
 import { AudioProvider } from "@/context/AudioContext";
 
 import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
+import TrailerButton from "@/components/TrailerButton";
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BeOurGuest = lazy(() => import("./pages/BeOurGuest"));
@@ -47,6 +48,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <TrailerButton />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Lander />} />
