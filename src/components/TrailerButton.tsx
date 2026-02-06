@@ -30,7 +30,7 @@ const TrailerButton = () => {
 
   return (
     <>
-      <div className="fixed top-2.5 left-0 right-0 z-[60] flex justify-center pointer-events-none">
+      <div className="fixed top-4 left-0 right-0 z-[60] flex justify-center pointer-events-none">
         <button
           onClick={() => setOpen(true)}
           className="pointer-events-auto mt-1 inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-[16px] font-medium bg-neon-blue/20 backdrop-blur-md border border-neon-blue/40 text-neon-blue hover:bg-neon-blue/30 hover:border-neon-blue/60 transition-all duration-300"
