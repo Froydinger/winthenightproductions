@@ -5,20 +5,20 @@ import { supabase } from "@/integrations/supabase/client";
 
 const WatchLatestSection = () => {
   const navigate = useNavigate();
-  const [mainPlaylistId, setMainPlaylistId] = useState("PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD");
-  const [buttonText, setButtonText] = useState("Jump straight to Chapter 7");
-  const [buttonLink, setButtonLink] = useState("/watch/chapter-7");
+  const [playlistId, setPlaylistId] = useState("PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS");
+  const [buttonText, setButtonText] = useState("Jump straight to Chapter 8");
+  const [buttonLink, setButtonLink] = useState("/watch/chapter-8");
 
   useEffect(() => {
     const load = async () => {
       const { data } = await supabase
         .from("watch_settings")
-        .select("main_playlist_id, watch_latest_button_text, watch_latest_button_link")
+        .select("watch_latest_playlist_id, watch_latest_button_text, watch_latest_button_link")
         .eq("id", 1)
         .maybeSingle();
 
       if (data) {
-        if (data.main_playlist_id) setMainPlaylistId(data.main_playlist_id);
+        if (data.watch_latest_playlist_id) setPlaylistId(data.watch_latest_playlist_id);
         if (data.watch_latest_button_text) setButtonText(data.watch_latest_button_text);
         if (data.watch_latest_button_link) setButtonLink(data.watch_latest_button_link);
       }
@@ -43,7 +43,7 @@ const WatchLatestSection = () => {
           <div className="relative w-full aspect-video bg-black">
             <iframe
               className="w-full h-full"
-              src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+              src={`https://www.youtube.com/embed/videoseries?list=${playlistId}`}
               title="Win The Night – Latest Chapter"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

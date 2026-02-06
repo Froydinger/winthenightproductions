@@ -183,6 +183,7 @@ export type Database = {
           updated_at: string
           watch_latest_button_link: string
           watch_latest_button_text: string
+          watch_latest_playlist_id: string
         }
         Insert: {
           created_at?: string
@@ -192,6 +193,7 @@ export type Database = {
           updated_at?: string
           watch_latest_button_link?: string
           watch_latest_button_text?: string
+          watch_latest_playlist_id?: string
         }
         Update: {
           created_at?: string
@@ -201,6 +203,7 @@ export type Database = {
           updated_at?: string
           watch_latest_button_link?: string
           watch_latest_button_text?: string
+          watch_latest_playlist_id?: string
         }
         Relationships: []
       }
