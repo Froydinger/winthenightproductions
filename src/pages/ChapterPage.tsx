@@ -115,8 +115,8 @@ const ChapterPage = () => {
           </div>
         </div>
 
-        {/* Coming Soon Section - Only for Chapter 8 */}
-        {playlist.id === "chapter-8" && (
+        {/* Coming Soon Section - Only for chapters without a playlist */}
+        {!playlist.playlistId && (
           <section className="relative pb-12 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto">
               <div className="text-center py-20 px-6 rounded-2xl bg-gradient-to-br from-neon-blue/10 via-card/60 to-charcoal/40 backdrop-blur-sm border-2 border-neon-blue/30">
@@ -129,7 +129,7 @@ const ChapterPage = () => {
                   Coming Soon
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-                  Chapter 8 is in the works. Subscribe to be the first to know when it drops.
+                  This chapter is in the works. Subscribe to be the first to know when it drops.
                 </p>
                 <a
                   href="https://youtube.com/@winthenight?sub_confirmation=1"
@@ -177,8 +177,8 @@ const ChapterPage = () => {
           </section>
         )}
 
-        {/* Main Playlist Embed Section - Not for Chapter 8 (coming soon) */}
-        {playlist.id !== "chapter-8" && (
+        {/* Main Playlist Embed Section - Only for chapters with a playlist */}
+        {playlist.playlistId && (
           <section className="relative pb-12 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto">
               {playlist.id === "specials" && (
