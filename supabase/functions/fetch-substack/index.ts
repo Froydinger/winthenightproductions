@@ -30,10 +30,16 @@ function extractCDATA(text: string): string {
 }
 
 function extractTagContent(xml: string, tagName: string): string {
-  // Escape special regex characters in tag name (for tags like content:encoded)
-  const escapedTagName = tagName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/:/g, ':');
-  const regex = new RegExp(`<${escapedTagName}[^>]*>([\\s\\S]*?)<\\/${escapedTagName}>`, 'i');
-  const match = xml.match(regex);
+  // Use a greedy match for content:encoded since it contains large HTML blocks with nested tags
+  const escapedTagName = tagName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Try greedy match first (needed for content:encoded with nested tags)
+  const greedyRegex = new RegExp(`<${escapedTagName}[^>]*>([\\s\\S]*)<\\/${escapedTagName}>`, 'i');
+  // And non-greedy for simple fields
+  const lazyRegex = new RegExp(`<${escapedTagName}[^>]*>([\\s\\S]*?)<\\/${escapedTagName}>`, 'i');
+  
+  // For content tags, use greedy; for others use lazy
+  const isContentTag = tagName.toLowerCase().includes('content') || tagName.toLowerCase().includes('encoded');
+  const match = xml.match(isContentTag ? greedyRegex : lazyRegex);
   if (match) {
     return extractCDATA(match[1].trim());
   }
