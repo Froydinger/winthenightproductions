@@ -43,7 +43,7 @@ const Privacy = () => {
                 Last updated: December 29, 2025
               </p>
               <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-                Unified Privacy Policy for Win The Night Productions and All Apps
+                Unified Privacy Policy for the Win The Night website (winthenight.org), Win The Night Productions, and All Apps
               </p>
             </div>
           </div>
@@ -57,15 +57,16 @@ const Privacy = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">1. Introduction</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Win The Night Productions ("WTN," "we," "us," "our") operates the following services:
+                  Win The Night Productions ("WTN," "we," "us," "our") operates the following website and services:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                  <li>Win The Night Website: <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://winthenight.org</a></li>
                   <li>ArcAi: <a href="https://askarc.chat" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://askarc.chat</a></li>
                   <li>Noteily: <a href="https://noteily.app" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://noteily.app</a></li>
                   <li>Pending.Press: <a href="https://pending.press" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://pending.press</a></li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed">
-                  This Privacy Policy covers all three services and explains our minimal data practices. We designed these products to be free to use and privacy-first.
+                  This Privacy Policy covers the Win The Night website itself as well as all of the above services, and explains our minimal data practices. We designed these products to be free to use and privacy-first.
                 </p>
               </div>
 
@@ -87,6 +88,15 @@ const Privacy = () => {
                 <h2 className="text-2xl font-bold text-foreground">4. Product-Specific Details</h2>
 
                 <div className="ml-4 space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold text-foreground">Win The Night Website (winthenight.org)</h3>
+                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                      <li><strong className="text-foreground">Purpose:</strong> The primary website for Win The Night, featuring episodes, blog content, community updates, and resources.</li>
+                      <li><strong className="text-foreground">Data:</strong> The site may collect minimal data necessary for community features such as posting updates and comments. No detailed analytics or behavioral tracking is performed.</li>
+                      <li><strong className="text-foreground">Authentication:</strong> Certain interactive features (such as community posts) may require authentication. No personal data is retained beyond what is necessary for these features.</li>
+                    </ul>
+                  </div>
+
                   <div className="space-y-3">
                     <h3 className="text-xl font-semibold text-foreground">A. ArcAi (askarc.chat)</h3>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">

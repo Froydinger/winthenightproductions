@@ -143,6 +143,18 @@ const BlogPost = () => {
 
             {/* Article Container with Enhanced Glassmorphism */}
             <article className="bg-card/40 backdrop-blur-xl border border-neon-blue/20 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(93,204,255,0.1)]">
+              {/* Featured Image Header */}
+              {post.thumbnail && !post.isPodcast && (
+                <div className="aspect-[21/9] overflow-hidden bg-gradient-to-br from-neon-blue/10 to-purple-500/10">
+                  <img
+                    src={post.thumbnail}
+                    alt={post.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                </div>
+              )}
+
               {/* Article Header with Gradient Accent */}
               <div className="relative p-8 md:p-12 pb-8 border-b border-neon-blue/10">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-neon-blue via-purple-500 to-neon-blue"></div>
