@@ -43,7 +43,7 @@ const Terms = () => {
                 Last updated: December 29, 2025
               </p>
               <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-                Unified Terms of Service for Win The Night Productions and All Apps
+                Unified Terms of Service for the Win The Night website (winthenight.org), Win The Night Productions, and All Apps
               </p>
             </div>
           </div>
@@ -57,7 +57,7 @@ const Terms = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">1. Acceptance of Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  By accessing or using any Win The Night Productions ("WTN," "we," "us," "our") services—including ArcAi (<a href="https://askarc.chat" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">askarc.chat</a>), Noteily (<a href="https://noteily.app" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">noteily.app</a>), and Pending.Press (<a href="https://pending.press" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">pending.press</a>)—you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
+                   By accessing or using the Win The Night website (<a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">winthenight.org</a>) or any Win The Night Productions ("WTN," "we," "us," "our") services—including ArcAi (<a href="https://askarc.chat" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">askarc.chat</a>), Noteily (<a href="https://noteily.app" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">noteily.app</a>), and Pending.Press (<a href="https://pending.press" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">pending.press</a>)—you agree to be bound by these Terms of Service. If you do not agree, please do not use our website or services.
                 </p>
               </div>
 
@@ -65,6 +65,13 @@ const Terms = () => {
                 <h2 className="text-2xl font-bold text-foreground">2. Description of Services</h2>
 
                 <div className="ml-4 space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold text-foreground">Win The Night Website</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      The primary website for Win The Night (<a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">winthenight.org</a>), featuring episodes, blog content sourced from our Substack, community updates, and mental health resources. The website includes interactive community features that may require authentication.
+                    </p>
+                  </div>
+
                   <div className="space-y-3">
                     <h3 className="text-xl font-semibold text-foreground">ArcAi</h3>
                     <p className="text-muted-foreground leading-relaxed">
