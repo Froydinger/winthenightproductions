@@ -107,8 +107,8 @@ const Listen = () => {
               </p>
             </div>
 
-            {/* Break Notice */}
-            <BreakNotice variant="card" />
+
+
 
             {/* Now Playing Section */}
             {currentEpisode && (
