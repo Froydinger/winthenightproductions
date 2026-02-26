@@ -306,8 +306,8 @@ const ArcMiniChat = () => {
                     style={
                       msg.role === 'user'
                         ? {
-                            background: 'hsl(var(--neon-blue))',
-                            color: 'hsl(220, 10%, 98%)',
+                            background: 'hsla(193, 100%, 50%, 0.5)',
+                            color: 'hsl(0, 0%, 100%)',
                             boxShadow: '0 2px 8px hsla(200, 80%, 50%, 0.3)',
                           }
                         : {
