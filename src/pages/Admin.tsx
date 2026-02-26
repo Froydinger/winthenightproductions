@@ -22,7 +22,8 @@ import {
   ExternalLink,
   Video,
   Save,
-  Home
+  Home,
+  Bot
 } from "lucide-react";
 import {
   Table,
@@ -102,6 +103,8 @@ const Admin = () => {
   const [trailerButtonText, setTrailerButtonText] = useState("");
   const [trailerVisible, setTrailerVisible] = useState(true);
   const [savingTrailer, setSavingTrailer] = useState(false);
+  const [chatbotPrompt, setChatbotPrompt] = useState("");
+  const [savingChatbot, setSavingChatbot] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -141,6 +144,7 @@ const Admin = () => {
     await loadMainPlaylist();
     await loadWatchLatestSettings();
     await loadTrailerSettings();
+    await loadChatbotPrompt();
     setLoading(false);
   };
 
@@ -476,6 +480,50 @@ const Admin = () => {
       toast.error("Failed to save trailer settings");
     } finally {
       setSavingTrailer(false);
+    }
+  };
+
+  const loadChatbotPrompt = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("system_settings")
+        .select("value")
+        .eq("key", "chatbot_system_prompt")
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to load chatbot prompt:", error);
+        return;
+      }
+
+      if (data?.value) {
+        setChatbotPrompt(data.value);
+      }
+    } catch (error) {
+      console.error("Failed to load chatbot prompt:", error);
+    }
+  };
+
+  const saveChatbotPrompt = async () => {
+    setSavingChatbot(true);
+    try {
+      const { error } = await supabase
+        .from("system_settings")
+        .update({ value: chatbotPrompt.trim(), updated_at: new Date().toISOString() })
+        .eq("key", "chatbot_system_prompt");
+
+      if (error) {
+        console.error("Failed to save chatbot prompt:", error);
+        toast.error("Failed to save chatbot prompt");
+        return;
+      }
+
+      toast.success("Chatbot prompt updated!");
+    } catch (error) {
+      console.error("Failed to save chatbot prompt:", error);
+      toast.error("Failed to save chatbot prompt");
+    } finally {
+      setSavingChatbot(false);
     }
   };
 
@@ -857,6 +905,39 @@ const Admin = () => {
             >
               <Save className="h-4 w-4 mr-2" />
               {savingWatchLatest ? "Saving..." : "Save Watch Latest Settings"}
+            </Button>
+          </div>
+        </Card>
+
+        {/* Arc Chatbot Settings */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Bot className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Arc Chatbot</h2>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-4">
+            Defines the chatbot's personality and behavior. It also receives live site context automatically.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">System Prompt</label>
+              <textarea
+                value={chatbotPrompt}
+                onChange={(e) => setChatbotPrompt(e.target.value)}
+                className="w-full min-h-[300px] rounded-md border border-border bg-background/50 px-3 py-2 text-sm font-mono ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                placeholder="Enter system prompt..."
+              />
+            </div>
+
+            <Button
+              onClick={saveChatbotPrompt}
+              disabled={savingChatbot}
+              className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+            >
+              <Save className="h-4 w-4 mr-2" />
+              {savingChatbot ? "Saving..." : "Save Chatbot Prompt"}
             </Button>
           </div>
         </Card>
