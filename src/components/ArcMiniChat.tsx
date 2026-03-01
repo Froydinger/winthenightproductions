@@ -7,13 +7,26 @@ type Message = { role: 'user' | 'assistant'; content: string };
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/site-chat`;
 
 const ArcMiniChat = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => sessionStorage.getItem('arc-chat-open') === 'true');
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    try {
+      const saved = sessionStorage.getItem('arc-chat-messages');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    sessionStorage.setItem('arc-chat-messages', JSON.stringify(messages));
+  }, [messages]);
+
+  useEffect(() => {
+    sessionStorage.setItem('arc-chat-open', String(isOpen));
+  }, [isOpen]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -39,6 +52,7 @@ const ArcMiniChat = () => {
     setMessages([]);
     setInput('');
     setIsLoading(false);
+    sessionStorage.removeItem('arc-chat-messages');
   };
 
   const streamChat = async (userMessage: string) => {
