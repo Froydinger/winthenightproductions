@@ -162,9 +162,19 @@ const ArcMiniChat = () => {
         {children}
       </code>
     ),
-    a: ({ href, children }: any) => (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">{children}</a>
-    ),
+    a: ({ href, children }: any) => {
+      const isInternal = href && (href.startsWith('/') || href.includes(window.location.hostname));
+      return (
+        <a
+          href={href}
+          target={isInternal ? '_self' : '_blank'}
+          rel={isInternal ? undefined : 'noopener noreferrer'}
+          className="text-neon-blue hover:underline"
+        >
+          {children}
+        </a>
+      );
+    },
     blockquote: ({ children }: any) => (
       <blockquote className="pl-3 italic my-2 opacity-80 border-l-2 border-neon-blue">{children}</blockquote>
     ),
