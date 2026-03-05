@@ -1,30 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X, Play, Loader2 } from "lucide-react";
-import { usePlaylistItems, type PlaylistItem } from "@/hooks/use-playlist-items";
-
-interface PlaylistMeta {
-  id: string;
-  name: string;
-  playlistId: string;
-}
-
-const playlists: PlaylistMeta[] = [
-  { id: "chapter-8", name: "Chapter 8", playlistId: "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS" },
-  { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
-  { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
-  { id: "chapter-5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS" },
-  { id: "chapter-4", name: "Chapter 4", playlistId: "PL4DJfmhGyz_5qzx4nt4NjuHd3P5R-zEaw" },
-  { id: "chapter-3", name: "Chapter 3", playlistId: "PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS" },
-  { id: "chapter-2", name: "Chapter 2", playlistId: "PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX" },
-  { id: "chapter-1", name: "Chapter 1", playlistId: "PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl" },
-  { id: "specials", name: "Shorts & Specials", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
-];
-
-interface SearchResult extends PlaylistItem {
-  chapterId: string;
-  chapterName: string;
-}
+import { useAllPlaylistItems } from "@/hooks/use-all-playlist-items";
 
 const EpisodeSearch = () => {
   const navigate = useNavigate();
@@ -34,28 +11,7 @@ const EpisodeSearch = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Fetch all playlists
-  const playlistQueries = playlists.map(p => usePlaylistItems(p.playlistId));
-
-  const isLoading = playlistQueries.some(q => q.isLoading);
-
-  // Combine all items with chapter metadata
-  const allItems: SearchResult[] = useMemo(() => {
-    const items: SearchResult[] = [];
-    playlists.forEach((p, i) => {
-      const data = playlistQueries[i].data;
-      if (data) {
-        data.forEach(item => {
-          items.push({
-            ...item,
-            chapterId: p.id,
-            chapterName: p.name,
-          });
-        });
-      }
-    });
-    return items;
-  }, [playlistQueries.map(q => q.data)]);
+  const { allItems, isLoading } = useAllPlaylistItems();
 
   // Filter results
   const results = useMemo(() => {
@@ -77,7 +33,7 @@ const EpisodeSearch = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleSelect = (result: SearchResult) => {
+  const handleSelect = (result: { chapterId: string; videoId: string }) => {
     setQuery("");
     setIsOpen(false);
     navigate(`/watch/${result.chapterId}?v=${result.videoId}`);
