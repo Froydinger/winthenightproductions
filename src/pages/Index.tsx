@@ -76,6 +76,9 @@ const Index = () => {
         <div id="latest-videos">
           <WatchLatestSection />
         </div>
+        <div id="shorts">
+          <HomeShortsSection />
+        </div>
         <div id="community">
           <CommunitySection />
         </div>
