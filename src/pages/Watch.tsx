@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ShortsCarousel from "@/components/ShortsCarousel";
+import ShortsGrid from "@/components/ShortsGrid";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus } from "lucide-react";
