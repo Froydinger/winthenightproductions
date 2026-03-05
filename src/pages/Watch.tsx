@@ -32,54 +32,35 @@ const Watch = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
-  const [editorsPickVideoId, setEditorsPickVideoId] = useState("TXzfkLNW4e4"); // Default fallback
-  const [mainPlaylistId, setMainPlaylistId] = useState("PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD"); // Default fallback
+  const [editorsPickVideoId, setEditorsPickVideoId] = useState<string | null>(null);
+  const [mainPlaylistId, setMainPlaylistId] = useState<string | null>(null);
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    loadEditorsPick();
-    loadMainPlaylist();
+    loadSettings();
   }, []);
 
-  const loadEditorsPick = async () => {
+  const loadSettings = async () => {
     try {
       const { data, error } = await supabase
         .from("watch_settings")
-        .select("editors_pick_video_id")
+        .select("editors_pick_video_id, main_playlist_id")
         .eq("id", 1)
         .maybeSingle();
 
       if (error) {
-        console.error("Failed to load editor's pick:", error);
-        return;
+        console.error("Failed to load watch settings:", error);
       }
 
-      if (data?.editors_pick_video_id) {
-        setEditorsPickVideoId(data.editors_pick_video_id);
-      }
+      setEditorsPickVideoId(data?.editors_pick_video_id || "TXzfkLNW4e4");
+      setMainPlaylistId(data?.main_playlist_id || "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD");
     } catch (error) {
-      console.error("Failed to load editor's pick:", error);
-    }
-  };
-
-  const loadMainPlaylist = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("watch_settings")
-        .select("main_playlist_id")
-        .eq("id", 1)
-        .maybeSingle();
-
-      if (error) {
-        console.error("Failed to load main playlist:", error);
-        return;
-      }
-
-      if (data?.main_playlist_id) {
-        setMainPlaylistId(data.main_playlist_id);
-      }
-    } catch (error) {
-      console.error("Failed to load main playlist:", error);
+      console.error("Failed to load watch settings:", error);
+      setEditorsPickVideoId("TXzfkLNW4e4");
+      setMainPlaylistId("PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD");
+    } finally {
+      setSettingsLoaded(true);
     }
   };
 
@@ -103,6 +84,7 @@ const Watch = () => {
           <div className="max-w-7xl mx-auto">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
+              {settingsLoaded ? (
               <iframe
                 className="relative w-full h-full z-10"
                 src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
@@ -112,6 +94,11 @@ const Watch = () => {
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
+              ) : (
+                <div className="relative w-full h-full z-10 animate-pulse bg-muted/30 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-full bg-muted/40" />
+                </div>
+              )}
             </div>
 
             {/* Headline */}
@@ -189,6 +176,7 @@ const Watch = () => {
                 <div className="w-full group">
                   <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                     <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                    {settingsLoaded ? (
                     <iframe
                       className="relative w-full h-full z-10"
                       src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
@@ -198,6 +186,11 @@ const Watch = () => {
                       referrerPolicy="strict-origin-when-cross-origin"
                       allowFullScreen
                     />
+                    ) : (
+                      <div className="relative w-full h-full z-10 animate-pulse bg-muted/30 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-muted/40" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -212,6 +205,7 @@ const Watch = () => {
                 <div className="w-full group">
                   <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                     <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                    {settingsLoaded ? (
                     <iframe
                       className="relative w-full h-full z-10"
                       src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
@@ -221,6 +215,11 @@ const Watch = () => {
                       referrerPolicy="strict-origin-when-cross-origin"
                       allowFullScreen
                     />
+                    ) : (
+                      <div className="relative w-full h-full z-10 animate-pulse bg-muted/30 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-muted/40" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -249,6 +248,7 @@ const Watch = () => {
                   <div className="w-full group">
                     <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                       <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                      {settingsLoaded ? (
                       <iframe
                         className="relative w-full h-full z-10"
                         src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
@@ -258,6 +258,11 @@ const Watch = () => {
                         referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
                       />
+                      ) : (
+                        <div className="relative w-full h-full z-10 animate-pulse bg-muted/30 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-muted/40" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -272,6 +277,7 @@ const Watch = () => {
                   <div className="w-full group">
                     <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
                       <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                      {settingsLoaded ? (
                       <iframe
                         className="relative w-full h-full z-10"
                         src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
@@ -281,6 +287,11 @@ const Watch = () => {
                         referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
                       />
+                      ) : (
+                        <div className="relative w-full h-full z-10 animate-pulse bg-muted/30 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-muted/40" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
