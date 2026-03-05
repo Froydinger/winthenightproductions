@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ExternalLink, Play, 
 import { usePlaylistItems, type PlaylistItem } from "@/hooks/use-playlist-items";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const SHORTS_PLAYLIST_ID = "PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J";
+export const SHORTS_PLAYLIST_ID = "PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J";
 
 interface ShortsPlayerProps {
   shorts: PlaylistItem[];
@@ -14,12 +14,13 @@ interface ShortsPlayerProps {
   onChangeIndex: (index: number) => void;
 }
 
-/** TikTok-style vertical shorts player with swipe (mobile) and scroll (desktop) */
-const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsPlayerProps) => {
+/** TikTok-style vertical shorts player — glassy UI, YouTube controls enabled */
+export const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsPlayerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
   const touchDeltaY = useRef(0);
   const wheelTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const accumulatedDelta = useRef(0);
   const isTransitioning = useRef(false);
 
   const goNext = useCallback(() => {
@@ -38,7 +39,6 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
     }
   }, [selectedIndex, onChangeIndex]);
 
-  // Touch handlers for swipe up/down
   const onTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
     touchDeltaY.current = 0;
@@ -50,13 +50,12 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
 
   const onTouchEnd = useCallback(() => {
     const threshold = 50;
-    if (touchDeltaY.current > threshold) goNext();    // swipe up → next
-    else if (touchDeltaY.current < -threshold) goPrev(); // swipe down → prev
+    if (touchDeltaY.current > threshold) goNext();
+    else if (touchDeltaY.current < -threshold) goPrev();
     touchDeltaY.current = 0;
   }, [goNext, goPrev]);
 
-  // Desktop scroll wheel — use accumulated delta with debounce
-  const accumulatedDelta = useRef(0);
+  // Wheel handler for the container (catches scrolls on non-iframe areas)
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -79,7 +78,6 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
     };
   }, [goNext, goPrev]);
 
-  // Keyboard: ArrowUp/Down
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowDown" || e.key === "ArrowRight") goNext();
@@ -100,13 +98,13 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-3 py-2 bg-card/90 backdrop-blur-sm border-b border-border/30 shrink-0">
-        <p className="text-xs sm:text-sm text-foreground font-medium truncate flex-1 mr-2">
+      {/* Glassy top bar */}
+      <div className="flex items-center justify-between px-4 py-2.5 bg-black/40 backdrop-blur-xl border-b border-white/10 shrink-0">
+        <p className="text-xs sm:text-sm text-white/90 font-medium truncate flex-1 mr-2">
           {current.title}
         </p>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground" asChild>
+          <Button variant="ghost" size="icon" className="h-7 w-7 text-white/60 hover:text-white hover:bg-white/10" asChild>
             <a
               href={`https://www.youtube.com/shorts/${current.videoId}`}
               target="_blank"
@@ -116,13 +114,13 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </Button>
-          <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground" onClick={onClose}>
+          <Button variant="ghost" size="icon" className="h-7 w-7 text-white/60 hover:text-white hover:bg-white/10" onClick={onClose}>
             <X className="w-3.5 h-3.5" />
           </Button>
         </div>
       </div>
 
-      {/* Video area */}
+      {/* Video area — no overlay so YouTube like/share/controls are accessible */}
       <div className="relative flex-1 bg-black min-h-0">
         <iframe
           key={current.videoId}
@@ -133,31 +131,12 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
           allowFullScreen
         />
 
-        {/* Transparent overlay to capture scroll/swipe over iframe */}
-        <div
-          className="absolute inset-0 z-[5]"
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-          onWheel={(e) => {
-            e.stopPropagation();
-            accumulatedDelta.current += e.deltaY;
-            if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
-            wheelTimerRef.current = setTimeout(() => {
-              if (accumulatedDelta.current > 20) goNext();
-              else if (accumulatedDelta.current < -20) goPrev();
-              accumulatedDelta.current = 0;
-            }, 80);
-          }}
-          style={{ cursor: "grab" }}
-        />
-
-        {/* Vertical nav arrows (right side, like Shorts UI) */}
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
+        {/* Vertical nav arrows — right side */}
+        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
           {selectedIndex > 0 && (
             <button
               onClick={goPrev}
-              className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all"
+              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-all"
               aria-label="Previous short"
             >
               <ChevronUp className="w-5 h-5" />
@@ -166,7 +145,7 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
           {selectedIndex < shorts.length - 1 && (
             <button
               onClick={goNext}
-              className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all"
+              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-all"
               aria-label="Next short"
             >
               <ChevronDown className="w-5 h-5" />
@@ -174,27 +153,26 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
           )}
         </div>
 
-        {/* Swipe hint on mobile */}
+        {/* Mobile swipe hint */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 md:hidden pointer-events-none">
           <div className="flex flex-col items-center gap-0.5 animate-bounce">
-            <ChevronUp className="w-4 h-4 text-white/60" />
-            <span className="text-[10px] text-white/50 font-medium">Swipe</span>
+            <ChevronUp className="w-4 h-4 text-white/50" />
+            <span className="text-[10px] text-white/40 font-medium">Swipe</span>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar with counter + progress */}
-      <div className="px-3 py-2 bg-card/90 backdrop-blur-sm border-t border-border/30 shrink-0">
+      {/* Glassy bottom bar */}
+      <div className="px-4 py-2.5 bg-black/40 backdrop-blur-xl border-t border-white/10 shrink-0">
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-white/50">
             {selectedIndex + 1} / {shorts.length}
           </span>
-          <span className="text-[10px] text-muted-foreground hidden sm:block">
-            Scroll or swipe to browse
+          <span className="text-[10px] text-white/40 hidden sm:block">
+            Use arrows or swipe to browse
           </span>
         </div>
-        {/* Thin progress bar */}
-        <div className="mt-1.5 h-0.5 bg-border/30 rounded-full overflow-hidden">
+        <div className="mt-1.5 h-0.5 bg-white/10 rounded-full overflow-hidden">
           <div
             className="h-full bg-primary rounded-full transition-all duration-300"
             style={{ width: `${((selectedIndex + 1) / shorts.length) * 100}%` }}
@@ -204,6 +182,32 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
     </div>
   );
 };
+
+/** Thumbnail card used in both carousel and grid layouts */
+const ShortThumbnail = ({ short, onClick }: { short: PlaylistItem; onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="group relative aspect-[9/16] rounded-xl overflow-hidden bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary w-full"
+  >
+    <img
+      src={short.thumbnail}
+      alt={short.title}
+      className="absolute inset-0 w-full h-full object-cover"
+      loading="lazy"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="w-11 h-11 rounded-full bg-red-600/90 flex items-center justify-center group-hover:scale-110 group-hover:bg-red-600 transition-all shadow-lg">
+        <Play className="w-5 h-5 text-white fill-white ml-0.5" />
+      </div>
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 p-2.5">
+      <p className="text-[11px] sm:text-xs text-white font-medium line-clamp-2 drop-shadow-lg leading-tight">
+        {short.title}
+      </p>
+    </div>
+  </button>
+);
 
 const ShortsCarousel = () => {
   const { data: shorts, isLoading } = usePlaylistItems(SHORTS_PLAYLIST_ID);
@@ -242,7 +246,6 @@ const ShortsCarousel = () => {
 
   return (
     <div>
-      {/* Horizontal carousel of thumbnails */}
       <div className="relative group/carousel">
         {canScrollLeft && (
           <button
@@ -282,37 +285,16 @@ const ShortsCarousel = () => {
                 </div>
               ))
             : shorts?.map((short, idx) => (
-                <button
-                  key={short.videoId}
-                  data-short-card
-                  onClick={() => setSelectedIndex(idx)}
-                  className="flex-none w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] snap-start group relative aspect-[9/16] rounded-xl overflow-hidden bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                >
-                  <img
-                    src={short.thumbnail}
-                    alt={short.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-11 h-11 rounded-full bg-red-600/90 flex items-center justify-center group-hover:scale-110 group-hover:bg-red-600 transition-all shadow-lg">
-                      <Play className="w-5 h-5 text-white fill-white ml-0.5" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                    <p className="text-[11px] sm:text-xs text-white font-medium line-clamp-2 drop-shadow-lg leading-tight">
-                      {short.title}
-                    </p>
-                  </div>
-                </button>
+                <div key={short.videoId} data-short-card className="flex-none w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] snap-start">
+                  <ShortThumbnail short={short} onClick={() => setSelectedIndex(idx)} />
+                </div>
               ))}
         </div>
       </div>
 
-      {/* Vertical swipe/scroll player dialog */}
+      {/* Glassy player dialog */}
       <Dialog open={selectedIndex !== null} onOpenChange={(open) => !open && setSelectedIndex(null)}>
-        <DialogContent className="max-w-sm sm:max-w-[380px] p-0 gap-0 bg-black border-border/50 overflow-hidden [&>button]:hidden h-[85vh] max-h-[700px] flex flex-col">
+        <DialogContent className="max-w-sm sm:max-w-[380px] p-0 gap-0 bg-black/80 backdrop-blur-2xl border border-white/10 overflow-hidden [&>button]:hidden h-[85vh] max-h-[700px] flex flex-col rounded-2xl shadow-2xl shadow-black/60">
           {selectedIndex !== null && shorts && (
             <ShortsPlayer
               shorts={shorts}
