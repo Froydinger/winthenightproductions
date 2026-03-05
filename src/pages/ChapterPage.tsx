@@ -136,28 +136,18 @@ const ChapterPage = () => {
           </div>
         </div>
 
-        {/* Shorts Playlist Section - Only for Specials Page */}
+        {/* Shorts Carousel - Only for Specials Page */}
         {playlist.id === "specials" && (
-          <section className="relative pb-8 px-6 md:px-12 lg:px-24">
+          <section className="relative pb-10 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="h-8 w-1 bg-primary rounded-full"></div>
+              <div className="flex items-center gap-4 mb-2">
+                <div className="h-8 w-1 bg-red-500 rounded-full"></div>
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground">Shorts</h2>
               </div>
-              <p className="text-muted-foreground mb-6 max-w-3xl">
-                Quick clips and highlights from the show in vertical format.
+              <p className="text-muted-foreground mb-6 max-w-3xl text-sm md:text-base">
+                Quick clips and highlights from the show. Tap to watch.
               </p>
-              <div className="w-full max-w-md mx-auto aspect-[9/16] rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-ring/10 bg-card">
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/videoseries?list=PL4DJfmhGyz_5Fa4iQSpQuOTSH4XXCFL1J"
-                  title="Shorts Playlist"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              </div>
+              <ShortsCarousel />
             </div>
           </section>
         )}
