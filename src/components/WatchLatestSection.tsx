@@ -55,6 +55,7 @@ const WatchLatestSection = () => {
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
+            )}
           </div>
 
           <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-t border-border/40">
