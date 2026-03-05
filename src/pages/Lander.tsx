@@ -362,6 +362,9 @@ const Lander = () => {
           <div id="latest-videos" className="relative z-10">
             <WatchLatestSection />
           </div>
+          <div id="shorts" className="relative z-10">
+            <HomeShortsSection />
+          </div>
           <div id="community" className="relative z-10">
             <CommunitySection />
           </div>
