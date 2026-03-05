@@ -54,21 +54,28 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
     touchDeltaY.current = 0;
   }, [goNext, goPrev]);
 
-  // Desktop scroll wheel
+  // Desktop scroll wheel — use accumulated delta with debounce
+  const accumulatedDelta = useRef(0);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    let wheelTimeout: ReturnType<typeof setTimeout>;
+    let scrollTimer: ReturnType<typeof setTimeout>;
     const handler = (e: WheelEvent) => {
       e.preventDefault();
-      clearTimeout(wheelTimeout);
-      wheelTimeout = setTimeout(() => {
-        if (e.deltaY > 30) goNext();
-        else if (e.deltaY < -30) goPrev();
-      }, 50);
+      e.stopPropagation();
+      accumulatedDelta.current += e.deltaY;
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        if (accumulatedDelta.current > 20) goNext();
+        else if (accumulatedDelta.current < -20) goPrev();
+        accumulatedDelta.current = 0;
+      }, 80);
     };
     el.addEventListener("wheel", handler, { passive: false });
-    return () => el.removeEventListener("wheel", handler);
+    return () => {
+      el.removeEventListener("wheel", handler);
+      clearTimeout(scrollTimer);
+    };
   }, [goNext, goPrev]);
 
   // Keyboard: ArrowUp/Down
