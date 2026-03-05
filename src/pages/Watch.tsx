@@ -241,7 +241,7 @@ const Watch = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 xl:gap-12">
               {/* Left Column: Shorts - responsive sizing */}
               <div className="col-span-5 xl:col-span-4">
-                <ShortsCarousel />
+                <ShortsGrid />
               </div>
 
               {/* Right Column: Videos */}
