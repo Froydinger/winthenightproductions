@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import EpisodeCard from "@/components/EpisodeCard";
 import EpisodeGridSkeleton from "@/components/EpisodeGridSkeleton";
+import ShortsCarousel from "@/components/ShortsCarousel";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, List } from "lucide-react";
 import {
