@@ -7,6 +7,7 @@ import mountainsFront from "@/assets/lander/mountains-front.png";
 import Header from "@/components/Header";
 import FeaturesSection from "@/components/FeaturesSection";
 import WatchLatestSection from "@/components/WatchLatestSection";
+import HomeShortsSection from "@/components/HomeShortsSection";
 import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -360,6 +361,9 @@ const Lander = () => {
           </div>
           <div id="latest-videos" className="relative z-10">
             <WatchLatestSection />
+          </div>
+          <div id="shorts" className="relative z-10">
+            <HomeShortsSection />
           </div>
           <div id="community" className="relative z-10">
             <CommunitySection />
