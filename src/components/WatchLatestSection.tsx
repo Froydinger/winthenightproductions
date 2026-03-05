@@ -41,6 +41,11 @@ const WatchLatestSection = () => {
           </p>
 
           <div className="relative w-full aspect-video bg-black">
+            {!loaded ? (
+              <div className="w-full h-full animate-pulse bg-muted/30 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-muted/40" />
+              </div>
+            ) : (
             <iframe
               className="w-full h-full"
               src={`https://www.youtube.com/embed/videoseries?list=${playlistId}`}
