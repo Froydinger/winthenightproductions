@@ -160,7 +160,7 @@ const ChapterPage = () => {
               {playlist.id === "specials" && (
                 <div className="mb-8">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
+                    <div className="h-8 w-1 bg-primary rounded-full"></div>
                     <h2 className="text-2xl md:text-3xl font-bold text-foreground">Short Films & Specials</h2>
                   </div>
                   <p className="text-muted-foreground mb-6 max-w-3xl">
