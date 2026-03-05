@@ -132,6 +132,25 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
           allowFullScreen
         />
 
+        {/* Transparent overlay to capture scroll/swipe over iframe */}
+        <div
+          className="absolute inset-0 z-[5]"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          onWheel={(e) => {
+            e.stopPropagation();
+            accumulatedDelta.current += e.deltaY;
+            if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
+            wheelTimerRef.current = setTimeout(() => {
+              if (accumulatedDelta.current > 20) goNext();
+              else if (accumulatedDelta.current < -20) goPrev();
+              accumulatedDelta.current = 0;
+            }, 80);
+          }}
+          style={{ cursor: "grab" }}
+        />
+
         {/* Vertical nav arrows (right side, like Shorts UI) */}
         <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
           {selectedIndex > 0 && (
