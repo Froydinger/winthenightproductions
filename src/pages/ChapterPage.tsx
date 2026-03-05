@@ -53,9 +53,14 @@ const ChapterPage = () => {
     }
   }, [items, selectedVideoId]);
 
-  // Reset selected video when chapter changes
+  // Reset selected video when chapter changes (unless from search param)
   useEffect(() => {
-    setSelectedVideoId(null);
+    const videoFromUrl = searchParams.get("v");
+    setSelectedVideoId(videoFromUrl || null);
+    if (videoFromUrl) {
+      // Clear the query param after reading it
+      setSearchParams({}, { replace: true });
+    }
   }, [chapterId]);
 
   useEffect(() => {
