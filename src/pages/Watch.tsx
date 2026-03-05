@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import EpisodeSearch from "@/components/EpisodeSearch";
 
 interface Playlist {
   id: string;
