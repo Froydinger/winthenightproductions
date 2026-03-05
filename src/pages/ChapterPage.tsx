@@ -132,7 +132,7 @@ const ChapterPage = () => {
             </div>
 
             <p className="text-base text-muted-foreground max-w-3xl">
-              {playlist.description}
+              {playlist.id === "specials" ? "Fast moments from the show and special short films" : playlist.description}
             </p>
           </div>
         </div>
