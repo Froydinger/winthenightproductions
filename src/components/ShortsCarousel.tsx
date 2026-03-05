@@ -19,6 +19,7 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
   const touchDeltaY = useRef(0);
+  const wheelTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const isTransitioning = useRef(false);
 
   const goNext = useCallback(() => {
@@ -54,21 +55,28 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
     touchDeltaY.current = 0;
   }, [goNext, goPrev]);
 
-  // Desktop scroll wheel
+  // Desktop scroll wheel — use accumulated delta with debounce
+  const accumulatedDelta = useRef(0);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    let wheelTimeout: ReturnType<typeof setTimeout>;
+    let scrollTimer: ReturnType<typeof setTimeout>;
     const handler = (e: WheelEvent) => {
       e.preventDefault();
-      clearTimeout(wheelTimeout);
-      wheelTimeout = setTimeout(() => {
-        if (e.deltaY > 30) goNext();
-        else if (e.deltaY < -30) goPrev();
-      }, 50);
+      e.stopPropagation();
+      accumulatedDelta.current += e.deltaY;
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        if (accumulatedDelta.current > 20) goNext();
+        else if (accumulatedDelta.current < -20) goPrev();
+        accumulatedDelta.current = 0;
+      }, 80);
     };
     el.addEventListener("wheel", handler, { passive: false });
-    return () => el.removeEventListener("wheel", handler);
+    return () => {
+      el.removeEventListener("wheel", handler);
+      clearTimeout(scrollTimer);
+    };
   }, [goNext, goPrev]);
 
   // Keyboard: ArrowUp/Down
@@ -123,6 +131,25 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
           title={current.title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+        />
+
+        {/* Transparent overlay to capture scroll/swipe over iframe */}
+        <div
+          className="absolute inset-0 z-[5]"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          onWheel={(e) => {
+            e.stopPropagation();
+            accumulatedDelta.current += e.deltaY;
+            if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
+            wheelTimerRef.current = setTimeout(() => {
+              if (accumulatedDelta.current > 20) goNext();
+              else if (accumulatedDelta.current < -20) goPrev();
+              accumulatedDelta.current = 0;
+            }, 80);
+          }}
+          style={{ cursor: "grab" }}
         />
 
         {/* Vertical nav arrows (right side, like Shorts UI) */}
