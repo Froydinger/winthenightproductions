@@ -98,12 +98,32 @@ export const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: 
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Glassy top bar */}
+      {/* Glassy top bar with nav arrows */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-black/40 backdrop-blur-xl border-b border-white/10 shrink-0">
         <p className="text-xs sm:text-sm text-white/90 font-medium truncate flex-1 mr-2">
           {current.title}
         </p>
         <div className="flex items-center gap-1">
+          {/* Prev/Next arrows */}
+          <button
+            onClick={goPrev}
+            disabled={selectedIndex <= 0}
+            className="h-7 w-7 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all disabled:opacity-20 disabled:pointer-events-none"
+            aria-label="Previous short"
+          >
+            <ChevronUp className="w-4 h-4" />
+          </button>
+          <button
+            onClick={goNext}
+            disabled={selectedIndex >= shorts.length - 1}
+            className="h-7 w-7 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all disabled:opacity-20 disabled:pointer-events-none"
+            aria-label="Next short"
+          >
+            <ChevronDown className="w-4 h-4" />
+          </button>
+
+          <div className="w-px h-4 bg-white/10 mx-1" />
+
           <Button variant="ghost" size="icon" className="h-7 w-7 text-white/60 hover:text-white hover:bg-white/10" asChild>
             <a
               href={`https://www.youtube.com/shorts/${current.videoId}`}
@@ -120,46 +140,35 @@ export const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: 
         </div>
       </div>
 
-      {/* Video area — no overlay so YouTube like/share/controls are accessible */}
+      {/* Video area — clean, no YouTube UI */}
       <div className="relative flex-1 bg-black min-h-0">
         <iframe
           key={current.videoId}
-          src={`https://www.youtube.com/embed/${current.videoId}?autoplay=1&rel=0&modestbranding=1`}
+          src={`https://www.youtube.com/embed/${current.videoId}?autoplay=1&rel=0&modestbranding=1&controls=0&showinfo=0`}
           className="absolute inset-0 w-full h-full"
           title={current.title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
 
-        {/* Vertical nav arrows — right side */}
-        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
-          {selectedIndex > 0 && (
-            <button
-              onClick={goPrev}
-              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-all"
-              aria-label="Previous short"
-            >
-              <ChevronUp className="w-5 h-5" />
-            </button>
-          )}
-          {selectedIndex < shorts.length - 1 && (
-            <button
-              onClick={goNext}
-              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-all"
-              aria-label="Next short"
-            >
-              <ChevronDown className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-
-        {/* Mobile swipe hint */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 md:hidden pointer-events-none">
-          <div className="flex flex-col items-center gap-0.5 animate-bounce">
-            <ChevronUp className="w-4 h-4 text-white/50" />
-            <span className="text-[10px] text-white/40 font-medium">Swipe</span>
-          </div>
-        </div>
+        {/* Transparent overlay to capture scroll/swipe */}
+        <div
+          className="absolute inset-0 z-[5]"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          onWheel={(e) => {
+            e.stopPropagation();
+            accumulatedDelta.current += e.deltaY;
+            if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
+            wheelTimerRef.current = setTimeout(() => {
+              if (accumulatedDelta.current > 20) goNext();
+              else if (accumulatedDelta.current < -20) goPrev();
+              accumulatedDelta.current = 0;
+            }, 80);
+          }}
+          style={{ cursor: "ns-resize" }}
+        />
       </div>
 
       {/* Glassy bottom bar */}
