@@ -5,6 +5,7 @@ import FeaturesSection from "@/components/FeaturesSection";
 import CommunitySection from "@/components/CommunitySection";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import CTASection from "@/components/CTASection";
+import HomeShortsSection from "@/components/HomeShortsSection";
 import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState, useEffect } from "react";
