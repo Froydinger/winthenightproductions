@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ShortsCarousel from "@/components/ShortsCarousel";
+import ShortsGrid from "@/components/ShortsGrid";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus } from "lucide-react";
@@ -166,7 +166,9 @@ const Watch = () => {
         <div className="lg:hidden">
           {/* Shorts Section */}
           <section className="relative py-16 px-6 md:px-12 overflow-hidden">
-            <ShortsCarousel />
+            <div className="max-w-7xl mx-auto">
+              <ShortsGrid />
+            </div>
           </section>
 
           {/* Video Content Grid - Mobile */}
@@ -239,7 +241,7 @@ const Watch = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 xl:gap-12">
               {/* Left Column: Shorts - responsive sizing */}
               <div className="col-span-5 xl:col-span-4">
-                <ShortsCarousel />
+                <ShortsGrid />
               </div>
 
               {/* Right Column: Videos */}
