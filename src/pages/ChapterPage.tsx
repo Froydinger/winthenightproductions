@@ -37,8 +37,11 @@ const playlists: Playlist[] = [
 const ChapterPage = () => {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [chaptersDialogOpen, setChaptersDialogOpen] = useState(false);
-  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(
+    searchParams.get("v") || null
+  );
 
   const playlist = playlists.find(p => p.id === chapterId);
   const { data: items, isLoading, error } = usePlaylistItems(playlist?.playlistId);

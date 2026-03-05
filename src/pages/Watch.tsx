@@ -139,6 +139,11 @@ const Watch = () => {
           <div className="max-w-6xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-foreground mb-8">Pick a Chapter</h2>
 
+            {/* Episode Search */}
+            <div className="mb-8">
+              <EpisodeSearch />
+            </div>
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {playlists.map((playlist) => (
                 <button
