@@ -144,7 +144,7 @@ const Watch = () => {
                   key={playlist.id}
                   onClick={() => navigate(`/watch/${playlist.id}`)}
                   className={`block px-4 py-4 rounded-xl border transition-all duration-300 font-bold ${
-                    playlist.id === "specials"
+                    playlist.id === "chapter-8" || playlist.id === "specials"
                       ? "bg-gradient-to-r from-card to-card/80 border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground"
                       : "bg-card border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground"
                   }`}
