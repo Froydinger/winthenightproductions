@@ -5,9 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 
 const WatchLatestSection = () => {
   const navigate = useNavigate();
-  const [playlistId, setPlaylistId] = useState("PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS");
-  const [buttonText, setButtonText] = useState("Jump straight to Chapter 8");
-  const [buttonLink, setButtonLink] = useState("/watch/chapter-8");
+  const [playlistId, setPlaylistId] = useState<string | null>(null);
+  const [buttonText, setButtonText] = useState<string | null>(null);
+  const [buttonLink, setButtonLink] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -17,11 +18,10 @@ const WatchLatestSection = () => {
         .eq("id", 1)
         .maybeSingle();
 
-      if (data) {
-        if (data.watch_latest_playlist_id) setPlaylistId(data.watch_latest_playlist_id);
-        if (data.watch_latest_button_text) setButtonText(data.watch_latest_button_text);
-        if (data.watch_latest_button_link) setButtonLink(data.watch_latest_button_link);
-      }
+      setPlaylistId(data?.watch_latest_playlist_id || "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS");
+      setButtonText(data?.watch_latest_button_text || "Jump straight to Chapter 8");
+      setButtonLink(data?.watch_latest_button_link || "/watch/chapter-8");
+      setLoaded(true);
     };
     load();
   }, []);
