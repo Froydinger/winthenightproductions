@@ -84,6 +84,7 @@ const Watch = () => {
           <div className="max-w-7xl mx-auto">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
+              {settingsLoaded ? (
               <iframe
                 className="relative w-full h-full z-10"
                 src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
@@ -93,6 +94,11 @@ const Watch = () => {
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
+              ) : (
+                <div className="relative w-full h-full z-10 animate-pulse bg-muted/30 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-full bg-muted/40" />
+                </div>
+              )}
             </div>
 
             {/* Headline */}
