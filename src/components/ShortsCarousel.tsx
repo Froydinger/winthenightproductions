@@ -19,6 +19,7 @@ const ShortsPlayer = ({ shorts, selectedIndex, onClose, onChangeIndex }: ShortsP
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
   const touchDeltaY = useRef(0);
+  const wheelTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const isTransitioning = useRef(false);
 
   const goNext = useCallback(() => {
