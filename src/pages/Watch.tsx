@@ -24,7 +24,7 @@ const playlists: Playlist[] = [
   { id: "chapter-3", name: "Chapter 3", playlistId: "PL4DJfmhGyz_4kp9L0keEVTziGX6dLCMVS" },
   { id: "chapter-2", name: "Chapter 2", playlistId: "PL4DJfmhGyz_5PVexZjnazTh1huwtGb5XX" },
   { id: "chapter-1", name: "Chapter 1", playlistId: "PL4DJfmhGyz_4Te-D3I9Vgn9N5HgaxKxyl" },
-  { id: "specials", name: "Shorts & Short Films", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
+  { id: "specials", name: "Shorts & Specials", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
 ];
 
 const Watch = () => {
@@ -144,7 +144,7 @@ const Watch = () => {
                   key={playlist.id}
                   onClick={() => navigate(`/watch/${playlist.id}`)}
                   className={`block px-4 py-4 rounded-xl border transition-all duration-300 font-bold ${
-                    playlist.id === "specials"
+                    playlist.id === "chapter-8" || playlist.id === "specials"
                       ? "bg-gradient-to-r from-card to-card/80 border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground"
                       : "bg-card border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground"
                   }`}
