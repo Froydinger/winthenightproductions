@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -37,8 +37,11 @@ const playlists: Playlist[] = [
 const ChapterPage = () => {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [chaptersDialogOpen, setChaptersDialogOpen] = useState(false);
-  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(
+    searchParams.get("v") || null
+  );
 
   const playlist = playlists.find(p => p.id === chapterId);
   const { data: items, isLoading, error } = usePlaylistItems(playlist?.playlistId);
@@ -50,9 +53,14 @@ const ChapterPage = () => {
     }
   }, [items, selectedVideoId]);
 
-  // Reset selected video when chapter changes
+  // Reset selected video when chapter changes (unless from search param)
   useEffect(() => {
-    setSelectedVideoId(null);
+    const videoFromUrl = searchParams.get("v");
+    setSelectedVideoId(videoFromUrl || null);
+    if (videoFromUrl) {
+      // Clear the query param after reading it
+      setSearchParams({}, { replace: true });
+    }
   }, [chapterId]);
 
   useEffect(() => {
