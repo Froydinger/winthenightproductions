@@ -8,7 +8,7 @@ const CTASection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   // Featured videos to showcase
-  const featuredVideos = [{ id: "-Cx1WhiVbPE", title: "Featured Episode" }];
+  const featuredVideos = [{ id: "765UBZfeylw", title: "Featured Episode" }];
 
   return (
     <>
