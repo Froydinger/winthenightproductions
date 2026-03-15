@@ -160,7 +160,7 @@ External Links:
 - [YouTube](https://youtube.com/@WinTheNightProductions)
 - [Instagram](https://instagram.com/winthenightproductions)
 - [Substack](https://winthenight.substack.com)
-- [Buy Me a Coffee](https://buymeacoffee.com/winthenight)
+- [Support Us](https://winthenight.org/support) — Donate or subscribe to support the show
 
 Current: Chapter 8 is the latest chapter of Win The Night.
 
