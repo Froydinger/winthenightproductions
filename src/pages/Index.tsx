@@ -70,9 +70,6 @@ const Index = () => {
         <div id="hero">
           <HeroSection />
         </div>
-        <div id="features" className="scroll-mt-8">
-          <FeaturesSection />
-        </div>
         <div id="latest-videos">
           <WatchLatestSection />
         </div>
@@ -81,6 +78,9 @@ const Index = () => {
         </div>
         <div id="community">
           <CommunitySection />
+        </div>
+        <div id="features" className="scroll-mt-8">
+          <FeaturesSection />
         </div>
         <div id="cta">
           <CTASection />

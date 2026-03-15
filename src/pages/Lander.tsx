@@ -356,9 +356,6 @@ const Lander = () => {
           {/* Invisible buffer spacer - gives user time to scroll before content appears */}
           <div className="h-32 sm:h-48" />
 
-          <div id="features" className="scroll-mt-8 relative z-10">
-            <FeaturesSection />
-          </div>
           <div id="latest-videos" className="relative z-10">
             <WatchLatestSection />
           </div>
@@ -367,6 +364,9 @@ const Lander = () => {
           </div>
           <div id="community" className="relative z-10">
             <CommunitySection />
+          </div>
+          <div id="features" className="scroll-mt-8 relative z-10">
+            <FeaturesSection />
           </div>
           <div id="cta" className="relative z-10">
             <CTASection />
