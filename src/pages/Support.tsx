@@ -77,7 +77,7 @@ const Support = () => {
                   className="bg-neon-blue hover:bg-neon-blue/90 text-black font-bold text-base px-10 py-6 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105"
                 >
                   <Heart className="w-5 h-5 mr-2" />
-                  Support the Show
+                  Support Our Community
                 </Button>
                 <p className="text-xs text-muted-foreground/60">Donate once or subscribe from $3/mo · Secure checkout via Stripe</p>
               </div>
