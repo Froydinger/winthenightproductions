@@ -126,6 +126,48 @@ export type Database = {
         }
         Relationships: []
       }
+      supporters: {
+        Row: {
+          amount_cents: number
+          cancelled_at: string | null
+          created_at: string
+          display_name: string
+          id: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string | null
+          tier: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents?: number
+          cancelled_at?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          status?: string
+          stripe_customer_id: string
+          stripe_subscription_id?: string | null
+          tier?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          cancelled_at?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          status?: string
+          stripe_customer_id?: string
+          stripe_subscription_id?: string | null
+          tier?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       system_settings: {
         Row: {
           id: string
