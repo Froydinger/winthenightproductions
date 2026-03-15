@@ -1,46 +1,139 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Coffee, Heart, Zap, Mic, Users } from "lucide-react";
+import { Heart, Zap, Mic, Users, Star, DollarSign, Crown, Loader2 } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SupportModal } from "@/components/SupportModal";
 import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Support = () => {
   const [showSupportModal, setShowSupportModal] = useState(false);
+  const [proSupporters, setProSupporters] = useState<string[]>([]);
+  const [loadingSupporters, setLoadingSupporters] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchProSupporters();
   }, []);
+
+  const fetchProSupporters = async () => {
+    try {
+      const { data } = await supabase
+        .from("supporters")
+        .select("display_name")
+        .eq("tier", "pro")
+        .eq("status", "active")
+        .order("created_at", { ascending: true });
+      
+      setProSupporters(data?.map(s => s.display_name) || []);
+    } catch (err) {
+      console.error("Failed to fetch supporters:", err);
+    } finally {
+      setLoadingSupporters(false);
+    }
+  };
 
   return (
     <main className="min-h-screen relative">
-      {/* Global Animated Background */}
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>
-
-      {/* Sticky Header */}
       <Header />
 
-      {/* Content */}
       <div className="relative z-10">
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="relative py-20 px-4">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center space-y-6 animate-fade-in">
               <div className="flex justify-center gap-3 mb-4">
                 <div className="p-4 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
-                  <Coffee className="w-12 h-12 text-neon-blue" />
+                  <Heart className="w-12 h-12 text-neon-blue" />
                 </div>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
                 Support <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">Win The Night</span>
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Love what we're doing? Help us keep the conversation going and support the show with a coffee!
+                Love what we're doing? Help us keep the conversation going — every contribution makes a difference.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Tiers */}
+        <section className="relative pb-16 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* One-Time */}
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 bg-neon-blue/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                      <DollarSign className="w-8 h-8 text-neon-blue" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-foreground text-lg group-hover:text-neon-blue transition-colors">One-Time Donation</h3>
+                  <p className="text-sm text-muted-foreground">Choose any amount. Every bit helps us grow.</p>
+                  <Button
+                    onClick={() => setShowSupportModal(true)}
+                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon transition-all duration-300 hover:scale-105"
+                  >
+                    Donate
+                  </Button>
+                </div>
+              </Card>
+
+              {/* $3/mo */}
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 bg-neon-blue/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                      <Heart className="w-8 h-8 text-neon-blue" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-foreground text-lg group-hover:text-neon-blue transition-colors">Supporter</h3>
+                  <p className="text-2xl font-bold text-neon-blue">$3<span className="text-sm text-muted-foreground font-normal">/month</span></p>
+                  <p className="text-sm text-muted-foreground">Support the show — we're truly grateful for your help.</p>
+                  <Button
+                    onClick={() => setShowSupportModal(true)}
+                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon transition-all duration-300 hover:scale-105"
+                  >
+                    Subscribe
+                  </Button>
+                </div>
+              </Card>
+
+              {/* $10/mo */}
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-8 hover:border-neon-blue/70 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+                <div className="absolute top-3 right-3 bg-neon-blue text-black text-xs font-bold px-2 py-1 rounded-full">
+                  BEST VALUE
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 bg-neon-blue/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                      <Star className="w-8 h-8 text-neon-blue" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-foreground text-lg group-hover:text-neon-blue transition-colors">Pro Supporter</h3>
+                  <p className="text-2xl font-bold text-neon-blue">$10<span className="text-sm text-muted-foreground font-normal">/month</span></p>
+                  <ul className="text-sm text-muted-foreground space-y-1 text-left">
+                    <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-neon-blue flex-shrink-0" /> ArcAi Pro access</li>
+                    <li className="flex items-center gap-2"><Crown className="w-3.5 h-3.5 text-neon-blue flex-shrink-0" /> Shout-out on our site</li>
+                    <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-neon-blue flex-shrink-0" /> More perks coming soon</li>
+                  </ul>
+                  <Button
+                    onClick={() => setShowSupportModal(true)}
+                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105"
+                  >
+                    Go Pro
+                  </Button>
+                </div>
+              </Card>
             </div>
           </div>
         </section>
@@ -54,7 +147,6 @@ const Support = () => {
                 Every contribution helps us grow and create better content for the community.
               </p>
             </div>
-
             <div className="grid md:grid-cols-3 gap-6">
               <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -68,7 +160,6 @@ const Support = () => {
                   <p className="text-sm text-muted-foreground">Invest in better video and audio equipment for top-quality production</p>
                 </div>
               </Card>
-
               <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 text-center space-y-4">
@@ -81,7 +172,6 @@ const Support = () => {
                   <p className="text-sm text-muted-foreground">Bring on experts and advocates in mental health</p>
                 </div>
               </Card>
-
               <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 text-center space-y-4">
@@ -98,50 +188,65 @@ const Support = () => {
           </div>
         </section>
 
-        {/* Buy Me a Coffee CTA */}
+        {/* Pro Supporters Wall */}
         <section className="relative pb-16 px-4">
           <div className="container mx-auto max-w-4xl">
-            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/40 p-6 sm:p-12 hover:border-neon-blue/70 transition-all duration-500 hover:shadow-neon">
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10 text-center space-y-6 sm:space-y-8">
+            <Card className="bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8">
+              <div className="text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="p-4 sm:p-6 rounded-full bg-neon-blue/10 border-2 border-neon-blue/30">
-                    <Coffee className="w-12 h-12 sm:w-16 sm:h-16 text-neon-blue" />
+                  <div className="p-3 rounded-full bg-neon-blue/10 border border-neon-blue/30">
+                    <Crown className="w-8 h-8 text-neon-blue" />
                   </div>
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Buy Us a Coffee</h2>
-                <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed px-2">
-                  Every contribution helps us continue creating meaningful content and supporting mental health conversations
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Our Pro Supporters</h2>
+                <p className="text-sm text-muted-foreground">
+                  These amazing people help make Win The Night possible
                 </p>
-                <div className="pt-2 sm:pt-4">
-                  <Button
-                    onClick={() => setShowSupportModal(true)}
-                    size="lg"
-                    className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-base sm:text-lg px-6 sm:px-12 py-5 sm:py-6 h-auto w-full sm:w-auto"
-                  >
-                    <Heart className="w-5 h-5 flex-shrink-0" />
-                    <span>Support Win The Night</span>
-                  </Button>
-                </div>
+                {loadingSupporters ? (
+                  <div className="flex justify-center py-6">
+                    <Loader2 className="w-6 h-6 animate-spin text-neon-blue" />
+                  </div>
+                ) : proSupporters.length > 0 ? (
+                  <div className="flex flex-wrap justify-center gap-3 pt-4">
+                    {proSupporters.map((name, i) => (
+                      <span
+                        key={i}
+                        className="px-4 py-2 rounded-full border border-neon-blue/30 bg-neon-blue/10 text-neon-blue font-medium text-sm"
+                      >
+                        {name}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-6 space-y-2">
+                    <p className="text-muted-foreground/60 italic">No pro supporters yet — be the first!</p>
+                    <Button
+                      onClick={() => setShowSupportModal(true)}
+                      variant="outline"
+                      className="border-neon-blue/30 text-neon-blue hover:bg-neon-blue/10"
+                    >
+                      <Star className="w-4 h-4 mr-2" />
+                      Become a Pro Supporter
+                    </Button>
+                  </div>
+                )}
               </div>
             </Card>
           </div>
         </section>
 
-        {/* Thank You Note */}
+        {/* Thank You */}
         <section className="relative pb-20 px-4">
           <div className="container mx-auto max-w-4xl">
             <p className="text-center text-lg text-muted-foreground">
-              <Heart className="inline w-5 h-5 text-neon-blue" /> Thank you for being part of the Win The Night community! Your support means everything to us.
+              <Heart className="inline w-5 h-5 text-neon-blue" /> Thank you for being part of the Win The Night community! Your support means everything.
             </p>
           </div>
         </section>
 
-        {/* Footer */}
         <Footer />
       </div>
 
-      {/* Support Modal */}
       <SupportModal
         open={showSupportModal}
         onClose={() => setShowSupportModal(false)}
