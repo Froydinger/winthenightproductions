@@ -10,6 +10,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 const Support = () => {
   const [showSupportModal, setShowSupportModal] = useState(false);
+  const [defaultTier, setDefaultTier] = useState<string | undefined>(undefined);
+
+  const openModal = (tier?: string) => {
+    setDefaultTier(tier);
+    setShowSupportModal(true);
+  };
   const [proSupporters, setProSupporters] = useState<string[]>([]);
   const [loadingSupporters, setLoadingSupporters] = useState(true);
 
@@ -71,14 +77,25 @@ const Support = () => {
                 <p className="text-muted-foreground text-base leading-relaxed max-w-md mx-auto">
                   Pick a one-time amount or grab a monthly plan — everything's inside.
                 </p>
-                <Button
-                  onClick={() => setShowSupportModal(true)}
-                  size="lg"
-                  className="bg-neon-blue hover:bg-neon-blue/90 text-black font-bold text-base px-10 py-6 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105"
-                >
-                  <Heart className="w-5 h-5 mr-2" />
-                  Support Our Community
-                </Button>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <Button
+                    onClick={() => openModal()}
+                    size="lg"
+                    className="bg-neon-blue hover:bg-neon-blue/90 text-black font-bold text-base px-10 py-6 shadow-neon hover:shadow-[0_0_40px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105"
+                  >
+                    <Heart className="w-5 h-5 mr-2" />
+                    Support Our Community
+                  </Button>
+                  <Button
+                    onClick={() => openModal("pro")}
+                    size="lg"
+                    variant="outline"
+                    className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue/70 font-semibold text-base px-8 py-6 transition-all duration-300 hover:scale-105"
+                  >
+                    <Star className="w-5 h-5 mr-2" />
+                    Go Pro
+                  </Button>
+                </div>
                 <p className="text-xs text-muted-foreground/60">Donate once or subscribe from $3/mo · Secure checkout via Stripe</p>
               </div>
             </Card>
@@ -198,6 +215,7 @@ const Support = () => {
         open={showSupportModal}
         onClose={() => setShowSupportModal(false)}
         placement="support_page"
+        defaultTier={defaultTier}
       />
     </main>
   );

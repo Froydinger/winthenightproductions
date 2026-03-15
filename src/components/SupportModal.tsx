@@ -8,6 +8,7 @@ type Props = {
   open: boolean;
   onClose: () => void;
   placement?: string;
+  defaultTier?: string;
 };
 
 const tiers = [
@@ -40,10 +41,15 @@ const tiers = [
 
 const PRESET_AMOUNTS = [3, 5, 10, 25];
 
-export const SupportModal: React.FC<Props> = ({ open, onClose }) => {
+export const SupportModal: React.FC<Props> = ({ open, onClose, defaultTier }) => {
   const [loading, setLoading] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
+  const [highlightedTier, setHighlightedTier] = useState<string | undefined>(defaultTier);
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    if (open) setHighlightedTier(defaultTier);
+  }, [open, defaultTier]);
 
   const handleCheckout = async (tier: typeof tiers[number]) => {
     setLoading(tier.id);
@@ -117,7 +123,11 @@ export const SupportModal: React.FC<Props> = ({ open, onClose }) => {
                     key={tier.id}
                     onClick={() => handleCheckout(tier)}
                     disabled={loading !== null}
-                    className="w-full flex items-center gap-4 p-4 rounded-xl border border-neon-blue/20 bg-card/60 hover:bg-neon-blue/10 hover:border-neon-blue/50 transition-all duration-300 text-left group disabled:opacity-50"
+                    className={`w-full flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 text-left group disabled:opacity-50 ${
+                      highlightedTier === tier.id
+                        ? "border-neon-blue/70 bg-neon-blue/15 ring-2 ring-neon-blue/30"
+                        : "border-neon-blue/20 bg-card/60 hover:bg-neon-blue/10 hover:border-neon-blue/50"
+                    }`}
                   >
                     <div className="w-10 h-10 rounded-lg bg-neon-blue/20 flex items-center justify-center border border-neon-blue/30 group-hover:scale-110 transition-transform flex-shrink-0">
                       <Icon className="w-5 h-5 text-neon-blue" />
