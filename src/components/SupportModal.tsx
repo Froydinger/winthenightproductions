@@ -31,7 +31,7 @@ const tiers = [
     id: "pro",
     label: "Pro Supporter",
     price: "$10/mo",
-    description: "ArcAi Pro access + shout-out on our site. More perks coming!",
+    description: "ArcAi™ Pro + Arcana™ Notes Pro access, site shout-out & more perks coming. Normally $12 — great deal!",
     icon: Star,
     priceId: "price_1TB5D3AB32948AKDJTYd74X4",
     mode: "subscription" as const,
