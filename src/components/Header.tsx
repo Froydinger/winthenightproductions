@@ -139,6 +139,22 @@ const Header = () => {
           />
         </a>
 
+        {/* Mobile Nav Links */}
+        <nav className="flex md:hidden items-center gap-1 mr-auto ml-4">
+          {[
+            { label: "Watch", href: "/watch" },
+            { label: "Support Us", href: "/support" },
+          ].map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-1 mr-auto ml-6">
           {[
