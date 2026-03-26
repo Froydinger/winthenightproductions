@@ -20,14 +20,10 @@ const Support = () => {
 
   const fetchProSupporters = async () => {
     try {
-      const { data } = await supabase
-        .from("supporters")
-        .select("display_name")
-        .eq("tier", "pro")
-        .eq("status", "active")
-        .order("created_at", { ascending: true });
-      
-      setProSupporters(data?.map(s => s.display_name) || []);
+      const { data, error } = await supabase.functions.invoke("list-pro-supporters");
+      if (error) throw error;
+      const names = (data?.supporters || []).map((s: { name: string }) => s.name);
+      setProSupporters(names);
     } catch (err) {
       console.error("Failed to fetch supporters:", err);
     } finally {
