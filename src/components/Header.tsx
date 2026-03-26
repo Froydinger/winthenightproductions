@@ -151,6 +151,25 @@ const Header = () => {
           />
         </a>
 
+        {/* Desktop Nav Links */}
+        <nav className="hidden md:flex items-center gap-1 mr-auto ml-6">
+          {[
+            { label: "Blog", href: "/blog" },
+            { label: "Watch", href: "/watch" },
+            { label: "Listen", href: "/listen" },
+            { label: "Community", href: "/updates" },
+            { label: "Support Us", href: "/support" },
+          ].map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="px-3 py-1.5 text-sm font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
         {/* Hamburger Menu */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
