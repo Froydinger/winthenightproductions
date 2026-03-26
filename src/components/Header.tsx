@@ -140,7 +140,7 @@ const Header = () => {
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className={`hidden md:flex items-center gap-1 mr-auto ml-6 transition-all duration-500 ${logoVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}>
+        <nav className="hidden md:flex items-center gap-1 mr-auto ml-6">
           {[
             { label: "Blog", href: "/blog" },
             { label: "Watch", href: "/watch" },
