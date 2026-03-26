@@ -38,20 +38,8 @@ const Header = () => {
   const { isPlaying } = useAudio();
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Show logo after scrolling down 200px (only on home page)
-      if (isHomePage) {
-        setLogoVisible(window.scrollY > 200);
-      }
-    };
-
-    // On non-home pages, always show logo
-    if (!isHomePage) {
-      setLogoVisible(true);
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Always show logo on all pages
+    setLogoVisible(true);
   }, [isHomePage]);
 
   useEffect(() => {
@@ -152,7 +140,7 @@ const Header = () => {
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className={`hidden md:flex items-center gap-1 mr-auto ml-6 transition-all duration-500 ${logoVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}>
+        <nav className="hidden md:flex items-center gap-1 mr-auto ml-6">
           {[
             { label: "Blog", href: "/blog" },
             { label: "Watch", href: "/watch" },
