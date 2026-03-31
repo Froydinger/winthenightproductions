@@ -137,7 +137,7 @@ serve(async (req) => {
 
     // Append site context
     siteContext = `\n\n--- LIVE SITE CONTEXT (winthenight.org) ---
-Win The Night is a mental health podcast, YouTube show, and community founded by Marine Corps Veteran Josh Lopez (he/him) and Producer Jake Freudinger (they/them).
+Win The Night is a mental health podcast, YouTube show, and community founded by Marine Corps Veteran Josh Lopez (also Hosts Podcast and Created WTN before Jake joined in year 1) and Producer Jake Freudinger (they/them).
 Website: https://winthenight.org
 
 Pages (ALWAYS link these when mentioning):
