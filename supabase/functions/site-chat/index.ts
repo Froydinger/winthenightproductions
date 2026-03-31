@@ -6,11 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-async function fetchWithRetry(
-  url: string,
-  options: RequestInit,
-  maxRetries = 2
-): Promise<Response> {
+async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 2): Promise<Response> {
   let lastError: Error | null = null;
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -25,7 +21,7 @@ async function fetchWithRetry(
         if (attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 1000;
           console.log(`⚠️ AI call failed with ${response.status}, retrying in ${delay}ms`);
-          await new Promise(r => setTimeout(r, delay));
+          await new Promise((r) => setTimeout(r, delay));
           continue;
         }
       }
@@ -35,7 +31,7 @@ async function fetchWithRetry(
       lastError = error as Error;
       if (attempt < maxRetries) {
         const delay = Math.pow(2, attempt) * 1000;
-        await new Promise(r => setTimeout(r, delay));
+        await new Promise((r) => setTimeout(r, delay));
         continue;
       }
     }
@@ -93,31 +89,31 @@ serve(async (req) => {
     }
 
     if (!messages || !Array.isArray(messages)) {
-      return new Response(
-        JSON.stringify({ error: "Messages must be an array" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Messages must be an array" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     if (messages.length > 50) {
-      return new Response(
-        JSON.stringify({ error: "Too many messages (max 50)" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Too many messages (max 50)" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     for (const msg of messages) {
       if (!msg.role || !msg.content) {
-        return new Response(
-          JSON.stringify({ error: "Invalid message format" }),
-          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+        return new Response(JSON.stringify({ error: "Invalid message format" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
       if (typeof msg.content === "string" && msg.content.length > 10000) {
-        return new Response(
-          JSON.stringify({ error: "Message content too long (max 10000 characters)" }),
-          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+        return new Response(JSON.stringify({ error: "Message content too long (max 10000 characters)" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
     }
 
@@ -141,7 +137,7 @@ serve(async (req) => {
 
     // Append site context
     siteContext = `\n\n--- LIVE SITE CONTEXT (winthenight.org) ---
-Win The Night is a mental health podcast, YouTube show, and community founded by Jake Freudinger (they/them).
+Win The Night is a mental health podcast, YouTube show, and community founded by Marine Corps Veteran Josh Lopez (he/him) and Producer Jake Freudinger (they/them).
 Website: https://winthenight.org
 
 Pages (ALWAYS link these when mentioning):
@@ -173,44 +169,38 @@ Remember: EVERY page, project, or external resource you mention MUST be a markdo
       systemPromptLength: fullSystemPrompt.length,
     });
 
-    const response = await fetchWithRetry(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
-          messages: [
-            { role: "system", content: fullSystemPrompt },
-            ...messages,
-          ],
-          stream: true,
-        }),
-      }
-    );
+    const response = await fetchWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [{ role: "system", content: fullSystemPrompt }, ...messages],
+        stream: true,
+      }),
+    });
 
     if (!response.ok) {
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: "I'm getting a lot of questions right now — try again in a moment!" }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
       if (response.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "Arc is taking a break — check back soon." }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+        return new Response(JSON.stringify({ error: "Arc is taking a break — check back soon." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
       const t = await response.text();
       console.error("AI gateway error:", response.status, t);
-      return new Response(
-        JSON.stringify({ error: "Something went wrong on my end — try again?" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Something went wrong on my end — try again?" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     return new Response(response.body, {
@@ -218,9 +208,9 @@ Remember: EVERY page, project, or external resource you mention MUST be a markdo
     });
   } catch (e) {
     console.error("site-chat error:", e);
-    return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });
