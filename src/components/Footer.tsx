@@ -172,9 +172,7 @@ const Footer = () => {
         <div className="pt-8 border-t border-border/30 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>
             ©{currentYear} Win The Night Productions™ •{" "}
-          <p className="text-foreground/90 text-sm font-mono">
-            <a href="https://froydinger.design">Powered by FDS™</a>
-          </p>
+          <p className="text-foreground/90 text-sm font-mono"><a href="https://froydinger.design">Powered by FDS™</a></p>
           <p className="text-xs">
             A mental health community built on real conversations
           </p>
