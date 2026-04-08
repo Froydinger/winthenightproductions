@@ -194,7 +194,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="hover:text-neon-blue transition-colors duration-300"
             >
-              FDS™
+              Powered by FDS™
             </a>
           </p>
           <p className="text-xs">A mental health community built on real conversations</p>
