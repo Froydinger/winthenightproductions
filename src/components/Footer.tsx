@@ -1,4 +1,19 @@
-import { Youtube, ExternalLink, Instagram, Facebook, Heart, BookOpen, Radio, Play, Mic, Info, LifeBuoy, Mail, Coffee, Scale } from "lucide-react";
+import {
+  Youtube,
+  ExternalLink,
+  Instagram,
+  Facebook,
+  Heart,
+  BookOpen,
+  Radio,
+  Play,
+  Mic,
+  Info,
+  LifeBuoy,
+  Mail,
+  Coffee,
+  Scale,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/win-the-night-logo.webp";
 import { ContactDialog } from "@/components/ContactDialog";
@@ -23,7 +38,8 @@ const Footer = () => {
               decoding="async"
             />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs font-thin">
-              One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span> One <span className="font-bold">Conversation</span> at a Time.
+              One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span> One{" "}
+              <span className="font-bold">Conversation</span> at a Time.
             </p>
           </div>
 
@@ -137,12 +153,12 @@ const Footer = () => {
                   className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-background/80 border-2 border-border/30 text-foreground hover:border-foreground/60 hover:bg-foreground/10 transition-all duration-300 hover:scale-110 group"
                   aria-label="Follow us on TikTok"
                 >
-                  <svg 
-                    className="w-6 h-6 group-hover:rotate-12 transition-transform" 
-                    viewBox="0 0 24 24" 
+                  <svg
+                    className="w-6 h-6 group-hover:rotate-12 transition-transform"
+                    viewBox="0 0 24 24"
                     fill="currentColor"
                   >
-                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
                   </svg>
                 </a>
                 <a
@@ -171,19 +187,17 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/30 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>
-            ©{currentYear} Win The Night Productions™ •{" "}
+            ©{currentYear} Win The Night™ Productions •{" "}
             <a
-              href="https://froydinger.link/"
+              href="https://froydinger.design/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-neon-blue transition-colors duration-300"
             >
-              Froydinger Media™
+              FDS™
             </a>
           </p>
-          <p className="text-xs">
-            A mental health community built on real conversations
-          </p>
+          <p className="text-xs">A mental health community built on real conversations</p>
         </div>
       </div>
       <ContactDialog open={contactOpen} onOpenChange={setContactOpen} />
