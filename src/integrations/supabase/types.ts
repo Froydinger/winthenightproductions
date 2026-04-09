@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      broadcast_emails: {
+        Row: {
+          body_html: string
+          created_at: string
+          id: string
+          recipient_count: number
+          sent_at: string
+          sent_by: string | null
+          subject: string
+        }
+        Insert: {
+          body_html: string
+          created_at?: string
+          id?: string
+          recipient_count?: number
+          sent_at?: string
+          sent_by?: string | null
+          subject: string
+        }
+        Update: {
+          body_html?: string
+          created_at?: string
+          id?: string
+          recipient_count?: number
+          sent_at?: string
+          sent_by?: string | null
+          subject?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          active: boolean
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          subscribed_at: string
+          unsubscribed_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          name?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       post_likes: {
         Row: {
           created_at: string
