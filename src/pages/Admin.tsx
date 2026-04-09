@@ -23,7 +23,15 @@ import {
   Video,
   Save,
   Home,
-  Bot
+  Bot,
+  Mail,
+  Send,
+  History,
+  Eye,
+  Edit,
+  Loader2,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import {
   Table,
