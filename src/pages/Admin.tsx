@@ -114,6 +114,15 @@ const Admin = () => {
   const [chatbotPrompt, setChatbotPrompt] = useState("");
   const [savingChatbot, setSavingChatbot] = useState(false);
 
+  // Newsletter broadcast state
+  const [broadcastSubject, setBroadcastSubject] = useState("");
+  const [broadcastBody, setBroadcastBody] = useState("");
+  const [sendingBroadcast, setSendingBroadcast] = useState(false);
+  const [broadcastProgress, setBroadcastProgress] = useState("");
+  const [sentEmails, setSentEmails] = useState<any[]>([]);
+  const [expandedEmailId, setExpandedEmailId] = useState<string | null>(null);
+  const [subscriberCount, setSubscriberCount] = useState(0);
+
   useEffect(() => {
     checkAuth();
   }, []);
