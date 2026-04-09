@@ -87,7 +87,7 @@ const Unsubscribe = () => {
             <MailX className="w-16 h-16 text-muted-foreground mx-auto" />
             <h1 className="text-2xl font-bold text-foreground">Unsubscribe</h1>
             <p className="text-muted-foreground">
-              Are you sure you want to unsubscribe from Win The Night updates?
+              Are you sure you want to unsubscribe from Win The Night™ updates?
             </p>
             <Button
               onClick={handleUnsubscribe}
