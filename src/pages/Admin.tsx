@@ -23,7 +23,15 @@ import {
   Video,
   Save,
   Home,
-  Bot
+  Bot,
+  Mail,
+  Send,
+  History,
+  Eye,
+  Edit,
+  Loader2,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import {
   Table,
@@ -106,6 +114,15 @@ const Admin = () => {
   const [chatbotPrompt, setChatbotPrompt] = useState("");
   const [savingChatbot, setSavingChatbot] = useState(false);
 
+  // Newsletter broadcast state
+  const [broadcastSubject, setBroadcastSubject] = useState("");
+  const [broadcastBody, setBroadcastBody] = useState("");
+  const [sendingBroadcast, setSendingBroadcast] = useState(false);
+  const [broadcastProgress, setBroadcastProgress] = useState("");
+  const [sentEmails, setSentEmails] = useState<any[]>([]);
+  const [expandedEmailId, setExpandedEmailId] = useState<string | null>(null);
+  const [subscriberCount, setSubscriberCount] = useState(0);
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -145,6 +162,8 @@ const Admin = () => {
     await loadWatchLatestSettings();
     await loadTrailerSettings();
     await loadChatbotPrompt();
+    await loadSentEmails();
+    await loadSubscriberCount();
     setLoading(false);
   };
 
@@ -525,6 +544,110 @@ const Admin = () => {
     } finally {
       setSavingChatbot(false);
     }
+  };
+
+  const loadSubscriberCount = async () => {
+    try {
+      const { count } = await supabase
+        .from("newsletter_subscribers")
+        .select("*", { count: "exact", head: true })
+        .eq("active", true);
+      setSubscriberCount(count || 0);
+    } catch (error) {
+      console.error("Failed to load subscriber count:", error);
+    }
+  };
+
+  const loadSentEmails = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("broadcast_emails")
+        .select("*")
+        .order("sent_at", { ascending: false })
+        .limit(50);
+
+      if (error) {
+        console.error("Failed to load sent emails:", error);
+        return;
+      }
+      setSentEmails(data || []);
+    } catch (error) {
+      console.error("Failed to load sent emails:", error);
+    }
+  };
+
+  const sendBroadcast = async () => {
+    if (!broadcastSubject.trim() || !broadcastBody.trim()) {
+      toast.error("Please enter a subject and message body");
+      return;
+    }
+
+    setSendingBroadcast(true);
+    setBroadcastProgress("Fetching subscribers...");
+
+    try {
+      // Fetch all active subscribers
+      const { data: subscribers, error: subError } = await supabase
+        .from("newsletter_subscribers")
+        .select("email")
+        .eq("active", true);
+
+      if (subError) throw subError;
+      if (!subscribers || subscribers.length === 0) {
+        toast.error("No active subscribers found");
+        setSendingBroadcast(false);
+        setBroadcastProgress("");
+        return;
+      }
+
+      const total = subscribers.length;
+      let sent = 0;
+
+      // Send to each subscriber
+      for (const sub of subscribers) {
+        setBroadcastProgress(`Sending ${sent + 1} of ${total}...`);
+        const idKey = `broadcast-${Date.now()}-${sub.email}`;
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "broadcast-update",
+            recipientEmail: sub.email,
+            idempotencyKey: idKey,
+            templateData: {
+              subject: broadcastSubject.trim(),
+              bodyHtml: broadcastBody.trim(),
+            },
+          },
+        });
+        sent++;
+      }
+
+      // Save broadcast record
+      await supabase.from("broadcast_emails").insert({
+        subject: broadcastSubject.trim(),
+        body_html: broadcastBody.trim(),
+        recipient_count: sent,
+        sent_by: session?.user?.id || null,
+      });
+
+      toast.success(`Broadcast sent to ${sent} subscribers!`);
+      setBroadcastSubject("");
+      setBroadcastBody("");
+      await loadSentEmails();
+    } catch (error) {
+      console.error("Broadcast error:", error);
+      toast.error("Failed to send broadcast");
+    } finally {
+      setSendingBroadcast(false);
+      setBroadcastProgress("");
+    }
+  };
+
+  const prefillFromSent = (email: any) => {
+    setBroadcastSubject(email.subject);
+    setBroadcastBody(email.body_html);
+    toast.info("Loaded into composer — edit and resend!");
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const loadPosts = async () => {
@@ -940,6 +1063,123 @@ const Admin = () => {
               {savingChatbot ? "Saving..." : "Save Chatbot Prompt"}
             </Button>
           </div>
+        </Card>
+
+        {/* Newsletter Broadcast Composer */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Send className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Broadcast Email</h2>
+            <span className="ml-auto text-sm text-muted-foreground">
+              {subscriberCount} active subscriber{subscriberCount !== 1 ? "s" : ""}
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Subject Line</label>
+              <Input
+                value={broadcastSubject}
+                onChange={(e) => setBroadcastSubject(e.target.value)}
+                placeholder="e.g. New Episode Drop! 🎙️"
+                className="bg-background/50 border-border"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Message Body (HTML supported)
+              </label>
+              <textarea
+                value={broadcastBody}
+                onChange={(e) => setBroadcastBody(e.target.value)}
+                className="w-full min-h-[200px] rounded-md border border-border bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                placeholder='<p>Hey fam! We just dropped a new episode...</p>'
+              />
+            </div>
+
+            {broadcastBody && (
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">Preview</label>
+                <div
+                  className="rounded-lg border border-border bg-white p-4 text-black text-sm"
+                  dangerouslySetInnerHTML={{ __html: broadcastBody }}
+                />
+              </div>
+            )}
+
+            {broadcastProgress && (
+              <div className="flex items-center gap-2 text-sm text-neon-blue">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                {broadcastProgress}
+              </div>
+            )}
+
+            <Button
+              onClick={sendBroadcast}
+              disabled={sendingBroadcast || !broadcastSubject.trim() || !broadcastBody.trim()}
+              className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+            >
+              <Send className="h-4 w-4 mr-2" />
+              {sendingBroadcast ? "Sending..." : `Send to ${subscriberCount} Subscribers`}
+            </Button>
+          </div>
+        </Card>
+
+        {/* Sent Emails History */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <History className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Sent Emails</h2>
+          </div>
+
+          {sentEmails.length === 0 ? (
+            <p className="text-muted-foreground text-center py-8">No broadcasts sent yet</p>
+          ) : (
+            <div className="space-y-3">
+              {sentEmails.map((email) => (
+                <div
+                  key={email.id}
+                  className="border border-border/50 rounded-lg overflow-hidden"
+                >
+                  <button
+                    onClick={() => setExpandedEmailId(expandedEmailId === email.id ? null : email.id)}
+                    className="w-full flex items-center justify-between p-4 hover:bg-card/50 transition-colors text-left"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-foreground truncate">{email.subject}</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {new Date(email.sent_at).toLocaleString()} · {email.recipient_count} recipients
+                      </p>
+                    </div>
+                    {expandedEmailId === email.id ? (
+                      <ChevronUp className="w-4 h-4 text-muted-foreground ml-2 flex-shrink-0" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-muted-foreground ml-2 flex-shrink-0" />
+                    )}
+                  </button>
+
+                  {expandedEmailId === email.id && (
+                    <div className="border-t border-border/50 p-4 space-y-4">
+                      <div
+                        className="rounded-lg bg-white p-4 text-black text-sm"
+                        dangerouslySetInnerHTML={{ __html: email.body_html }}
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => prefillFromSent(email)}
+                        className="border-neon-blue/50 text-neon-blue hover:bg-neon-blue/10"
+                      >
+                        <Edit className="w-3 h-3 mr-2" />
+                        Edit & Resend
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
 
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">

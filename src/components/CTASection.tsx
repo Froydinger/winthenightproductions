@@ -3,6 +3,7 @@ import { Youtube, ExternalLink, Play, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 const CTASection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -93,8 +94,14 @@ const CTASection = () => {
                 </Button>
               </div>
 
+              {/* Newsletter Subscribe */}
+              <div className="flex flex-col items-center gap-3 pt-4">
+                <p className="text-sm text-muted-foreground">Get updates straight to your inbox</p>
+                <NewsletterSubscribe />
+              </div>
+
               <motion.div
-                className="flex flex-col items-center gap-4 pt-4"
+                className="flex flex-col items-center gap-4 pt-2"
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
