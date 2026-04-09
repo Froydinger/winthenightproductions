@@ -43,14 +43,7 @@ const Header = () => {
   }, [isHomePage]);
 
   useEffect(() => {
-    // Check auth status
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session?.user) {
-        checkAdminStatus(session.user.id);
-      }
-    });
-
+    // Set up listener FIRST so we don't miss auth events (e.g. magic link redirect)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -59,6 +52,14 @@ const Header = () => {
         checkAdminStatus(session.user.id);
       } else {
         setIsAdmin(false);
+      }
+    });
+
+    // Then check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
       }
     });
 
