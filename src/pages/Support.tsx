@@ -61,7 +61,7 @@ const Support = () => {
         {/* CTA */}
         <section className="relative pb-16 px-4">
           <div className="container mx-auto max-w-2xl">
-            <Card className="relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/30 p-10 text-center shadow-neon">
+            <Card className="relative overflow-hidden bg-gradient-to-br from-card to-charcoal border-2 border-neon-blue/30 p-10 text-center shadow-neon">
               <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent pointer-events-none" />
               <div className="relative z-10 space-y-5">
                 <p className="text-muted-foreground text-base leading-relaxed max-w-md mx-auto">
@@ -91,7 +91,7 @@ const Support = () => {
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
-              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card to-charcoal border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 text-center space-y-4">
                   <div className="flex justify-center">
@@ -103,7 +103,7 @@ const Support = () => {
                   <p className="text-sm text-muted-foreground">Invest in better video and audio equipment for top-quality production</p>
                 </div>
               </Card>
-              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card to-charcoal border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 text-center space-y-4">
                   <div className="flex justify-center">
@@ -115,7 +115,7 @@ const Support = () => {
                   <p className="text-sm text-muted-foreground">Bring on experts and advocates in mental health</p>
                 </div>
               </Card>
-              <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
+              <Card className="group relative overflow-hidden bg-gradient-to-br from-card to-charcoal border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 text-center space-y-4">
                   <div className="flex justify-center">
@@ -134,7 +134,7 @@ const Support = () => {
         {/* Pro Supporters Wall */}
         <section className="relative pb-16 px-4">
           <div className="container mx-auto max-w-4xl">
-            <Card className="bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8">
+            <Card className="bg-gradient-to-br from-card to-charcoal border border-neon-blue/20 p-8">
               <div className="text-center space-y-4">
                 <div className="flex justify-center">
                   <div className="p-3 rounded-full bg-neon-blue/10 border border-neon-blue/30">
