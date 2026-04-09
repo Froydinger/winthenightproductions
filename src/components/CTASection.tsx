@@ -3,6 +3,7 @@ import { Youtube, ExternalLink, Play, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 const CTASection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
