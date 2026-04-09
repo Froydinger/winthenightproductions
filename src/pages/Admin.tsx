@@ -546,6 +546,110 @@ const Admin = () => {
     }
   };
 
+  const loadSubscriberCount = async () => {
+    try {
+      const { count } = await supabase
+        .from("newsletter_subscribers")
+        .select("*", { count: "exact", head: true })
+        .eq("active", true);
+      setSubscriberCount(count || 0);
+    } catch (error) {
+      console.error("Failed to load subscriber count:", error);
+    }
+  };
+
+  const loadSentEmails = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("broadcast_emails")
+        .select("*")
+        .order("sent_at", { ascending: false })
+        .limit(50);
+
+      if (error) {
+        console.error("Failed to load sent emails:", error);
+        return;
+      }
+      setSentEmails(data || []);
+    } catch (error) {
+      console.error("Failed to load sent emails:", error);
+    }
+  };
+
+  const sendBroadcast = async () => {
+    if (!broadcastSubject.trim() || !broadcastBody.trim()) {
+      toast.error("Please enter a subject and message body");
+      return;
+    }
+
+    setSendingBroadcast(true);
+    setBroadcastProgress("Fetching subscribers...");
+
+    try {
+      // Fetch all active subscribers
+      const { data: subscribers, error: subError } = await supabase
+        .from("newsletter_subscribers")
+        .select("email")
+        .eq("active", true);
+
+      if (subError) throw subError;
+      if (!subscribers || subscribers.length === 0) {
+        toast.error("No active subscribers found");
+        setSendingBroadcast(false);
+        setBroadcastProgress("");
+        return;
+      }
+
+      const total = subscribers.length;
+      let sent = 0;
+
+      // Send to each subscriber
+      for (const sub of subscribers) {
+        setBroadcastProgress(`Sending ${sent + 1} of ${total}...`);
+        const idKey = `broadcast-${Date.now()}-${sub.email}`;
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "broadcast-update",
+            recipientEmail: sub.email,
+            idempotencyKey: idKey,
+            templateData: {
+              subject: broadcastSubject.trim(),
+              bodyHtml: broadcastBody.trim(),
+            },
+          },
+        });
+        sent++;
+      }
+
+      // Save broadcast record
+      await supabase.from("broadcast_emails").insert({
+        subject: broadcastSubject.trim(),
+        body_html: broadcastBody.trim(),
+        recipient_count: sent,
+        sent_by: session?.user?.id || null,
+      });
+
+      toast.success(`Broadcast sent to ${sent} subscribers!`);
+      setBroadcastSubject("");
+      setBroadcastBody("");
+      await loadSentEmails();
+    } catch (error) {
+      console.error("Broadcast error:", error);
+      toast.error("Failed to send broadcast");
+    } finally {
+      setSendingBroadcast(false);
+      setBroadcastProgress("");
+    }
+  };
+
+  const prefillFromSent = (email: any) => {
+    setBroadcastSubject(email.subject);
+    setBroadcastBody(email.body_html);
+    toast.info("Loaded into composer — edit and resend!");
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const loadPosts = async () => {
     try {
       const { data, error } = await supabase
