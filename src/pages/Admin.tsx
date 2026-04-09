@@ -1182,6 +1182,7 @@ const Admin = () => {
           )}
         </Card>
 
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
           <div className="flex items-center gap-3 mb-6">
             <UserCog className="h-6 w-6 text-neon-blue" />
             <h2 className="text-2xl font-bold text-foreground">User Management</h2>
