@@ -92,31 +92,33 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
         .map(reply => reply.user_id)
         .filter((id, index, self) => id && self.indexOf(id) === index); // unique IDs
 
-      let avatarMap: Record<string, string | null> = {};
+      let profileMap: Record<string, { avatar_url: string | null; display_name: string }> = {};
 
       if (session && userIds.length > 0) {
         const { data: profiles } = await supabase
           .from("user_profiles")
-          .select("user_id, avatar_url")
+          .select("user_id, avatar_url, display_name")
           .in("user_id", userIds);
 
         if (profiles) {
-          avatarMap = profiles.reduce((acc, profile) => {
-            acc[profile.user_id] = profile.avatar_url;
+          profileMap = profiles.reduce((acc, profile) => {
+            acc[profile.user_id] = { avatar_url: profile.avatar_url, display_name: profile.display_name };
             return acc;
-          }, {} as Record<string, string | null>);
+          }, {} as Record<string, { avatar_url: string | null; display_name: string }>);
         }
       }
 
-      // Update replies with current avatars
-      const repliesWithCurrentAvatars = data.map(reply => ({
+      const repliesWithCurrentProfiles = data.map(reply => ({
         ...reply,
-        avatar_url: reply.user_id && !reply.is_anonymous && avatarMap[reply.user_id] !== undefined
-          ? avatarMap[reply.user_id]
-          : reply.avatar_url
+        avatar_url: reply.user_id && !reply.is_anonymous && profileMap[reply.user_id]
+          ? profileMap[reply.user_id].avatar_url
+          : reply.avatar_url,
+        display_name: reply.user_id && !reply.is_anonymous && profileMap[reply.user_id]
+          ? profileMap[reply.user_id].display_name
+          : reply.display_name,
       }));
 
-      setReplies(repliesWithCurrentAvatars);
+      setReplies(repliesWithCurrentProfiles);
     }
   };
 

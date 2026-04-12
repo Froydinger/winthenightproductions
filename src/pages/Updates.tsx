@@ -125,31 +125,34 @@ const Updates = () => {
         .map(post => post.user_id)
         .filter((id, index, self) => id && self.indexOf(id) === index); // unique IDs
 
-      let avatarMap: Record<string, string | null> = {};
+      let profileMap: Record<string, { avatar_url: string | null; display_name: string }> = {};
 
-      if (session && userIds.length > 0) {
+      if (userIds.length > 0) {
         const { data: profiles } = await supabase
           .from("user_profiles")
-          .select("user_id, avatar_url")
+          .select("user_id, avatar_url, display_name")
           .in("user_id", userIds);
 
         if (profiles) {
-          avatarMap = profiles.reduce((acc, profile) => {
-            acc[profile.user_id!] = profile.avatar_url;
+          profileMap = profiles.reduce((acc, profile) => {
+            acc[profile.user_id!] = { avatar_url: profile.avatar_url, display_name: profile.display_name };
             return acc;
-          }, {} as Record<string, string | null>);
+          }, {} as Record<string, { avatar_url: string | null; display_name: string }>);
         }
       }
 
-      // Update posts with current avatars
-      const postsWithCurrentAvatars = data.map(post => ({
+      // Update posts with current avatars and display names
+      const postsWithCurrentProfiles = data.map(post => ({
         ...post,
-        avatar_url: post.user_id && !post.is_anonymous && avatarMap[post.user_id] !== undefined
-          ? avatarMap[post.user_id]
-          : post.avatar_url
+        avatar_url: post.user_id && !post.is_anonymous && profileMap[post.user_id]
+          ? profileMap[post.user_id].avatar_url
+          : post.avatar_url,
+        display_name: post.user_id && !post.is_anonymous && profileMap[post.user_id]
+          ? profileMap[post.user_id].display_name
+          : post.display_name,
       }));
 
-      setPosts(postsWithCurrentAvatars);
+      setPosts(postsWithCurrentProfiles);
     }
   };
 
@@ -195,31 +198,33 @@ const Updates = () => {
             .map(post => post.user_id)
             .filter((id, index, self) => id && self.indexOf(id) === index); // unique IDs
 
-          let avatarMap: Record<string, string | null> = {};
+          let profileMap: Record<string, { avatar_url: string | null; display_name: string }> = {};
 
           if (userIds.length > 0) {
             const { data: profiles } = await supabase
               .from("user_profiles")
-              .select("user_id, avatar_url")
+              .select("user_id, avatar_url, display_name")
               .in("user_id", userIds);
 
             if (profiles) {
-              avatarMap = profiles.reduce((acc, profile) => {
-                acc[profile.user_id!] = profile.avatar_url;
+              profileMap = profiles.reduce((acc, profile) => {
+                acc[profile.user_id!] = { avatar_url: profile.avatar_url, display_name: profile.display_name };
                 return acc;
-              }, {} as Record<string, string | null>);
+              }, {} as Record<string, { avatar_url: string | null; display_name: string }>);
             }
           }
 
-          // Update posts with current avatars
-          const postsWithCurrentAvatars = postsData.map(post => ({
+          const postsWithCurrentProfiles = postsData.map(post => ({
             ...post,
-            avatar_url: post.user_id && !post.is_anonymous && avatarMap[post.user_id] !== undefined
-              ? avatarMap[post.user_id]
-              : post.avatar_url
+            avatar_url: post.user_id && !post.is_anonymous && profileMap[post.user_id]
+              ? profileMap[post.user_id].avatar_url
+              : post.avatar_url,
+            display_name: post.user_id && !post.is_anonymous && profileMap[post.user_id]
+              ? profileMap[post.user_id].display_name
+              : post.display_name,
           }));
 
-          setLikedPosts(postsWithCurrentAvatars);
+          setLikedPosts(postsWithCurrentProfiles);
         }
       } else {
         setLikedPosts([]);
