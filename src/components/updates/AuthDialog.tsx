@@ -121,6 +121,22 @@ const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
     setLoading(false);
   };
 
+  const handleAppleSignIn = async () => {
+    setLoading(true);
+    const result = await lovable.auth.signInWithOAuth("apple", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error("Apple sign-in failed");
+      setLoading(false);
+      return;
+    }
+    if (result.redirected) return;
+    toast.success("Signed in with Apple!");
+    onOpenChange(false);
+    setLoading(false);
+  };
+
   const BackButton = () => (
     <button
       onClick={() => goTo("main")}
