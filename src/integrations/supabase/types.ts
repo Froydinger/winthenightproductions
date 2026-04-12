@@ -416,7 +416,12 @@ export type Database = {
       }
       watch_settings: {
         Row: {
+          about_featured_description: string | null
+          about_featured_title: string | null
+          about_featured_video_id: string | null
+          about_intro_video_id: string | null
           created_at: string
+          cta_featured_video_id: string | null
           editors_pick_video_id: string | null
           id: number
           main_playlist_id: string | null
@@ -429,7 +434,12 @@ export type Database = {
           watch_latest_playlist_id: string
         }
         Insert: {
+          about_featured_description?: string | null
+          about_featured_title?: string | null
+          about_featured_video_id?: string | null
+          about_intro_video_id?: string | null
           created_at?: string
+          cta_featured_video_id?: string | null
           editors_pick_video_id?: string | null
           id?: number
           main_playlist_id?: string | null
@@ -442,7 +452,12 @@ export type Database = {
           watch_latest_playlist_id?: string
         }
         Update: {
+          about_featured_description?: string | null
+          about_featured_title?: string | null
+          about_featured_video_id?: string | null
+          about_intro_video_id?: string | null
           created_at?: string
+          cta_featured_video_id?: string | null
           editors_pick_video_id?: string | null
           id?: number
           main_playlist_id?: string | null

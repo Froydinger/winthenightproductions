@@ -4,11 +4,33 @@ import { Mic, Users, BookOpen, Anchor, Info } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const About = () => {
+  const [introVideoId, setIntroVideoId] = useState("cIHJZUOIPco");
+  const [featuredVideoId, setFeaturedVideoId] = useState("UL_ayxMAFqM");
+  const [featuredTitle, setFeaturedTitle] = useState("Get a Taste of What We Do");
+  const [featuredDescription, setFeaturedDescription] = useState(
+    "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon."
+  );
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    const load = async () => {
+      const { data } = await supabase
+        .from("watch_settings")
+        .select("about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description")
+        .eq("id", 1)
+        .maybeSingle();
+      if (data) {
+        if (data.about_intro_video_id) setIntroVideoId(data.about_intro_video_id);
+        if (data.about_featured_video_id) setFeaturedVideoId(data.about_featured_video_id);
+        if (data.about_featured_title) setFeaturedTitle(data.about_featured_title);
+        if (data.about_featured_description) setFeaturedDescription(data.about_featured_description);
+      }
+    };
+    load();
   }, []);
 
   return (
@@ -134,7 +156,7 @@ const About = () => {
             <div className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border-2 border-neon-blue/30 ring-1 ring-neon-blue/20 bg-card hover:border-neon-blue/50 transition-all duration-300">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/cIHJZUOIPco"
+                src={`https://www.youtube.com/embed/${introVideoId}`}
                 title="Welcome to Win The Night"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -195,18 +217,17 @@ const About = () => {
         <section className="relative pb-16 px-4">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Get a Taste of What We Do</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{featuredTitle}</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                If you get some time to throw this on in the background, it's one of our favorite episodes—a
-                conversation between Josh and his friend, Brandon.
+                {featuredDescription}
               </p>
             </div>
 
             <div className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border-2 border-neon-blue/30 ring-1 ring-neon-blue/20 bg-card hover:border-neon-blue/50 transition-all duration-300">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/UL_ayxMAFqM"
-                title="Episode: Josh & Cesar (Marine Corps Stories)"
+                src={`https://www.youtube.com/embed/${featuredVideoId}`}
+                title="Featured Episode"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
