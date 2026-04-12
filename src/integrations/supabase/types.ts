@@ -420,6 +420,8 @@ export type Database = {
           about_featured_title: string | null
           about_featured_video_id: string | null
           about_intro_video_id: string | null
+          about_jake_bio: string | null
+          about_josh_bio: string | null
           created_at: string
           cta_featured_video_id: string | null
           editors_pick_video_id: string | null
@@ -438,6 +440,8 @@ export type Database = {
           about_featured_title?: string | null
           about_featured_video_id?: string | null
           about_intro_video_id?: string | null
+          about_jake_bio?: string | null
+          about_josh_bio?: string | null
           created_at?: string
           cta_featured_video_id?: string | null
           editors_pick_video_id?: string | null
@@ -456,6 +460,8 @@ export type Database = {
           about_featured_title?: string | null
           about_featured_video_id?: string | null
           about_intro_video_id?: string | null
+          about_jake_bio?: string | null
+          about_josh_bio?: string | null
           created_at?: string
           cta_featured_video_id?: string | null
           editors_pick_video_id?: string | null
