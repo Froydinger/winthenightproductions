@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Trash2, Send, Pencil } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LinkPreview from "./LinkPreview";
 
 interface Post {
@@ -280,11 +281,19 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
     <Card className="bg-card/80 backdrop-blur-lg p-4 sm:p-6 border-border">
       <div className="mb-4">
         <div className="flex items-center justify-between gap-2">
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold text-foreground">{post.display_name}</p>
-            <p className="text-sm text-muted-foreground">
-              {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
-            </p>
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <Avatar className="h-10 w-10 ring-2 ring-primary/20 shrink-0">
+              <AvatarImage src={post.avatar_url || undefined} />
+              <AvatarFallback className="bg-primary/20 text-primary text-sm">
+                {post.display_name[0]?.toUpperCase() || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              <p className="font-semibold text-foreground">{post.display_name}</p>
+              <p className="text-sm text-muted-foreground">
+                {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+              </p>
+            </div>
           </div>
           {(session?.user?.id === post.user_id || isAdmin) && (
             <div className="flex gap-1 shrink-0">
@@ -415,12 +424,18 @@ const PostCard = ({ post, session, onDelete, isAdmin }: PostCardProps) => {
             return (
             <div key={reply.id} className="py-2">
               <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6 shrink-0">
+                  <AvatarImage src={reply.avatar_url || undefined} />
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                    {reply.display_name[0]?.toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
                 <p className="font-semibold text-sm text-foreground">{reply.display_name}</p>
                 <p className="text-xs text-muted-foreground">
                   {formatDistanceToNow(new Date(reply.created_at), { addSuffix: true })}
                 </p>
               </div>
-              <p className="text-sm text-foreground mt-1">{reply.content}</p>
+              <p className="text-sm text-foreground mt-1 ml-8">{reply.content}</p>
             </div>
             );
           })}
