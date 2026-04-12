@@ -14,13 +14,15 @@ const About = () => {
   const [featuredDescription, setFeaturedDescription] = useState(
     "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon."
   );
+  const [jakeBio, setJakeBio] = useState("Runs the socials, Substack, and YouTube channel.");
+  const [joshBio, setJoshBio] = useState("Podcast host offering creative and collaborative insights.");
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const load = async () => {
       const { data } = await supabase
         .from("watch_settings")
-        .select("about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description")
+        .select("about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description, about_jake_bio, about_josh_bio")
         .eq("id", 1)
         .maybeSingle();
       if (data) {
@@ -28,6 +30,8 @@ const About = () => {
         if (data.about_featured_video_id) setFeaturedVideoId(data.about_featured_video_id);
         if (data.about_featured_title) setFeaturedTitle(data.about_featured_title);
         if (data.about_featured_description) setFeaturedDescription(data.about_featured_description);
+        if (data.about_jake_bio) setJakeBio(data.about_jake_bio);
+        if (data.about_josh_bio) setJoshBio(data.about_josh_bio);
       }
     };
     load();
@@ -187,14 +191,14 @@ const About = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative z-10">
                     <h3 className="text-foreground font-bold text-xl mb-2 group-hover:text-neon-blue transition-colors">Jake Freudinger</h3>
-                    <p className="text-muted-foreground">Runs the socials, Substack, and YouTube channel.</p>
+                    <p className="text-muted-foreground">{jakeBio}</p>
                   </div>
                 </Card>
                 <Card className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-charcoal/40 backdrop-blur-glass border border-neon-blue/20 p-8 hover:border-neon-blue/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon">
                   <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative z-10">
                     <h3 className="text-foreground font-bold text-xl mb-2 group-hover:text-neon-blue transition-colors">Josh Lopez</h3>
-                    <p className="text-muted-foreground">Podcast host offering creative and collaborative insights.</p>
+                    <p className="text-muted-foreground">{joshBio}</p>
                   </div>
                 </Card>
               </div>

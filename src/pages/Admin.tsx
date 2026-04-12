@@ -119,6 +119,8 @@ const Admin = () => {
   const [aboutFeaturedVideoId, setAboutFeaturedVideoId] = useState("");
   const [aboutFeaturedTitle, setAboutFeaturedTitle] = useState("");
   const [aboutFeaturedDescription, setAboutFeaturedDescription] = useState("");
+  const [aboutJakeBio, setAboutJakeBio] = useState("");
+  const [aboutJoshBio, setAboutJoshBio] = useState("");
   const [ctaFeaturedVideoId, setCtaFeaturedVideoId] = useState("");
   const [savingAboutSettings, setSavingAboutSettings] = useState(false);
   const [savingCtaSettings, setSavingCtaSettings] = useState(false);
@@ -561,7 +563,7 @@ const Admin = () => {
     try {
       const { data } = await supabase
         .from("watch_settings")
-        .select("about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description")
+        .select("about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description, about_jake_bio, about_josh_bio")
         .eq("id", 1)
         .maybeSingle();
       if (data) {
@@ -569,6 +571,8 @@ const Admin = () => {
         if (data.about_featured_video_id) setAboutFeaturedVideoId(data.about_featured_video_id);
         if (data.about_featured_title) setAboutFeaturedTitle(data.about_featured_title);
         if (data.about_featured_description) setAboutFeaturedDescription(data.about_featured_description);
+        if (data.about_jake_bio) setAboutJakeBio(data.about_jake_bio);
+        if (data.about_josh_bio) setAboutJoshBio(data.about_josh_bio);
       }
     } catch (error) {
       console.error("Failed to load about settings:", error);
@@ -585,6 +589,8 @@ const Admin = () => {
           about_featured_video_id: aboutFeaturedVideoId.trim(),
           about_featured_title: aboutFeaturedTitle.trim(),
           about_featured_description: aboutFeaturedDescription.trim(),
+          about_jake_bio: aboutJakeBio.trim(),
+          about_josh_bio: aboutJoshBio.trim(),
         })
         .eq("id", 1);
       if (error) {
@@ -1196,6 +1202,26 @@ const Admin = () => {
                   </div>
                 </div>
               )}
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Jake Freudinger – Bio</label>
+              <textarea
+                value={aboutJakeBio}
+                onChange={(e) => setAboutJakeBio(e.target.value)}
+                className="w-full max-w-md min-h-[80px] rounded-md border border-border bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                placeholder="Runs the socials, Substack, and YouTube channel."
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Josh Lopez – Bio</label>
+              <textarea
+                value={aboutJoshBio}
+                onChange={(e) => setAboutJoshBio(e.target.value)}
+                className="w-full max-w-md min-h-[80px] rounded-md border border-border bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                placeholder="Podcast host offering creative and collaborative insights."
+              />
             </div>
 
             <Button
