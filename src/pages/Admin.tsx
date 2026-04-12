@@ -171,6 +171,8 @@ const Admin = () => {
     await loadWatchLatestSettings();
     await loadTrailerSettings();
     await loadChatbotPrompt();
+    await loadAboutSettings();
+    await loadCtaSettings();
     await loadSentEmails();
     await loadSubscriberCount();
     setLoading(false);
