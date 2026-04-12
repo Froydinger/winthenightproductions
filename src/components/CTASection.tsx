@@ -1,15 +1,28 @@
 import { Button } from "@/components/ui/button";
-import { Youtube, ExternalLink, Play, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { Youtube, ExternalLink, Play } from "lucide-react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
+import { supabase } from "@/integrations/supabase/client";
 
 const CTASection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [ctaVideoId, setCtaVideoId] = useState("765UBZfeylw");
 
-  // Featured videos to showcase
-  const featuredVideos = [{ id: "765UBZfeylw", title: "Featured Episode" }];
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await supabase
+        .from("watch_settings")
+        .select("cta_featured_video_id")
+        .eq("id", 1)
+        .maybeSingle();
+      if (data?.cta_featured_video_id) setCtaVideoId(data.cta_featured_video_id);
+    };
+    load();
+  }, []);
+
+  const featuredVideos = [{ id: ctaVideoId, title: "Featured Episode" }];
 
   return (
     <>
