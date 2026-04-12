@@ -629,6 +629,7 @@ const Admin = () => {
     } finally {
       setSavingCtaSettings(false);
     }
+  };
 
   const loadSubscriberCount = async () => {
     try {
