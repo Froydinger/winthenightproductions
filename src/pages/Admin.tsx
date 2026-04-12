@@ -114,6 +114,15 @@ const Admin = () => {
   const [chatbotPrompt, setChatbotPrompt] = useState("");
   const [savingChatbot, setSavingChatbot] = useState(false);
 
+  // About page & CTA settings
+  const [aboutIntroVideoId, setAboutIntroVideoId] = useState("");
+  const [aboutFeaturedVideoId, setAboutFeaturedVideoId] = useState("");
+  const [aboutFeaturedTitle, setAboutFeaturedTitle] = useState("");
+  const [aboutFeaturedDescription, setAboutFeaturedDescription] = useState("");
+  const [ctaFeaturedVideoId, setCtaFeaturedVideoId] = useState("");
+  const [savingAboutSettings, setSavingAboutSettings] = useState(false);
+  const [savingCtaSettings, setSavingCtaSettings] = useState(false);
+
   // Newsletter broadcast state
   const [broadcastSubject, setBroadcastSubject] = useState("");
   const [broadcastBody, setBroadcastBody] = useState("");
