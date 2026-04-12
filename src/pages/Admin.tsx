@@ -557,6 +557,79 @@ const Admin = () => {
     }
   };
 
+  const loadAboutSettings = async () => {
+    try {
+      const { data } = await supabase
+        .from("watch_settings")
+        .select("about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description")
+        .eq("id", 1)
+        .maybeSingle();
+      if (data) {
+        if (data.about_intro_video_id) setAboutIntroVideoId(data.about_intro_video_id);
+        if (data.about_featured_video_id) setAboutFeaturedVideoId(data.about_featured_video_id);
+        if (data.about_featured_title) setAboutFeaturedTitle(data.about_featured_title);
+        if (data.about_featured_description) setAboutFeaturedDescription(data.about_featured_description);
+      }
+    } catch (error) {
+      console.error("Failed to load about settings:", error);
+    }
+  };
+
+  const saveAboutSettings = async () => {
+    setSavingAboutSettings(true);
+    try {
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({
+          about_intro_video_id: aboutIntroVideoId.trim(),
+          about_featured_video_id: aboutFeaturedVideoId.trim(),
+          about_featured_title: aboutFeaturedTitle.trim(),
+          about_featured_description: aboutFeaturedDescription.trim(),
+        })
+        .eq("id", 1);
+      if (error) {
+        toast.error("Failed to save about page settings");
+        return;
+      }
+      toast.success("About page settings updated!");
+    } catch (error) {
+      toast.error("Failed to save about page settings");
+    } finally {
+      setSavingAboutSettings(false);
+    }
+  };
+
+  const loadCtaSettings = async () => {
+    try {
+      const { data } = await supabase
+        .from("watch_settings")
+        .select("cta_featured_video_id")
+        .eq("id", 1)
+        .maybeSingle();
+      if (data?.cta_featured_video_id) setCtaFeaturedVideoId(data.cta_featured_video_id);
+    } catch (error) {
+      console.error("Failed to load CTA settings:", error);
+    }
+  };
+
+  const saveCtaSettings = async () => {
+    setSavingCtaSettings(true);
+    try {
+      const { error } = await supabase
+        .from("watch_settings")
+        .update({ cta_featured_video_id: ctaFeaturedVideoId.trim() })
+        .eq("id", 1);
+      if (error) {
+        toast.error("Failed to save CTA settings");
+        return;
+      }
+      toast.success("CTA featured video updated!");
+    } catch (error) {
+      toast.error("Failed to save CTA settings");
+    } finally {
+      setSavingCtaSettings(false);
+    }
+
   const loadSubscriberCount = async () => {
     try {
       const { count } = await supabase
