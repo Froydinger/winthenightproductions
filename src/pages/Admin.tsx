@@ -1117,7 +1117,142 @@ const Admin = () => {
           </div>
         </Card>
 
-        {/* Arc Chatbot Settings */}
+        {/* About Page Settings */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Video className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">About Page Content</h2>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-4">
+            Controls the two videos and the featured episode title/description on the About page.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Intro Video ID</label>
+              <p className="text-xs text-muted-foreground mb-2">The "Heart of Our Mission" video at the top</p>
+              <Input
+                value={aboutIntroVideoId}
+                onChange={(e) => setAboutIntroVideoId(e.target.value)}
+                placeholder="cIHJZUOIPco"
+                className="max-w-md bg-background/50 border-border"
+              />
+              {aboutIntroVideoId && (
+                <div className="mt-3">
+                  <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                  <div className="aspect-video max-w-sm rounded-lg overflow-hidden border border-border/50">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${aboutIntroVideoId}`}
+                      title="About Intro Preview"
+                      className="w-full h-full"
+                      frameBorder="0"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="border-t border-border/30 pt-4">
+              <label className="text-sm font-medium text-foreground mb-2 block">Featured Episode Title</label>
+              <Input
+                value={aboutFeaturedTitle}
+                onChange={(e) => setAboutFeaturedTitle(e.target.value)}
+                placeholder="Get a Taste of What We Do"
+                className="max-w-md bg-background/50 border-border"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Featured Episode Description</label>
+              <textarea
+                value={aboutFeaturedDescription}
+                onChange={(e) => setAboutFeaturedDescription(e.target.value)}
+                className="w-full max-w-md min-h-[80px] rounded-md border border-border bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                placeholder="If you get some time to throw this on..."
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Featured Episode Video ID</label>
+              <Input
+                value={aboutFeaturedVideoId}
+                onChange={(e) => setAboutFeaturedVideoId(e.target.value)}
+                placeholder="UL_ayxMAFqM"
+                className="max-w-md bg-background/50 border-border"
+              />
+              {aboutFeaturedVideoId && (
+                <div className="mt-3">
+                  <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                  <div className="aspect-video max-w-sm rounded-lg overflow-hidden border border-border/50">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${aboutFeaturedVideoId}`}
+                      title="About Featured Preview"
+                      className="w-full h-full"
+                      frameBorder="0"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <Button
+              onClick={saveAboutSettings}
+              disabled={savingAboutSettings}
+              className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+            >
+              <Save className="h-4 w-4 mr-2" />
+              {savingAboutSettings ? "Saving..." : "Save About Page Settings"}
+            </Button>
+          </div>
+        </Card>
+
+        {/* Homepage CTA Video */}
+        <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <Home className="h-6 w-6 text-neon-blue" />
+            <h2 className="text-2xl font-bold text-foreground">Home Page – CTA Featured Video</h2>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-4">
+            Controls the featured video thumbnail shown in the bottom CTA section of the home page.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">YouTube Video ID</label>
+              <Input
+                value={ctaFeaturedVideoId}
+                onChange={(e) => setCtaFeaturedVideoId(e.target.value)}
+                placeholder="765UBZfeylw"
+                className="max-w-md bg-background/50 border-border"
+              />
+              {ctaFeaturedVideoId && (
+                <div className="mt-3">
+                  <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                  <img
+                    src={`https://img.youtube.com/vi/${ctaFeaturedVideoId}/hqdefault.jpg`}
+                    alt="CTA video thumbnail"
+                    className="max-w-sm rounded-lg border border-border/50"
+                  />
+                </div>
+              )}
+            </div>
+
+            <Button
+              onClick={saveCtaSettings}
+              disabled={savingCtaSettings}
+              className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+            >
+              <Save className="h-4 w-4 mr-2" />
+              {savingCtaSettings ? "Saving..." : "Save CTA Video"}
+            </Button>
+          </div>
+        </Card>
+
+
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Bot className="h-6 w-6 text-neon-blue" />
