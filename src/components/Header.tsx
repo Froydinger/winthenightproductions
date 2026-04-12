@@ -278,17 +278,17 @@ const Header = () => {
                     </Button>
                   )}
 
-                  <Button
-                    onClick={() => {
-                      navigate("/updates");
-                      setIsOpen(false);
-                    }}
-                    variant="outline"
-                    className="w-full border-border hover:bg-accent"
-                  >
-                    <Settings className="h-4 w-4 mr-2" />
-                    Profile Settings
-                  </Button>
+                   <Button
+                     onClick={() => {
+                       navigate("/dashboard");
+                       setIsOpen(false);
+                     }}
+                     variant="outline"
+                     className="w-full border-border hover:bg-accent"
+                   >
+                     <Settings className="h-4 w-4 mr-2" />
+                     My Dashboard
+                   </Button>
 
                   <Button onClick={handleSignOut} variant="outline" className="w-full border-border hover:bg-accent">
                     <LogOut className="h-4 w-4 mr-2" />
