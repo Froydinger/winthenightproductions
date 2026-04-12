@@ -206,7 +206,7 @@ const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
                   )}
                 </Button>
 
-                  onClick={() => goTo("signin")}
+                <Button
                   className="w-full bg-neon-blue text-black hover:bg-neon-blue/90 font-semibold h-11 rounded-xl"
                 >
                   <Lock className="w-4 h-4 mr-2" />
