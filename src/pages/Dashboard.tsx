@@ -166,7 +166,25 @@ const Dashboard = () => {
           </div>
         </Card>
 
-        {/* Quick Actions */}
+        {/* Email Preferences */}
+        <Card className="p-4 bg-card border-border mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Mail className="h-5 w-5 text-primary" />
+              <div>
+                <p className="text-sm font-medium text-foreground">Email Updates</p>
+                <p className="text-xs text-muted-foreground">Receive news & updates from Win The Night™</p>
+              </div>
+            </div>
+            <Switch
+              checked={emailSubscribed ?? false}
+              onCheckedChange={handleEmailToggle}
+              disabled={emailToggleLoading || emailSubscribed === null}
+            />
+          </div>
+        </Card>
+
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <Button
             variant="outline"
