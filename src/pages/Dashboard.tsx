@@ -53,6 +53,7 @@ const Dashboard = () => {
     if (session?.user) {
       fetchProfile();
       fetchStats();
+      fetchEmailPreference();
     }
   }, [session?.user?.id]);
 
