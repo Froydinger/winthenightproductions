@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 import {
   Settings,
   Calendar,
@@ -20,9 +21,11 @@ import {
   Heart,
   ExternalLink,
   Users,
+  Mail,
 } from "lucide-react";
 import { useSubstackFeed } from "@/hooks/use-substack-feed";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [session, setSession] = useState<Session | null>(null);
