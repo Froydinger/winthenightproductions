@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 import {
   Settings,
   Calendar,
@@ -20,9 +21,11 @@ import {
   Heart,
   ExternalLink,
   Users,
+  Mail,
 } from "lucide-react";
 import { useSubstackFeed } from "@/hooks/use-substack-feed";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -31,6 +34,8 @@ const Dashboard = () => {
   const [showCalendly, setShowCalendly] = useState(false);
   const [profile, setProfile] = useState<{ display_name: string; avatar_url: string | null } | null>(null);
   const [stats, setStats] = useState({ posts: 0, likes: 0 });
+  const [emailSubscribed, setEmailSubscribed] = useState<boolean | null>(null);
+  const [emailToggleLoading, setEmailToggleLoading] = useState(false);
   const navigate = useNavigate();
   const { data: blogPosts } = useSubstackFeed();
 
@@ -48,6 +53,7 @@ const Dashboard = () => {
     if (session?.user) {
       fetchProfile();
       fetchStats();
+      fetchEmailPreference();
     }
   }, [session?.user?.id]);
 
@@ -69,6 +75,35 @@ const Dashboard = () => {
       supabase.from("post_likes").select("*", { count: "exact", head: true }).eq("user_id", session.user.id),
     ]);
     setStats({ posts: postCount || 0, likes: likeCount || 0 });
+  };
+
+  const fetchEmailPreference = async () => {
+    if (!session?.user?.email) return;
+    const { data } = await supabase
+      .from("newsletter_subscribers")
+      .select("active")
+      .eq("email", session.user.email.toLowerCase())
+      .maybeSingle();
+    // If no row exists, they're not subscribed
+    setEmailSubscribed(data?.active ?? false);
+  };
+
+  const handleEmailToggle = async (checked: boolean) => {
+    if (!session?.user?.email) return;
+    setEmailToggleLoading(true);
+    try {
+      const { error } = await supabase.functions.invoke("toggle-email-preference", {
+        body: { subscribed: checked },
+      });
+      if (error) throw error;
+      setEmailSubscribed(checked);
+      toast.success(checked ? "Subscribed to email updates!" : "Unsubscribed from email updates.");
+    } catch (err) {
+      console.error("Email toggle error:", err);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setEmailToggleLoading(false);
+    }
   };
 
   if (!session) {
@@ -131,7 +166,25 @@ const Dashboard = () => {
           </div>
         </Card>
 
-        {/* Quick Actions */}
+        {/* Email Preferences */}
+        <Card className="p-4 bg-card border-border mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Mail className="h-5 w-5 text-primary" />
+              <div>
+                <p className="text-sm font-medium text-foreground">Email Updates</p>
+                <p className="text-xs text-muted-foreground">Receive news & updates from Win The Night™</p>
+              </div>
+            </div>
+            <Switch
+              checked={emailSubscribed ?? false}
+              onCheckedChange={handleEmailToggle}
+              disabled={emailToggleLoading || emailSubscribed === null}
+            />
+          </div>
+        </Card>
+
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <Button
             variant="outline"
