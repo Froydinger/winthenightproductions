@@ -34,6 +34,8 @@ const Dashboard = () => {
   const [showCalendly, setShowCalendly] = useState(false);
   const [profile, setProfile] = useState<{ display_name: string; avatar_url: string | null } | null>(null);
   const [stats, setStats] = useState({ posts: 0, likes: 0 });
+  const [emailSubscribed, setEmailSubscribed] = useState<boolean | null>(null);
+  const [emailToggleLoading, setEmailToggleLoading] = useState(false);
   const navigate = useNavigate();
   const { data: blogPosts } = useSubstackFeed();
 
