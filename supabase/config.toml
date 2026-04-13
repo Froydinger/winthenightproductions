@@ -25,3 +25,5 @@ project_id = "ltzdvmssuujuoxmewugh"
     verify_jwt = true
   [functions.site-chat]
     verify_jwt = false
+  [functions.toggle-email-preference]
+    verify_jwt = false
