@@ -1,121 +1,125 @@
-const CACHE_NAME = 'win-the-night-v4';
+const CACHE_NAME = 'win-the-night-v5';
 const urlsToCache = [
+  '/',
+  '/index.html',
   '/icon-192.png',
   '/icon-512.png',
   '/manifest.json'
 ];
 
-// Install event - cache essential resources
+// Install: pre-cache app shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// Activate: clear old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((name) => {
+          if (name !== CACHE_NAME) return caches.delete(name);
         })
-      );
-    })
+      )
+    )
   );
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
+  const req = event.request;
+  const url = new URL(req.url);
 
-  // Never cache API requests (Supabase, external APIs, etc.)
+  // Only handle same-origin GET requests. Everything else: let the browser do it.
+  if (req.method !== 'GET' || url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Never intercept API / dynamic endpoints
   if (
     url.hostname.includes('supabase') ||
     url.hostname.includes('api.') ||
     url.pathname.startsWith('/api/') ||
-    event.request.method !== 'GET'
+    url.pathname.startsWith('/~') ||
+    url.pathname.startsWith('/functions/')
   ) {
-    // Network-only for API requests
-    event.respondWith(fetch(event.request));
     return;
   }
 
-  // Network-first for JS, CSS, and HTML to ensure fresh code after deployments
-  const isCode =
-    event.request.destination === 'script' ||
-    event.request.destination === 'style' ||
-    event.request.destination === 'document' ||
-    url.pathname.match(/\.(js|css|html)$/);
-
-  if (isCode) {
+  // Navigation requests (page loads / SPA route refreshes):
+  // network-first, fall back to cached index.html. NEVER return undefined.
+  if (req.mode === 'navigate' || req.destination === 'document') {
     event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Cache the new version for offline use
-          if (response && response.status === 200 && response.type === 'basic') {
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-          }
-          return response;
-        })
-        .catch(() => {
-          // Fallback to cache if network fails (offline mode)
-          return caches.match(event.request);
-        })
+      (async () => {
+        try {
+          const fresh = await fetch(req);
+          return fresh;
+        } catch {
+          const cached =
+            (await caches.match(req)) ||
+            (await caches.match('/index.html')) ||
+            (await caches.match('/'));
+          return (
+            cached ||
+            new Response(
+              '<!doctype html><title>Offline</title><h1>Offline</h1>',
+              { headers: { 'Content-Type': 'text/html' }, status: 503 }
+            )
+          );
+        }
+      })()
     );
     return;
   }
 
-  // Cache-first strategy for images and fonts only
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+  // JS / CSS: network-first, cache for offline
+  const isCode =
+    req.destination === 'script' ||
+    req.destination === 'style' ||
+    /\.(js|css)$/.test(url.pathname);
+
+  if (isCode) {
+    event.respondWith(
+      (async () => {
+        try {
+          const res = await fetch(req);
+          if (res && res.status === 200 && res.type === 'basic') {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(req, clone));
+          }
+          return res;
+        } catch {
+          const cached = await caches.match(req);
+          if (cached) return cached;
+          return new Response('', { status: 504, statusText: 'Offline' });
         }
+      })()
+    );
+    return;
+  }
 
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then((response) => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Only cache images and fonts
-          const shouldCache =
-            event.request.destination === 'image' ||
-            event.request.destination === 'font' ||
-            url.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|ico)$/);
-
-          if (shouldCache) {
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-          }
-
-          return response;
-        }).catch(() => {
-          // Return a custom offline page if available
-          return caches.match('/index.html');
-        });
-      })
+  // Images / fonts: cache-first
+  event.respondWith(
+    (async () => {
+      const cached = await caches.match(req);
+      if (cached) return cached;
+      try {
+        const res = await fetch(req);
+        const shouldCache =
+          req.destination === 'image' ||
+          req.destination === 'font' ||
+          /\.(png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|ico)$/.test(url.pathname);
+        if (shouldCache && res && res.status === 200 && res.type === 'basic') {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then((c) => c.put(req, clone));
+        }
+        return res;
+      } catch {
+        return new Response('', { status: 504, statusText: 'Offline' });
+      }
+    })()
   );
 });
