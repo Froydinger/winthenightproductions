@@ -74,7 +74,8 @@ const AnimatedBackground = () => {
       <div
         className="absolute inset-x-0 -top-[100%] h-[800%] bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] animate-gradient-shift will-change-transform"
         style={{
-          transform: `translate3d(0, ${backgroundOffset * 0.5}px, 0)`,
+          transform: `translate3d(0, ${Math.round(backgroundOffset * 0.5)}px, 0)`,
+          backfaceVisibility: 'hidden',
         }}
       />
 
@@ -82,7 +83,8 @@ const AnimatedBackground = () => {
       <div 
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
-          transform: `translate3d(0, ${starsSlowOffset}px, 0)`,
+          transform: `translate3d(0, ${Math.round(starsSlowOffset)}px, 0)`,
+          backfaceVisibility: 'hidden',
         }}
       >
         {slowStars.map((star) => (
@@ -98,6 +100,7 @@ const AnimatedBackground = () => {
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
               boxShadow: star.brightness > 1 ? '0 0 8px 2px rgba(93, 204, 255, 0.6)' : 'none',
+              backfaceVisibility: 'hidden',
             }}
           />
         ))}
@@ -107,7 +110,8 @@ const AnimatedBackground = () => {
       <div 
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
-          transform: `translate3d(0, ${starsMediumOffset}px, 0)`,
+          transform: `translate3d(0, ${Math.round(starsMediumOffset)}px, 0)`,
+          backfaceVisibility: 'hidden',
         }}
       >
         {mediumStars.map((star) => (
@@ -123,6 +127,7 @@ const AnimatedBackground = () => {
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
               boxShadow: star.brightness > 1 ? '0 0 10px 3px rgba(93, 204, 255, 0.7)' : 'none',
+              backfaceVisibility: 'hidden',
             }}
           />
         ))}
@@ -132,7 +137,8 @@ const AnimatedBackground = () => {
       <div 
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform"
         style={{
-          transform: `translate3d(0, ${starsFastOffset}px, 0)`,
+          transform: `translate3d(0, ${Math.round(starsFastOffset)}px, 0)`,
+          backfaceVisibility: 'hidden',
         }}
       >
         {fastStars.map((star) => (
@@ -148,6 +154,7 @@ const AnimatedBackground = () => {
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
               boxShadow: star.brightness > 1 ? '0 0 12px 4px rgba(93, 204, 255, 0.8)' : '0 0 4px 1px rgba(93, 204, 255, 0.3)',
+              backfaceVisibility: 'hidden',
             }}
           />
         ))}
@@ -157,12 +164,13 @@ const AnimatedBackground = () => {
       <div
         className="absolute inset-x-0 -top-[100%] h-[800%] will-change-transform pointer-events-none"
         style={{
-          transform: `translate3d(0, ${starsFastOffset * 0.5}px, 0)`,
+          transform: `translate3d(0, ${Math.round(starsFastOffset * 0.5)}px, 0)`,
           background: `
             radial-gradient(ellipse 80% 40% at 30% 20%, rgba(93, 204, 255, 0.08), transparent 50%),
             radial-gradient(ellipse 60% 30% at 70% 60%, rgba(93, 204, 255, 0.06), transparent 50%),
             radial-gradient(ellipse 70% 35% at 40% 80%, rgba(93, 204, 255, 0.07), transparent 50%)
           `,
+          backfaceVisibility: 'hidden',
         }}
       />
     </div>

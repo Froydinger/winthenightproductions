@@ -66,7 +66,7 @@ const Index = () => {
       <Header />
 
       {/* Content Sections */}
-      <div className="relative z-10">
+      <div className="relative z-10 isolate">
         <div id="hero">
           <HeroSection />
         </div>

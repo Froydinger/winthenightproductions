@@ -161,7 +161,7 @@ const Blog = () => {
 
         <Header />
 
-        <div className="relative z-10 pt-24 pb-16">
+        <div className="relative z-10 isolate pt-24 pb-16">
           <div className="container mx-auto px-4">
             {/* Hero Section */}
             <div className="text-center mb-12">
