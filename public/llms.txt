@@ -1,0 +1,22 @@
+# Win The Night
+
+> A mental health community built on authentic conversations about healing, trauma, and recovery. Weekly long-form episodes, shorts, a podcast, and a written blog.
+
+## Pages
+
+- [Home](/): Overview of the Win The Night community and latest content.
+- [Watch](/watch): Long-form video episodes organized by chapters.
+- [Listen](/listen): Podcast episodes and audio content.
+- [Blog](/blog): Written essays and reflections from the Substack.
+- [About](/about): Mission, pillars, and founder bios.
+- [Updates](/updates): Community social timeline and announcements.
+- [Be Our Guest](/guest): Apply to appear as a podcast guest.
+- [Support](/support): Become a Pro Supporter.
+- [Contact](/contact): Get in touch.
+- [Crisis Resources](/crisis-resources): Mental health crisis support links.
+
+## Optional
+
+- [Legal](/legal)
+- [Privacy](/privacy)
+- [Terms](/terms)
