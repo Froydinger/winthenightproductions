@@ -21,6 +21,16 @@ serve(async (req) => {
     const { priceId, mode, customAmount } = await req.json();
     if (!priceId && !customAmount) throw new Error("priceId or customAmount required");
 
+    // Validate customAmount: positive integer, min $0.50, max $10,000
+    if (customAmount !== undefined && customAmount !== null) {
+      if (!Number.isInteger(customAmount) || customAmount < 50 || customAmount > 1_000_000) {
+        return new Response(
+          JSON.stringify({ error: "Custom amount must be a whole number of cents between 50 and 1,000,000" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });

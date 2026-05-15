@@ -6,8 +6,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-// Giphy public beta key - replace with your own key for production
-const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY || "sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh";
+// Giphy API key — must be configured via VITE_GIPHY_API_KEY env var
+const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY || "";
 const giphyFetch = new GiphyFetch(GIPHY_API_KEY);
 
 interface GifPickerProps {

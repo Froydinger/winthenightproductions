@@ -89,6 +89,37 @@ Deno.serve(async (req) => {
     )
   }
 
+  // Admin-only templates — broadcasts can spam/phish from our domain
+  const ADMIN_ONLY_TEMPLATES = new Set(['broadcast-update'])
+  if (ADMIN_ONLY_TEMPLATES.has(templateName)) {
+    const authHeader = req.headers.get('Authorization') || ''
+    const token = authHeader.replace('Bearer ', '')
+    const adminCheckClient = createClient(supabaseUrl, supabaseServiceKey)
+    let isAdmin = false
+    if (token) {
+      const { data: userData } = await adminCheckClient.auth.getUser(token)
+      const callerUserId = userData?.user?.id
+      if (callerUserId) {
+        const { data: roleRow } = await adminCheckClient
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', callerUserId)
+          .eq('role', 'admin')
+          .maybeSingle()
+        isAdmin = !!roleRow
+      }
+    }
+    // Service-role callers (server-to-server) are also allowed
+    const isServiceRole = token && token === supabaseServiceKey
+    if (!isAdmin && !isServiceRole) {
+      console.warn('Unauthorized broadcast attempt', { templateName })
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: admin role required for this template' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+  }
+
   // 1. Look up template from registry (early — needed to resolve recipient)
   const template = TEMPLATES[templateName]
 
