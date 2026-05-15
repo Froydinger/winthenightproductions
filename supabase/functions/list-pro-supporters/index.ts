@@ -83,8 +83,10 @@ serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ supporters }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    const payload = JSON.stringify({ supporters });
+    cache = { at: Date.now(), payload };
+    return new Response(payload, {
+      headers: { ...corsHeaders, "Content-Type": "application/json", "X-Cache": "MISS" },
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
