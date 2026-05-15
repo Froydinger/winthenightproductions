@@ -15,12 +15,22 @@ const PRO_PRODUCT_IDS = [
   "prod_U4U5QGmibWU8wD",  // ArcAi Pro (legacy $8/mo)
 ];
 
+// In-memory cache (per warm instance) to reduce Stripe API calls and abuse impact
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+let cache: { at: number; payload: string } | null = null;
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    if (cache && Date.now() - cache.at < CACHE_TTL_MS) {
+      return new Response(cache.payload, {
+        headers: { ...corsHeaders, "Content-Type": "application/json", "X-Cache": "HIT" },
+      });
+    }
+
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
 
@@ -73,8 +83,10 @@ serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ supporters }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    const payload = JSON.stringify({ supporters });
+    cache = { at: Date.now(), payload };
+    return new Response(payload, {
+      headers: { ...corsHeaders, "Content-Type": "application/json", "X-Cache": "MISS" },
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
