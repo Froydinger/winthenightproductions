@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 // Giphy API key — must be configured via VITE_GIPHY_API_KEY env var
-const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY || "";
+const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY || "5RSHv2V2OhtEIm8PF5kZNgI2oIWvwVXj";
 const giphyFetch = new GiphyFetch(GIPHY_API_KEY);
 
 interface GifPickerProps {
@@ -51,10 +51,7 @@ const GifPicker = ({ open, onOpenChange, onSelectGif }: GifPickerProps) => {
               className="flex-1"
             />
             {searchTerm && (
-              <Button
-                variant="outline"
-                onClick={() => setSearchTerm("")}
-              >
+              <Button variant="outline" onClick={() => setSearchTerm("")}>
                 Clear
               </Button>
             )}
@@ -72,9 +69,7 @@ const GifPicker = ({ open, onOpenChange, onSelectGif }: GifPickerProps) => {
             />
           </div>
 
-          <div className="text-xs text-muted-foreground text-center">
-            Powered by GIPHY
-          </div>
+          <div className="text-xs text-muted-foreground text-center">Powered by GIPHY</div>
         </div>
       </DialogContent>
     </Dialog>
