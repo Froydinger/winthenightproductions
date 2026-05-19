@@ -40,10 +40,10 @@ const Privacy = () => {
               </h1>
 
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Last updated: December 29, 2025
+                Last updated: May 19, 2026
               </p>
               <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-                Unified Privacy Policy for the Win The Night website (winthenight.org), Win The Night Productions, and All Apps
+                Privacy Policy for Win The Night website (winthenight.org)
               </p>
             </div>
           </div>
@@ -57,109 +57,67 @@ const Privacy = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">1. Introduction</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Win The Night Productions ("WTN," "we," "us," "our") operates the following website and services:
+                  Win The Night Productions ("WTN," "we," "us," "our") operates the Win The Night website: <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://winthenight.org</a>
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li>Win The Night Website: <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://winthenight.org</a></li>
-                  <li>ArcAi: <a href="https://askarc.chat" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://askarc.chat</a></li>
-                  <li>Noteily: <a href="https://noteily.app" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://noteily.app</a></li>
-                  <li>Pending.Press: <a href="https://pending.press" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">https://pending.press</a></li>
-                </ul>
                 <p className="text-muted-foreground leading-relaxed">
-                  This Privacy Policy covers the Win The Night website itself as well as all of the above services, and explains our minimal data practices. We designed these products to be free to use and privacy-first.
+                  This Privacy Policy explains our data practices for the website. We are committed to protecting your privacy and handling your data responsibly.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">2. Our Data Philosophy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We prioritize privacy and minimal data collection. Authentication is handled via Google Sign-In. We do not sell or share personal data with third parties. We do not retain detailed profile information or run user analytics. Data that is stored (such as chat history in ArcAi or notes in Noteily) is encrypted at rest and used solely for providing core functionality.
+                  We prioritize privacy and minimal data collection. We do not sell or share personal data with third parties. When you subscribe to our Pro Supporter plan via Stripe, we collect payment information necessary to process your subscription. We use your data only for providing access to the Maestro app builder and related services, and creating accounts on Arcana Notes and ArcAi if you don't already have one.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">3. Authentication (Google Sign-In)</h2>
+                <h2 className="text-2xl font-bold text-foreground">3. Authentication and Payments</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  All services use Google Sign-In solely to let you log in. We do not extract or persist personal data from your Google account beyond what is strictly necessary to complete the sign-in session. We do not build user profiles, track behavior, or combine data across products.
+                  Account creation and sign-in may use Google Sign-In. We do not extract or persist personal data from your Google account beyond what is strictly necessary to complete the sign-in session.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Payment for our Pro Supporter subscription is processed through Stripe. We do not store your full credit card information on our servers. Stripe handles all payment processing under their own privacy and security policies.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">4. Product-Specific Details</h2>
-
-                <div className="ml-4 space-y-6">
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">Win The Night Website (winthenight.org)</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                      <li><strong className="text-foreground">Purpose:</strong> The primary website for Win The Night, featuring episodes, blog content, community updates, and resources.</li>
-                      <li><strong className="text-foreground">Data:</strong> The site may collect minimal data necessary for community features such as posting updates and comments. No detailed analytics or behavioral tracking is performed.</li>
-                      <li><strong className="text-foreground">Authentication:</strong> Certain interactive features (such as community posts) may require authentication. No personal data is retained beyond what is necessary for these features.</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">A. ArcAi (askarc.chat)</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                      <li><strong className="text-foreground">Purpose:</strong> Chatbot interface that uses Google Gemini to generate responses.</li>
-                      <li><strong className="text-foreground">Data:</strong> Chat content, prompts, and outputs are stored encrypted at rest for functionality purposes. No user analytics or tracking beyond conversation history.</li>
-                      <li><strong className="text-foreground">Sign-In:</strong> Auth via Google Sign-In only for session access. Chat history is tied to your authenticated session.</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">B. Noteily (noteily.app)</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                      <li><strong className="text-foreground">Purpose:</strong> Notes app that uses Lovable Cloud infrastructure for app functionality.</li>
-                      <li><strong className="text-foreground">Data:</strong> We do not collect or store your notes, attachments, or collaboration data on WTN-owned systems. We do not mine content, and we do not run ads, analytics, or trackers.</li>
-                      <li><strong className="text-foreground">Sign-In:</strong> Auth via Google Sign-In only. No personal data retention.</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">C. Pending.Press (pending.press)</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                      <li><strong className="text-foreground">Purpose:</strong> Digital magazine.</li>
-                      <li><strong className="text-foreground">Ads:</strong> This is the only product that uses advertising (Google AdSense). AdSense may place cookies or similar technologies to deliver and measure ads, independent of WTN. We do not sell or share personal data.</li>
-                      <li><strong className="text-foreground">Sign-In:</strong> May use Google Sign-In for account access where needed. No personal data retention by WTN beyond session authentication.</li>
-                    </ul>
-                  </div>
-                </div>
+                <h2 className="text-2xl font-bold text-foreground">4. Website Data Collection</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  The Win The Night website may collect minimal data necessary for providing features and services:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                  <li><strong className="text-foreground">User Accounts:</strong> If you create an account or subscribe to our Pro Supporter plan, we collect information necessary to provide access to the Maestro app builder and to create accounts on Arcana Notes and ArcAi if you don't have one.</li>
+                  <li><strong className="text-foreground">Payment Information:</strong> Stripe processes all payment information. We do not store your full payment details.</li>
+                  <li><strong className="text-foreground">Community Features:</strong> Interactive features may require basic user information. No detailed behavioral tracking is performed.</li>
+                </ul>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">5. Cookies and Tracking</h2>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li><strong className="text-foreground">ArcAi and Noteily:</strong> No tracking cookies. Only the essential session mechanism associated with Google Sign-In may be used to keep you logged in.</li>
-                  <li><strong className="text-foreground">Pending.Press:</strong> Google AdSense may use its own cookies or identifiers to serve and measure ads. WTN does not collect or store personal data from these cookies.</li>
-                </ul>
+                <p className="text-muted-foreground leading-relaxed">
+                  We do not use tracking cookies to monitor user behavior. Essential cookies may be used only to maintain your login session and basic site functionality.
+                </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">6. Data Sharing</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We do not sell personal data. We do not share personal data with third parties. Where third-party services (e.g., Google Sign-In, Google AdSense) operate, they do so under their own policies and controls.
+                  We do not sell personal data. We do not share personal data with third parties for marketing purposes. However, we share payment information with Stripe to process your subscriptions. Third-party services operate under their own policies and controls.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">7. Security</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We implement industry-standard security controls to protect your data. All stored data (including chat history in ArcAi and notes in Noteily) is encrypted at rest. We use secure authentication via Google Sign-In and maintain appropriate technical and organizational measures to safeguard your information. While we take reasonable steps to protect your data, no method of transmission or storage is 100% secure.
+                  We implement industry-standard security controls to protect your data. We use secure authentication and maintain appropriate technical and organizational measures to safeguard your information. Payment information is handled securely by Stripe. While we take reasonable steps to protect your data, no method of transmission or storage is 100% secure.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">8. Data Retention</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Data retention varies by service:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li><strong className="text-foreground">ArcAi:</strong> Chat conversations are retained encrypted at rest and tied to your authenticated session. You can delete your chat history at any time.</li>
-                  <li><strong className="text-foreground">Noteily:</strong> Your notes are stored on Lovable Cloud infrastructure for as long as you maintain your account. You retain full control to edit or delete your content.</li>
-                  <li><strong className="text-foreground">Pending.Press:</strong> Content submission and viewing data may be retained as necessary for publication purposes.</li>
-                </ul>
-                <p className="text-muted-foreground leading-relaxed">
-                  We do not keep detailed user profiles or behavioral tracking logs beyond what is necessary for core functionality.
+                  We retain your account and subscription information for as long as your account is active. Payment history is retained as required for billing and legal purposes. Upon account deletion or cancellation, we retain only information required by law. We do not keep detailed behavioral tracking logs beyond what is necessary for core functionality.
                 </p>
               </div>
 
@@ -169,10 +127,9 @@ const Privacy = () => {
                   Depending on your location, you may have certain rights regarding your data:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li><strong className="text-foreground">Access:</strong> You can access your chat history in ArcAi and your notes in Noteily through your account.</li>
-                  <li><strong className="text-foreground">Deletion:</strong> You can delete your chat history in ArcAi or your notes in Noteily at any time through the respective applications.</li>
-                  <li><strong className="text-foreground">Correction:</strong> You can edit or update your content directly in the applications.</li>
-                  <li><strong className="text-foreground">Data Portability:</strong> You can export your notes from Noteily. For ArcAi chat history export requests, contact us.</li>
+                  <li><strong className="text-foreground">Access:</strong> You can access your account information through your account dashboard.</li>
+                  <li><strong className="text-foreground">Deletion:</strong> You can request deletion of your account and associated data.</li>
+                  <li><strong className="text-foreground">Correction:</strong> You can update your account information at any time.</li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed">
                   If you have questions about your rights or want to exercise them, contact us using the details below.

@@ -40,10 +40,10 @@ const Terms = () => {
               </h1>
 
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Last updated: December 29, 2025
+                Last updated: May 19, 2026
               </p>
               <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-                Unified Terms of Service for the Win The Night website (winthenight.org), Win The Night Productions, and All Apps
+                Terms of Service for Win The Night website (winthenight.org)
               </p>
             </div>
           </div>
@@ -57,7 +57,7 @@ const Terms = () => {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">1. Acceptance of Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                   By accessing or using the Win The Night website (<a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">winthenight.org</a>) or any Win The Night Productions ("WTN," "we," "us," "our") services—including ArcAi (<a href="https://askarc.chat" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">askarc.chat</a>), Noteily (<a href="https://noteily.app" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">noteily.app</a>), and Pending.Press (<a href="https://pending.press" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">pending.press</a>)—you agree to be bound by these Terms of Service. If you do not agree, please do not use our website or services.
+                  By accessing or using the Win The Night website (<a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">winthenight.org</a>) operated by Win The Night Productions ("WTN," "we," "us," "our"), you agree to be bound by these Terms of Service. If you do not agree, please do not use our website or services.
                 </p>
               </div>
 
@@ -68,41 +68,27 @@ const Terms = () => {
                   <div className="space-y-3">
                     <h3 className="text-xl font-semibold text-foreground">Win The Night Website</h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      The primary website for Win The Night (<a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">winthenight.org</a>), featuring episodes, blog content sourced from our Substack, community updates, and mental health resources. The website includes interactive community features that may require authentication.
+                      The primary website for Win The Night (<a href="https://winthenight.org" target="_blank" rel="noopener noreferrer" className="text-neon-blue hover:underline">winthenight.org</a>), featuring episodes, blog content, community updates, and resources. The website includes interactive features that may require authentication.
                     </p>
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">ArcAi</h3>
+                    <h3 className="text-xl font-semibold text-foreground">Pro Supporter Subscription</h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      A chatbot interface that uses Google Gemini to generate responses. We provide this service "as-is" for informational and conversational purposes.
-                    </p>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">Noteily</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      A notes application using Lovable Cloud infrastructure. You may create, edit, and manage notes through the app.
-                    </p>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground">Pending.Press</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      A digital magazine platform. This service may display advertising via Google AdSense.
+                      We offer a Pro Supporter subscription plan via Stripe. When you subscribe, you receive paid access to our Maestro app builder. If you don't already have an account, we create an account for you on Arcana Notes and ArcAi. This subscription is billed according to the plan you select.
                     </p>
                   </div>
                 </div>
 
                 <p className="text-muted-foreground leading-relaxed">
-                  All services are provided free of charge. We reserve the right to modify, suspend, or discontinue any service at any time without notice.
+                  We reserve the right to modify, suspend, or discontinue any service at any time. Material changes will be communicated to users.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">3. User Accounts and Authentication</h2>
+                <h2 className="text-2xl font-bold text-foreground">3. User Accounts, Authentication, and Payments</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Access to our services requires authentication via Google Sign-In. By signing in, you represent that:
+                  Access to our services may require authentication via Google Sign-In. By signing in, you represent that:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                   <li>You have the authority to use the Google account you provide</li>
@@ -110,12 +96,28 @@ const Terms = () => {
                   <li>You are at least 18 years of age</li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed">
-                  We do not store or retain your Google account information beyond what is necessary for session authentication.
+                  <strong className="text-foreground">Payment Processing:</strong> When you subscribe to our Pro Supporter plan, payment is processed through Stripe. By subscribing, you authorize Stripe to charge your payment method according to the plan terms. All payment information is handled by Stripe under their own security and privacy practices.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">4. Acceptable Use</h2>
+                <h2 className="text-2xl font-bold text-foreground">4. Subscription Terms and Refund Policy</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Billing:</strong> Your Pro Supporter subscription is billed according to the plan you select (e.g., monthly, annual). Billing occurs on the date you subscribe and then on the corresponding date each billing cycle.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Refund Policy:</strong> We offer a 14-day refund window from the date of your initial subscription purchase. If you request a refund within 14 days, we will provide a full refund of your subscription fee. After 14 days, no refunds are available, though you may cancel your subscription at any time to prevent future charges.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Cancellation:</strong> You may cancel your subscription at any time through your account settings or by contacting us. Cancellation takes effect at the end of your current billing period. You will not be charged for future billing cycles after cancellation.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Price Changes:</strong> We may change subscription prices with at least 30 days' notice. Changes take effect on your next billing date.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">5. Acceptable Use</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   You agree not to:
                 </p>
@@ -131,28 +133,20 @@ const Terms = () => {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">5. User Content</h2>
+                <h2 className="text-2xl font-bold text-foreground">6. User Content</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">For ArcAi:</strong> Chat conversations, prompts, and outputs are stored encrypted at rest and tied to your authenticated session for functionality purposes. You retain the ability to delete your chat history at any time. We do not claim ownership of your conversations.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">For Noteily:</strong> You retain all ownership rights to notes and content you create. We do not claim ownership or rights to your content. We do not access, mine, or analyze your notes. Your notes are stored encrypted on Lovable Cloud infrastructure.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">For Pending.Press:</strong> Content published on the platform may be subject to separate editorial guidelines. You are responsible for ensuring you have the rights to any content you submit.
+                  You retain ownership of any content you create or upload to our website. You are responsible for ensuring you have the rights to any content you submit. We do not claim ownership of your content.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">6. Third-Party Services</h2>
+                <h2 className="text-2xl font-bold text-foreground">7. Third-Party Services</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Our services integrate with third-party platforms:
+                  Our website integrates with third-party platforms:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                   <li><strong className="text-foreground">Google Sign-In:</strong> Authentication is governed by Google's terms and policies</li>
-                  <li><strong className="text-foreground">Google Gemini:</strong> ArcAi responses are generated by Google's AI systems</li>
-                  <li><strong className="text-foreground">Lovable Cloud:</strong> Noteily infrastructure is provided by Lovable</li>
-                  <li><strong className="text-foreground">Google AdSense:</strong> Advertising on Pending.Press is managed by Google</li>
+                  <li><strong className="text-foreground">Stripe:</strong> Payment processing is governed by Stripe's terms and policies</li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed">
                   We are not responsible for the practices, performance, or availability of these third-party services.
@@ -160,85 +154,82 @@ const Terms = () => {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">7. Intellectual Property</h2>
+                <h2 className="text-2xl font-bold text-foreground">8. Intellectual Property</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   The Win The Night Productions name, logos, and branding are our property. The design, layout, and software underlying our services are protected by copyright and other intellectual property laws. You may not copy, modify, or distribute our proprietary materials without permission.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">8. Disclaimers</h2>
+                <h2 className="text-2xl font-bold text-foreground">9. Disclaimers</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground uppercase">Our services are provided "as-is" and "as available" without warranties of any kind, express or implied.</strong> We do not guarantee:
+                  <strong className="text-foreground uppercase">Our website is provided "as-is" and "as available" without warranties of any kind, express or implied.</strong> We do not guarantee:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                   <li>Uninterrupted or error-free operation</li>
-                  <li>Accuracy, reliability, or completeness of content or outputs (especially AI-generated responses)</li>
+                  <li>Accuracy, reliability, or completeness of content</li>
                   <li>Security against unauthorized access or data loss</li>
                   <li>Fitness for any particular purpose</li>
                 </ul>
-                <p className="text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">AI Content Disclaimer:</strong> Responses from ArcAi are generated by artificial intelligence and may contain inaccuracies, errors, or inappropriate content. Do not rely on AI outputs for critical decisions, medical advice, legal advice, or professional guidance.
-                </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">9. Limitation of Liability</h2>
+                <h2 className="text-2xl font-bold text-foreground">10. Limitation of Liability</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   To the maximum extent permitted by law, Win The Night Productions shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of data, revenue, or profits, arising from your use of our services—even if we have been advised of the possibility of such damages.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">10. Indemnification</h2>
+                <h2 className="text-2xl font-bold text-foreground">11. Indemnification</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   You agree to indemnify and hold harmless Win The Night Productions from any claims, damages, losses, or expenses (including legal fees) arising from your use of our services or violation of these Terms.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">11. Termination</h2>
+                <h2 className="text-2xl font-bold text-foreground">12. Termination</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We may suspend or terminate your access to any or all services at any time, with or without cause, with or without notice. You may stop using our services at any time. Upon termination:
+                  We may suspend or terminate your access to our website at any time, with or without cause, with or without notice. You may stop using our website at any time. Upon termination:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                  <li>Your right to access the services immediately ceases</li>
-                  <li>You should delete any content you wish to preserve (chat history in ArcAi, notes in Noteily) before terminating your account</li>
+                  <li>Your right to access the website immediately ceases</li>
+                  <li>If you have an active Pro Supporter subscription, cancellation takes effect at the end of the current billing period (unless otherwise noted)</li>
                   <li>We may retain certain data as required by law or for legitimate business purposes</li>
                   <li>Provisions regarding disclaimers, liability, and indemnification survive termination</li>
                 </ul>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">12. Governing Law and Disputes</h2>
+                <h2 className="text-2xl font-bold text-foreground">13. Governing Law and Disputes</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   These Terms are governed by the laws of the United States, without regard to conflict of law principles. Any disputes arising from these Terms or the services shall be resolved through binding arbitration or in courts of competent jurisdiction.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">13. Changes to Terms</h2>
+                <h2 className="text-2xl font-bold text-foreground">14. Changes to Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   We may update these Terms at any time. Material changes will be reflected on this page with an updated "Last updated" date. Continued use of our services after changes constitutes acceptance of the revised Terms.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">14. Severability</h2>
+                <h2 className="text-2xl font-bold text-foreground">15. Severability</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   If any provision of these Terms is found to be unenforceable, the remaining provisions will continue in full force and effect.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">15. Entire Agreement</h2>
+                <h2 className="text-2xl font-bold text-foreground">16. Entire Agreement</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   These Terms, together with our Privacy Policy, constitute the entire agreement between you and Win The Night Productions regarding the use of our services.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">16. Contact</h2>
+                <h2 className="text-2xl font-bold text-foreground">17. Contact</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   Win The Night Productions
                 </p>
