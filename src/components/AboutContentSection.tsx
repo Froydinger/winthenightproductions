@@ -199,6 +199,8 @@ const AboutContentSection = () => {
           Last updated{" "}
           <time dateTime="2026-05-21">May 21, 2026</time>.
         </p>
+          </div>
+        </details>
       </div>
     </section>
   );
