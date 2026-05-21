@@ -11,6 +11,7 @@ import HomeShortsSection from "@/components/HomeShortsSection";
 import CommunitySection from "@/components/CommunitySection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import AboutContentSection from "@/components/AboutContentSection";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -371,6 +372,7 @@ const Lander = () => {
           <div id="cta" className="relative z-10">
             <CTASection />
           </div>
+          <AboutContentSection />
           <div className="relative z-10">
             <Footer />
           </div>
