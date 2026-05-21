@@ -46,7 +46,7 @@ const AboutContentSection = () => {
   return (
     <section
       id="about-win-the-night"
-      className="relative z-10 px-4 py-20 sm:py-28"
+      className="relative z-10 px-4 py-12 sm:py-16"
       aria-labelledby="about-heading"
     >
       <script
@@ -54,14 +54,29 @@ const AboutContentSection = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div className="container mx-auto max-w-3xl text-foreground/90">
+        {/* H1 stays visible (screen-reader + crawler primary signal) but kept subtle */}
         <h1
           id="about-heading"
-          className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6"
+          className="sr-only"
         >
           Win The Night™ — a mental health community for the long road of healing
         </h1>
 
-        <p className="text-lg leading-relaxed mb-5">
+        <details className="group rounded-2xl border border-neon-blue/20 bg-background/40 backdrop-blur-sm open:border-neon-blue/40 transition-colors">
+          <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-3 text-foreground hover:text-neon-blue transition-colors">
+            <span className="text-sm sm:text-base font-medium">
+              More info about Win The Night™
+            </span>
+            <span
+              aria-hidden="true"
+              className="text-neon-blue text-xl leading-none transition-transform group-open:rotate-45"
+            >
+              +
+            </span>
+          </summary>
+
+          <div className="px-5 pb-6 pt-2 space-y-5">
+        <p className="text-base leading-relaxed">
           Win The Night™ is a weekly conversation series and growing community
           for people doing the slow work of healing. We publish long-form video
           episodes, short clips, a podcast, and written essays — all centered
@@ -70,7 +85,7 @@ const AboutContentSection = () => {
           alone in it.
         </p>
 
-        <p className="text-lg leading-relaxed mb-10">
+        <p className="text-base leading-relaxed">
           You can start with the latest full episodes on our{" "}
           <Link to="/watch" className="text-neon-blue underline underline-offset-4 hover:text-neon-blue/80">
             Watch page
