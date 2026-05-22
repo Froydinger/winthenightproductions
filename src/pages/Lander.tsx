@@ -362,6 +362,9 @@ const Lander = () => {
             <HomeShortsSection />
           </div>
           <AboutContentSection />
+          <div id="cta" className="relative z-10">
+            <CTASection />
+          </div>
           <div className="relative z-10">
             <Footer />
           </div>
