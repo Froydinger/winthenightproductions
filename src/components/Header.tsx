@@ -142,18 +142,18 @@ const Header = () => {
 
         {/* Mobile Nav Links */}
         <nav className="flex md:hidden items-center gap-1 mr-auto ml-4">
-          {[
-            { label: "Watch", href: "/watch" },
-            { label: "Support Us", href: "/support" },
-          ].map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
-            >
-              {link.label}
-            </a>
-          ))}
+          <a
+            href="/watch"
+            className="px-2.5 py-1.5 text-xs font-bold text-neon-blue hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-neon-blue/10 drop-shadow-[0_0_6px_rgba(93,204,255,0.6)]"
+          >
+            Watch
+          </a>
+          <a
+            href="/support"
+            className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
+          >
+            Support Us
+          </a>
           {isHomePage && (
             <a
               href="/crisis-resources"
