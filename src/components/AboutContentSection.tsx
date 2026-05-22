@@ -1,16 +1,30 @@
 import { Link } from "react-router-dom";
-import { Play, Headphones, BookOpen, LifeBuoy, MessageCircle, Users } from "lucide-react";
+import {
+  Play,
+  Headphones,
+  BookOpen,
+  LifeBuoy,
+  MessageCircle,
+  Users,
+  Mic,
+  Smartphone,
+  Heart,
+  Youtube,
+  Instagram,
+  NotebookPen,
+  ExternalLink,
+  ArrowUpRight,
+} from "lucide-react";
 
 /**
- * AEO / SEO content block rendered visibly below the fold on the lander.
- * - Single visible H1 (the home page's only H1)
- * - Clean H1 → H2 → H3 hierarchy
- * - 400+ words of readable body text
- * - 7+ in-prose internal links (not just nav/footer)
- * - 4 external citations to authoritative mental health sources
+ * Unified below-the-fold section for the lander.
+ * Absorbs all unique links from the removed Community / Features / CTA
+ * sections into one icon-led grid, while preserving AEO structure:
+ * - Single H1 on the page
+ * - H1 → H2 → H3 hierarchy, ~500 words
+ * - 7+ internal links, 4 external citations
  * - Visible FAQ + FAQPage JSON-LD
- * Styled to match Win The Night™ — dark, neon-blue accents, no backdrop-blur
- * (per project memory: backdrop-blur over AnimatedBackground hurts perf).
+ * - No backdrop-blur (perf w/ AnimatedBackground)
  */
 const AboutContentSection = () => {
   const faqs = [
@@ -52,24 +66,57 @@ const AboutContentSection = () => {
   const cardCls =
     "rounded-2xl border border-neon-blue/15 bg-background/60 p-6 sm:p-8 shadow-[0_0_40px_-20px_rgba(0,217,255,0.25)]";
 
-  const startTiles = [
+  type Tile = {
+    href: string;
+    external?: boolean;
+    icon: typeof Play;
+    title: string;
+    desc: string;
+  };
+
+  const tiles: Tile[] = [
+    { href: "/watch", icon: Play, title: "Full episodes", desc: "Long-form conversations." },
+    { href: "/listen", icon: Headphones, title: "Podcast", desc: "Same stories, on the go." },
+    { href: "#shorts", icon: Smartphone, title: "Shorts", desc: "Quick clips, vertical." },
+    { href: "/blog", icon: BookOpen, title: "Essays", desc: "Reflections from the team." },
+    { href: "/guest", icon: Mic, title: "Be our guest", desc: "Share your story." },
+    { href: "/updates", icon: Users, title: "Community", desc: "Live timeline of updates." },
+    { href: "/about", icon: Heart, title: "Our mission", desc: "Who we are, why we make this." },
+    { href: "/crisis-resources", icon: LifeBuoy, title: "Crisis resources", desc: "Hotlines & warmlines." },
     {
-      to: "/watch",
-      icon: Play,
-      title: "Watch full episodes",
-      desc: "Long-form conversations, organized by chapter.",
+      href: "https://youtube.com/@winthenight?sub_confirmation=1",
+      external: true,
+      icon: Youtube,
+      title: "Subscribe",
+      desc: "Follow on YouTube.",
     },
     {
-      to: "/listen",
-      icon: Headphones,
-      title: "Listen to the podcast",
-      desc: "The same conversations, on the go.",
+      href: "https://instagram.com/win_the_night",
+      external: true,
+      icon: Instagram,
+      title: "Instagram",
+      desc: "Daily moments & clips.",
     },
     {
-      to: "/blog",
-      icon: BookOpen,
-      title: "Read the blog",
-      desc: "Essays and reflections from the team.",
+      href: "https://winthenight.blog",
+      external: true,
+      icon: ExternalLink,
+      title: "Blog mirror",
+      desc: "Essays on Substack.",
+    },
+    {
+      href: "https://noteily.app/",
+      external: true,
+      icon: NotebookPen,
+      title: "Noteily",
+      desc: "Our journaling companion.",
+    },
+    {
+      href: "https://chatwitharc.com/",
+      external: true,
+      icon: MessageCircle,
+      title: "Chat with Arc",
+      desc: "Talk to our AI companion.",
     },
   ];
 
@@ -83,8 +130,8 @@ const AboutContentSection = () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="container mx-auto max-w-3xl text-foreground/90 space-y-10">
-        {/* H1 — the only H1 on the lander */}
+      <div className="container mx-auto max-w-4xl text-foreground/90 space-y-12">
+        {/* H1 */}
         <header className="text-center space-y-4">
           <h1
             id="about-heading"
@@ -102,7 +149,7 @@ const AboutContentSection = () => {
           </p>
         </header>
 
-        {/* Intro card */}
+        {/* Intro */}
         <div className={cardCls}>
           <p className="text-base sm:text-lg leading-relaxed">
             Win The Night™ is a weekly conversation series and growing
@@ -123,6 +170,54 @@ const AboutContentSection = () => {
           </p>
         </div>
 
+        {/* Explore everything — icon grid */}
+        <div id="explore">
+          <h2 className="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-foreground mb-5 px-1">
+            <Users className="w-6 h-6 text-neon-blue" />
+            Explore everything
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            {tiles.map((t) => {
+              const Icon = t.icon;
+              const baseCls =
+                "group relative rounded-2xl border border-neon-blue/15 bg-background/60 p-4 sm:p-5 hover:border-neon-blue/50 hover:bg-background/80 transition-all hover:-translate-y-0.5 hover:shadow-[0_0_30px_-12px_rgba(0,217,255,0.5)]";
+              const inner = (
+                <>
+                  {t.external && (
+                    <ArrowUpRight className="absolute top-2.5 right-2.5 w-3.5 h-3.5 text-foreground/40 group-hover:text-neon-blue transition-colors" />
+                  )}
+                  <Icon className="w-6 h-6 text-neon-blue mb-3 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-sm sm:text-base font-semibold text-foreground mb-1 leading-tight">
+                    {t.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-foreground/65 leading-snug">
+                    {t.desc}
+                  </p>
+                </>
+              );
+              return t.external ? (
+                <a
+                  key={t.href}
+                  href={t.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={baseCls}
+                >
+                  {inner}
+                </a>
+              ) : t.href.startsWith("#") ? (
+                <a key={t.href} href={t.href} className={baseCls}>
+                  {inner}
+                </a>
+              ) : (
+                <Link key={t.href} to={t.href} className={baseCls}>
+                  {inner}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         {/* What we talk about */}
         <div className={cardCls}>
           <h2 className="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-foreground mb-4">
@@ -136,44 +231,10 @@ const AboutContentSection = () => {
             include therapists, peer-support workers, artists, and ordinary
             people with extraordinary stories. We don't promise cures — we
             sit with the questions long enough to make them feel survivable.
-            If you want to share your own story, apply on the{" "}
-            <Link to="/guest" className={linkCls}>
-              Be Our Guest
-            </Link>{" "}
-            page, or join the conversation in our{" "}
-            <Link to="/updates" className={linkCls}>
-              community timeline
-            </Link>
-            .
           </p>
         </div>
 
-        {/* Where to start — tiles */}
-        <div>
-          <h2 className="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-foreground mb-5 px-1">
-            <Users className="w-6 h-6 text-neon-blue" />
-            Where to start
-          </h2>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {startTiles.map((t) => (
-              <Link
-                key={t.to}
-                to={t.to}
-                className="group rounded-2xl border border-neon-blue/15 bg-background/60 p-5 hover:border-neon-blue/50 hover:bg-background/80 transition-all hover:-translate-y-0.5"
-              >
-                <t.icon className="w-6 h-6 text-neon-blue mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-lg font-semibold text-foreground mb-1">
-                  {t.title}
-                </h3>
-                <p className="text-sm text-foreground/70 leading-relaxed">
-                  {t.desc}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Crisis card with external citations */}
+        {/* Crisis */}
         <div className={cardCls}>
           <h2 className="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-foreground mb-4">
             <LifeBuoy className="w-6 h-6 text-red-400" />
@@ -230,7 +291,7 @@ const AboutContentSection = () => {
           </p>
         </div>
 
-        {/* FAQ — visible, not collapsed */}
+        {/* FAQ */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6 text-center">
             Frequently asked questions
@@ -250,8 +311,7 @@ const AboutContentSection = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground pt-2">
-          Last updated{" "}
-          <time dateTime="2026-05-22">May 22, 2026</time>.
+          Last updated <time dateTime="2026-05-22">May 22, 2026</time>.
         </p>
       </div>
     </section>
