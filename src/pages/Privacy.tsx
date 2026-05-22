@@ -45,10 +45,10 @@ const Privacy = () => {
             <p>
               We prioritize privacy and minimal data collection. We do not sell or share personal
               data with third parties. When you subscribe to our Pro Supporter plan via Stripe, we
-              collect payment information necessary to process your subscription. We use your data
-              only for providing access to the Maestro app builder and related services, and
-              creating accounts on Arcana Notes and ArcAi if you don't already have one.
+              collect only the information necessary to process your subscription and to display
+              your name on our Pro Supporters wall.
             </p>
+
 
             <h2>3. Authentication and Payments</h2>
             <p>
@@ -70,9 +70,10 @@ const Privacy = () => {
             <ul>
               <li>
                 <strong>User Accounts:</strong> If you create an account or subscribe to our Pro
-                Supporter plan, we collect information necessary to provide access to the Maestro
-                app builder and to create accounts on Arcana Notes and ArcAi if you don't have one.
+                Supporter plan, we collect basic information (name, email) needed to manage your
+                subscription and feature you on the Pro Supporters wall.
               </li>
+
               <li>
                 <strong>Payment Information:</strong> Stripe processes all payment information. We
                 do not store your full payment details.

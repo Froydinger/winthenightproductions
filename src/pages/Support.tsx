@@ -64,8 +64,9 @@ const Support = () => {
             Support the Show
           </Button>
           <p className="text-xs text-foreground/55 mt-4">
-            Donate once or subscribe from $3/mo · Secure checkout via Stripe
+            Donate once or become a $10/mo Pro Supporter · Secure checkout via Stripe
           </p>
+
         </SiteCard>
 
         <section>
@@ -99,8 +100,9 @@ const Support = () => {
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Our Pro Supporters</h2>
           <p className="text-sm text-foreground/60 mb-6">
-            These amazing people help make Win The Night possible
+            $10/mo Pro Supporters get a shout-out on the podcast and a permanent spot on this wall
           </p>
+
           {loadingSupporters ? (
             <div className="flex justify-center py-6">
               <Loader2 className="w-6 h-6 animate-spin text-neon-blue" />

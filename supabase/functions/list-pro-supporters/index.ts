@@ -6,14 +6,11 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// All product/price IDs that qualify as "Pro"
+// Price IDs that qualify as "Pro Supporter" (WTN $10/mo shout-out tier)
 const PRO_PRICE_IDS = [
   "price_1TB5D3AB32948AKDJTYd74X4", // WTN Pro Supporter $10/mo
 ];
-const PRO_PRODUCT_IDS = [
-  "prod_UAtIOiu4df3Rso",  // ArcAi Pro (current)
-  "prod_U4U5QGmibWU8wD",  // ArcAi Pro (legacy $8/mo)
-];
+
 
 // In-memory cache (per warm instance) to reduce Stripe API calls and abuse impact
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
@@ -55,27 +52,19 @@ serve(async (req) => {
 
       for (const sub of subs.data) {
         const priceId = sub.items.data[0]?.price?.id;
-        const productId = sub.items.data[0]?.price?.product;
+        if (!PRO_PRICE_IDS.includes(priceId)) continue;
 
-        const isProPrice = PRO_PRICE_IDS.includes(priceId);
-        const isProProduct = typeof productId === "string" && PRO_PRODUCT_IDS.includes(productId);
+        const customer = sub.customer as Stripe.Customer;
+        const email = customer.email || "";
+        if (seenEmails.has(email)) continue;
+        seenEmails.add(email);
 
-        if (isProPrice || isProProduct) {
-          const customer = sub.customer as Stripe.Customer;
-          const email = customer.email || "";
-          if (!seenEmails.has(email)) {
-            seenEmails.add(email);
-            let source = "wtn";
-            if (isProProduct && PRO_PRODUCT_IDS[0] === productId) source = "arcai";
-            else if (isProProduct && PRO_PRODUCT_IDS[1] === productId) source = "arcai_legacy";
-
-            supporters.push({
-              name: customer.name || customer.email || "Anonymous Supporter",
-              source,
-            });
-          }
-        }
+        supporters.push({
+          name: customer.name || customer.email || "Anonymous Supporter",
+          source: "wtn_pro",
+        });
       }
+
 
       hasMore = subs.has_more;
       if (subs.data.length > 0) {

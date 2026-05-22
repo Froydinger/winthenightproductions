@@ -51,11 +51,13 @@ const Terms = () => {
             </p>
             <h3>Pro Supporter Subscription</h3>
             <p>
-              We offer a Pro Supporter subscription plan via Stripe. When you subscribe, you
-              receive paid access to our Maestro app builder. If you don't already have an
-              account, we create an account for you on Arcana Notes and ArcAi. This subscription
-              is billed according to the plan you select.
+              We offer a Pro Supporter subscription at $10/month via Stripe. The subscription is a
+              way to support the show and receive credit for doing so — Pro Supporters get a
+              recurring shout-out on the podcast and a permanent listing on the Pro Supporters
+              wall on our website. No additional products or services are bundled with this
+              subscription.
             </p>
+
             <p>
               We reserve the right to modify, suspend, or discontinue any service at any time.
               Material changes will be communicated to users.
