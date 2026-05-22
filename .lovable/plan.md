@@ -1,56 +1,64 @@
+## Why the score is stuck
 
+The scanner doesn't read content inside collapsed `<details>` elements. Everything we hid behind the "More info" toggle (the H1, body text, FAQ, internal links, external citations) is invisible to it — which is why **Substantial text 0/8, Heading hierarchy 0/4, Internal links 0/18, External citations 0/7, FAQ 0/5** all failed despite the content existing in the DOM. To score, the content has to render visibly on first paint.
 
-## Newsletter / Broadcast Email System for Win The Night
+## What stays untouched
 
-### Summary
+- Hero (logo, mountains, parallax, scroll-reveal slogan, "Scroll to explore")
+- `WatchLatestSection` (latest episode tiles)
+- `HomeShortsSection`, `CommunitySection`, `FeaturesSection`, `CTASection`
+- `Header`, `Footer`
+- All JSON-LD already in `index.html` (it's passing)
+- Sitemap (passing — 11/11 on freshness)
 
-Build an email subscriber system using Lovable's built-in email infrastructure. Visitors subscribe by entering their email. Admins can compose and send branded update emails to all subscribers from the admin dashboard. A "Sent Emails" history tab lets admins preview, edit, and resend past broadcasts.
+## What changes — `src/components/AboutContentSection.tsx`
 
-### What Gets Built
+Rebuild the component so it renders visibly between `CTASection` and `Footer`, styled to match the rest of the lander (dark glassy cards, neon-blue accents, no `backdrop-blur` over the stars background per project rules).
 
-1. **Database: `newsletter_subscribers` table** — stores email, optional name, active status, subscribed_at. RLS: anyone can insert (subscribe), admins can read all, users can read/update their own row.
+### Visible structure (in order)
 
-2. **Database: `broadcast_emails` table** — stores sent broadcasts (subject, body HTML, sent_at, sent_by, recipient_count). RLS: admin-only read/write. This powers the "Sent Emails" history.
+1. **Single visible H1** — "Win The Night™ — a mental health community for the long road of healing." Large, on-brand, only H1 on the page (Lander has none of its own).
+2. **Intro prose** (~80 words) — what the show is and who it's for. Includes 2 in-prose internal links (`/watch`, `/about`).
+3. **"What we talk about" H2 card** (~100 words) — topics covered. Includes 2 in-prose internal links (`/guest`, `/updates`).
+4. **"Where to start" H2 card** — three small tiles linking to `/watch`, `/listen`, `/blog` with one-line descriptions. Counts as additional contextual internal links.
+5. **"If tonight is hard" H2 card** (~90 words) — crisis framing with 4 external citations (988 Lifeline, Find A Helpline, NIMH, WHO) plus internal link to `/crisis-resources`.
+6. **"Frequently asked questions" H2** — 5 Q&As rendered as H3 + paragraph, all visible (not in `<details>`). Keeps the existing FAQPage JSON-LD.
+7. **"Last updated" timestamp** — small muted line at the bottom.
 
-3. **Email infrastructure setup** — set up the email infra and scaffold transactional email templates on the verified `notify.maestrobuilder.app` domain.
+### Why this nails each failing check
 
-4. **Two email templates:**
-   - `welcome-subscriber` — branded WTN confirmation email sent on subscribe ("Thanks for subscribing to Win The Night updates!")
-   - `broadcast-update` — branded template for admin broadcasts, accepts dynamic subject/body content via templateData
+| Check | Current | Fix |
+| --- | --- | --- |
+| Single H1 (1/5 → 5/5) | sr-only, scanner discounting it | Visible, descriptive, single |
+| Heading hierarchy (0/4) | Hidden inside details | Visible H1 → H2 → H3 chain |
+| Substantial text (0/8) | Hidden | ~400+ words of visible prose |
+| FAQ bonus (0/5) | Hidden | 5 visible Q&As + existing schema |
+| Internal links (0/18) | Hidden / footer-only | 7+ in-prose `<Link>`s in body |
+| External citations (0/7) | Hidden | 4 outbound links to authority sites |
 
-5. **Subscribe form component** — simple email input + button, placed in the CTA section or footer. Inserts into `newsletter_subscribers` and triggers the welcome email via `send-transactional-email`.
+### Design treatment (below the fold, on-brand)
 
-6. **Admin: Broadcast Composer tab** — new tab on `/admin` with:
-   - Subject line input
-   - Rich text / markdown body composer
-   - "Send to All Subscribers" button
-   - Loops through active subscribers, calling `send-transactional-email` for each with unique idempotency keys
-   - Saves the broadcast to `broadcast_emails` table after sending
+- Section wrapper: `relative z-10 px-4 py-16 sm:py-24`, max-w container.
+- H1: gradient or solid foreground, `text-4xl sm:text-5xl`, neon-blue glow accent on the trademark.
+- Body cards: `bg-background/60 border border-neon-blue/15 rounded-2xl p-6 sm:p-8`, no `backdrop-blur` (would degrade the AnimatedBackground per project memory).
+- Links: neon-blue underline-offset, hover lighten.
+- "Where to start" tiles: 3-column grid on `sm:`, stacks on mobile, each tile uses an icon from `lucide-react` already in the project.
+- FAQ: stacked, no accordion — visible plain text so the scanner can read every Q.
+- "Last updated" `<time dateTime="2026-05-21">` already passes the freshness check; keep it.
 
-7. **Admin: Sent Emails tab** — new tab on `/admin` showing:
-   - List of all past broadcasts from `broadcast_emails` table
-   - Each entry shows subject, date sent, recipient count
-   - Click to expand/preview the full email content
-   - "Edit & Resend" button that pre-fills the composer with the old subject/body so the admin can modify and re-send
+## What changes — `src/pages/Lander.tsx`
 
-8. **Unsubscribe page** — required compliance page at `/unsubscribe` (or whichever path the scaffold tool assigns). Branded to match the site.
+No structural change. The `AboutContentSection` is already mounted after `CTASection`; only the component's internals change. The scroll-reveal hero, mountain layers, parallax timings, and all sections above remain identical.
 
-### Technical Details
+## What I will NOT touch
 
-- Email domain `notify.maestrobuilder.app` is already verified and ready
-- Will call `setup_email_infra` then `scaffold_transactional_email` to create the sending pipeline
-- Welcome email is a true transactional email (1:1, triggered by the subscriber's action)
-- Broadcast sends loop on the client/admin side, calling `send-transactional-email` once per subscriber with unique idempotency keys — each send is individually queued and retried
-- `broadcast_emails` table stores a snapshot of each broadcast for the admin history/resend feature
-- All email templates use WTN branding: dark neon-blue theme accents on white (#fff) email body background
+- `index.html` (JSON-LD, meta, canonical — all passing)
+- `public/sitemap.xml` (11/11 freshness)
+- `public/llms.txt` (3/3)
+- Hero section, mountains, logo animation, slogan timing
+- `WatchLatestSection`, `HomeShortsSection`, `CommunitySection`, `FeaturesSection`, `CTASection`
+- `Header`, `Footer`, routes, auth, any backend
 
-### Files Created/Modified
+## Expected score impact
 
-- **Migration**: `newsletter_subscribers` table, `broadcast_emails` table + RLS
-- **New templates**: `supabase/functions/_shared/transactional-email-templates/welcome-subscriber.tsx`, `broadcast-update.tsx`, updated `registry.ts`
-- **New component**: `src/components/NewsletterSubscribe.tsx`
-- **New page**: `src/pages/Unsubscribe.tsx` (or assigned path)
-- **Modified**: `src/pages/Admin.tsx` (add Broadcast Composer + Sent Emails tabs)
-- **Modified**: `src/pages/Index.tsx` or `src/components/Footer.tsx` (add subscribe form)
-- **Modified**: `src/App.tsx` (add unsubscribe route)
-
+Trustworthy 3/25 → ~22/25 (internal + external links pass; llms.txt already passing). Quotable 17/25 → 25/25 (substantial text + FAQ). Understandable 17/25 → 25/25 (single H1 visible + hierarchy). Findable stays 25/25. Projected overall: **~95/100**.
