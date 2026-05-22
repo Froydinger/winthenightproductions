@@ -131,10 +131,9 @@ const CrisisResources = () => {
 
         <ResourceSection
           icon={AlertTriangle}
-          iconColorCls="text-red-400"
           eyebrow="Emergency"
           title="Crisis management"
-          accent="red"
+          accent="yellow"
           resources={crisis}
         />
 
@@ -142,6 +141,7 @@ const CrisisResources = () => {
           icon={HeartHandshake}
           eyebrow="Recovery"
           title="Addiction & recovery"
+          accent="purple"
           resources={recovery}
         />
 
@@ -149,6 +149,7 @@ const CrisisResources = () => {
           icon={ShieldAlert}
           eyebrow="Survivors"
           title="Sexual assault & violence"
+          accent="teal"
           resources={survivors}
         />
 
@@ -156,6 +157,7 @@ const CrisisResources = () => {
           icon={Stethoscope}
           eyebrow="Cancer care"
           title="Cancer patients & families"
+          accent="pink"
           resources={cancer}
         />
 
@@ -174,40 +176,83 @@ const CrisisResources = () => {
 
 function ResourceSection({
   icon: Icon,
-  iconColorCls,
   eyebrow,
   title,
   resources,
   accent = "blue",
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  iconColorCls?: string;
   eyebrow: string;
   title: string;
   resources: Resource[];
-  accent?: "blue" | "red" | "rainbow";
+  accent?: "blue" | "red" | "yellow" | "purple" | "teal" | "pink" | "rainbow";
 }) {
-  const isRed = accent === "red";
   const isRainbow = accent === "rainbow";
 
-  const cardBorder = isRed
-    ? "border-red-500/30 hover:border-red-400/70 hover:shadow-[0_0_30px_-12px_rgba(239,68,68,0.5)]"
-    : isRainbow
-    ? "border-transparent hover:shadow-[0_0_30px_-10px_rgba(168,85,247,0.6)]"
-    : "border-neon-blue/15 hover:border-neon-blue/50 hover:shadow-[0_0_30px_-12px_rgba(0,217,255,0.5)]";
+  // Per-cause awareness palette. Each accent maps to a border, hover shadow,
+  // meta text, and section icon color.
+  const palette: Record<
+    Exclude<typeof accent, "rainbow">,
+    { border: string; meta: string; icon: string }
+  > = {
+    blue: {
+      border:
+        "border-neon-blue/15 hover:border-neon-blue/50 hover:shadow-[0_0_30px_-12px_rgba(0,217,255,0.5)]",
+      meta: "text-neon-blue/80",
+      icon: "text-neon-blue drop-shadow-[0_0_10px_rgba(0,217,255,0.55)]",
+    },
+    red: {
+      border:
+        "border-red-500/30 hover:border-red-400/70 hover:shadow-[0_0_30px_-12px_rgba(239,68,68,0.5)]",
+      meta: "text-red-300/80",
+      icon: "text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,0.6)]",
+    },
+    // Suicide prevention = yellow/gold
+    yellow: {
+      border:
+        "border-yellow-400/25 hover:border-yellow-300/70 hover:shadow-[0_0_30px_-12px_rgba(250,204,21,0.55)]",
+      meta: "text-yellow-300/85",
+      icon: "text-yellow-300 drop-shadow-[0_0_10px_rgba(250,204,21,0.6)]",
+    },
+    // Addiction recovery = purple
+    purple: {
+      border:
+        "border-purple-500/25 hover:border-purple-400/70 hover:shadow-[0_0_30px_-12px_rgba(168,85,247,0.55)]",
+      meta: "text-purple-300/85",
+      icon: "text-purple-300 drop-shadow-[0_0_10px_rgba(168,85,247,0.6)]",
+    },
+    // Sexual assault awareness = teal
+    teal: {
+      border:
+        "border-teal-400/25 hover:border-teal-300/70 hover:shadow-[0_0_30px_-12px_rgba(45,212,191,0.55)]",
+      meta: "text-teal-300/85",
+      icon: "text-teal-300 drop-shadow-[0_0_10px_rgba(45,212,191,0.6)]",
+    },
+    // Cancer = pink
+    pink: {
+      border:
+        "border-pink-400/25 hover:border-pink-300/70 hover:shadow-[0_0_30px_-12px_rgba(244,114,182,0.55)]",
+      meta: "text-pink-300/85",
+      icon: "text-pink-300 drop-shadow-[0_0_10px_rgba(244,114,182,0.6)]",
+    },
+  };
 
-  const metaCls = isRed
-    ? "text-red-300/80"
-    : isRainbow
+  const tone = isRainbow ? palette.blue : palette[accent];
+  const cardBorder = isRainbow
+    ? "border-transparent hover:shadow-[0_0_30px_-10px_rgba(168,85,247,0.6)]"
+    : tone.border;
+  const metaCls = isRainbow
     ? "bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent"
-    : "text-neon-blue/80";
+    : tone.meta;
 
   // Rainbow uses a gradient border via a wrapping background; cards keep dark interior.
   const rainbowWrap =
     "rounded-2xl p-[1.5px] bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 via-blue-500 to-purple-500 transition-all hover:-translate-y-0.5";
 
-  // Solid vivid color for the section icon (SVG strokes don't support bg-clip-text).
-  const headerIconCls = isRainbow ? "text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.6)]" : iconColorCls;
+  const headerIconCls = isRainbow
+    ? "text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.6)]"
+    : tone.icon;
+
 
 
   return (
