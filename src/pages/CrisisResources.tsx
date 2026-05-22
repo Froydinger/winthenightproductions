@@ -206,10 +206,9 @@ function ResourceSection({
   const rainbowWrap =
     "rounded-2xl p-[1.5px] bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 via-blue-500 to-purple-500 transition-all hover:-translate-y-0.5";
 
-  // Custom rainbow icon for the section header
-  const headerIconCls = isRainbow
-    ? "text-transparent bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 bg-clip-text"
-    : iconColorCls;
+  // Solid vivid color for the section icon (SVG strokes don't support bg-clip-text).
+  const headerIconCls = isRainbow ? "text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.6)]" : iconColorCls;
+
 
   return (
     <section aria-label={title}>
