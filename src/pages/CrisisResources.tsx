@@ -63,7 +63,7 @@ const CrisisResources = () => {
   return (
     <PageShell>
       {/* Emergency hero — red urgency tier */}
-      <section className="relative px-4 pt-20 pb-8 sm:pt-24">
+      <section className="relative px-4 pt-14 pb-6 sm:pt-24 sm:pb-8">
         <div className="container mx-auto max-w-3xl">
           <SiteCard variant="alert" className="text-center">
             <div className="flex justify-center mb-4">
@@ -163,15 +163,17 @@ const CrisisResources = () => {
           icon={Rainbow}
           eyebrow="LGBTQ+"
           title="LGBTQ+ resources"
+          accent="rainbow"
           resources={lgbtq}
         />
+
       </div>
     </PageShell>
   );
 };
 
 function ResourceSection({
-  icon,
+  icon: Icon,
   iconColorCls,
   eyebrow,
   title,
@@ -183,35 +185,74 @@ function ResourceSection({
   eyebrow: string;
   title: string;
   resources: Resource[];
-  accent?: "blue" | "red";
+  accent?: "blue" | "red" | "rainbow";
 }) {
   const isRed = accent === "red";
+  const isRainbow = accent === "rainbow";
+
   const cardBorder = isRed
     ? "border-red-500/30 hover:border-red-400/70 hover:shadow-[0_0_30px_-12px_rgba(239,68,68,0.5)]"
+    : isRainbow
+    ? "border-transparent hover:shadow-[0_0_30px_-10px_rgba(168,85,247,0.6)]"
     : "border-neon-blue/15 hover:border-neon-blue/50 hover:shadow-[0_0_30px_-12px_rgba(0,217,255,0.5)]";
-  const metaCls = isRed ? "text-red-300/80" : "text-neon-blue/80";
+
+  const metaCls = isRed
+    ? "text-red-300/80"
+    : isRainbow
+    ? "bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent"
+    : "text-neon-blue/80";
+
+  // Rainbow uses a gradient border via a wrapping background; cards keep dark interior.
+  const rainbowWrap =
+    "rounded-2xl p-[1.5px] bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 via-blue-500 to-purple-500 transition-all hover:-translate-y-0.5";
+
+  // Custom rainbow icon for the section header
+  const headerIconCls = isRainbow
+    ? "text-transparent bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 bg-clip-text"
+    : iconColorCls;
 
   return (
     <section aria-label={title}>
-      <SectionHeader icon={icon as never} eyebrow={eyebrow} title={title} iconColorCls={iconColorCls} />
+      <SectionHeader
+        icon={Icon as never}
+        eyebrow={eyebrow}
+        title={title}
+        iconColorCls={headerIconCls}
+      />
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-        {resources.map((r, i) => (
-          <a
-            key={`${r.name}-${i}`}
-            href={r.href}
-            target={r.href.startsWith("http") ? "_blank" : undefined}
-            rel={r.href.startsWith("http") ? "noopener noreferrer" : undefined}
-            className={`group rounded-2xl border ${cardBorder} bg-background/60 p-4 sm:p-5 transition-all hover:-translate-y-0.5 hover:bg-background/80 focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2`}
-          >
-            <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight mb-1">
-              {r.name}
-            </h3>
-            <p className={`text-xs font-semibold uppercase tracking-wider ${metaCls}`}>{r.meta}</p>
-          </a>
-        ))}
+        {resources.map((r, i) => {
+          const inner = (
+            <a
+              href={r.href}
+              target={r.href.startsWith("http") ? "_blank" : undefined}
+              rel={r.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className={
+                isRainbow
+                  ? "block rounded-2xl bg-background/85 p-4 sm:p-5 transition-colors hover:bg-background/95 focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
+                  : `group block rounded-2xl border ${cardBorder} bg-background/60 p-4 sm:p-5 transition-all hover:-translate-y-0.5 hover:bg-background/80 focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2`
+              }
+            >
+              <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight mb-1">
+                {r.name}
+              </h3>
+              <p className={`text-xs font-semibold uppercase tracking-wider ${metaCls}`}>
+                {r.meta}
+              </p>
+            </a>
+          );
+
+          return isRainbow ? (
+            <div key={`${r.name}-${i}`} className={rainbowWrap}>
+              {inner}
+            </div>
+          ) : (
+            <div key={`${r.name}-${i}`}>{inner}</div>
+          );
+        })}
       </div>
     </section>
   );
 }
+
 
 export default CrisisResources;

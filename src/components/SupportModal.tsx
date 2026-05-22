@@ -19,6 +19,15 @@ const tiers = [
     mode: "payment" as const,
   },
   {
+    id: "supporter",
+    label: "Supporter",
+    price: "$3/mo",
+    description: "Quietly back the show every month — no shout-out, just love. We're truly grateful.",
+    icon: Heart,
+    priceId: "price_1TB5D1AB32948AKDFUcp67uu",
+    mode: "subscription" as const,
+  },
+  {
     id: "pro",
     label: "Pro Supporter",
     price: "$10/mo",
@@ -28,6 +37,7 @@ const tiers = [
     mode: "subscription" as const,
   },
 ];
+
 
 
 const PRESET_AMOUNTS = [3, 5, 10, 25];
