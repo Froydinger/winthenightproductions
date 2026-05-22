@@ -7,6 +7,7 @@ import mountainsFront from "@/assets/lander/mountains-front.png";
 import Header from "@/components/Header";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import HomeShortsSection from "@/components/HomeShortsSection";
+import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import AboutContentSection from "@/components/AboutContentSection";
 import AnimatedBackground from "@/components/AnimatedBackground";
