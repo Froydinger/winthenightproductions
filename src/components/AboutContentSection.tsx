@@ -11,10 +11,9 @@ import {
   Heart,
   Youtube,
   Instagram,
-  NotebookPen,
-  ExternalLink,
   ArrowUpRight,
 } from "lucide-react";
+
 
 /**
  * Unified below-the-fold section for the lander.
