@@ -19,24 +19,16 @@ const tiers = [
     mode: "payment" as const,
   },
   {
-    id: "supporter",
-    label: "Supporter",
-    price: "$3/mo",
-    description: "Support the show — we're truly grateful.",
-    icon: Heart,
-    priceId: "price_1TB5D1AB32948AKDFUcp67uu",
-    mode: "subscription" as const,
-  },
-  {
     id: "pro",
     label: "Pro Supporter",
     price: "$10/mo",
-    description: "ArcAi™ Pro + Arcana™ Notes Pro access, site shout-out & more perks coming. Normally $12/mo for just ArcAi™ alone!",
+    description: "Monthly shout-out on the podcast + your name on the Pro Supporters wall. Pure support, full credit.",
     icon: Star,
     priceId: "price_1TB5D3AB32948AKDJTYd74X4",
     mode: "subscription" as const,
   },
 ];
+
 
 const PRESET_AMOUNTS = [3, 5, 10, 25];
 
