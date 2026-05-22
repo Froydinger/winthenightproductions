@@ -281,14 +281,17 @@ const Lander = () => {
             style={{
               height: isMobile ? "300vh" : "200vh",
               y: disableParallax ? 0 : mountainFrontY,
-              bottom: isMobile ? "8vh" : "0vh"
+              bottom: isMobile ? "-8vh" : "0vh"
             }}
           >
             <img
               src={mountainsFront}
               alt=""
               className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
-              style={{ minWidth: '120%', left: '-10%' }}
+              style={{
+                minWidth: isMobile ? '170%' : '120%',
+                left: isMobile ? '-35%' : '-10%'
+              }}
               loading="lazy"
               decoding="async"
             />
