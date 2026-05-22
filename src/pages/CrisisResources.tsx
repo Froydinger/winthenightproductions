@@ -62,8 +62,22 @@ const CrisisResources = () => {
 
   return (
     <PageShell>
-      {/* Emergency hero — red urgency tier */}
-      <section className="relative px-4 pt-14 pb-6 sm:pt-24 sm:pb-8">
+      <PageHero
+        icon={LifeBuoy}
+        eyebrow="Crisis & Care"
+        title={
+          <>
+            Crisis{" "}
+            <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
+              Resources
+            </span>
+          </>
+        }
+        lede="A vetted directory of independent organizations offering live support, peer connection, and recovery tools."
+      />
+
+      {/* Emergency card — red urgency tier, placed below hero */}
+      <section className="relative px-4 pb-8">
         <div className="container mx-auto max-w-3xl">
           <SiteCard variant="alert" className="text-center">
             <div className="flex justify-center mb-4">
@@ -74,9 +88,9 @@ const CrisisResources = () => {
                 </div>
               </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
               Need help <span className="text-red-400">now?</span>
-            </h1>
+            </h2>
             <p className="text-foreground/75 mb-6">
               Reach support immediately. Free and available 24/7.
             </p>
@@ -106,20 +120,6 @@ const CrisisResources = () => {
           </SiteCard>
         </div>
       </section>
-
-      <PageHero
-        icon={LifeBuoy}
-        eyebrow="Crisis & Care"
-        title={
-          <>
-            Crisis{" "}
-            <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Resources
-            </span>
-          </>
-        }
-        lede="A vetted directory of independent organizations offering live support, peer connection, and recovery tools."
-      />
 
       <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
         <SiteCard>
