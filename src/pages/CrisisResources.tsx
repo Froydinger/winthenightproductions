@@ -131,10 +131,9 @@ const CrisisResources = () => {
 
         <ResourceSection
           icon={AlertTriangle}
-          iconColorCls="text-red-400"
           eyebrow="Emergency"
           title="Crisis management"
-          accent="red"
+          accent="yellow"
           resources={crisis}
         />
 
@@ -142,6 +141,7 @@ const CrisisResources = () => {
           icon={HeartHandshake}
           eyebrow="Recovery"
           title="Addiction & recovery"
+          accent="purple"
           resources={recovery}
         />
 
@@ -149,6 +149,7 @@ const CrisisResources = () => {
           icon={ShieldAlert}
           eyebrow="Survivors"
           title="Sexual assault & violence"
+          accent="teal"
           resources={survivors}
         />
 
@@ -156,6 +157,7 @@ const CrisisResources = () => {
           icon={Stethoscope}
           eyebrow="Cancer care"
           title="Cancer patients & families"
+          accent="pink"
           resources={cancer}
         />
 
