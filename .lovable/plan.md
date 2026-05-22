@@ -1,64 +1,71 @@
-## Why the score is stuck
+## Goal
 
-The scanner doesn't read content inside collapsed `<details>` elements. Everything we hid behind the "More info" toggle (the H1, body text, FAQ, internal links, external citations) is invisible to it — which is why **Substantial text 0/8, Heading hierarchy 0/4, Internal links 0/18, External citations 0/7, FAQ 0/5** all failed despite the content existing in the DOM. To score, the content has to render visibly on first paint.
+Cut the repetition. One beautiful lander: hero → latest videos → shorts → one unified "About / Explore" section (icon-led, link-rich, AEO-strong) → footer. Nuke the three redundant sections that duplicate the same links and CTAs.
 
-## What stays untouched
+## What stays (untouched)
 
-- Hero (logo, mountains, parallax, scroll-reveal slogan, "Scroll to explore")
+- Hero (logo, mountains, parallax, slogans, scroll callout)
 - `WatchLatestSection` (latest episode tiles)
-- `HomeShortsSection`, `CommunitySection`, `FeaturesSection`, `CTASection`
-- `Header`, `Footer`
-- All JSON-LD already in `index.html` (it's passing)
-- Sitemap (passing — 11/11 on freshness)
+- `HomeShortsSection`
+- `Header`, `Footer`, `AnimatedBackground`
+- `index.html` JSON-LD, `public/sitemap.xml`, `public/llms.txt`
 
-## What changes — `src/components/AboutContentSection.tsx`
+## What gets removed from `src/pages/Lander.tsx`
 
-Rebuild the component so it renders visibly between `CTASection` and `Footer`, styled to match the rest of the lander (dark glassy cards, neon-blue accents, no `backdrop-blur` over the stars background per project rules).
+- `<CommunitySection />` block (`#community`)
+- `<FeaturesSection />` block (`#features`)
+- `<CTASection />` block (`#cta`)
 
-### Visible structure (in order)
+Component files stay on disk (still used elsewhere / safe). Just removed from the lander.
 
-1. **Single visible H1** — "Win The Night™ — a mental health community for the long road of healing." Large, on-brand, only H1 on the page (Lander has none of its own).
-2. **Intro prose** (~80 words) — what the show is and who it's for. Includes 2 in-prose internal links (`/watch`, `/about`).
-3. **"What we talk about" H2 card** (~100 words) — topics covered. Includes 2 in-prose internal links (`/guest`, `/updates`).
-4. **"Where to start" H2 card** — three small tiles linking to `/watch`, `/listen`, `/blog` with one-line descriptions. Counts as additional contextual internal links.
-5. **"If tonight is hard" H2 card** (~90 words) — crisis framing with 4 external citations (988 Lifeline, Find A Helpline, NIMH, WHO) plus internal link to `/crisis-resources`.
-6. **"Frequently asked questions" H2** — 5 Q&As rendered as H3 + paragraph, all visible (not in `<details>`). Keeps the existing FAQPage JSON-LD.
-7. **"Last updated" timestamp** — small muted line at the bottom.
+## What gets rebuilt: `src/components/AboutContentSection.tsx`
 
-### Why this nails each failing check
+Single, cohesive section that absorbs every unique link the removed sections carried, presented with icons (per request) instead of repeated card walls. Preserves all AEO wins (H1, H2/H3 hierarchy, ~500 words, internal + external links, visible FAQ + FAQPage JSON-LD).
 
-| Check | Current | Fix |
-| --- | --- | --- |
-| Single H1 (1/5 → 5/5) | sr-only, scanner discounting it | Visible, descriptive, single |
-| Heading hierarchy (0/4) | Hidden inside details | Visible H1 → H2 → H3 chain |
-| Substantial text (0/8) | Hidden | ~400+ words of visible prose |
-| FAQ bonus (0/5) | Hidden | 5 visible Q&As + existing schema |
-| Internal links (0/18) | Hidden / footer-only | 7+ in-prose `<Link>`s in body |
-| External citations (0/7) | Hidden | 4 outbound links to authority sites |
+### Structure (top → bottom)
 
-### Design treatment (below the fold, on-brand)
+1. **H1 header** — same headline + lede as today (the lander's only H1)
 
-- Section wrapper: `relative z-10 px-4 py-16 sm:py-24`, max-w container.
-- H1: gradient or solid foreground, `text-4xl sm:text-5xl`, neon-blue glow accent on the trademark.
-- Body cards: `bg-background/60 border border-neon-blue/15 rounded-2xl p-6 sm:p-8`, no `backdrop-blur` (would degrade the AnimatedBackground per project memory).
-- Links: neon-blue underline-offset, hover lighten.
-- "Where to start" tiles: 3-column grid on `sm:`, stacks on mobile, each tile uses an icon from `lucide-react` already in the project.
-- FAQ: stacked, no accordion — visible plain text so the scanner can read every Q.
-- "Last updated" `<time dateTime="2026-05-21">` already passes the freshness check; keep it.
+2. **Intro paragraph** (~80 words) — 2 in-prose internal links: `/watch`, `/about`
 
-## What changes — `src/pages/Lander.tsx`
+3. **"Explore everything" icon grid** (replaces Community + Features tile walls)
+   One 2-col-on-mobile / 3–4-col-on-desktop grid of compact icon tiles. Each tile = lucide icon + label + 1-line desc. Absorbs every link from the nuked sections:
+   - Play → `/watch` — Full episodes
+   - Headphones → `/listen` — Podcast
+   - Smartphone (Shorts icon) → `#shorts` — Shorts
+   - BookOpen → `/blog` — Essays
+   - Mic → `/guest` — Be our guest
+   - Users → `/updates` — Community timeline
+   - Heart / Info → `/about` — Our mission
+   - LifeBuoy → `/crisis-resources` — Crisis resources
+   - Youtube → `https://youtube.com/@winthenight?sub_confirmation=1` — Subscribe on YouTube (external)
+   - Instagram → `https://instagram.com/win_the_night` — Instagram (external)
+   - ExternalLink → `https://winthenight.blog` — Blog mirror (external)
+   - NotebookPen → `https://noteily.app/` — Noteily (external)
+   - MessageCircle → `https://chatwitharc.com/` — Chat with Arc (external)
 
-No structural change. The `AboutContentSection` is already mounted after `CTASection`; only the component's internals change. The scroll-reveal hero, mountain layers, parallax timings, and all sections above remain identical.
+4. **"What we talk about" prose card** (~100 words) — H2, no extra links (links already above)
 
-## What I will NOT touch
+5. **"If tonight is hard" crisis card** — H2 with 4 external citations (988, Find A Helpline, NIMH, WHO) + `/crisis-resources` internal link. Unchanged.
 
-- `index.html` (JSON-LD, meta, canonical — all passing)
-- `public/sitemap.xml` (11/11 freshness)
-- `public/llms.txt` (3/3)
-- Hero section, mountains, logo animation, slogan timing
-- `WatchLatestSection`, `HomeShortsSection`, `CommunitySection`, `FeaturesSection`, `CTASection`
-- `Header`, `Footer`, routes, auth, any backend
+6. **FAQ** — H2 + 5 visible Q&As as H3 + `<p>`, FAQPage JSON-LD. Unchanged.
 
-## Expected score impact
+7. **Last updated** timestamp. Unchanged.
 
-Trustworthy 3/25 → ~22/25 (internal + external links pass; llms.txt already passing). Quotable 17/25 → 25/25 (substantial text + FAQ). Understandable 17/25 → 25/25 (single H1 visible + hierarchy). Findable stays 25/25. Projected overall: **~95/100**.
+### Visual treatment
+
+- Same dark / neon-blue token palette already in use (`border-neon-blue/15`, `bg-background/60`, no `backdrop-blur` per memory).
+- Icon tiles: small square cards, neon-blue icon on hover-lift, subtle border glow on hover. External tiles get a tiny `↗` glyph in the corner so it's obvious they leave the site.
+- Spacing tightened so the whole section reads as one continuous "About + explore" block instead of 5 stacked walls.
+- Section anchor stays `#about-win-the-night`. Adds `#explore` anchor on the icon grid so existing header nav (if it points at `#community` / `#features`) can be redirected later if needed — not changing nav in this pass.
+
+## Expected impact
+
+- Visual: one clean below-the-fold flow instead of 4 repetitive sections.
+- AEO: same content density, same link/citation/FAQ count → keeps the score we just earned.
+- No business logic touched. No removed components deleted from disk.
+
+## Out of scope
+
+- Header nav link changes (the removed sections' anchors may now scroll to nothing; can clean up in a follow-up if desired).
+- Any change to hero, videos, shorts, or footer.

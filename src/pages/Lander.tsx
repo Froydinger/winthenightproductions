@@ -5,11 +5,8 @@ import skyBackground from "@/assets/lander/skybackground.png";
 import mountainsBack from "@/assets/lander/mountains-back.png";
 import mountainsFront from "@/assets/lander/mountains-front.png";
 import Header from "@/components/Header";
-import FeaturesSection from "@/components/FeaturesSection";
 import WatchLatestSection from "@/components/WatchLatestSection";
 import HomeShortsSection from "@/components/HomeShortsSection";
-import CommunitySection from "@/components/CommunitySection";
-import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import AboutContentSection from "@/components/AboutContentSection";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -362,15 +359,6 @@ const Lander = () => {
           </div>
           <div id="shorts" className="relative z-10">
             <HomeShortsSection />
-          </div>
-          <div id="community" className="relative z-10">
-            <CommunitySection />
-          </div>
-          <div id="features" className="scroll-mt-8 relative z-10">
-            <FeaturesSection />
-          </div>
-          <div id="cta" className="relative z-10">
-            <CTASection />
           </div>
           <AboutContentSection />
           <div className="relative z-10">
