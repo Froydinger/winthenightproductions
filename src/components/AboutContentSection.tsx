@@ -97,27 +97,7 @@ const AboutContentSection = () => {
       title: "Instagram",
       desc: "Daily moments & clips.",
     },
-    {
-      href: "https://winthenight.blog",
-      external: true,
-      icon: ExternalLink,
-      title: "Blog mirror",
-      desc: "Essays on Substack.",
-    },
-    {
-      href: "https://noteily.app/",
-      external: true,
-      icon: NotebookPen,
-      title: "Noteily",
-      desc: "Our journaling companion.",
-    },
-    {
-      href: "https://chatwitharc.com/",
-      external: true,
-      icon: MessageCircle,
-      title: "Chat with Arc",
-      desc: "Talk to our AI companion.",
-    },
+
   ];
 
   return (
