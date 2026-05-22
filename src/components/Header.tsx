@@ -123,7 +123,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-      <div className="h-1 w-full bg-neon-blue shadow-[0_0_12px_rgba(93,204,255,0.8)]" />
+      <div className="h-2 w-full bg-neon-blue shadow-[0_0_16px_rgba(93,204,255,0.9)]" />
       <div className="container mx-auto h-16 flex items-center justify-between px-4 pt-2">
         {/* Logo - only visible after scrolling */}
         <a
