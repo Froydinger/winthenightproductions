@@ -1,418 +1,217 @@
-import { useEffect } from "react";
-import AnimatedBackground from "@/components/AnimatedBackground";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import {
+  LifeBuoy,
+  Phone,
+  MessageSquare,
+  AlertTriangle,
+  HeartHandshake,
+  ShieldAlert,
+  Stethoscope,
+  Rainbow,
+} from "lucide-react";
+import { PageShell } from "@/components/site/PageShell";
+import { PageHero } from "@/components/site/PageHero";
+import { SectionHeader } from "@/components/site/SectionHeader";
+import { SiteCard } from "@/components/site/SiteCard";
+
+type Resource = {
+  name: string;
+  meta: string;
+  href: string;
+};
 
 const CrisisResources = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const crisis: Resource[] = [
+    { name: "988 Suicide & Crisis Lifeline", meta: "24/7 emotional support", href: "https://988lifeline.org" },
+    { name: "Crisis Text Line", meta: "Text HOME to 741741", href: "https://www.crisistextline.org/" },
+    { name: "SAMHSA Disaster Distress Hotline", meta: "Support after disasters", href: "https://www.samhsa.gov/find-help/disaster-distress-helpline" },
+    { name: "National Domestic Violence Hotline", meta: "800-799-7233", href: "https://www.thehotline.org/" },
+    { name: "RAINN Sexual Assault Hotline", meta: "800-656-4673", href: "https://www.rainn.org/" },
+    { name: "LGBT National Help Center", meta: "Peer support", href: "https://www.lgbthotline.org/" },
+    { name: "The Trevor Project", meta: "LGBTQ youth crisis", href: "https://www.thetrevorproject.org/" },
+    { name: "Trans Lifeline", meta: "By and for trans people", href: "https://translifeline.org/" },
+    { name: "StrongHearts Native Helpline", meta: "Culturally sensitive help", href: "https://strongheartshelpline.org/" },
+  ];
+
+  const recovery: Resource[] = [
+    { name: "SAMHSA National Helpline", meta: "800-662-HELP", href: "https://www.samhsa.gov/find-help/national-helpline" },
+    { name: "Alcoholics Anonymous", meta: "Find meetings", href: "https://www.aa.org/" },
+    { name: "Narcotics Anonymous", meta: "Find meetings", href: "https://na.org/" },
+    { name: "SMART Recovery", meta: "Science based tools", href: "https://www.smartrecovery.org/" },
+    { name: "Find local mental health services", meta: "Affordable care near you", href: "https://findtreatment.gov/" },
+  ];
+
+  const survivors: Resource[] = [
+    { name: "RAINN", meta: "Resources and hotline", href: "https://www.rainn.org/" },
+    { name: "Childhelp National Child Abuse Hotline", meta: "800-4-A-CHILD", href: "https://www.childhelp.org/childhelp-hotline/" },
+    { name: "SAKITTA Sexual Assault Kit Initiative", meta: "Kit testing guidance", href: "https://sakitta.org/" },
+    { name: "StrongHearts Native Helpline", meta: "Support for survivors", href: "https://strongheartshelpline.org/" },
+  ];
+
+  const cancer: Resource[] = [
+    { name: "Mental Health Guide", meta: "Patients and caregivers", href: "https://www.cancer.org/" },
+    { name: "American Cancer Society Patient Programs", meta: "Comprehensive support", href: "https://www.cancer.org/" },
+    { name: "American Cancer Society 24/7 Helpline", meta: "800-227-2345", href: "tel:8002272345" },
+    { name: "Mesothelioma.net Support", meta: "Mental health and guidance", href: "https://mesothelioma.net/" },
+  ];
+
+  const lgbtq: Resource[] = [
+    { name: "Trans Lifeline", meta: "By and for trans people", href: "https://translifeline.org/" },
+    { name: "Human Rights Campaign Resources", meta: "Advocacy and support", href: "https://www.hrc.org/resources" },
+    { name: "The Trevor Project", meta: "Youth crisis intervention", href: "https://www.thetrevorproject.org/" },
+  ];
 
   return (
-    <main className="min-h-screen relative">
-      {/* Global Animated Background */}
-      <div className="fixed inset-0 z-0">
-        <AnimatedBackground />
-      </div>
+    <PageShell>
+      {/* Emergency hero — red urgency tier */}
+      <section className="relative px-4 pt-20 pb-8 sm:pt-24">
+        <div className="container mx-auto max-w-3xl">
+          <SiteCard variant="alert" className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="relative">
+                <div className="absolute -inset-3 rounded-full bg-red-500/30 blur-2xl" aria-hidden />
+                <div className="relative p-3.5 rounded-2xl border border-red-400/50 bg-background/60">
+                  <AlertTriangle className="w-9 h-9 text-red-400 drop-shadow-[0_0_12px_rgba(239,68,68,0.7)]" />
+                </div>
+              </div>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
+              Need help <span className="text-red-400">now?</span>
+            </h1>
+            <p className="text-foreground/75 mb-6">
+              Reach support immediately. Free and available 24/7.
+            </p>
+            <div
+              className="flex flex-col sm:flex-row gap-3 justify-center"
+              role="group"
+              aria-label="Call or text"
+            >
+              <a
+                href="sms:988"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-red-500 hover:bg-red-400 text-white font-bold text-lg shadow-[0_0_30px_-10px_rgba(239,68,68,0.8)] transition-all hover:-translate-y-0.5"
+              >
+                <MessageSquare className="w-5 h-5" />
+                Text 988
+              </a>
+              <a
+                href="tel:988"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-red-400 text-red-100 hover:bg-red-500/20 font-bold text-lg transition-all hover:-translate-y-0.5"
+              >
+                <Phone className="w-5 h-5" />
+                Call 988
+              </a>
+            </div>
+            <p className="text-sm text-foreground/55 mt-4">
+              <em>UK users dial 111</em>
+            </p>
+          </SiteCard>
+        </div>
+      </section>
 
-      {/* Sticky Header */}
-      <Header />
+      <PageHero
+        icon={LifeBuoy}
+        eyebrow="Crisis & Care"
+        title={
+          <>
+            Crisis{" "}
+            <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
+              Resources
+            </span>
+          </>
+        }
+        lede="A vetted directory of independent organizations offering live support, peer connection, and recovery tools."
+      />
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-20 max-w-5xl">
-
-        {/* 988 Quick Access */}
-        <section
-          className="mb-8 bg-gradient-to-b from-card/40 to-card/20 backdrop-blur-md border-2 border-red-500 rounded-2xl p-6 text-center shadow-[0_10px_30px_rgba(0,0,0,.35)]"
-          aria-label="Immediate help"
-        >
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            Need help now?
-          </h1>
-          <p className="text-muted-foreground mb-5">
-            Reach support immediately. Free and available 24/7.
+      <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
+        <SiteCard>
+          <p className="text-foreground/75 leading-relaxed">
+            The resources below are independent, trusted organizations. We are not taking
+            submissions at this time. Thank you for your consideration!
           </p>
-          <div className="flex flex-wrap gap-4 justify-center mb-2" role="group" aria-label="Call or text">
-            <a
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-b from-red-500 to-red-600 text-white font-bold text-lg shadow-[0_10px_30px_rgba(0,0,0,.35)] hover:brightness-105 hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-              href="sms:988"
-            >
-              📱 Text 988
-            </a>
-            <a
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-transparent border-2 border-red-500 text-white font-bold text-lg shadow-[0_10px_30px_rgba(0,0,0,.35)] hover:brightness-105 hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-              href="tel:988"
-            >
-              ☎️ Call 988
-            </a>
-          </div>
-          <p className="text-sm text-muted-foreground mt-2">
-            <em>UK users dial 111</em>
-          </p>
-        </section>
+        </SiteCard>
 
-        {/* Intro */}
-        <section className="mb-8 bg-card/60 backdrop-blur-md rounded-2xl p-5 text-muted-foreground shadow-[0_6px_18px_rgba(0,0,0,.22)]">
-          The resources below are independent, trusted organizations. We are not taking submissions at this time. Thank you for your consideration!
-        </section>
+        <ResourceSection
+          icon={AlertTriangle}
+          iconColorCls="text-red-400"
+          eyebrow="Emergency"
+          title="Crisis management"
+          accent="red"
+          resources={crisis}
+        />
 
-        {/* Crisis Management */}
-        <section className="mb-10" aria-labelledby="crisis-management">
-          <div className="flex items-center gap-3 mb-3">
-            <h2 id="crisis-management" className="text-2xl sm:text-3xl font-bold text-foreground">
-              Crisis management
-            </h2>
-          </div>
-          <div className="flex justify-center mb-5">
-            <div className="w-72 h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent rounded shadow-[0_0_8px_rgba(0,210,255,.6)]" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://988lifeline.org"
-              target="_blank"
-              rel="noopener"
-            >
-              988 Suicide & Crisis Lifeline
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                24/7 emotional support
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.crisistextline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              Crisis Text Line
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                Text HOME to 741741
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.samhsa.gov/find-help/disaster-distress-helpline"
-              target="_blank"
-              rel="noopener"
-            >
-              SAMHSA Disaster Distress Hotline
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                Support after disasters
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.thehotline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              National Domestic Violence Hotline
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                800-799-7233
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.rainn.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              RAINN Sexual Assault Hotline
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                800-656-4673
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.lgbthotline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              LGBT National Help Center
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                Peer support
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.thetrevorproject.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              The Trevor Project
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                LGBTQ youth crisis
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://translifeline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              Trans Lifeline
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                By and for trans people
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-red-500 to-red-600 border border-black/35 text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(255,77,77,.35)] hover:-translate-y-0.5 transition-all text-shadow-sm focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://strongheartshelpline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              StrongHearts Native Helpline
-              <span className="text-red-100 text-xs font-semibold ml-3 opacity-95">
-                Culturally sensitive help
-              </span>
-            </a>
-          </div>
-        </section>
+        <ResourceSection
+          icon={HeartHandshake}
+          eyebrow="Recovery"
+          title="Addiction & recovery"
+          resources={recovery}
+        />
 
-        {/* Addiction & Recovery */}
-        <section className="mb-10" aria-labelledby="recovery">
-          <div className="flex items-center gap-3 mb-3">
-            <h2 id="recovery" className="text-2xl sm:text-3xl font-bold text-foreground">
-              Addiction & recovery
-            </h2>
-          </div>
-          <div className="flex justify-center mb-5">
-            <div className="w-72 h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent rounded shadow-[0_0_8px_rgba(0,210,255,.6)]" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-green-500 to-green-600 border border-black/35 text-green-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,199,136,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.samhsa.gov/find-help/national-helpline"
-              target="_blank"
-              rel="noopener"
-            >
-              SAMHSA National Helpline
-              <span className="text-green-800 text-xs font-semibold ml-3 opacity-95">
-                800-662-HELP
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-green-500 to-green-600 border border-black/35 text-green-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,199,136,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.aa.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              Alcoholics Anonymous
-              <span className="text-green-800 text-xs font-semibold ml-3 opacity-95">
-                Find meetings
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-green-500 to-green-600 border border-black/35 text-green-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,199,136,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://na.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              Narcotics Anonymous
-              <span className="text-green-800 text-xs font-semibold ml-3 opacity-95">
-                Find meetings
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-green-500 to-green-600 border border-black/35 text-green-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,199,136,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.smartrecovery.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              SMART Recovery
-              <span className="text-green-800 text-xs font-semibold ml-3 opacity-95">
-                Science based tools
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-green-500 to-green-600 border border-black/35 text-green-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,199,136,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://findtreatment.gov/"
-              target="_blank"
-              rel="noopener"
-            >
-              Find local mental health services
-              <span className="text-green-800 text-xs font-semibold ml-3 opacity-95">
-                Affordable care near you
-              </span>
-            </a>
-          </div>
-        </section>
+        <ResourceSection
+          icon={ShieldAlert}
+          eyebrow="Survivors"
+          title="Sexual assault & violence"
+          resources={survivors}
+        />
 
-        {/* Sexual Assault & Violence */}
-        <section className="mb-10" aria-labelledby="sa-violence">
-          <div className="flex items-center gap-3 mb-3">
-            <h2 id="sa-violence" className="text-2xl sm:text-3xl font-bold text-foreground">
-              Sexual assault & violence
-            </h2>
-          </div>
-          <div className="flex justify-center mb-5">
-            <div className="w-72 h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent rounded shadow-[0_0_8px_rgba(0,210,255,.6)]" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-blue-400 to-blue-500 border border-black/35 text-blue-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,168,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.rainn.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              RAINN
-              <span className="text-blue-800 text-xs font-semibold ml-3 opacity-95">
-                Resources and hotline
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-blue-400 to-blue-500 border border-black/35 text-blue-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,168,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.childhelp.org/childhelp-hotline/"
-              target="_blank"
-              rel="noopener"
-            >
-              Childhelp National Child Abuse Hotline
-              <span className="text-blue-800 text-xs font-semibold ml-3 opacity-95">
-                800-4-A-CHILD
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-blue-400 to-blue-500 border border-black/35 text-blue-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,168,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://sakitta.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              SAKITTA Sexual Assault Kit Initiative
-              <span className="text-blue-800 text-xs font-semibold ml-3 opacity-95">
-                Kit testing guidance
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-blue-400 to-blue-500 border border-black/35 text-blue-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(0,168,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://strongheartshelpline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              StrongHearts Native Helpline
-              <span className="text-blue-800 text-xs font-semibold ml-3 opacity-95">
-                Support for survivors
-              </span>
-            </a>
-          </div>
-        </section>
+        <ResourceSection
+          icon={Stethoscope}
+          eyebrow="Cancer care"
+          title="Cancer patients & families"
+          resources={cancer}
+        />
 
-        {/* Cancer Patients & Families */}
-        <section className="mb-10" aria-labelledby="cancer">
-          <div className="flex items-center gap-3 mb-3">
-            <h2 id="cancer" className="text-2xl sm:text-3xl font-bold text-foreground">
-              Cancer patients & families
-            </h2>
-          </div>
-          <div className="flex justify-center mb-5">
-            <div className="w-72 h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent rounded shadow-[0_0_8px_rgba(0,210,255,.6)]" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-purple-400 to-purple-500 border border-black/35 text-purple-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(166,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.cancer.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              Mental Health Guide
-              <span className="text-purple-800 text-xs font-semibold ml-3 opacity-95">
-                Patients and caregivers
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-purple-400 to-purple-500 border border-black/35 text-purple-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(166,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://www.cancer.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              American Cancer Society Patient Programs
-              <span className="text-purple-800 text-xs font-semibold ml-3 opacity-95">
-                Comprehensive support
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-purple-400 to-purple-500 border border-black/35 text-purple-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(166,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="tel:8002272345"
-            >
-              American Cancer Society 24/7 Helpline
-              <span className="text-purple-800 text-xs font-semibold ml-3 opacity-95">
-                800-227-2345
-              </span>
-            </a>
-            <a
-              className="flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-gradient-to-b from-purple-400 to-purple-500 border border-black/35 text-purple-950 font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_18px_rgba(166,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              href="https://mesothelioma.net/"
-              target="_blank"
-              rel="noopener"
-            >
-              Mesothelioma.net Support
-              <span className="text-purple-800 text-xs font-semibold ml-3 opacity-95">
-                Mental health and guidance
-              </span>
-            </a>
-          </div>
-        </section>
-
-        {/* LGBTQ+ Resources */}
-        <section className="mb-10" aria-labelledby="lgbtq">
-          <div className="flex items-center gap-3 mb-3">
-            <h2 id="lgbtq" className="text-2xl sm:text-3xl font-bold text-foreground">
-              LGBTQ+ resources
-            </h2>
-          </div>
-          <div className="flex justify-center mb-5">
-            <div className="w-72 h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent rounded shadow-[0_0_8px_rgba(0,210,255,.6)]" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a
-              className="relative flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-card/90 border-2 border-transparent text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_10px_rgba(255,59,59,.35),0_0_10px_rgba(0,210,255,.35),0_0_12px_rgba(192,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              style={{
-                background: 'linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(90deg,#ff3b3b,#ff7a00,#ffd400,#10ff8c,#00d2ff,#5a5aff,#c07bff,#ff3bba) border-box'
-              }}
-              href="https://translifeline.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              Trans Lifeline
-              <span className="text-blue-100 text-xs font-semibold ml-3 opacity-95">
-                By and for trans people
-              </span>
-            </a>
-            <a
-              className="relative flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-card/90 border-2 border-transparent text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_10px_rgba(255,59,59,.35),0_0_10px_rgba(0,210,255,.35),0_0_12px_rgba(192,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              style={{
-                background: 'linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(90deg,#ff3b3b,#ff7a00,#ffd400,#10ff8c,#00d2ff,#5a5aff,#c07bff,#ff3bba) border-box'
-              }}
-              href="https://www.hrc.org/resources"
-              target="_blank"
-              rel="noopener"
-            >
-              Human Rights Campaign Resources
-              <span className="text-blue-100 text-xs font-semibold ml-3 opacity-95">
-                Advocacy and support
-              </span>
-            </a>
-            <a
-              className="relative flex items-center justify-between gap-3 min-h-14 px-5 py-4 rounded-xl bg-card/90 border-2 border-transparent text-white font-bold shadow-[0_6px_18px_rgba(0,0,0,.22)] hover:shadow-[0_0_10px_rgba(255,59,59,.35),0_0_10px_rgba(0,210,255,.35),0_0_12px_rgba(192,107,255,.35)] hover:-translate-y-0.5 transition-all focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2"
-              style={{
-                background: 'linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(90deg,#ff3b3b,#ff7a00,#ffd400,#10ff8c,#00d2ff,#5a5aff,#c07bff,#ff3bba) border-box'
-              }}
-              href="https://www.thetrevorproject.org/"
-              target="_blank"
-              rel="noopener"
-            >
-              The Trevor Project
-              <span className="text-blue-100 text-xs font-semibold ml-3 opacity-95">
-                Youth crisis intervention
-              </span>
-            </a>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <Footer />
+        <ResourceSection
+          icon={Rainbow}
+          eyebrow="LGBTQ+"
+          title="LGBTQ+ resources"
+          resources={lgbtq}
+        />
       </div>
-    </main>
+    </PageShell>
   );
 };
+
+function ResourceSection({
+  icon,
+  iconColorCls,
+  eyebrow,
+  title,
+  resources,
+  accent = "blue",
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  iconColorCls?: string;
+  eyebrow: string;
+  title: string;
+  resources: Resource[];
+  accent?: "blue" | "red";
+}) {
+  const isRed = accent === "red";
+  const cardBorder = isRed
+    ? "border-red-500/30 hover:border-red-400/70 hover:shadow-[0_0_30px_-12px_rgba(239,68,68,0.5)]"
+    : "border-neon-blue/15 hover:border-neon-blue/50 hover:shadow-[0_0_30px_-12px_rgba(0,217,255,0.5)]";
+  const metaCls = isRed ? "text-red-300/80" : "text-neon-blue/80";
+
+  return (
+    <section aria-label={title}>
+      <SectionHeader icon={icon as never} eyebrow={eyebrow} title={title} iconColorCls={iconColorCls} />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        {resources.map((r, i) => (
+          <a
+            key={`${r.name}-${i}`}
+            href={r.href}
+            target={r.href.startsWith("http") ? "_blank" : undefined}
+            rel={r.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            className={`group rounded-2xl border ${cardBorder} bg-background/60 p-4 sm:p-5 transition-all hover:-translate-y-0.5 hover:bg-background/80 focus-visible:outline-2 focus-visible:outline-neon-blue focus-visible:outline-offset-2`}
+          >
+            <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight mb-1">
+              {r.name}
+            </h3>
+            <p className={`text-xs font-semibold uppercase tracking-wider ${metaCls}`}>{r.meta}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default CrisisResources;
