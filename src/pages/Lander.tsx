@@ -363,15 +363,6 @@ const Lander = () => {
           <div id="shorts" className="relative z-10">
             <HomeShortsSection />
           </div>
-          <div id="community" className="relative z-10">
-            <CommunitySection />
-          </div>
-          <div id="features" className="scroll-mt-8 relative z-10">
-            <FeaturesSection />
-          </div>
-          <div id="cta" className="relative z-10">
-            <CTASection />
-          </div>
           <AboutContentSection />
           <div className="relative z-10">
             <Footer />
