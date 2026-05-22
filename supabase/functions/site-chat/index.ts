@@ -135,6 +135,57 @@ serve(async (req) => {
       }
     }
 
+    // Fetch live sitemap + recent Substack posts in parallel so Arc always
+    // has accurate, up-to-date routing and content awareness.
+    const SITE_ORIGIN = "https://winthenight.org";
+    const [sitemapUrls, recentPosts] = await Promise.all([
+      (async () => {
+        try {
+          const res = await fetch(`${SITE_ORIGIN}/sitemap.xml`, {
+            headers: { Accept: "application/xml, text/xml, */*" },
+          });
+          if (!res.ok) return [] as string[];
+          const xml = await res.text();
+          return Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/gi))
+            .map((m) => m[1].trim())
+            .filter(Boolean);
+        } catch (err) {
+          console.warn("sitemap fetch failed", err);
+          return [] as string[];
+        }
+      })(),
+      (async () => {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/fetch-substack`, {
+            headers: {
+              Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY ?? ""}`,
+              apikey: SUPABASE_SERVICE_ROLE_KEY ?? "",
+            },
+          });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return Array.isArray(data?.posts) ? data.posts.slice(0, 10) : [];
+        } catch (err) {
+          console.warn("substack fetch failed", err);
+          return [];
+        }
+      })(),
+    ]);
+
+    const sitemapBlock = sitemapUrls.length
+      ? `\nLIVE SITEMAP (authoritative list of indexable pages):\n${sitemapUrls.map((u) => `- ${u}`).join("\n")}`
+      : "";
+
+    const substackBlock = recentPosts.length
+      ? `\nRECENT SUBSTACK POSTS (newest first — link directly to these when relevant):\n${recentPosts
+          .map((p: { title: string; link: string; pubDate: string; isPodcast?: boolean }) => {
+            const date = p.pubDate ? new Date(p.pubDate).toISOString().slice(0, 10) : "";
+            const kind = p.isPodcast ? "🎙 podcast" : "📝 post";
+            return `- [${p.title}](${p.link})${date ? ` — ${date}` : ""} (${kind})`;
+          })
+          .join("\n")}`
+      : "";
+
     // Append site context
     siteContext = `\n\n--- LIVE SITE CONTEXT (winthenight.org) ---
 Win The Night is a mental health podcast, YouTube show, and community founded by Marine Corps Veteran Josh Lopez (also Hosts Podcast and Created WTN before Jake joined in year 1) and Producer Jake Freudinger (they/them).
@@ -159,8 +210,11 @@ External Links:
 - [Support Us](https://winthenight.org/support) — Donate or subscribe to support the show
 
 Current: Chapter 8 is the latest chapter of Win The Night.
+${sitemapBlock}
+${substackBlock}
 
-Remember: EVERY page, project, or external resource you mention MUST be a markdown link.`;
+Remember: EVERY page, project, or external resource you mention MUST be a markdown link. When asked about the newest blog/podcast, reference the most recent items in RECENT SUBSTACK POSTS above.`;
+
 
     const fullSystemPrompt = systemPrompt + siteContext;
 
