@@ -64,8 +64,9 @@ const Support = () => {
             Support the Show
           </Button>
           <p className="text-xs text-foreground/55 mt-4">
-            Donate once or become a $10/mo Pro Supporter · Secure checkout via Stripe
+            Donate once, support quietly at $3/mo, or get a shout-out at $10/mo · Secure checkout via Stripe
           </p>
+
 
         </SiteCard>
 
