@@ -202,7 +202,7 @@ const Lander = () => {
             style={{
               height: isMobile ? "360vh" : "280vh",
               y: disableParallax ? 0 : mountainBackY,
-              bottom: "15vh"
+              bottom: "22vh"
             }}
           >
             <img
