@@ -345,16 +345,13 @@ const Lander = () => {
         </div>
       </motion.div>
 
+        {/* Animated starry background - always rendered behind hero/content; hero fades out above it to reveal */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <AnimatedBackground />
+        </div>
+
         {/* Content sections from main page */}
         <div className="relative z-10">
-          {/* Animated starry background - behind all content, fades in smoothly */}
-          <motion.div
-            className="fixed inset-0 z-0 pointer-events-none"
-            style={{ opacity: backgroundOpacity }}
-          >
-            <AnimatedBackground />
-          </motion.div>
-
           {/* Invisible buffer spacer - gives user time to scroll before content appears */}
           <div className="h-32 sm:h-48" />
 

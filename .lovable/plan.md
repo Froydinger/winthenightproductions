@@ -1,47 +1,59 @@
-# Simplify subscription/account info to single Pro shout-out tier
+# Plan
 
-## What changes
+## 1. Fix the scroll glitch on Lander (and other pages)
 
-Collapse support offerings down to:
-- **One-time donation** — any amount (kept as-is)
-- **Pro Supporter — $10/mo** — perk is a shout-out on the podcast + name on the Pro Supporters wall on the site. No ArcAi, no Arcana, no other product access.
+**Diagnosis.** `src/pages/Lander.tsx` wraps `<AnimatedBackground />` in a `motion.div` with `opacity: backgroundOpacity` that ramps from 0 → 1 mid-scroll. `AnimatedBackground` itself uses a `bg-[length:200%_200%] animate-gradient-shift` element at `-top-[100%] h-[800%]` plus three layers of 200 stars animating opacity. Animating opacity on a fixed parent that contains compositor-promoted children (`will-change: transform`) forces the browser to re-promote/repaint the whole stack each frame — that's the in-and-out flicker, and it's amplified on iOS Safari. The same root cause shows up on other pages because the AnimatedBackground gradient itself constantly animates `background-position` over an 800%-tall element.
 
-Remove the $3/mo "Supporter" tier and all references to ArcAi™ Pro / Arcana™ Notes Pro as paid perks.
+**Fix.**
+- In `Lander.tsx`, stop animating opacity on the AnimatedBackground wrapper. Render `<AnimatedBackground />` always at full opacity behind everything (z-0). Move the fade to the hero overlay above it (already fading via `heroOpacity`) so the transition is hero-fades-out → stars revealed, no parent opacity on the star layers.
+- Add `isolation: isolate` + `transform: translateZ(0)` to the AnimatedBackground root so its star repaints don't bubble out.
+- In `AnimatedBackground.tsx`, drop the `animate-gradient-shift` on the huge `h-[800%]` gradient (replace with a static gradient div) — the animated background-position over that area is the main repaint cost and triggers periodic compositor flicker site-wide.
+- Keep parallax + star float animations; they're cheap once the gradient stops thrashing.
 
-## File-by-file
+## 2. Crisis & Care link in global nav
 
-### `src/components/SupportModal.tsx`
-- Delete the `supporter` tier object ($3/mo).
-- Rewrite the `pro` tier:
-  - `label`: "Pro Supporter"
-  - `price`: "$10/mo"
-  - `description`: "Monthly shout-out on the podcast + your name on the Pro Supporters wall. That's it — pure support, full credit."
-  - Keep existing `priceId: price_1TB5D3AB32948AKDJTYd74X4` and subscription mode.
-- Keep one-time donation block unchanged.
+In `src/components/Header.tsx`, remove the `{isHomePage && ...}` guard around both the mobile and desktop "Crisis & Care" links so they render on every page. Keep the same green styling.
 
-### `src/pages/Support.tsx`
-- Update hero/CTA subtitle: "Donate once or subscribe from $3/mo" → "Donate once or become a $10/mo Pro Supporter".
-- Pro Supporters Wall copy stays; tighten subtitle to mention the shout-out perk.
+## 3. WordPress-style Admin dashboard with sidebar
 
-### `supabase/functions/list-pro-supporters/index.ts`
-- Remove the two legacy `PRO_PRODUCT_IDS` entries (`prod_UAtIOiu4df3Rso` ArcAi Pro current, `prod_U4U5QGmibWU8wD` ArcAi Pro legacy) so only WTN Pro Supporter price (`price_1TB5D3AB32948AKDJTYd74X4`) qualifies.
-- Drop the `source: "arcai" | "arcai_legacy"` branching; everyone is now `source: "wtn_pro"`.
-- Keep dedupe-by-name behavior.
+Refactor `src/pages/Admin.tsx` into a shell using the existing shadcn `Sidebar` (`@/components/ui/sidebar`) with `collapsible="icon"` so it shows full sidebar on desktop and collapses to a hamburger Sheet on mobile.
 
-### `src/pages/Terms.tsx`
-- "Pro Supporter Subscription" section: remove the line about creating accounts on Arcana Notes and ArcAi. Replace with: the subscription provides a recurring shout-out on the podcast and a public listing on the Pro Supporters wall.
-- Billing/cancellation paragraphs stay (still a $10/mo Stripe subscription).
-- Search-and-replace any remaining "ArcAi" / "Arcana Notes" mentions tied to the paid plan.
+**Sections (one sidebar item per section, content swapped via local `activeSection` state):**
+1. Overview — the 5 stat cards
+2. Users — User Management table
+3. Posts — Posts Management table
+4. Home Page — Watch Latest Tile + CTA Featured Video
+5. Watch Page — Watch Page Settings
+6. About Page — About Page Content
+7. Trailer Button
+8. Arc Chatbot
+9. Newsletter — Broadcast Email + Sent Emails
 
-### `src/pages/Privacy.tsx`
-- Remove sentences about sharing data with Arcana Notes / ArcAi for account creation.
-- Keep Stripe payment-data language; we still only share what Stripe needs.
+**Layout.**
+```text
+SidebarProvider
+├── AdminSidebar (collapsible="icon")
+│     SidebarGroup "Dashboard"
+│       SidebarMenuItem × N (icon + label, isActive on activeSection)
+└── main
+    ├── header row: SidebarTrigger + page title + Shield icon
+    └── section content (existing JSX moved into per-section render fns)
+```
 
-## Not touched
-- Stripe products/prices themselves — the existing $10 price keeps working; no Stripe API calls needed.
-- One-time donations flow, `create-checkout` edge function, Dashboard page (no billing UI there today), AuthDialog.
-- Header/Lander/About copy (no paid-tier mentions found there).
+- Keep AnimatedBackground fixed behind everything (benefits from fix #1).
+- Persist `activeSection` in URL hash (`#users`, `#newsletter`, …) so refresh + deep-links work.
+- No business logic changes — move existing JSX/handlers into a `renderSection()` switch; data fetching stays as-is in the parent.
+- Mobile: `Sidebar` already renders inside a `Sheet` automatically when viewport is small, with `SidebarTrigger` (hamburger) shown in the admin header.
 
-## Risks
-- Anyone currently on the legacy $3 Supporter subscription stays billed in Stripe; this PR only hides the option from new signups. Call out to user that legacy subs should be cancelled in Stripe Dashboard if desired.
-- Existing ArcAi Pro subscribers will stop appearing on the Pro Supporters wall once `list-pro-supporters` filters them out — intentional per the new positioning.
+## Technical notes
+- New file: `src/components/admin/AdminSidebar.tsx` (sidebar menu).
+- `Admin.tsx` becomes: auth/data hooks (unchanged) → `<SidebarProvider><AdminSidebar/><main>{renderSection()}</main></SidebarProvider>`.
+- No DB / RLS / edge function changes.
+- No new dependencies.
+
+## Files to change
+- `src/components/AnimatedBackground.tsx` — drop animated gradient, add isolation.
+- `src/pages/Lander.tsx` — un-wrap AnimatedBackground from opacity motion.
+- `src/components/Header.tsx` — Crisis & Care on all pages.
+- `src/pages/Admin.tsx` — sidebar shell + section switcher.
+- `src/components/admin/AdminSidebar.tsx` — new.

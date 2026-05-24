@@ -69,15 +69,12 @@ const AnimatedBackground = () => {
   }, [isMobile]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Layer 1: Gradient Background - Slowest parallax */}
-      <div
-        className="absolute inset-x-0 -top-[100%] h-[800%] bg-gradient-to-br from-background via-charcoal to-background bg-[length:200%_200%] animate-gradient-shift will-change-transform"
-        style={{
-          transform: `translate3d(0, ${Math.round(backgroundOffset * 0.5)}px, 0)`,
-          backfaceVisibility: 'hidden',
-        }}
-      />
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{ isolation: 'isolate', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+    >
+      {/* Layer 1: Static gradient background — no animation to avoid full-page repaints */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-charcoal to-background pointer-events-none" />
 
       {/* Layer 2: Slow stars (far background) */}
       <div 
