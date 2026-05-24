@@ -155,7 +155,7 @@ const Header = () => {
           >
             Support Us
           </a>
-          {isHomePage && (
+          {(
             <a
               href="/crisis-resources"
               className="px-2.5 py-1.5 text-xs font-bold text-green-400 hover:text-green-300 transition-colors duration-200 rounded-md hover:bg-green-400/10 drop-shadow-[0_0_6px_rgba(74,222,128,0.6)]"
