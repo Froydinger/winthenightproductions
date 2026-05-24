@@ -1649,7 +1649,9 @@ const Admin = () => {
         <div className="mt-12">
           <Footer />
         </div>
-      </div>
+          </div>
+        </div>
+      </SidebarProvider>
 
       {/* Delete User Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
