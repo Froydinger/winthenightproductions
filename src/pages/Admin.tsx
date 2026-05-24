@@ -832,14 +832,22 @@ const Admin = () => {
 
       <Header />
 
-      <div className="relative z-10 container mx-auto px-4 py-20 sm:py-24 max-w-7xl">
-        <div className="flex items-center gap-3 mb-8">
-          <Shield className="h-8 w-8 text-neon-blue" />
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Admin Dashboard</h1>
-        </div>
+      <SidebarProvider defaultOpen={true}>
+        <div className="relative z-10 flex w-full min-h-screen pt-16">
+          <AdminSidebar active={activeSection} onChange={setActiveSection} />
+
+          <div className="flex-1 min-w-0 px-4 sm:px-6 py-8 max-w-7xl mx-auto w-full">
+            <div className="flex items-center gap-3 mb-8">
+              <SidebarTrigger className="text-foreground hover:text-neon-blue" />
+              <Shield className="h-7 w-7 text-neon-blue" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground capitalize">
+                {activeSection === "overview" ? "Admin Dashboard" : activeSection.replace(/-/g, " ")}
+              </h1>
+            </div>
+
 
         {/* Stats Grid */}
-        {stats && (
+        {activeSection === "overview" && stats && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
             <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
               <div className="flex items-center gap-4">
@@ -903,7 +911,7 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Trailer Button Settings */}
+        {activeSection === "trailer" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Video className="h-6 w-6 text-neon-blue" />
@@ -964,8 +972,9 @@ const Admin = () => {
             </Button>
           </div>
         </Card>
+        )}
 
-        {/* Watch Page Settings */}
+        {activeSection === "watch" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Video className="h-6 w-6 text-neon-blue" />
@@ -1055,8 +1064,9 @@ const Admin = () => {
             </div>
           </div>
         </Card>
+        )}
 
-        {/* Home Page "Watch Latest" Tile Settings */}
+        {activeSection === "home" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Home className="h-6 w-6 text-neon-blue" />
@@ -1137,8 +1147,9 @@ const Admin = () => {
             </Button>
           </div>
         </Card>
+        )}
 
-        {/* About Page Settings */}
+        {activeSection === "about" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Video className="h-6 w-6 text-neon-blue" />
@@ -1249,8 +1260,9 @@ const Admin = () => {
             </Button>
           </div>
         </Card>
+        )}
 
-        {/* Homepage CTA Video */}
+        {activeSection === "home" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Home className="h-6 w-6 text-neon-blue" />
@@ -1292,8 +1304,10 @@ const Admin = () => {
             </Button>
           </div>
         </Card>
+        )}
 
 
+        {activeSection === "chatbot" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Bot className="h-6 w-6 text-neon-blue" />
@@ -1325,8 +1339,9 @@ const Admin = () => {
             </Button>
           </div>
         </Card>
+        )}
 
-        {/* Newsletter Broadcast Composer */}
+        {activeSection === "newsletter" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Send className="h-6 w-6 text-neon-blue" />
@@ -1386,8 +1401,9 @@ const Admin = () => {
             </Button>
           </div>
         </Card>
+        )}
 
-        {/* Sent Emails History */}
+        {activeSection === "newsletter" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <History className="h-6 w-6 text-neon-blue" />
@@ -1442,7 +1458,9 @@ const Admin = () => {
             </div>
           )}
         </Card>
+        )}
 
+        {activeSection === "users" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">
           <div className="flex items-center gap-3 mb-6">
             <UserCog className="h-6 w-6 text-neon-blue" />
@@ -1535,8 +1553,9 @@ const Admin = () => {
             </div>
           )}
         </Card>
+        )}
 
-        {/* Posts Management */}
+        {activeSection === "posts" && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 mt-8">
           <div className="flex items-center gap-3 mb-6">
             <FileText className="h-6 w-6 text-neon-blue" />
@@ -1614,6 +1633,7 @@ const Admin = () => {
             </div>
           )}
         </Card>
+        )}
 
         <div className="mt-6 text-center">
           <Button
