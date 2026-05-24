@@ -136,6 +136,19 @@ const Admin = () => {
   const [expandedEmailId, setExpandedEmailId] = useState<string | null>(null);
   const [subscriberCount, setSubscriberCount] = useState(0);
 
+  const [activeSection, setActiveSection] = useState<AdminSection>(() => {
+    if (typeof window === "undefined") return "overview";
+    const h = window.location.hash.replace("#", "");
+    const valid: AdminSection[] = ["overview","users","posts","home","watch","about","trailer","chatbot","newsletter"];
+    return (valid.includes(h as AdminSection) ? h : "overview") as AdminSection;
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", `#${activeSection}`);
+    }
+  }, [activeSection]);
+
   useEffect(() => {
     checkAuth();
   }, []);
