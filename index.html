@@ -59,13 +59,25 @@
   
   <link rel="icon" type="image/png" href="/apple-touch-icon.png">
   
-  <style>
-    /* Font smoothing for better text rendering */
-    * {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  </style>
+    <style>
+      /* Font smoothing for better text rendering */
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Visually hidden but fully present for crawlers */
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+      }
+    </style>
   
   
   
@@ -82,8 +94,8 @@
 </head>
 
   <body>
-    <!-- AEO/SEO semantic content for crawlers. Hidden from users; React app renders into #root below. -->
-    <div id="aeo-content" aria-hidden="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+    <!-- AEO/SEO semantic content for crawlers. Visually hidden via CSS clip so crawlers see the full fallback content (H1, FAQ, internal links, ~400 words) while users see nothing. -->
+    <div id="aeo-content" class="visually-hidden">
       <header>
         <h1>Win The Night™ — Mental Health Community &amp; Honest Healing Stories</h1>
       </header>
