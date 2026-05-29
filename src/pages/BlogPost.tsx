@@ -7,7 +7,8 @@ import { Calendar, User, MessageCircle, Heart, ExternalLink, ArrowLeft, Headphon
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Helmet } from "react-helmet";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import DOMPurify from "dompurify";
 
 const formatDate = (dateString: string) => {
   try {
@@ -257,7 +258,7 @@ const BlogPost = () => {
 
               {/* Article Content with Custom Styling */}
               <div className="p-8 md:p-12 pt-8">
-                <div className="blog-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+                <SanitizedBlogContent html={post.content} />
               </div>
 
               {/* Bottom CTA with Gradient */}
