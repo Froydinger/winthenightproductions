@@ -239,13 +239,7 @@ const Lander = () => {
             <div className="text-center space-y-1 sm:space-y-2">
               <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
                 <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
-                  One <span className="font-bold">Connection.</span>
-                </span>
-              </motion.div>
-
-              <motion.div style={{ opacity: sloganLine2Opacity, y: sloganLine2Y }}>
-                <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
-                  One <span className="font-bold">Story.</span>
+                  One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span>
                 </span>
               </motion.div>
 

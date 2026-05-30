@@ -29,11 +29,11 @@ const AboutContentSection = () => {
   const faqs = [
     {
       q: "What is Win The Night™?",
-      a: "Win The Night™ is a mental health community built on authentic, long-form conversations about healing, trauma, generational patterns, and recovery. We publish weekly video episodes, short clips, a podcast, and written essays so that no one has to feel alone in the hardest parts of the night.",
+      a: "Win The Night™ is a weekly conversation series and growing community for people doing the slow work of healing. We publish long-form video episodes, short clips, a podcast, and written essays that are all centered on one idea: real recovery happens through honest stories, not clean ones. If tonight is hard, we want you to feel a little less alone in it. Start with the latest full episodes, or read more about the mission and the people behind the show on our About page.",
     },
     {
       q: "Who is Win The Night™ for?",
-      a: "Anyone navigating anxiety, depression, grief, addiction recovery, complex trauma, or the long work of healing — and the friends, partners, and families who love them. Our episodes are made for people who want honest stories instead of quick fixes.",
+      a: "Anyone navigating anxiety, depression, grief, addiction recovery, complex trauma, or the long work of healing and the friends, partners, and families who love them. Our episodes are made for people who want honest stories instead of quick fixes.",
     },
     {
       q: "Where can I watch or listen?",
@@ -119,24 +119,25 @@ const AboutContentSection = () => {
             <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
               Win The Night™
             </span>{" "}
-            — a mental health community for the long road of healing
+            • A mental health community for the long road of healing
           </h1>
           <p className="text-base sm:text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
             Weekly long-form conversations about trauma, recovery, and the
-            quiet work of healing — so the hardest nights feel a little less
+            quiet work of healing. A mission to help the hardest nights feel a little less
             lonely.
           </p>
         </header>
 
         {/* Intro */}
         <div className={cardCls}>
-          <p className="text-base sm:text-lg leading-relaxed">
+          <p className="text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
             Win The Night™ is a weekly conversation series and growing
             community for people doing the slow work of healing. We publish
             long-form video episodes, short clips, a podcast, and written
-            essays — all centered on one idea: that real recovery happens
-            through honest stories, not clean ones. If tonight is hard, we
-            want you to feel a little less alone in it. Start with the{" "}
+            essays that are all centered on one idea: real recovery happens
+            through honest stories, not clean ones.
+
+            If tonight is hard, we want you to feel a little less alone in it. Start with the{" "}
             <Link to="/watch" className={linkCls}>
               latest full episodes
             </Link>
@@ -208,7 +209,7 @@ const AboutContentSection = () => {
             inner child work, addiction and sobriety, grief, identity, and
             the everyday discipline of choosing to keep going. Guests
             include therapists, peer-support workers, artists, and ordinary
-            people with extraordinary stories. We don't promise cures — we
+            people with extraordinary stories. We never promise cures. Instead, we
             sit with the questions long enough to make them feel survivable.
           </p>
         </div>
@@ -229,7 +230,7 @@ const AboutContentSection = () => {
               rel="noopener noreferrer"
               className={linkCls}
             >
-              988 — the Suicide &amp; Crisis Lifeline
+              988 - the Suicide &amp; Crisis Lifeline
             </a>
             . International readers can find a hotline through{" "}
             <a

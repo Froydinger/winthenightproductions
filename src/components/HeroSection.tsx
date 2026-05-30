@@ -45,14 +45,8 @@ const HeroSection = () => {
               style={{ animationDelay: "200ms" }}
             >
               <span className="text-foreground">
-                One <span className="font-bold">Connection.</span>
+                One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span>
                 <br />
-                One <span className="font-bold">Story.</span>
-                <br className="sm:hidden" />
-                <span className="hidden sm:inline">
-                  <br />
-                </span>
-                <span className="sm:inline"> </span>
               </span>
               <span className="text-neon-blue">One <span className="font-bold">Conversation</span> at a Time.</span>
             </p>
