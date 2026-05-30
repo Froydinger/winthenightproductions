@@ -45,7 +45,7 @@ const AboutContentSection = () => {
     },
     {
       q: "I'm in crisis right now — what should I do?",
-      a: "If you're in immediate danger, call or text 988 (the U.S. Suicide - Crisis Lifeline) or your local emergency number. We also keep a vetted list of hotlines and warmlines on our Crisis Resources page.",
+      a: "If you're in immediate danger, call or text 988 (the U.S. Suicide & Crisis Lifeline) or your local emergency number. We also keep a vetted list of hotlines and warmlines on our Crisis Resources page.",
     },
   ];
 
