@@ -367,6 +367,7 @@ const Header = () => {
             </div>
           </SheetContent>
         </Sheet>
+        </div>
       </div>
 
       <AuthDialog open={showAuth} onOpenChange={setShowAuth} />
