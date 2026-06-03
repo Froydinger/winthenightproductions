@@ -16,6 +16,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { SiteCard } from "@/components/site/SiteCard";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 const About = () => {
   const [introVideoId, setIntroVideoId] = useState("cIHJZUOIPco");
