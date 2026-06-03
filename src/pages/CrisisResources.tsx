@@ -251,17 +251,72 @@ const CrisisResources = () => {
       <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
         <SiteCard>
           <p className="text-foreground/75 leading-relaxed">
-            The resources below are independent, trusted organizations. We are not taking
-            submissions at this time. Thank you for your consideration!
+            The resources below are independent, trusted organizations curated by the
+            Win The Night™ team. This page is informational and does not replace
+            professional medical care. If you're in danger, please use the crisis
+            options above.
           </p>
         </SiteCard>
+
+        {/* Stats */}
+        <section aria-label="Mental health by the numbers">
+          <SectionHeader
+            icon={Sparkles}
+            eyebrow="By the numbers"
+            title="Mental health in 2024"
+            lede="You are not alone in this. The data below reflects current U.S. statistics from leading mental health organizations."
+          />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            {stats.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block rounded-2xl border border-neon-blue/15 bg-background/60 p-5 transition-all hover:-translate-y-0.5 hover:border-neon-blue/50 hover:bg-background/80 hover:shadow-[0_0_30px_-12px_rgba(0,217,255,0.5)]"
+              >
+                <div className="text-3xl sm:text-4xl font-bold text-neon-blue drop-shadow-[0_0_10px_rgba(0,217,255,0.45)] mb-2">
+                  {s.stat}
+                </div>
+                <p className="text-sm text-foreground/80 leading-snug mb-2">{s.label}</p>
+                <p className="text-xs uppercase tracking-wider text-foreground/50">
+                  Source: {s.source}
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
 
         <ResourceSection
           icon={AlertTriangle}
           eyebrow="Emergency"
-          title="Crisis management"
+          title="Crisis lines & immediate support"
           accent="yellow"
           resources={crisis}
+        />
+
+        <ResourceSection
+          icon={Brain}
+          eyebrow="General mental health"
+          title="Find care, screenings & education"
+          accent="blue"
+          resources={mentalHealth}
+        />
+
+        <ResourceSection
+          icon={BookOpen}
+          eyebrow="Self-care toolkit"
+          title="Free tools you can use tonight"
+          accent="teal"
+          resources={selfCare}
+        />
+
+        <ResourceSection
+          icon={Users}
+          eyebrow="For loved ones"
+          title="Supporting someone who's struggling"
+          accent="purple"
+          resources={loved}
         />
 
         <ResourceSection
@@ -296,6 +351,42 @@ const CrisisResources = () => {
           resources={lgbtq}
         />
 
+        {/* FAQ */}
+        <section aria-label="Frequently asked questions">
+          <SectionHeader
+            icon={HelpCircle}
+            eyebrow="FAQ"
+            title="Frequently asked questions"
+            lede="Honest answers to the questions people most often ask us about care, crisis, and getting help."
+          />
+          <div className="space-y-3">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-2xl border border-neon-blue/15 bg-background/60 p-5 transition-colors hover:border-neon-blue/40 open:border-neon-blue/50"
+              >
+                <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground leading-snug">
+                    {f.q}
+                  </h3>
+                  <span className="text-neon-blue text-2xl leading-none mt-0.5 transition-transform group-open:rotate-45 select-none">
+                    +
+                  </span>
+                </summary>
+                <p className="text-foreground/80 leading-relaxed mt-3">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <p className="text-center text-sm text-muted-foreground pt-2">
+          Last updated <time dateTime="2026-06-03">June 3, 2026</time>. If a link is
+          broken or you know of a resource we should add,{" "}
+          <a href="/contact" className="text-neon-blue underline underline-offset-4">
+            let us know
+          </a>
+          .
+        </p>
       </div>
     </PageShell>
   );
