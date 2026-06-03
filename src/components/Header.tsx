@@ -154,14 +154,14 @@ const Header = () => {
             href="/support"
             className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
           >
-            Support Us
+            Support
           </a>
           {(
             <a
               href="/crisis-resources"
               className="px-2.5 py-1.5 text-xs font-bold text-green-400 hover:text-green-300 transition-colors duration-200 rounded-md hover:bg-green-400/10 drop-shadow-[0_0_6px_rgba(74,222,128,0.6)]"
             >
-              Crisis & Care
+              Care
             </a>
           )}
         </nav>
