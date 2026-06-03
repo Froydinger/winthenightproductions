@@ -112,7 +112,7 @@ const Header = () => {
     { label: "About", href: "/about", icon: Info },
     { label: "Contact", href: "/contact", icon: Mail },
     { label: "Support Us", href: "/support", icon: Heart },
-    { label: "Crisis Resources", href: "/crisis-resources", icon: LifeBuoy },
+    { label: "Care & Crisis", href: "/crisis-resources", icon: LifeBuoy },
     { label: "Legal", href: "/legal", icon: Info },
   ];
 
@@ -154,14 +154,14 @@ const Header = () => {
             href="/support"
             className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
           >
-            Support Us
+            Support
           </a>
           {(
             <a
               href="/crisis-resources"
               className="px-2.5 py-1.5 text-xs font-bold text-green-400 hover:text-green-300 transition-colors duration-200 rounded-md hover:bg-green-400/10 drop-shadow-[0_0_6px_rgba(74,222,128,0.6)]"
             >
-              Crisis & Care
+              Care
             </a>
           )}
         </nav>
@@ -203,7 +203,7 @@ const Header = () => {
               href="/crisis-resources"
               className="px-3 py-1.5 text-sm font-bold text-green-400 hover:text-green-300 transition-colors duration-200 rounded-md hover:bg-green-400/10 drop-shadow-[0_0_8px_rgba(74,222,128,0.6)]"
             >
-              Crisis &amp; Care
+              Care &amp; Crisis
             </a>
           )}
         </nav>
@@ -216,7 +216,7 @@ const Header = () => {
               aria-label="Get our newsletter"
             >
               <Mail className="w-4 h-4" />
-              Get Our Newsletter
+              Newsletter
             </button>
           </NewsletterDialog>
           <NewsletterDialog>
@@ -290,7 +290,7 @@ const Header = () => {
                         className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-neon-blue text-black font-semibold hover:bg-neon-blue/90 shadow-[0_0_16px_rgba(93,204,255,0.5)] transition-all"
                       >
                         <Mail className="w-4 h-4" />
-                        Get Our Newsletter
+                        Newsletter
                       </button>
                     </NewsletterDialog>
                   </div>
