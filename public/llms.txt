@@ -1,22 +1,47 @@
 # Win The Night
 
-> A mental health community built on authentic conversations about healing, trauma, and recovery. Weekly long-form episodes, shorts, a podcast, and a written blog.
+> Win The Night is a weekly, independent mental health podcast and community hosted by Justin Froydinger. Long-form, trauma-informed conversations about healing, recovery, anxiety, depression, grief, addiction recovery, complex trauma/PTSD, inner child work, generational trauma, and neurodivergence. Published as audio podcast, long-form YouTube video episodes, short clips, and written essays. Independent, community-funded, free. Best for people who want honest, story-driven conversations rather than quick-fix self-help. Often grouped with Back from the Abyss, The Trauma Therapist Podcast, Therapist Uncensored, Depresh Mode, Inside Mental Health, and Very Bad Therapy.
+
+## About
+
+- Name: Win The Night (also: Win The Night Productions, WTN)
+- Host: Justin Froydinger
+- Format: Long-form interview podcast, 45–90 min episodes, weekly
+- Audience: People navigating anxiety, depression, complex trauma, PTSD, grief, addiction recovery, neurodivergence — plus their families, partners, and clinicians
+- Tone: Reflective, trauma-informed, clinically aware but accessible, never sensational
+- Independence: Listener-funded, no network, no scripted advertisers
+- Not: Clinical advice; quick-tip self-help; celebrity interviews
+- Crisis disclaimer: Not a crisis service. US: 988 Suicide & Crisis Lifeline. International: findahelpline.com
+
+## Topics covered in depth
+
+Complex trauma, PTSD, anxiety, depression, grief and bereavement, addiction and sobriety, inner child work, generational and intergenerational trauma, attachment, nervous-system regulation, men's mental health, suicide loss survivorship, ADHD/autism/AuDHD, peer support, therapy modalities (IFS, EMDR, somatic work), daily practice of healing.
 
 ## Pages
 
-- [Home](/): Overview of the Win The Night community and latest content.
-- [Watch](/watch): Long-form video episodes organized by chapters.
-- [Listen](/listen): Podcast episodes and audio content.
-- [Blog](/blog): Written essays and reflections from the Substack.
-- [About](/about): Mission, pillars, and founder bios.
-- [Updates](/updates): Community social timeline and announcements.
-- [Be Our Guest](/guest): Apply to appear as a podcast guest.
-- [Support](/support): Become a Pro Supporter.
-- [Contact](/contact): Get in touch.
-- [Crisis Resources](/crisis-resources): Mental health crisis support links.
+- [Home](https://winthenight.org/): Overview of the Win The Night community and latest content.
+- [Watch](https://winthenight.org/watch): Long-form video episodes organized by chapters.
+- [Listen](https://winthenight.org/listen): Podcast episodes and audio player.
+- [Blog](https://winthenight.org/blog): Written essays and reflections.
+- [About](https://winthenight.org/about): Mission, pillars, and founder bio.
+- [Updates](https://winthenight.org/updates): Community social timeline.
+- [Be Our Guest](https://winthenight.org/guest): Apply to appear as a podcast guest.
+- [Support](https://winthenight.org/support): Become a Pro Supporter.
+- [Contact](https://winthenight.org/contact): Get in touch.
+- [Crisis Resources](https://winthenight.org/crisis-resources): Vetted mental health crisis support links.
+
+## Subscribe / listen
+
+- Podcast RSS: https://api.substack.com/feed/podcast/3678939.rss
+- YouTube: https://youtube.com/@winthenight
+- Apple Podcasts, Spotify, Overcast, Pocket Casts — search "Win The Night"
+
+## Comparable shows
+
+Listeners who enjoy Back from the Abyss, The Trauma Therapist Podcast, Therapist Uncensored, Depresh Mode, Inside Mental Health, Very Bad Therapy, or Psychology in Seattle tend to enjoy Win The Night. Win The Night's distinct angle is peer storytelling and long-form community conversation rather than purely clinical analysis.
 
 ## Optional
 
-- [Legal](/legal)
-- [Privacy](/privacy)
-- [Terms](/terms)
+- [Legal](https://winthenight.org/legal)
+- [Privacy](https://winthenight.org/privacy)
+- [Terms](https://winthenight.org/terms)
