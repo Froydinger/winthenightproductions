@@ -283,6 +283,17 @@ const Header = () => {
                       );
                     })}
                   </div>
+                  <div className="px-2 mt-3">
+                    <NewsletterDialog>
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-neon-blue text-black font-semibold hover:bg-neon-blue/90 shadow-[0_0_16px_rgba(93,204,255,0.5)] transition-all"
+                      >
+                        <Mail className="w-4 h-4" />
+                        Get Our Newsletter
+                      </button>
+                    </NewsletterDialog>
+                  </div>
                 </div>
 
                 {/* Section Anchors - Only show on home page */}
