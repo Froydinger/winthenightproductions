@@ -1,89 +1,56 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Mail, CheckCircle, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Mail, ExternalLink } from "lucide-react";
+
+const SUBSTACK_EMBED_URL = "https://winthenight.substack.com/embed";
+const SUBSTACK_SUBSCRIBE_URL = "https://winthenight.substack.com/subscribe";
 
 const NewsletterSubscribe = () => {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("newsletter_subscribers")
-        .insert({ email: email.trim().toLowerCase() });
-
-      if (error) {
-        if (error.code === "23505") {
-          toast.info("You're already subscribed!");
-          setSubscribed(true);
-        } else {
-          throw error;
-        }
-      } else {
-        // Send welcome email
-        const subId = crypto.randomUUID();
-        await supabase.functions.invoke("send-transactional-email", {
-          body: {
-            templateName: "welcome-subscriber",
-            recipientEmail: email.trim().toLowerCase(),
-            idempotencyKey: `welcome-sub-${subId}`,
-          },
-        });
-        setSubscribed(true);
-        toast.success("You're in! Check your inbox for a welcome email.");
-      }
-    } catch (err) {
-      console.error("Subscribe error:", err);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (subscribed) {
-    return (
-      <div className="flex items-center gap-2 text-neon-blue">
-        <CheckCircle className="w-5 h-5" />
-        <span className="text-sm font-medium">You're subscribed!</span>
-      </div>
-    );
-  }
+  const [open, setOpen] = useState(false);
 
   return (
-    <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-      <div className="relative flex-1">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="pl-10 bg-background/50 border-border"
-          required
-        />
+    <>
+      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md items-stretch sm:items-center">
+        <Button
+          onClick={() => setOpen(true)}
+          className="bg-neon-blue text-black hover:bg-neon-blue/90 font-semibold flex items-center gap-2"
+        >
+          <Mail className="w-4 h-4" />
+          Subscribe on Substack
+        </Button>
+        <a
+          href={SUBSTACK_SUBSCRIBE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-muted-foreground hover:text-neon-blue inline-flex items-center gap-1 transition-colors"
+        >
+          Open in new tab <ExternalLink className="w-3 h-3" />
+        </a>
       </div>
-      <Button
-        type="submit"
-        disabled={loading}
-        className="bg-neon-blue text-black hover:bg-neon-blue/90 font-semibold whitespace-nowrap"
-      >
-        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Subscribe"}
-      </Button>
-    </form>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md p-0 overflow-hidden bg-background border-neon-blue/30">
+          <DialogHeader className="px-6 pt-6 pb-2">
+            <DialogTitle>Join the Win The Night™ Newsletter</DialogTitle>
+            <DialogDescription>
+              Subscribe via Substack to get new essays, episodes, and reflections in your inbox.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="px-4 pb-4">
+            <iframe
+              src={SUBSTACK_EMBED_URL}
+              title="Subscribe to Win The Night on Substack"
+              width="100%"
+              height="320"
+              style={{ border: "1px solid hsl(var(--border))", background: "white", borderRadius: 8 }}
+              frameBorder={0}
+              scrolling="no"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
