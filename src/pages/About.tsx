@@ -16,6 +16,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { SiteCard } from "@/components/site/SiteCard";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 const About = () => {
   const [introVideoId, setIntroVideoId] = useState("cIHJZUOIPco");
@@ -242,6 +243,18 @@ const About = () => {
               </a>
             </Button>
           </SiteCard>
+        </section>
+        {/* Newsletter */}
+        <section id="newsletter">
+          <SectionHeader
+            icon={Heart}
+            eyebrow="Newsletter"
+            title="Get our newsletter"
+            lede="New essays, episodes, and reflections in your inbox."
+          />
+          <div className="flex justify-center">
+            <NewsletterSubscribe />
+          </div>
         </section>
       </div>
     </PageShell>

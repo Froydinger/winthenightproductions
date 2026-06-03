@@ -24,6 +24,7 @@ import { Session } from "@supabase/supabase-js";
 import AuthDialog from "@/components/updates/AuthDialog";
 import { Button } from "@/components/ui/button";
 import { useAudio } from "@/context/AudioContext";
+import { NewsletterDialog } from "@/components/NewsletterSubscribe";
 
 const Header = () => {
   const [logoVisible, setLogoVisible] = useState(false);
@@ -207,7 +208,26 @@ const Header = () => {
           )}
         </nav>
 
-        {/* Hamburger Menu */}
+        {/* Newsletter + Hamburger */}
+        <div className="flex items-center gap-2">
+          <NewsletterDialog>
+            <button
+              className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-black bg-neon-blue hover:bg-neon-blue/90 rounded-md shadow-[0_0_12px_rgba(93,204,255,0.5)] transition-all"
+              aria-label="Get our newsletter"
+            >
+              <Mail className="w-4 h-4" />
+              Get Our Newsletter
+            </button>
+          </NewsletterDialog>
+          <NewsletterDialog>
+            <button
+              className="md:hidden p-1.5 rounded-lg text-neon-blue hover:bg-neon-blue/10 transition-all"
+              aria-label="Get our newsletter"
+            >
+              <Mail className="w-5 h-5" />
+            </button>
+          </NewsletterDialog>
+
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <button
@@ -262,6 +282,17 @@ const Header = () => {
                         </a>
                       );
                     })}
+                  </div>
+                  <div className="px-2 mt-3">
+                    <NewsletterDialog>
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-neon-blue text-black font-semibold hover:bg-neon-blue/90 shadow-[0_0_16px_rgba(93,204,255,0.5)] transition-all"
+                      >
+                        <Mail className="w-4 h-4" />
+                        Get Our Newsletter
+                      </button>
+                    </NewsletterDialog>
                   </div>
                 </div>
 
@@ -347,6 +378,7 @@ const Header = () => {
             </div>
           </SheetContent>
         </Sheet>
+        </div>
       </div>
 
       <AuthDialog open={showAuth} onOpenChange={setShowAuth} />
