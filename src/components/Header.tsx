@@ -112,7 +112,7 @@ const Header = () => {
     { label: "About", href: "/about", icon: Info },
     { label: "Contact", href: "/contact", icon: Mail },
     { label: "Support Us", href: "/support", icon: Heart },
-    { label: "Crisis Resources", href: "/crisis-resources", icon: LifeBuoy },
+    { label: "Care & Crisis", href: "/crisis-resources", icon: LifeBuoy },
     { label: "Legal", href: "/legal", icon: Info },
   ];
 
