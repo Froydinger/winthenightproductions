@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 const SUBSTACK_EMBED_URL = "https://winthenight.substack.com/embed";
 
 const SubstackEmbed = ({ height = 320 }: { height?: number }) => (
-  <div className="w-full overflow-hidden rounded-xl border border-neon-blue/30 bg-white">
+  <div className="w-full overflow-hidden rounded-2xl bg-white shadow-[0_0_20px_-4px_rgba(0,217,255,0.25)]">
     <iframe
       src={SUBSTACK_EMBED_URL}
       title="Subscribe to Win The Night on Substack"
