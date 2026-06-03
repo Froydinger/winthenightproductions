@@ -208,7 +208,26 @@ const Header = () => {
           )}
         </nav>
 
-        {/* Hamburger Menu */}
+        {/* Newsletter + Hamburger */}
+        <div className="flex items-center gap-2">
+          <NewsletterDialog>
+            <button
+              className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-black bg-neon-blue hover:bg-neon-blue/90 rounded-md shadow-[0_0_12px_rgba(93,204,255,0.5)] transition-all"
+              aria-label="Get our newsletter"
+            >
+              <Mail className="w-4 h-4" />
+              Get Our Newsletter
+            </button>
+          </NewsletterDialog>
+          <NewsletterDialog>
+            <button
+              className="md:hidden p-1.5 rounded-lg text-neon-blue hover:bg-neon-blue/10 transition-all"
+              aria-label="Get our newsletter"
+            >
+              <Mail className="w-5 h-5" />
+            </button>
+          </NewsletterDialog>
+
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <button
