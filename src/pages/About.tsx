@@ -244,6 +244,18 @@ const About = () => {
             </Button>
           </SiteCard>
         </section>
+        {/* Newsletter */}
+        <section id="newsletter">
+          <SectionHeader
+            icon={Heart}
+            eyebrow="Newsletter"
+            title="Get our newsletter"
+            lede="New essays, episodes, and reflections in your inbox."
+          />
+          <div className="flex justify-center">
+            <NewsletterSubscribe />
+          </div>
+        </section>
       </div>
     </PageShell>
   );
