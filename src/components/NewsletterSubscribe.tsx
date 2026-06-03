@@ -42,7 +42,7 @@ export const NewsletterDialog = ({
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent className="sm:max-w-md p-3 pt-10 bg-background border-neon-blue/30">
+      <DialogContent className="sm:max-w-md p-3 pt-10 bg-transparent border-none shadow-none">
         <SubstackEmbed height={360} />
       </DialogContent>
     </Dialog>
