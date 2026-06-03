@@ -216,7 +216,7 @@ const Header = () => {
               aria-label="Get our newsletter"
             >
               <Mail className="w-4 h-4" />
-              Get Our Newsletter
+              Newsletter
             </button>
           </NewsletterDialog>
           <NewsletterDialog>
