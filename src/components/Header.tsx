@@ -24,6 +24,7 @@ import { Session } from "@supabase/supabase-js";
 import AuthDialog from "@/components/updates/AuthDialog";
 import { Button } from "@/components/ui/button";
 import { useAudio } from "@/context/AudioContext";
+import { NewsletterDialog } from "@/components/NewsletterSubscribe";
 
 const Header = () => {
   const [logoVisible, setLogoVisible] = useState(false);
