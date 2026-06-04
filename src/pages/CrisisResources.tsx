@@ -56,7 +56,7 @@ const CrisisResources = () => {
 
   const selfCare: Resource[] = [
     { name: "Insight Timer", meta: "Free meditation library", href: "https://insighttimer.com/" },
-    { name: "How to Sleep Better (CDC)", meta: "Evidence-based sleep tips", href: "https://www.cdc.gov/sleep/about_sleep/sleep_hygiene.html" },
+    { name: "How to Sleep Better (CDC)", meta: "Evidence-based sleep tips", href: "https://www.cdc.gov/sleep/about/index.html" },
     { name: "Greater Good in Action", meta: "Research-backed practices", href: "https://ggia.berkeley.edu/" },
     { name: "Self-Compassion Exercises", meta: "Dr. Kristin Neff", href: "https://self-compassion.org/category/exercises/" },
     { name: "Grounding Techniques (Healthline)", meta: "5-4-3-2-1 and more", href: "https://www.healthline.com/health/grounding-techniques" },
