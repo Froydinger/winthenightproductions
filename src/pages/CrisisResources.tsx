@@ -263,8 +263,8 @@ const CrisisResources = () => {
           <SectionHeader
             icon={Sparkles}
             eyebrow="By the numbers"
-            title="Mental health in 2024"
-            lede="You are not alone in this. The data below reflects current U.S. statistics from leading mental health organizations."
+            title="Mental health in 2026"
+            lede="You are not alone in this. The data below reflects the most recent U.S. statistics from leading mental health organizations."
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {stats.map((s) => (
