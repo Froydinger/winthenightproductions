@@ -55,6 +55,7 @@ const App = () => (
         <BrowserRouter>
           <TrailerButton />
           <ArcMiniChat />
+          <NewsletterAutoPrompt />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Lander />} />
