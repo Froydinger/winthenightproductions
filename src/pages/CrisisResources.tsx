@@ -100,15 +100,15 @@ const CrisisResources = () => {
 
   const stats = [
     {
-      stat: "1 in 5",
-      label: "U.S. adults experience a mental illness each year.",
-      source: "NAMI, 2024",
-      href: "https://www.nami.org/mhstats",
+      stat: "23.1%",
+      label: "of U.S. adults — roughly 59 million people — experienced a mental illness in the past year.",
+      source: "SAMHSA NSDUH, 2024 release",
+      href: "https://www.samhsa.gov/data/release/2023-national-survey-drug-use-and-health-nsduh-releases",
     },
     {
       stat: "1 in 6",
       label: "U.S. youth ages 6–17 experience a mental health disorder each year.",
-      source: "NAMI, 2024",
+      source: "NAMI, 2025",
       href: "https://www.nami.org/mhstats",
     },
     {
@@ -118,21 +118,21 @@ const CrisisResources = () => {
       href: "https://www.nimh.nih.gov/health/statistics/mental-illness",
     },
     {
-      stat: "49,000+",
-      label: "lives lost to suicide in the U.S. in 2023 — about one every 11 minutes.",
-      source: "CDC, 2024",
-      href: "https://www.cdc.gov/suicide/facts/",
+      stat: "49,300+",
+      label: "lives lost to suicide in the U.S. in 2023 — about one every 11 minutes. 2024 provisional data shows a small decline, the first in years.",
+      source: "CDC WONDER, 2025",
+      href: "https://www.cdc.gov/suicide/facts/data.html",
     },
     {
-      stat: "12.8M",
-      label: "U.S. adults seriously thought about suicide in the past year.",
-      source: "SAMHSA NSDUH",
+      stat: "13.2M",
+      label: "U.S. adults seriously thought about suicide in the past year; 3.8M made a plan.",
+      source: "SAMHSA NSDUH, 2024 release",
       href: "https://www.samhsa.gov/data/",
     },
     {
-      stat: "55%",
-      label: "of U.S. adults with a mental illness received no treatment last year.",
-      source: "Mental Health America, 2024",
+      stat: "54.7%",
+      label: "of U.S. adults with a mental illness received no treatment last year — over 28 million people.",
+      source: "Mental Health America, 2025",
       href: "https://mhanational.org/issues/state-mental-health-america",
     },
   ];
