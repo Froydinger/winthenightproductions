@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
+const NEWSLETTER_SEEN_KEY = "wtn_newsletter_prompt_seen_v1";
 
 const SUBSTACK_EMBED_URL = "https://winthenight.substack.com/embed";
 
