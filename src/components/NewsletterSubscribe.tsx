@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
+const NEWSLETTER_SEEN_KEY = "wtn_newsletter_prompt_seen_v1";
 
 const SUBSTACK_EMBED_URL = "https://winthenight.substack.com/embed";
 
@@ -37,7 +39,13 @@ export const NewsletterDialog = ({
   const [internal, setInternal] = useState(false);
   const isControlled = open !== undefined;
   const isOpen = isControlled ? open : internal;
-  const setOpen = isControlled ? (onOpenChange ?? (() => {})) : setInternal;
+  const setOpen = (next: boolean) => {
+    if (next) {
+      try { localStorage.setItem(NEWSLETTER_SEEN_KEY, "1"); } catch { /* ignore */ }
+    }
+    if (isControlled) onOpenChange?.(next);
+    else setInternal(next);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
@@ -47,6 +55,38 @@ export const NewsletterDialog = ({
       </DialogContent>
     </Dialog>
   );
+};
+
+/**
+ * Auto-opens the newsletter dialog once per browser for new visitors.
+ * Once the user opens or dismisses it, we set a localStorage flag and never show again.
+ */
+export const NewsletterAutoPrompt = ({ delayMs = 8000 }: { delayMs?: number }) => {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (localStorage.getItem(NEWSLETTER_SEEN_KEY)) return;
+    } catch {
+      return;
+    }
+    const t = window.setTimeout(() => setOpen(true), delayMs);
+    return () => window.clearTimeout(t);
+  }, [delayMs]);
+
+  const handleOpenChange = (next: boolean) => {
+    setOpen(next);
+    if (!next) {
+      try {
+        localStorage.setItem(NEWSLETTER_SEEN_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+    }
+  };
+
+  return <NewsletterDialog open={open} onOpenChange={handleOpenChange} />;
 };
 
 export default NewsletterSubscribe;
