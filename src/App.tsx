@@ -9,6 +9,7 @@ import { AudioProvider } from "@/context/AudioContext";
 import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
 import TrailerButton from "@/components/TrailerButton";
 import ArcMiniChat from "@/components/ArcMiniChat";
+import { NewsletterAutoPrompt } from "@/components/NewsletterSubscribe";
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BeOurGuest = lazy(() => import("./pages/BeOurGuest"));
