@@ -39,7 +39,13 @@ export const NewsletterDialog = ({
   const [internal, setInternal] = useState(false);
   const isControlled = open !== undefined;
   const isOpen = isControlled ? open : internal;
-  const setOpen = isControlled ? (onOpenChange ?? (() => {})) : setInternal;
+  const setOpen = (next: boolean) => {
+    if (next) {
+      try { localStorage.setItem(NEWSLETTER_SEEN_KEY, "1"); } catch { /* ignore */ }
+    }
+    if (isControlled) onOpenChange?.(next);
+    else setInternal(next);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
