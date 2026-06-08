@@ -95,14 +95,18 @@ const BeOurGuest = () => {
             align="center"
           />
           <SiteCard className="p-0 overflow-hidden">
-            <iframe
-              src="https://cal.com/winthenight/discovery?overlayCalendar=true&layout=month_view"
-              width="100%"
-              height="700px"
-              frameBorder="0"
-              style={{ minWidth: "100%" }}
-              title="Schedule a Discovery Call"
-            />
+            <div className="flex justify-center">
+              <div className="w-full max-w-[520px]">
+                <iframe
+                  src="https://calendar.app.google/MNifebbLd3BukfAe8"
+                  width="100%"
+                  height="800px"
+                  frameBorder="0"
+                  style={{ minWidth: "100%" }}
+                  title="Schedule a Discovery Call"
+                />
+              </div>
+            </div>
           </SiteCard>
           <p className="text-center text-sm text-foreground/55 mt-4">
             Select a time that works for you and we'll confirm your discovery call shortly.
