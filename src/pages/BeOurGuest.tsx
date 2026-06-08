@@ -94,29 +94,27 @@ const BeOurGuest = () => {
             lede="Book a time that works best for you to discuss being a guest on Win The Night. We'll talk about your story, what to expect, and answer any questions you have."
             align="center"
           />
-          <SiteCard className="p-0 overflow-hidden">
-            <div
-              className="flex justify-center p-3 sm:p-5"
-              style={{
-                background:
-                  "linear-gradient(135deg, hsl(195 100% 88% / 0.9) 0%, hsl(0 0% 100% / 0.95) 50%, hsl(195 100% 90% / 0.9) 100%)",
-                boxShadow:
-                  "0 0 40px hsl(var(--neon-blue) / 0.25), inset 0 1px 0 hsl(0 0% 100% / 0.7)",
-              }}
-            >
-              <div className="w-full max-w-[520px] rounded-lg overflow-hidden">
-                <iframe
-                  src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
-                  width="100%"
-                  height="800px"
-                  frameBorder="0"
-                  className="block rounded-lg"
-                  style={{ minWidth: "100%" }}
-                  title="Schedule a Discovery Call"
-                />
-              </div>
+          <div
+            className="overflow-hidden rounded-2xl"
+            style={{
+              background:
+                "linear-gradient(135deg, hsl(195 100% 88% / 0.95) 0%, hsl(0 0% 100%) 50%, hsl(195 100% 90% / 0.95) 100%)",
+              boxShadow:
+                "0 0 80px hsl(var(--neon-blue) / 0.45), 0 0 140px hsl(var(--neon-blue) / 0.25), inset 0 1px 0 hsl(0 0% 100% / 0.8)",
+            }}
+          >
+            <div className="flex justify-center">
+              <iframe
+                src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
+                width="100%"
+                height="800px"
+                frameBorder="0"
+                className="block w-full max-w-[520px] rounded-2xl"
+                style={{ minWidth: "100%" }}
+                title="Schedule a Discovery Call"
+              />
             </div>
-          </SiteCard>
+          </div>
           <p className="text-center text-sm text-foreground/55 mt-4">
             Select a time that works for you and we'll confirm your discovery call shortly.
           </p>
