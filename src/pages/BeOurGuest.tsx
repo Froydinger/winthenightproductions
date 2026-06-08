@@ -98,7 +98,7 @@ const BeOurGuest = () => {
             <div className="flex justify-center">
               <div className="w-full max-w-[520px]">
                 <iframe
-                  src="https://calendar.app.google/MNifebbLd3BukfAe8"
+                  src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
                   width="100%"
                   height="800px"
                   frameBorder="0"
