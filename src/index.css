@@ -43,6 +43,7 @@ All colors MUST be HSL.
     --neon-purple: 270 70% 65%;
     --charcoal: 0 0% 8%;
     --glass: 199 50% 50%;
+    --calendar-surface: 0 0% 100%;
   }
 
   .dark {
@@ -73,6 +74,7 @@ All colors MUST be HSL.
     --border: 199 30% 20%;
     --input: 199 30% 18%;
     --ring: 199 100% 65%;
+    --calendar-surface: 0 0% 100%;
   }
 }
 
