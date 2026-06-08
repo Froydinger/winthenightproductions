@@ -102,6 +102,7 @@ const BeOurGuest = () => {
                   width="100%"
                   height="800px"
                   frameBorder="0"
+                  className="rounded-xl"
                   style={{ minWidth: "100%" }}
                   title="Schedule a Discovery Call"
                 />
