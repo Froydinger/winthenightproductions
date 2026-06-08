@@ -95,15 +95,23 @@ const BeOurGuest = () => {
             align="center"
           />
           <SiteCard className="p-0 overflow-hidden">
-            <div className="flex justify-center">
-              <div className="w-full max-w-[520px] rounded-xl bg-calendar-surface overflow-hidden">
+            <div
+              className="flex justify-center p-3 sm:p-5"
+              style={{
+                background:
+                  "linear-gradient(135deg, hsl(195 100% 88% / 0.9) 0%, hsl(0 0% 100% / 0.95) 50%, hsl(195 100% 90% / 0.9) 100%)",
+                boxShadow:
+                  "0 0 40px hsl(var(--neon-blue) / 0.25), inset 0 1px 0 hsl(0 0% 100% / 0.7)",
+              }}
+            >
+              <div className="w-full max-w-[520px] rounded-lg overflow-hidden">
                 <iframe
                   src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
                   width="100%"
                   height="800px"
                   frameBorder="0"
-                  className="block rounded-xl bg-calendar-surface"
-                  style={{ minWidth: "100%", colorScheme: "light" }}
+                  className="block rounded-lg"
+                  style={{ minWidth: "100%" }}
                   title="Schedule a Discovery Call"
                 />
               </div>
