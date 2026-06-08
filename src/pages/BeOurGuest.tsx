@@ -94,8 +94,8 @@ const BeOurGuest = () => {
             lede="Book a time that works best for you to discuss being a guest on Win The Night. We'll talk about your story, what to expect, and answer any questions you have."
             align="center"
           />
-          <SiteCard
-            className="p-0 overflow-hidden rounded-2xl"
+          <div
+            className="overflow-hidden rounded-2xl"
             style={{
               background:
                 "linear-gradient(135deg, hsl(195 100% 88% / 0.95) 0%, hsl(0 0% 100%) 50%, hsl(195 100% 90% / 0.95) 100%)",
@@ -114,7 +114,7 @@ const BeOurGuest = () => {
                 title="Schedule a Discovery Call"
               />
             </div>
-          </SiteCard>
+          </div>
           <p className="text-center text-sm text-foreground/55 mt-4">
             Select a time that works for you and we'll confirm your discovery call shortly.
           </p>
