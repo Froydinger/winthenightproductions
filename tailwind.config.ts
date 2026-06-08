@@ -52,6 +52,9 @@ export default {
           dim: "hsl(var(--neon-blue-dim))",
           purple: "hsl(var(--neon-purple))",
         },
+        calendar: {
+          surface: "hsl(var(--calendar-surface))",
+        },
         charcoal: "hsl(var(--charcoal))",
         glass: "hsl(var(--glass))",
       },

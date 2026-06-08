@@ -96,14 +96,14 @@ const BeOurGuest = () => {
           />
           <SiteCard className="p-0 overflow-hidden">
             <div className="flex justify-center">
-              <div className="w-full max-w-[520px]">
+              <div className="w-full max-w-[520px] rounded-xl bg-calendar-surface overflow-hidden">
                 <iframe
                   src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
                   width="100%"
                   height="800px"
                   frameBorder="0"
-                  className="rounded-xl"
-                  style={{ minWidth: "100%" }}
+                  className="block rounded-xl bg-calendar-surface"
+                  style={{ minWidth: "100%", colorScheme: "light" }}
                   title="Schedule a Discovery Call"
                 />
               </div>
