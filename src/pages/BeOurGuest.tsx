@@ -95,7 +95,7 @@ const BeOurGuest = () => {
             align="center"
           />
           <div
-            className="overflow-hidden rounded-2xl"
+            className="overflow-hidden rounded-2xl mx-auto w-full max-w-[460px]"
             style={{
               background:
                 "linear-gradient(135deg, hsl(195 100% 88% / 0.95) 0%, hsl(0 0% 100%) 50%, hsl(195 100% 90% / 0.95) 100%)",
@@ -103,17 +103,14 @@ const BeOurGuest = () => {
                 "0 0 80px hsl(var(--neon-blue) / 0.45), 0 0 140px hsl(var(--neon-blue) / 0.25), inset 0 1px 0 hsl(0 0% 100% / 0.8)",
             }}
           >
-            <div className="flex justify-center">
-              <iframe
-                src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
-                width="100%"
-                height="800px"
-                frameBorder="0"
-                className="block w-full max-w-[520px] rounded-2xl"
-                style={{ minWidth: "100%" }}
-                title="Schedule a Discovery Call"
-              />
-            </div>
+            <iframe
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
+              width="100%"
+              height="720"
+              frameBorder="0"
+              className="block w-full rounded-2xl"
+              title="Schedule a Discovery Call"
+            />
           </div>
           <p className="text-center text-sm text-foreground/55 mt-4">
             Select a time that works for you and we'll confirm your discovery call shortly.
