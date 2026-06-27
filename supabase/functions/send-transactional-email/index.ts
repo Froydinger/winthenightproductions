@@ -380,6 +380,22 @@ Deno.serve(async (req) => {
 
   console.log('Transactional email enqueued', { templateName, effectiveRecipient })
 
+  // Fire-and-forget: kick the queue processor immediately so we don't wait on cron.
+  try {
+    const kick = fetch(`${supabaseUrl}/functions/v1/process-email-queue`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${supabaseServiceKey}`,
+      },
+      body: '{}',
+    }).catch((e) => console.warn('Queue kick failed', e))
+    // @ts-ignore - EdgeRuntime is available in Supabase Edge runtime
+    if (typeof EdgeRuntime !== 'undefined') EdgeRuntime.waitUntil(kick)
+  } catch (e) {
+    console.warn('Queue kick error', e)
+  }
+
   return new Response(
     JSON.stringify({ success: true, queued: true }),
     {
