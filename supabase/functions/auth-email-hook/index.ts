@@ -284,6 +284,22 @@ async function handleWebhook(req: Request): Promise<Response> {
 
   console.log('Auth email enqueued', { emailType, email: payload.data.email, run_id })
 
+  // Fire-and-forget: kick the queue processor immediately so we don't wait on cron.
+  try {
+    const kick = fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/process-email-queue`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+      },
+      body: '{}',
+    }).catch((e) => console.warn('Queue kick failed', e))
+    // @ts-ignore - EdgeRuntime is available in Supabase Edge runtime
+    if (typeof EdgeRuntime !== 'undefined') EdgeRuntime.waitUntil(kick)
+  } catch (e) {
+    console.warn('Queue kick error', e)
+  }
+
   return new Response(
     JSON.stringify({ success: true, queued: true }),
     { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
