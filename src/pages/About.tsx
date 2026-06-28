@@ -54,17 +54,17 @@ const About = () => {
     {
       icon: Mic,
       title: "Conversations",
-      desc: "Deep dive discussions on our podcast where we explore the resilience of the human spirit.",
+      desc: "Our flagship podcast is the core of the Foundation — long-form conversations that explore the resilience of the human spirit.",
     },
     {
       icon: Users,
-      title: "Connections",
-      desc: "Building a growing online community where you don't have to fight your battles alone.",
+      title: "Community",
+      desc: "A safe space — online and in person — where people can share their stories, find each other, and heal together.",
     },
     {
       icon: BookOpen,
-      title: "Lessons & Insights",
-      desc: "Curated articles, resources, and mental health insights delivered directly on our site.",
+      title: "Resources & Ventures",
+      desc: "Essays, short-form video, care & crisis guides, and new healing-focused projects we're building under the Foundation.",
     },
   ];
 
@@ -77,16 +77,17 @@ const About = () => {
           <>
             About{" "}
             <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Win The Night™
+              Win The Night™ Foundation
             </span>
           </>
         }
         lede={
           <>
-            A mental health–focused organization empowering growth through{" "}
-            <span className="text-neon-blue font-semibold">story</span>,{" "}
-            <span className="text-neon-blue font-semibold">support</span>, and{" "}
-            <span className="text-neon-blue font-semibold">self-awareness</span>.
+            A mental health media organization creating a safe space for
+            people to share their{" "}
+            <span className="text-neon-blue font-semibold">stories</span>, find{" "}
+            <span className="text-neon-blue font-semibold">community</span>, and{" "}
+            <span className="text-neon-blue font-semibold">heal together</span>.
           </>
         }
         actions={
@@ -111,13 +112,40 @@ const About = () => {
       />
 
       <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
+        {/* Mission */}
+        <section>
+          <SectionHeader
+            icon={Heart}
+            eyebrow="Our mission"
+            title="What the Foundation is"
+            lede="A safe space to share your story, find community, and heal together."
+          />
+          <SiteCard>
+            <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+              <strong className="text-foreground">Win The Night™ Foundation</strong>{" "}
+              is a mental health media organization. The flagship podcast is
+              our core community outreach, and around it we're building a
+              growing family of healing-focused projects — essays, short-form
+              video, live conversations, care & crisis resources, and new
+              ventures still to come. Everything we make is in service of one
+              idea: real recovery happens through honest stories, not clean
+              ones.
+            </p>
+            <p className="text-sm text-foreground/60 leading-relaxed mt-4">
+              Win The Night™ Foundation is an independent media organization.
+              We are <strong className="text-foreground/80">not</strong> a
+              501(c)(3) nonprofit, registered charity, tax-exempt entity, or a
+              clinical or medical service.
+            </p>
+          </SiteCard>
+        </section>
         {/* Pillars */}
         <section>
           <SectionHeader
             icon={Sparkles}
             eyebrow="How we do it"
-            title="Three pillars guiding our mission"
-            lede="The shape of everything we publish — every episode, post, and conversation — comes from these three commitments."
+            title="Three pillars guiding the Foundation"
+            lede="The shape of everything we publish — every episode, essay, and conversation — comes from these three commitments."
           />
           <div className="grid sm:grid-cols-3 gap-4">
             {pillars.map((p) => (
