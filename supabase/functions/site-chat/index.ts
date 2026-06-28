@@ -204,7 +204,7 @@ Pages (ALWAYS link these when mentioning):
 - [Crisis Resources](https://winthenight.org/crisis-resources) — Mental health crisis resources
 
 External Links:
-- [YouTube](https://youtube.com/@WinTheNightProductions)
+- [YouTube](https://youtube.com/@winthenight)
 - [Instagram](https://instagram.com/winthenightproductions)
 - [Substack](https://winthenight.substack.com)
 - [Support Us](https://winthenight.org/support) — Donate or subscribe to support the show

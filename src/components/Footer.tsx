@@ -187,7 +187,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/30 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>
-            ©{currentYear} Win The Night™ Productions •{" "}
+            ©{currentYear} Win The Night™ Foundation •{" "}
             <a
               href="https://froydinger.design/"
               target="_blank"
