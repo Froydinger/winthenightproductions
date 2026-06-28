@@ -5,8 +5,8 @@ const NEWSLETTER_SEEN_KEY = "wtn_newsletter_prompt_seen_v1";
 
 const SUBSTACK_EMBED_URL = "https://winthenight.substack.com/embed";
 
-const SubstackEmbed = ({ height = 320 }: { height?: number }) => (
-  <div className="w-full overflow-hidden rounded-2xl bg-white shadow-[0_0_20px_-4px_rgba(0,217,255,0.25)]">
+const SubstackEmbed = ({ height = 380 }: { height?: number }) => (
+  <div className="w-full overflow-hidden rounded-2xl bg-transparent shadow-[0_0_20px_-4px_rgba(0,217,255,0.25)]">
     <iframe
       src={SUBSTACK_EMBED_URL}
       title="Subscribe to Win The Night on Substack"
@@ -14,7 +14,7 @@ const SubstackEmbed = ({ height = 320 }: { height?: number }) => (
       height={height}
       frameBorder={0}
       scrolling="no"
-      style={{ display: "block", width: "100%", background: "white" }}
+      style={{ display: "block", width: "100%", background: "transparent" }}
     />
   </div>
 );
@@ -51,7 +51,7 @@ export const NewsletterDialog = ({
     <Dialog open={isOpen} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent className="sm:max-w-md p-3 pt-10 bg-transparent border-none shadow-none">
-        <SubstackEmbed height={360} />
+        <SubstackEmbed height={440} />
       </DialogContent>
     </Dialog>
   );

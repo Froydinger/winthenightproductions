@@ -230,7 +230,7 @@ Remember: EVERY page, project, or external resource you mention MUST be a markdo
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "openai/gpt-5.4-nano",
         messages: [{ role: "system", content: fullSystemPrompt }, ...messages],
         stream: true,
       }),
