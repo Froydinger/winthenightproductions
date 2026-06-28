@@ -30,11 +30,18 @@ const Privacy = () => {
           <Prose>
             <h2>1. Introduction</h2>
             <p>
-              Win The Night Productions ("WTN," "we," "us," "our") operates the Win The Night
-              website:{" "}
+              Win The Night Foundation ("WTN," "we," "us," "our") is a mental health media
+              organization creating a safe space for people to share their stories, find
+              community, and heal together. We operate the Win The Night website:{" "}
               <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer">
                 https://winthenight.org
               </a>
+            </p>
+            <p>
+              <strong>Organizational status:</strong> Win The Night Foundation is{" "}
+              <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt entity</strong>,
+              despite the word "Foundation" in our name. We are an independent media project.
+              Any contributions are personal support payments and are not tax-deductible.
             </p>
             <p>
               This Privacy Policy explains our data practices for the website. We are committed to
@@ -150,7 +157,7 @@ const Privacy = () => {
             </p>
 
             <h2>12. Contact</h2>
-            <p>Win The Night Productions</p>
+            <p>Win The Night Foundation</p>
             <p>
               For privacy questions, please contact us through our <a href="/contact">contact page</a>.
             </p>

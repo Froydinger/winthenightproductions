@@ -228,7 +228,7 @@ const Lander = () => {
               <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
               <img
                 src={logoImage}
-                alt="Win The Night Productions"
+                alt="Win The Night Foundation"
                 className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-72 lg:h-72 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
               />
             </div>
