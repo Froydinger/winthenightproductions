@@ -187,24 +187,27 @@ const About = () => {
         <section>
           <SectionHeader
             icon={Users}
-            eyebrow="Behind the show"
-            title="The founders"
+            eyebrow="Behind the Foundation"
+            title="The co-founders"
             lede="A little about us."
           />
           <p className="text-foreground/80 text-base sm:text-lg leading-relaxed mb-6">
-            Win The Night was founded by two high school best friends and
-            storytellers/filmmakers at heart,{" "}
-            <strong className="text-foreground">Josh Lopez</strong> and{" "}
-            <strong className="text-foreground">Jake Freudinger</strong>.
+            Win The Night™ Foundation was co-founded by two high school best
+            friends and storytellers/filmmakers at heart,{" "}
+            <strong className="text-foreground">Josh Lopez</strong> (host) and{" "}
+            <strong className="text-foreground">Jake Freudinger</strong>{" "}
+            (producer).
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-6">
             <SiteCard>
-              <h3 className="text-foreground font-bold text-xl mb-2">Jake Freudinger</h3>
-              <p className="text-foreground/70 leading-relaxed">{jakeBio}</p>
+              <h3 className="text-foreground font-bold text-xl mb-1">Josh Lopez</h3>
+              <p className="text-neon-blue/80 text-xs uppercase tracking-wider mb-2">Host · Co-Founder</p>
+              <p className="text-foreground/70 leading-relaxed">{joshBio}</p>
             </SiteCard>
             <SiteCard>
-              <h3 className="text-foreground font-bold text-xl mb-2">Josh Lopez</h3>
-              <p className="text-foreground/70 leading-relaxed">{joshBio}</p>
+              <h3 className="text-foreground font-bold text-xl mb-1">Jake Freudinger</h3>
+              <p className="text-neon-blue/80 text-xs uppercase tracking-wider mb-2">Producer · Co-Founder</p>
+              <p className="text-foreground/70 leading-relaxed">{jakeBio}</p>
             </SiteCard>
           </div>
           <SiteCard variant="strong" className="relative">
@@ -214,7 +217,7 @@ const About = () => {
             </blockquote>
           </SiteCard>
           <p className="text-foreground/65 leading-relaxed text-center pt-6">
-            We digress—we're glad you're here and we hope you enjoy what we're building!
+            We digress—we're glad you're here and we hope you enjoy what we're building.
           </p>
         </section>
 
