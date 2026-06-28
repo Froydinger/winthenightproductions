@@ -67,8 +67,17 @@ const Support = () => {
             Donate once, support quietly at $3/mo, or get a shout-out at $10/mo · Secure checkout via Stripe
           </p>
 
-
+          <div className="mt-6 mx-auto max-w-xl rounded-xl border border-neon-blue/40 bg-neon-blue/5 px-4 py-3 text-left">
+            <p className="text-xs sm:text-sm text-foreground/85 leading-relaxed">
+              <strong className="text-neon-blue">Important:</strong> Win The Night Foundation is{" "}
+              <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>.
+              Contributions are personal support payments for an independent media project — they are{" "}
+              <strong>not tax-deductible</strong> and no goods, services, or charitable benefits are
+              provided in exchange.
+            </p>
+          </div>
         </SiteCard>
+
 
         <section>
           <SectionHeader
