@@ -28,15 +28,15 @@ import {
 const AboutContentSection = () => {
   const faqs = [
     {
-      q: "What is Win The Night™?",
-      a: "Win The Night™ is a weekly conversation series and growing community for people doing the slow work of healing. We publish long-form video episodes, short clips, a podcast, and written essays that are all centered on one idea: real recovery happens through honest stories, not clean ones. If tonight is hard, we want you to feel a little less alone in it. Start with the latest full episodes, or read more about the mission and the people behind the show on our About page.",
+      q: "What is Win The Night™ Foundation?",
+      a: "Win The Night™ Foundation is a mental health media organization creating a safe space for people to share their stories, find community, and heal together. The flagship podcast is our core community outreach, alongside written essays, short-form video, live conversations, and other healing-focused ventures we're building out over time. We are an independent media organization — not a 501(c)(3) charity or clinical service.",
     },
     {
-      q: "Who is Win The Night™ for?",
-      a: "Anyone navigating anxiety, depression, grief, addiction recovery, complex trauma, or the long work of healing and the friends, partners, and families who love them. Our episodes are made for people who want honest stories instead of quick fixes.",
+      q: "Who is the Foundation for?",
+      a: "Anyone navigating anxiety, depression, grief, addiction recovery, complex trauma, or the long work of healing — and the friends, partners, and families who love them. Everything we make is for people who want honest stories instead of quick fixes.",
     },
     {
-      q: "Where can I watch or listen?",
+      q: "Where can I watch or listen to the podcast?",
       a: "Full episodes live on the Watch page, audio versions on Listen, and written essays on the Blog. New conversations are released weekly across all three.",
     },
     {
@@ -45,7 +45,7 @@ const AboutContentSection = () => {
     },
     {
       q: "I'm in crisis right now — what should I do?",
-      a: "If you're in immediate danger, call or text 988 (the U.S. Suicide & Crisis Lifeline) or your local emergency number. We also keep a vetted list of hotlines and warmlines on our Crisis Resources page.",
+      a: "If you're in immediate danger, call or text 988 (the U.S. Suicide & Crisis Lifeline) or your local emergency number. We also keep a vetted list of hotlines and warmlines on our Care & Crisis Resources page.",
     },
   ];
 
@@ -117,32 +117,35 @@ const AboutContentSection = () => {
             className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-[1.15]"
           >
             <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Win The Night™
+              Win The Night™ Foundation
             </span>{" "}
-            • A mental health community for the long road of healing
+            • A mental health media organization for the long road of healing
           </h1>
           <p className="text-base sm:text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-            Weekly long-form conversations about trauma, recovery, and the
-            quiet work of healing. A mission to help the hardest nights feel a little less
-            lonely.
+            A safe space to share your story, find community, and heal
+            together. Built around our flagship podcast and a growing family
+            of healing-focused projects.
           </p>
         </header>
 
         {/* Intro */}
         <div className={cardCls}>
           <p className="text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
-            Win The Night™ is a weekly conversation series and growing
-            community for people doing the slow work of healing. We publish
-            long-form video episodes, short clips, a podcast, and written
-            essays that are all centered on one idea: real recovery happens
-            through honest stories, not clean ones.
+            Win The Night™ Foundation is a mental health media organization
+            creating a safe space for people to share their stories, find
+            community, and heal together. Our weekly podcast is the core of
+            our community outreach — long-form video and audio conversations
+            with therapists, peer-support workers, artists, and ordinary
+            people with extraordinary stories — and we're expanding into
+            essays, short-form video, live events, and other ventures that
+            all serve the same mission.
 
             If tonight is hard, we want you to feel a little less alone in it. Start with the{" "}
             <Link to="/watch" className={linkCls}>
               latest full episodes
             </Link>
-            , or read more about the mission and the people behind the show
-            on{" "}
+            , or read more about the people and projects behind the
+            Foundation on{" "}
             <Link to="/about" className={linkCls}>
               our About page
             </Link>
@@ -202,15 +205,15 @@ const AboutContentSection = () => {
         <div className={cardCls}>
           <h2 className="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-foreground mb-4">
             <MessageCircle className="w-6 h-6 text-neon-blue" />
-            What we talk about
+            What the Foundation covers
           </h2>
           <p className="text-base sm:text-lg leading-relaxed">
-            Our episodes explore trauma recovery, generational patterns,
-            inner child work, addiction and sobriety, grief, identity, and
-            the everyday discipline of choosing to keep going. Guests
-            include therapists, peer-support workers, artists, and ordinary
-            people with extraordinary stories. We never promise cures. Instead, we
-            sit with the questions long enough to make them feel survivable.
+            Across the podcast and our other projects, we explore trauma
+            recovery, generational patterns, inner child work, addiction and
+            sobriety, grief, identity, and the everyday discipline of
+            choosing to keep going. We never promise cures. Instead, we sit
+            with the questions long enough to make them feel survivable —
+            and we build community around the people doing that work.
           </p>
         </div>
 
@@ -221,7 +224,7 @@ const AboutContentSection = () => {
             If tonight is hard
           </h2>
           <p className="text-base sm:text-lg leading-relaxed">
-            Win The Night™ is a community, not a clinical service. If you're
+            Win The Night™ Foundation is a media organization and community, not a clinical service or charity. If you're
             in crisis right now, please reach out for live support. In the
             United States, you can call or text{" "}
             <a
