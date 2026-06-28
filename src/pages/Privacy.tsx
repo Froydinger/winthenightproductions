@@ -30,7 +30,7 @@ const Privacy = () => {
           <Prose>
             <h2>1. Introduction</h2>
             <p>
-              Win The Night Productions ("WTN," "we," "us," "our") operates the Win The Night
+              Win The Night Foundation ("WTN," "we," "us," "our") operates the Win The Night
               website:{" "}
               <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer">
                 https://winthenight.org
@@ -150,7 +150,7 @@ const Privacy = () => {
             </p>
 
             <h2>12. Contact</h2>
-            <p>Win The Night Productions</p>
+            <p>Win The Night Foundation</p>
             <p>
               For privacy questions, please contact us through our <a href="/contact">contact page</a>.
             </p>

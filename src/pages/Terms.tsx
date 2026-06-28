@@ -34,7 +34,7 @@ const Terms = () => {
               <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer">
                 winthenight.org
               </a>
-              ) operated by Win The Night Productions ("WTN," "we," "us," "our"), you agree to be
+              ) operated by Win The Night Foundation ("WTN," "we," "us," "our"), you agree to be
               bound by these Terms of Service. If you do not agree, please do not use our website
               or services.
             </p>
@@ -142,7 +142,7 @@ const Terms = () => {
 
             <h2>8. Intellectual Property</h2>
             <p>
-              The Win The Night Productions name, logos, and branding are our property. The
+              The Win The Night Foundation name, logos, and branding are our property. The
               design, layout, and software underlying our services are protected by copyright and
               other intellectual property laws. You may not copy, modify, or distribute our
               proprietary materials without permission.
@@ -165,7 +165,7 @@ const Terms = () => {
 
             <h2>10. Limitation of Liability</h2>
             <p>
-              To the maximum extent permitted by law, Win The Night Productions shall not be
+              To the maximum extent permitted by law, Win The Night Foundation shall not be
               liable for any indirect, incidental, special, consequential, or punitive damages,
               including loss of data, revenue, or profits, arising from your use of our
               services—even if we have been advised of the possibility of such damages.
@@ -173,7 +173,7 @@ const Terms = () => {
 
             <h2>11. Indemnification</h2>
             <p>
-              You agree to indemnify and hold harmless Win The Night Productions from any claims,
+              You agree to indemnify and hold harmless Win The Night Foundation from any claims,
               damages, losses, or expenses (including legal fees) arising from your use of our
               services or violation of these Terms.
             </p>
@@ -217,11 +217,11 @@ const Terms = () => {
             <h2>16. Entire Agreement</h2>
             <p>
               These Terms, together with our Privacy Policy, constitute the entire agreement
-              between you and Win The Night Productions regarding the use of our services.
+              between you and Win The Night Foundation regarding the use of our services.
             </p>
 
             <h2>17. Contact</h2>
-            <p>Win The Night Productions</p>
+            <p>Win The Night Foundation</p>
             <p>
               For questions about these Terms, please contact us through our{" "}
               <a href="/contact">contact page</a>.
