@@ -39,6 +39,20 @@ const Terms = () => {
               or services.
             </p>
 
+            <h2>1a. About Win The Night Foundation</h2>
+            <p>
+              Win The Night Foundation is a mental health media organization creating a safe space
+              for people to share their stories, find community, and heal together. Despite the
+              word "Foundation" in our name, Win The Night Foundation is{" "}
+              <strong>
+                not a 501(c)(3) nonprofit, not a registered charity, and not a tax-exempt
+                organization
+              </strong>
+              . We are an independent media project. Any payments, subscriptions, or contributions
+              made to Win The Night Foundation are <strong>not tax-deductible</strong> and are not
+              charitable donations.
+            </p>
+
             <h2>2. Description of Services</h2>
             <h3>Win The Night Website</h3>
             <p>
