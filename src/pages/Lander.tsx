@@ -152,7 +152,7 @@ const Lander = () => {
               opacity: prefersReducedMotion ? 1 : logoOpacity,
             }}
           >
-            <div className="relative w-96 h-96 sm:w-[28rem] sm:h-[28rem]">
+            <div className="relative w-72 h-72 sm:w-[21rem] sm:h-[21rem]">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:1s]" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:2s]" />

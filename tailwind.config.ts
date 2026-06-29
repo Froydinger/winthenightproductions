@@ -159,10 +159,10 @@ export default {
           "50%": { height: "100%", opacity: "1" },
         },
         "logo-ring-grow": {
-          "0%": { width: "190px", height: "190px", opacity: "0" },
+          "0%": { width: "280px", height: "280px", opacity: "0" },
           "10%": { opacity: "0.45" },
           "78%": { opacity: "0.12" },
-          "100%": { width: "350px", height: "350px", opacity: "0" },
+          "100%": { width: "520px", height: "520px", opacity: "0" },
         },
       },
       animation: {

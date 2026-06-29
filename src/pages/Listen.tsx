@@ -224,7 +224,7 @@ const Listen = () => {
           <div className="max-w-[1400px] mx-auto space-y-10">
             <div className="flex items-center gap-3">
               <div className="h-6 w-1 bg-[#00d9ff]"></div>
-              <h2 className="font-bebas text-4xl tracking-wider text-white m-0">All Episodes</h2>
+              <h2 className="font-bebas text-4xl tracking-wider text-white m-0">Recent Episodes</h2>
             </div>
 
             {episodes.length === 0 ? (
@@ -279,6 +279,18 @@ const Listen = () => {
                 ))}
               </div>
             )}
+
+            <div className="border-t border-[#1a1a1a] pt-8 text-center">
+              <a
+                href={YOUTUBE_MUSIC_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded border border-[#00d9ff]/40 px-5 py-3 text-xs font-bold uppercase tracking-wider text-[#00d9ff] transition-all hover:border-[#00d9ff] hover:bg-[#00d9ff]/10"
+              >
+                <Disc3 className="h-4 w-4" />
+                Open the full podcast on YouTube Music
+              </a>
+            </div>
           </div>
         </section>
 
