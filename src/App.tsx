@@ -17,6 +17,7 @@ const CrisisResources = lazy(() => import("./pages/CrisisResources"));
 const Watch = lazy(() => import("./pages/Watch"));
 const Listen = lazy(() => import("./pages/Listen"));
 const ChapterPage = lazy(() => import("./pages/ChapterPage"));
+const Admin = lazy(() => import("./pages/Admin"));
 const Contact = lazy(() => import("./pages/Contact"));
 const About = lazy(() => import("./pages/About"));
 const Updates = lazy(() => import("./pages/Updates"));
@@ -71,7 +72,7 @@ const App = () => (
               <Route path="/legal" element={<Legal />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
-              <Route path="/admin" element={<Navigate to="/updates" replace />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="/dashboard" element={<Navigate to="/updates" replace />} />
               <Route path="/unsubscribe" element={<Navigate to="/blog" replace />} />
               <Route path="/reset-password" element={<Navigate to="/updates" replace />} />

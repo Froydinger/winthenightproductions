@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Info,
@@ -15,15 +16,14 @@ import { PageHero } from "@/components/site/PageHero";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { SiteCard } from "@/components/site/SiteCard";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
+import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 
 const About = () => {
-  const introVideoId = "cIHJZUOIPco";
-  const featuredVideoId = "UL_ayxMAFqM";
-  const featuredTitle = "Get a Taste of What We Do";
-  const featuredDescription =
-    "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon.";
-  const jakeBio = "Runs the socials, Substack, and YouTube channel.";
-  const joshBio = "Podcast host offering creative and collaborative insights.";
+  const [settings, setSettings] = useState(defaultSiteSettings);
+
+  useEffect(() => {
+    fetchSiteSettings().then(setSettings);
+  }, []);
 
   const pillars = [
     {
@@ -147,7 +147,7 @@ const About = () => {
             <div className="aspect-video">
               <iframe
                 className="w-full h-full"
-                src={`https://www.youtube.com/embed/${introVideoId}`}
+              src={`https://www.youtube.com/embed/${settings.about_intro_video_id}`}
                 title="Welcome to Win The Night"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -177,12 +177,12 @@ const About = () => {
             <SiteCard>
               <h3 className="text-foreground font-bold text-xl mb-1">Josh Lopez</h3>
               <p className="text-neon-blue/80 text-xs uppercase tracking-wider mb-2">Host · Co-Founder</p>
-              <p className="text-foreground/70 leading-relaxed">{joshBio}</p>
+              <p className="text-foreground/70 leading-relaxed">{settings.about_josh_bio}</p>
             </SiteCard>
             <SiteCard>
               <h3 className="text-foreground font-bold text-xl mb-1">Jake Freudinger</h3>
               <p className="text-neon-blue/80 text-xs uppercase tracking-wider mb-2">Producer · Co-Founder</p>
-              <p className="text-foreground/70 leading-relaxed">{jakeBio}</p>
+              <p className="text-foreground/70 leading-relaxed">{settings.about_jake_bio}</p>
             </SiteCard>
           </div>
           <SiteCard variant="strong" className="relative">
@@ -201,14 +201,14 @@ const About = () => {
           <SectionHeader
             icon={Play}
             eyebrow="Featured episode"
-            title={featuredTitle}
-            lede={featuredDescription}
+          title={settings.about_featured_title}
+          lede={settings.about_featured_description}
           />
           <SiteCard className="p-0 overflow-hidden">
             <div className="aspect-video">
               <iframe
                 className="w-full h-full"
-                src={`https://www.youtube.com/embed/${featuredVideoId}`}
+              src={`https://www.youtube.com/embed/${settings.about_featured_video_id}`}
                 title="Featured Episode"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -1,4 +1,6 @@
 import type { Handler } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import { defaultSiteSettings, type SiteSettings } from "../../src/lib/site-settings";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -19,6 +21,13 @@ Win The Night links:
 - Crisis resources: https://winthenight.org/crisis-resources
 You are not a crisis service or clinician. If someone may be in immediate danger, direct them to 988 in the US or local emergency services.
 Keep most answers to 2-4 sentences and include markdown links when naming pages or resources.`;
+
+async function getSystemPrompt() {
+  const store = getStore("wtn-admin");
+  const stored = await store.get("site-settings", { type: "json" });
+  const settings = { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>) };
+  return settings.chatbot_system_prompt || systemPrompt;
+}
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
@@ -58,6 +67,7 @@ export const handler: Handler = async (event) => {
       };
     }
 
+    const activeSystemPrompt = await getSystemPrompt();
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -66,7 +76,7 @@ export const handler: Handler = async (event) => {
       },
       body: JSON.stringify({
         model: process.env.OPENAI_MODEL || "gpt-5.4-nano",
-        messages: [{ role: "system", content: systemPrompt }, ...messages],
+        messages: [{ role: "system", content: activeSystemPrompt }, ...messages],
       }),
     });
 

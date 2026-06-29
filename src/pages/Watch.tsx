@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus } from "lucide-react";
 import EpisodeSearch from "@/components/EpisodeSearch";
+import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 
 interface Playlist {
   id: string;
@@ -32,11 +33,11 @@ const Watch = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
-  const editorsPickVideoId = "TXzfkLNW4e4";
-  const mainPlaylistId = "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD";
+  const [settings, setSettings] = useState(defaultSiteSettings);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchSiteSettings().then(setSettings);
   }, []);
 
   // Modal is still here if you ever want to trigger it again
@@ -61,7 +62,7 @@ const Watch = () => {
               <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
               <iframe
                 className="relative w-full h-full z-10"
-                src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                src={`https://www.youtube.com/embed/videoseries?list=${settings.main_playlist_id}`}
                 title="Win The Night – Latest Chapter"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -154,7 +155,7 @@ const Watch = () => {
                     <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                     <iframe
                       className="relative w-full h-full z-10"
-                      src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                      src={`https://www.youtube.com/embed/videoseries?list=${settings.main_playlist_id}`}
                       title="Latest Episode"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -177,7 +178,7 @@ const Watch = () => {
                     <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                     <iframe
                       className="relative w-full h-full z-10"
-                      src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
+                      src={`https://www.youtube.com/embed/${settings.editors_pick_video_id}`}
                       title="Editor's Pick - Win The Night"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -214,7 +215,7 @@ const Watch = () => {
                       <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                       <iframe
                         className="relative w-full h-full z-10"
-                        src={`https://www.youtube.com/embed/videoseries?list=${mainPlaylistId}`}
+                        src={`https://www.youtube.com/embed/videoseries?list=${settings.main_playlist_id}`}
                         title="Latest Episode"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -237,7 +238,7 @@ const Watch = () => {
                       <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
                       <iframe
                         className="relative w-full h-full z-10"
-                        src={`https://www.youtube.com/embed/${editorsPickVideoId}`}
+                        src={`https://www.youtube.com/embed/${settings.editors_pick_video_id}`}
                         title="Editor's Pick - Win The Night"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

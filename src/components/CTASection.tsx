@@ -1,13 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Youtube, ExternalLink, Play } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
+import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 
 const CTASection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const featuredVideos = [{ id: "765UBZfeylw", title: "Featured Episode" }];
+  const [ctaVideoId, setCtaVideoId] = useState(defaultSiteSettings.cta_featured_video_id);
+
+  useEffect(() => {
+    fetchSiteSettings().then((settings) => setCtaVideoId(settings.cta_featured_video_id));
+  }, []);
+
+  const featuredVideos = [{ id: ctaVideoId, title: "Featured Episode" }];
 
   return (
     <>

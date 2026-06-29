@@ -1,11 +1,15 @@
 import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 
 const WatchLatestSection = () => {
   const navigate = useNavigate();
-  const playlistId = "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS";
-  const buttonText = "Jump straight to Chapter 8";
-  const buttonLink = "/watch/chapter-8";
+  const [settings, setSettings] = useState(defaultSiteSettings);
+
+  useEffect(() => {
+    fetchSiteSettings().then(setSettings);
+  }, []);
 
   return (
     <section className="relative py-16 px-6 md:px-12 lg:px-24">
@@ -24,7 +28,7 @@ const WatchLatestSection = () => {
           <div className="relative w-full aspect-video bg-black">
             <iframe
               className="w-full h-full"
-              src={`https://www.youtube.com/embed/videoseries?list=${playlistId}`}
+              src={`https://www.youtube.com/embed/videoseries?list=${settings.watch_latest_playlist_id}`}
               title="Win The Night – Latest Chapter"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -42,10 +46,10 @@ const WatchLatestSection = () => {
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
-              onClick={() => navigate(buttonLink)}
+              onClick={() => navigate(settings.watch_latest_button_link)}
               className="text-xs md:text-sm text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
             >
-              {buttonText}
+              {settings.watch_latest_button_text}
             </button>
           </div>
         </div>
