@@ -115,13 +115,13 @@ const BeOurGuest = () => {
               </p>
             </div>
 
-            <div className="border border-[#1a1a1a] rounded overflow-hidden shadow-2xl bg-black">
+            <div className="rounded-[1.25rem] border border-[#00d9ff]/25 bg-[#071014]/85 p-2 shadow-[0_0_45px_rgba(0,217,255,0.12)] backdrop-blur-sm">
               <iframe
                 src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Z-ou-TJr-Kny8cwag3GTnqSZhS_3QyTR-sa59Sq7lCWBG40sbOS345Mw7gHqOZNWm7XJ6nA_O?gv=true"
                 width="100%"
                 height="700"
                 frameBorder="0"
-                className="block w-full bg-black filter invert"
+                className="block w-full rounded-2xl bg-white"
                 title="Schedule a Discovery Call"
               />
             </div>

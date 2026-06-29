@@ -189,13 +189,13 @@ const Lander = () => {
 
           {/* Hero Bottom text */}
           <motion.div
-            className="absolute bottom-16 sm:bottom-24 left-0 right-0 px-6 sm:px-12 md:px-24 flex flex-col md:flex-row justify-between items-end gap-8 z-30"
+            className="absolute bottom-16 sm:bottom-24 left-0 right-0 px-6 sm:px-12 md:px-24 flex flex-col md:flex-row justify-between items-stretch md:items-end gap-8 z-30"
             style={{
               opacity: textOpacity,
               y: textY,
             }}
           >
-            <div>
+            <div className="w-full text-left">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -246,7 +246,7 @@ const Lander = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col items-end text-right max-w-xs gap-3"
+              className="ml-auto flex max-w-[17rem] flex-col items-end gap-3 text-right md:max-w-xs"
             >
               <p className="text-xs text-[#555] font-sans leading-relaxed">
                 A mental health community built on real conversations, not highlight reels.

@@ -107,7 +107,7 @@ const Header = () => {
           </a>
           <a
             href="/crisis-resources"
-            className="px-2.5 py-1.5 text-xs font-bold text-red-500 hover:text-red-400 transition-colors duration-200 rounded-md hover:bg-red-500/10 drop-shadow-[0_0_6px_rgba(239,68,68,0.6)] uppercase tracking-wider"
+            className="px-2.5 py-1.5 text-xs font-bold text-[#10b981] hover:text-[#34d399] transition-colors duration-200 rounded-md hover:bg-[#10b981]/10 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)] uppercase tracking-wider"
           >
             Care
           </a>
@@ -130,7 +130,7 @@ const Header = () => {
           <a href="/support" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
             Support Us
           </a>
-          <a href="/crisis-resources" className="px-3 py-1.5 text-xs font-bold text-red-500 hover:text-red-400 transition-colors duration-200 rounded-md hover:bg-red-500/10 drop-shadow-[0_0_8px_rgba(239,68,68,0.6)] uppercase tracking-wider">
+          <a href="/crisis-resources" className="px-3 py-1.5 text-xs font-bold text-[#10b981] hover:text-[#34d399] transition-colors duration-200 rounded-md hover:bg-[#10b981]/10 drop-shadow-[0_0_8px_rgba(16,185,129,0.6)] uppercase tracking-wider">
             Care &amp; Crisis
           </a>
         </nav>

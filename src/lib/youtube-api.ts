@@ -8,7 +8,6 @@ export type YouTubeVideo = {
 
 const CHANNEL_ID = "UCuFlxR-Ol8zzda9Z6CJkwkA";
 export const PODCAST_PLAYLIST_ID = "PL4DJfmhGyz_7MiglVq4jbJYhftobxRuFf";
-const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "AIzaSyDRMJ1Ztq_pZMA8sW2cOJT-Et6ytLWVjyY";
 const YOUTUBE_API = "https://www.googleapis.com/youtube/v3";
 
 type YouTubeSearchItem = {
@@ -60,8 +59,13 @@ function isShortLike(video: YouTubeVideo) {
 }
 
 async function youtubeFetch(path: string, params: Record<string, string>) {
+  const apiKey = import.meta.env.DEV ? import.meta.env.VITE_YOUTUBE_API_KEY : "";
+  if (!apiKey) {
+    throw new Error("YouTube API key is only available through server functions in production.");
+  }
+
   const url = new URL(`${YOUTUBE_API}/${path}`);
-  url.search = new URLSearchParams({ ...params, key: API_KEY }).toString();
+  url.search = new URLSearchParams({ ...params, key: apiKey }).toString();
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`YouTube API failed: ${response.status}`);
@@ -114,6 +118,14 @@ export async function fetchLatestPodcastVideos(limit = 3) {
 }
 
 export async function fetchYouTubePlaylistItems(playlistId: string) {
+  const functionResponse = await fetch(`/.netlify/functions/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`);
+  if (functionResponse.ok) {
+    const data = await functionResponse.json();
+    if (Array.isArray(data.items)) {
+      return data.items as YouTubeVideo[];
+    }
+  }
+
   const items: YouTubeVideo[] = [];
   let pageToken = "";
 

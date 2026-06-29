@@ -3,6 +3,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreakNotice from "@/components/BreakNotice";
+import { CyanRule } from "@/components/magazine/SectionDivider";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
 import { Play, Pause, Disc3 } from "lucide-react";
 import logo from "@/assets/win-the-night-logo.png";
