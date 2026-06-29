@@ -97,43 +97,66 @@ const About = () => {
           <CyanRule />
 
           {/* Pillars Section */}
-          <section className="space-y-12">
-            <div className="space-y-3">
+          <section className="relative overflow-hidden rounded border border-[#1a1a1a] bg-[#050505]/80">
+            <div className="absolute inset-x-0 top-0 h-px bg-[#00d9ff]" />
+            <div className="p-6 sm:p-10 space-y-10">
+            <div className="space-y-3 max-w-2xl">
               <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Principles</p>
               <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">Three Pillars Guiding Us</h2>
+              <p className="text-xs sm:text-sm text-[#777] leading-relaxed">
+                Everything under Win The Night is built to move people from isolation into honest conversation, practical support, and community.
+              </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-0 border border-[#1a1a1a] bg-black">
               {pillars.map((p, idx) => (
                 <ScrollReveal key={p.title} animation="fade-up" delay={idx * 100}>
-                  <div className="border-t border-[#1a1a1a] pt-6 flex flex-col justify-between h-full space-y-4 hover:border-[#00d9ff]/40 transition-all duration-300">
-                    <div className="space-y-4">
-                      <div className="w-8 h-8 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff]">
+                  <div className="group min-h-[17rem] border-b md:border-b-0 md:border-r last:border-b-0 md:last:border-r-0 border-[#1a1a1a] p-6 sm:p-8 flex flex-col justify-between h-full transition-all duration-300 hover:bg-[#00d9ff]/[0.03]">
+                    <div className="space-y-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="w-10 h-10 rounded border border-[#1a1a1a] bg-[#080808] flex items-center justify-center text-[#00d9ff] shadow-[0_0_18px_rgba(0,217,255,0.08)] group-hover:border-[#00d9ff]/40 transition-colors">
                         <p.icon className="w-4 h-4" />
+                        </div>
+                        <span className="font-bebas text-5xl leading-none text-transparent opacity-30" style={{ WebkitTextStroke: "1px rgba(0,217,255,0.45)" }}>
+                          0{idx + 1}
+                        </span>
                       </div>
-                      <h3 className="text-sm font-bold uppercase tracking-wider text-white">{p.title}</h3>
-                      <p className="text-xs text-[#666] leading-relaxed font-sans">{p.desc}</p>
+                      <div className="space-y-3">
+                        <h3 className="text-base font-bold uppercase tracking-wider text-white">{p.title}</h3>
+                        <p className="text-sm text-[#777] leading-relaxed font-sans">{p.desc}</p>
+                      </div>
                     </div>
                   </div>
                 </ScrollReveal>
               ))}
+            </div>
             </div>
           </section>
 
           <Rule />
 
           {/* Intro Video Section */}
-          <section id="intro-video" className="grid md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-5 space-y-4">
-              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white flex items-center gap-2">
+          <section id="intro-video" className="grid md:grid-cols-12 gap-8 items-stretch">
+            <div className="md:col-span-5 border border-[#1a1a1a] bg-[#050505] p-6 sm:p-8 flex flex-col justify-between gap-8">
+              <div className="space-y-4">
+                <div className="inline-flex w-10 h-10 rounded border border-[#1a1a1a] items-center justify-center text-[#00d9ff]">
+                  <Play className="w-4 h-4 fill-[#00d9ff]" />
+                </div>
+                <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white leading-none">
                 The Heart of<br />Our Mission
               </h2>
-              <p className="text-xs text-[#666] leading-relaxed font-sans">
+                <p className="text-sm text-[#777] leading-relaxed font-sans">
                 Watch a brief overview from our founders outlining why we started Win The Night and what we hope to build.
               </p>
+              </div>
+              <a href="/watch" className="inline-flex w-fit items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#00d9ff] hover:gap-3 transition-all">
+                Watch more
+                <Play className="w-3.5 h-3.5 fill-[#00d9ff]" />
+              </a>
             </div>
             <div className="md:col-span-7">
-              <div className="border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d] shadow-2xl">
+              <div className="relative border border-[#1a1a1a] overflow-hidden aspect-video bg-[#0d0d0d] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+                <div className="absolute inset-x-0 top-0 h-px bg-[#00d9ff] z-10" />
                 <iframe
                   className="w-full h-full"
                   src={`https://www.youtube.com/embed/${settings.about_intro_video_id}`}
@@ -151,33 +174,36 @@ const About = () => {
 
           {/* Founders & Team Section */}
           <section className="space-y-8">
-            <div className="space-y-3">
+            <div className="grid md:grid-cols-12 gap-8 items-end">
+              <div className="md:col-span-7 space-y-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#00d9ff]">The Team</p>
               <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">Co-Founders &amp; Team</h2>
-            </div>
-            
-            <p className="text-xs text-[#888] leading-relaxed max-w-2xl font-sans">
+              </div>
+              <p className="md:col-span-5 text-sm text-[#777] leading-relaxed font-sans">
               Win The Night™ Foundation was co-founded by two high school best friends and storytellers/filmmakers at heart, Josh Lopez (host) and Jake Freudinger (producer).
             </p>
+            </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="border-t border-[#1a1a1a] pt-6 space-y-3">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="border border-[#1a1a1a] bg-[#050505] p-6 sm:p-8 space-y-4 min-h-[15rem]">
+                <div className="text-[10px] uppercase tracking-[0.3em] text-[#00d9ff]">01</div>
                 <h3 className="font-serif text-2xl text-white tracking-tight" style={{ fontFamily: "Georgia, serif" }}>Josh Lopez</h3>
                 <p className="text-[9px] uppercase tracking-wider text-[#00d9ff] font-semibold">Host · Co-Founder</p>
-                <p className="text-xs text-[#666] leading-relaxed font-sans">{settings.about_josh_bio}</p>
+                <p className="text-sm text-[#777] leading-relaxed font-sans">{settings.about_josh_bio}</p>
               </div>
 
-              <div className="border-t border-[#1a1a1a] pt-6 space-y-3">
+              <div className="border border-[#1a1a1a] bg-[#050505] p-6 sm:p-8 space-y-4 min-h-[15rem]">
+                <div className="text-[10px] uppercase tracking-[0.3em] text-[#00d9ff]">02</div>
                 <h3 className="font-serif text-2xl text-white tracking-tight" style={{ fontFamily: "Georgia, serif" }}>Jake Freudinger</h3>
                 <p className="text-[9px] uppercase tracking-wider text-[#00d9ff] font-semibold">Producer · Co-Founder</p>
-                <p className="text-xs text-[#666] leading-relaxed font-sans">{settings.about_jake_bio}</p>
+                <p className="text-sm text-[#777] leading-relaxed font-sans">{settings.about_jake_bio}</p>
               </div>
             </div>
 
-            <div className="border border-[#1a1a1a] p-6 rounded text-center relative max-w-xl mx-auto mt-6 bg-[#090909]">
+            <div className="border border-[#1a1a1a] p-6 sm:p-8 text-center relative max-w-2xl mx-auto mt-6 bg-[#050505] shadow-[0_0_34px_rgba(0,217,255,0.05)]">
               <Anchor className="absolute top-4 right-4 w-4 h-4 text-[#00d9ff]/25" />
               <blockquote 
-                className="font-serif text-sm italic text-white/80 leading-relaxed"
+                className="font-serif text-base italic text-white/80 leading-relaxed"
                 style={{ fontFamily: "Georgia, serif" }}
               >
                 "If this were a boat, Josh would be the captain, and Jake the trusted Navigator."
@@ -188,17 +214,25 @@ const About = () => {
           <Rule />
 
           {/* Featured Episode Section */}
-          <section className="grid md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-5 space-y-4">
-              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">
+          <section className="grid md:grid-cols-12 gap-8 items-stretch">
+            <div className="md:col-span-5 border border-[#1a1a1a] bg-[#050505] p-6 sm:p-8 flex flex-col justify-between gap-8">
+              <div className="space-y-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Featured Watch</p>
+                <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white leading-none">
                 {settings.about_featured_title || "Featured Episode"}
               </h2>
-              <p className="text-xs text-[#666] leading-relaxed font-sans">
+                <p className="text-sm text-[#777] leading-relaxed font-sans">
                 {settings.about_featured_description || "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon."}
               </p>
+              </div>
+              <a href="/watch" className="inline-flex w-fit items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#00d9ff] hover:gap-3 transition-all">
+                Browse episodes
+                <Play className="w-3.5 h-3.5 fill-[#00d9ff]" />
+              </a>
             </div>
             <div className="md:col-span-7">
-              <div className="border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d] shadow-2xl">
+              <div className="relative border border-[#1a1a1a] overflow-hidden aspect-video bg-[#0d0d0d] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+                <div className="absolute inset-x-0 top-0 h-px bg-[#00d9ff] z-10" />
                 <iframe
                   className="w-full h-full"
                   src={`https://www.youtube.com/embed/${settings.about_featured_video_id}`}
@@ -215,15 +249,15 @@ const About = () => {
           <CyanRule />
 
           {/* Footer Callouts Grid */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4">
             {/* Join Community CTA */}
-            <section id="community" className="border border-[#1a1a1a] rounded p-8 sm:p-10 text-center space-y-5 flex flex-col justify-between items-center bg-[#090909]">
+            <section id="community" className="border border-[#1a1a1a] p-8 sm:p-10 text-center space-y-8 flex flex-col justify-between items-center bg-[#050505] min-h-[22rem]">
               <div className="space-y-4">
                 <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] mx-auto">
                   <Heart className="w-5 h-5" />
                 </div>
                 <h2 className="font-bebas text-3xl tracking-wider text-white">Join the Community</h2>
-                <p className="text-xs text-[#555] max-w-xs mx-auto leading-relaxed">
+                <p className="text-sm text-[#777] max-w-xs mx-auto leading-relaxed">
                   Be part of a community of people who want to <strong>Win The Night, together</strong>, one conversation at a time.
                 </p>
               </div>
@@ -236,13 +270,13 @@ const About = () => {
             </section>
 
             {/* Newsletter Subscribe */}
-            <section id="newsletter" className="border border-[#1a1a1a] rounded p-8 sm:p-10 text-center space-y-5 flex flex-col justify-between items-center bg-[#090909]">
+            <section id="newsletter" className="border border-[#1a1a1a] p-8 sm:p-10 text-center space-y-8 flex flex-col justify-between items-center bg-[#050505] min-h-[22rem]">
               <div className="space-y-4 w-full">
                 <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] mx-auto">
                   <Heart className="w-5 h-5" />
                 </div>
                 <h2 className="font-bebas text-3xl tracking-wider text-white">Get Our Newsletter</h2>
-                <p className="text-xs text-[#555] max-w-xs mx-auto leading-relaxed">
+                <p className="text-sm text-[#777] max-w-xs mx-auto leading-relaxed">
                   New essays, episodes, and reflections in your inbox.
                 </p>
               </div>
