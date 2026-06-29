@@ -6,8 +6,10 @@ import Footer from "@/components/Footer";
 import ShortsGrid from "@/components/ShortsGrid";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { MessageSquarePlus } from "lucide-react";
+import { MessageSquarePlus, Youtube } from "lucide-react";
 import EpisodeSearch from "@/components/EpisodeSearch";
+import { CyanRule } from "@/components/magazine/SectionDivider";
+import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 
 interface Playlist {
@@ -34,6 +36,8 @@ const Watch = () => {
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
   const [settings, setSettings] = useState(defaultSiteSettings);
+  const { videoIds = [] } = useYouTubeVideos();
+  const latestVideoId = videoIds[0] || settings.editors_pick_video_id;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,22 +51,21 @@ const Watch = () => {
   };
 
   return (
-    <main className="min-h-screen relative">
+    <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative">
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>
 
       <Header />
 
-      <div className="relative z-10">
+      <div className="relative z-10 pt-20">
         {/* FULL-WIDTH PLAYLIST HERO */}
-        <section className="relative pt-20 pb-12 px-4">
+        <section className="relative py-12 px-4 sm:px-8">
           <div className="max-w-7xl mx-auto">
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-              <div className="absolute -inset-1 bg-neon-blue/20 blur-xl opacity-40 pointer-events-none"></div>
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl border border-[#1a1a1a]">
               <iframe
                 className="relative w-full h-full z-10"
-                src={`https://www.youtube.com/embed/videoseries?list=${settings.main_playlist_id}`}
+                src={`https://www.youtube.com/embed/${latestVideoId}`}
                 title="Win The Night – Latest Chapter"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -72,14 +75,11 @@ const Watch = () => {
             </div>
 
             {/* Headline */}
-            <div className="text-center mt-8 px-4">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
-                Watch the latest from{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-blue-500">
-                  Win The Night.
-                </span>
+            <div className="text-center mt-10">
+              <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none mb-4">
+                Watch the latest from <span className="text-[#00d9ff]">Win The Night</span>
               </h1>
-              <p className="text-lg md:text-xl text-zinc-100 max-w-2xl mx-auto leading-relaxed font-medium">
+              <p className="text-sm md:text-base text-[#555] max-w-2xl mx-auto leading-relaxed font-sans">
                 Real conversations on mental health, connection, and honest human experience.
               </p>
             </div>
@@ -88,40 +88,36 @@ const Watch = () => {
             <div className="text-center mt-6">
               <button
                 onClick={() => setSubscribeModalOpen(true)}
-                className="inline-flex items-center justify-center gap-3 px-10 py-3 rounded-full font-semibold text-base bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-neon-blue/25 hover:shadow-neon-blue/40 transition-transform duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-3 bg-[#00d9ff] text-black font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] hover:opacity-90 transition-all"
               >
-                <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
-                  <path
-                    fill="#FF0000"
-                    d="M21.8 8.001a2.75 2.75 0 0 0-1.937-1.948C18.262 5.5 12 5.5 12 5.5s-6.262 0-7.863.553A2.75 2.75 0 0 0 2.2 8.001C1.75 9.62 1.75 12 1.75 12s0 2.38.45 3.999a2.75 2.75 0 0 0 1.937 1.948C5.738 18.5 12 18.5 12 18.5s6.262 0 7.863-.553a2.75 2.75 0 0 0 1.937-1.948c.45-1.619.45-3.999.45-3.999s0-2.38-.45-3.999Z"
-                  />
-                  <path fill="#FFFFFF" d="M10 15.5V8.5L15.5 12 10 15.5Z" />
-                </svg>
+                <Youtube className="w-4 h-4" />
                 <span>Subscribe on YouTube</span>
               </button>
             </div>
           </div>
         </section>
 
+        <CyanRule />
+
         {/* Pick a Chapter */}
-        <section className="relative py-12 px-6 md:px-12 lg:px-24 border-b border-border/30">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-8">Pick a Chapter</h2>
+        <section className="relative py-16 px-6 sm:px-10 bg-[#0d0d0d] border-b border-[#1a1a1a]">
+          <div className="max-w-[1400px] mx-auto text-center space-y-8">
+            <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">Pick a Chapter</h2>
 
             {/* Episode Search */}
-            <div className="mb-8">
+            <div className="max-w-xl mx-auto">
               <EpisodeSearch />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {playlists.map((playlist) => (
                 <button
                   key={playlist.id}
                   onClick={() => navigate(`/watch/${playlist.id}`)}
-                  className={`block px-4 py-4 rounded-xl border transition-all duration-300 font-bold ${
+                  className={`block px-4 py-4 border text-xs font-bold uppercase tracking-wider transition-all h-full ${
                     playlist.id === "chapter-8" || playlist.id === "specials"
-                      ? "bg-gradient-to-r from-card to-card/80 border-neon-blue/50 hover:border-neon-blue hover:text-neon-blue text-foreground"
-                      : "bg-card border-border/50 hover:border-neon-blue/50 hover:bg-card/80 hover:text-neon-blue text-muted-foreground"
+                      ? "bg-black border-[#00d9ff] text-[#00d9ff] hover:bg-[#00d9ff]/10"
+                      : "bg-black border-[#1a1a1a] text-[#555] hover:border-[#00d9ff]/50 hover:text-white"
                   }`}
                 >
                   {playlist.name}
@@ -134,28 +130,80 @@ const Watch = () => {
         {/* Mobile: Shorts then Videos stacked vertically */}
         <div className="lg:hidden">
           {/* Shorts Section */}
-          <section className="relative py-16 px-6 md:px-12 overflow-hidden">
+          <section className="relative py-16 px-6 overflow-hidden bg-black">
             <div className="max-w-7xl mx-auto">
               <ShortsGrid />
             </div>
           </section>
 
           {/* Video Content Grid - Mobile */}
-          <section className="relative py-16 px-6 md:px-12 overflow-hidden border-t border-border/30">
+          <section className="relative py-16 px-6 overflow-hidden border-t border-[#1a1a1a] bg-[#0d0d0d]">
             <div className="max-w-7xl mx-auto space-y-12">
               {/* Latest Episode */}
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Episode</h2>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-1 bg-[#00d9ff]"></div>
+                  <h2 className="font-bebas text-3xl tracking-wider text-white m-0">Latest Episode</h2>
                 </div>
 
-                <div className="w-full group">
-                  <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-                    <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                <div className="w-full border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-black">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/${latestVideoId}`}
+                    title="Latest Episode"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+
+              {/* Editor's Pick */}
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-1 bg-[#00d9ff]"></div>
+                  <h2 className="font-bebas text-3xl tracking-wider text-white m-0">Editor&apos;s Pick</h2>
+                </div>
+
+                <div className="w-full border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-black">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/${settings.editors_pick_video_id}`}
+                    title="Editor's Pick - Win The Night"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Desktop: Shorts on left, Videos on right */}
+        <div className="hidden lg:block">
+          <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden bg-black">
+            <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-12">
+              {/* Left Column: Shorts */}
+              <div className="col-span-5 xl:col-span-4 border-r border-[#1a1a1a] pr-8">
+                <ShortsGrid />
+              </div>
+
+              {/* Right Column: Videos */}
+              <div className="col-span-7 xl:col-span-8 space-y-12">
+                {/* Latest Episode */}
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-6 w-1 bg-[#00d9ff]" />
+                    <h2 className="font-bebas text-3xl tracking-wider text-white m-0">Latest Episode</h2>
+                  </div>
+
+                  <div className="w-full border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d]">
                     <iframe
-                      className="relative w-full h-full z-10"
-                      src={`https://www.youtube.com/embed/videoseries?list=${settings.main_playlist_id}`}
+                      className="w-full h-full"
+                      src={`https://www.youtube.com/embed/${latestVideoId}`}
                       title="Latest Episode"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -164,20 +212,17 @@ const Watch = () => {
                     />
                   </div>
                 </div>
-              </div>
 
-              {/* Editor's Pick */}
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
-                </div>
+                {/* Editor's Pick */}
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-6 w-1 bg-[#00d9ff]" />
+                    <h2 className="font-bebas text-3xl tracking-wider text-white m-0">Editor&apos;s Pick</h2>
+                  </div>
 
-                <div className="w-full group">
-                  <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-                    <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+                  <div className="w-full border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d]">
                     <iframe
-                      className="relative w-full h-full z-10"
+                      className="w-full h-full"
                       src={`https://www.youtube.com/embed/${settings.editors_pick_video_id}`}
                       title="Editor's Pick - Win The Night"
                       frameBorder="0"
@@ -192,89 +237,24 @@ const Watch = () => {
           </section>
         </div>
 
-        {/* Desktop: Shorts on left, Videos on right */}
-        <div className="hidden lg:block">
-          <section className="relative py-16 px-6 md:px-12 lg:px-24 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 xl:gap-12">
-              {/* Left Column: Shorts - responsive sizing */}
-              <div className="col-span-5 xl:col-span-4">
-                <ShortsGrid />
-              </div>
-
-              {/* Right Column: Videos */}
-              <div className="col-span-7 xl:col-span-8 space-y-12">
-                {/* Latest Episode */}
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="h-8 w-1 bg-neon-blue rounded-full"></div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Latest Episode</h2>
-                  </div>
-
-                  <div className="w-full group">
-                    <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-                      <div className="absolute -inset-1 bg-neon-blue/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                      <iframe
-                        className="relative w-full h-full z-10"
-                        src={`https://www.youtube.com/embed/videoseries?list=${settings.main_playlist_id}`}
-                        title="Latest Episode"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Editor's Pick */}
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-foreground m-0">Editor&apos;s Pick</h2>
-                  </div>
-
-                  <div className="w-full group">
-                    <div className="relative w-full aspect-video bg-card rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-white/10">
-                      <div className="absolute -inset-1 bg-blue-600/20 blur-lg group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-                      <iframe
-                        className="relative w-full h-full z-10"
-                        src={`https://www.youtube.com/embed/${settings.editors_pick_video_id}`}
-                        title="Editor's Pick - Win The Night"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
         {/* Community Update CTA */}
-        <section className="relative py-12 px-4">
+        <section className="relative py-16 px-4 bg-[#0d0d0d]">
           <div className="container mx-auto max-w-4xl text-center">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-neon-blue/10 via-card/60 to-charcoal/40 backdrop-blur-glass border-2 border-neon-blue/30 p-6 sm:p-12 hover:border-neon-blue/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,217,255,0.1),transparent_70%)]" />
-              <div className="relative z-10 space-y-4 sm:space-y-6">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">
+            <div className="relative overflow-hidden rounded-lg bg-black border border-[#1a1a1a] p-8 sm:p-14">
+              <div className="relative z-10 space-y-6">
+                <h3 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">
                   Have something to share?
                 </h3>
-                <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto px-2">
+                <p className="text-xs text-[#555] font-sans max-w-md mx-auto">
                   Join the conversation and share your thoughts, stories, or updates with our community.
                 </p>
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-neon hover:shadow-[0_0_30px_hsl(var(--neon-blue))] transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 h-auto w-full sm:w-auto"
+                <a
+                  href="/updates"
+                  className="inline-flex items-center justify-center gap-2 bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] transition-all"
                 >
-                  <a href="/updates" className="flex items-center justify-center gap-2 whitespace-nowrap">
-                    <MessageSquarePlus className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                    <span>Post an Update!</span>
-                  </a>
-                </Button>
+                  <MessageSquarePlus className="w-4 h-4 flex-shrink-0" />
+                  <span>Post an Update!</span>
+                </a>
               </div>
             </div>
           </div>

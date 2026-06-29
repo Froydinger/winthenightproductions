@@ -57,6 +57,20 @@ export default {
         },
         charcoal: "hsl(var(--charcoal))",
         glass: "hsl(var(--glass))",
+        magazine: {
+          black: "#000000",
+          surface: "#0d0d0d",
+          "surface-2": "#141414",
+          cyan: "#00d9ff",
+          "cyan-dim": "rgba(0, 217, 255, 0.15)",
+          gray: "#3a3a3a",
+          muted: "#555555",
+        },
+      },
+      fontFamily: {
+        bebas: ["'Bebas Neue'", "cursive"],
+        playfair: ["'Playfair Display'", "serif"],
+        sans: ["'Inter'", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -140,6 +154,16 @@ export default {
             opacity: "1",
           },
         },
+        "wave-dance": {
+          "0%, 100%": { height: "6px", opacity: "0.4" },
+          "50%": { height: "100%", opacity: "1" },
+        },
+        "logo-ring-grow": {
+          "0%": { width: "190px", height: "190px", opacity: "0" },
+          "10%": { opacity: "0.45" },
+          "78%": { opacity: "0.12" },
+          "100%": { width: "350px", height: "350px", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -152,6 +176,8 @@ export default {
         "breathe": "breathe 100s ease-in-out infinite",
         "wiggle": "wiggle 3s ease-in-out infinite",
         "blink": "blink 3s ease-in-out infinite",
+        "wave-dance": "wave-dance 1s ease-in-out infinite",
+        "logo-ring-grow": "logo-ring-grow 3s ease-out infinite",
       },
       boxShadow: {
         "neon": "0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3)",

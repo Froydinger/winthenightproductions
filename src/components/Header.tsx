@@ -11,8 +11,9 @@ import {
   LifeBuoy,
   BookOpen,
   Music,
+  Youtube,
 } from "lucide-react";
-import logo from "@/assets/win-the-night-productions-logo.png";
+import logo from "@/assets/win-the-night-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation } from "react-router-dom";
 import { useAudio } from "@/context/AudioContext";
@@ -65,12 +66,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-black/92 backdrop-blur-xl border-b border-[#111]">
       <div className="h-2 w-full bg-neon-blue shadow-[0_0_16px_rgba(93,204,255,0.9)]" />
-      <div className="container mx-auto h-16 flex items-center justify-between px-4 pt-2">
+      <div className="container mx-auto h-16 flex items-center justify-between px-4 sm:px-8 pt-2">
         <a
           href="/"
-          className={`flex items-center group py-2 transition-all duration-500 ${
+          className={`flex items-center gap-2 group transition-all duration-500 ${
             logoVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
           }`}
         >
@@ -79,99 +80,101 @@ const Header = () => {
             alt="Win The Night"
             loading="eager"
             decoding="async"
-            className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(0,217,255,0.5)] transition-transform duration-300 group-hover:scale-110"
+            className="h-10 w-10 object-contain rounded-full drop-shadow-[0_0_8px_rgba(0,217,255,0.8)] transition-transform duration-300 group-hover:scale-110"
           />
+          <div className="font-bebas text-xl tracking-wider text-white select-none leading-none">
+            WIN THE <span className="text-[#00d9ff]">NIGHT</span>
+          </div>
+          <div className="hidden sm:block w-[1px] h-6 bg-[#222] mx-2" />
+          <span className="hidden sm:block text-[0.6rem] tracking-[0.2em] uppercase text-[#555] font-medium leading-none">
+            Foundation
+          </span>
         </a>
 
+        {/* Mobile Navigation */}
         <nav className="flex md:hidden items-center gap-1 mr-auto ml-4">
           <a
             href="/watch"
-            className="px-2.5 py-1.5 text-xs font-bold text-neon-blue hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-neon-blue/10 drop-shadow-[0_0_6px_rgba(93,204,255,0.6)]"
+            className="px-2.5 py-1.5 text-xs font-bold text-[#00d9ff] hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-[#00d9ff]/10 drop-shadow-[0_0_6px_rgba(0,217,255,0.6)] uppercase tracking-wider"
           >
             Watch
           </a>
           <a
             href="/support"
-            className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5"
+            className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider"
           >
             Support
           </a>
           <a
             href="/crisis-resources"
-            className="px-2.5 py-1.5 text-xs font-bold text-green-400 hover:text-green-300 transition-colors duration-200 rounded-md hover:bg-green-400/10 drop-shadow-[0_0_6px_rgba(74,222,128,0.6)]"
+            className="px-2.5 py-1.5 text-xs font-bold text-red-500 hover:text-red-400 transition-colors duration-200 rounded-md hover:bg-red-500/10 drop-shadow-[0_0_6px_rgba(239,68,68,0.6)] uppercase tracking-wider"
           >
             Care
           </a>
         </nav>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1 mr-auto ml-6">
-          <a href="/blog" className="px-3 py-1.5 text-sm font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5">
+          <a href="/blog" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
             Blog
           </a>
-          <a href="/watch" className="px-3 py-1.5 text-sm font-bold text-neon-blue hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-neon-blue/10 drop-shadow-[0_0_8px_rgba(93,204,255,0.6)]">
+          <a href="/watch" className="px-3 py-1.5 text-xs font-bold text-[#00d9ff] hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-[#00d9ff]/10 drop-shadow-[0_0_8px_rgba(0,217,255,0.6)] uppercase tracking-wider">
             Watch
           </a>
-          <a href="/listen" className="px-3 py-1.5 text-sm font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5">
+          <a href="/listen" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
             Listen
           </a>
-          <a href="/updates" className="px-3 py-1.5 text-sm font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5">
+          <a href="/updates" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
             Community
           </a>
-          <a href="/support" className="px-3 py-1.5 text-sm font-medium text-foreground/70 hover:text-neon-blue transition-colors duration-200 rounded-md hover:bg-white/5">
+          <a href="/support" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
             Support Us
           </a>
-          <a href="/crisis-resources" className="px-3 py-1.5 text-sm font-bold text-green-400 hover:text-green-300 transition-colors duration-200 rounded-md hover:bg-green-400/10 drop-shadow-[0_0_8px_rgba(74,222,128,0.6)]">
+          <a href="/crisis-resources" className="px-3 py-1.5 text-xs font-bold text-red-500 hover:text-red-400 transition-colors duration-200 rounded-md hover:bg-red-500/10 drop-shadow-[0_0_8px_rgba(239,68,68,0.6)] uppercase tracking-wider">
             Care &amp; Crisis
           </a>
         </nav>
 
         <div className="flex items-center gap-2">
-          <NewsletterDialog>
-            <button
-              className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-black bg-neon-blue hover:bg-neon-blue/90 rounded-md shadow-[0_0_12px_rgba(93,204,255,0.5)] transition-all"
-              aria-label="Get our newsletter"
-            >
-              <Mail className="w-4 h-4" />
-              Newsletter
-            </button>
-          </NewsletterDialog>
-          <NewsletterDialog>
-            <button
-              className="md:hidden p-1.5 rounded-lg text-neon-blue hover:bg-neon-blue/10 transition-all"
-              aria-label="Get our newsletter"
-            >
-              <Mail className="w-5 h-5" />
-            </button>
-          </NewsletterDialog>
+          <a
+            href="https://youtube.com/@winthenight?sub_confirmation=1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:inline-flex items-center gap-2 bg-[#00d9ff] hover:opacity-85 text-black font-bold uppercase tracking-wider text-xs px-4 py-2 rounded shadow-[0_0_12px_rgba(0,217,255,0.5)] transition-all"
+            aria-label="Subscribe on YouTube"
+          >
+            <Youtube className="w-3.5 h-3.5" />
+            Subscribe
+          </a>
 
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <button
                 className={`p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300 ${
-                  isPlaying ? "shadow-[0_0_12px_rgba(93,204,255,0.6)] bg-neon-blue/20" : ""
+                  isPlaying ? "shadow-[0_0_12px_rgba(0,217,255,0.6)] bg-[#00d9ff]/20" : ""
                 }`}
                 aria-label="Open menu"
               >
-                <Menu className={`w-5 h-5 transition-colors ${isPlaying ? "text-neon-blue" : "text-white"}`} strokeWidth={1.5} />
+                <Menu className={`w-5 h-5 transition-colors ${isPlaying ? "text-[#00d9ff]" : "text-white"}`} strokeWidth={1.5} />
               </button>
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[300px] bg-background/98 backdrop-blur-xl border-l border-neon-blue/30 flex flex-col"
+              className="w-[300px] bg-black border-l border-[#00d9ff]/30 flex flex-col"
             >
-              <div className="flex items-center gap-3 pb-4 border-b border-neon-blue/20 mt-8 flex-shrink-0">
+              <div className="flex items-center gap-3 pb-4 border-b border-[#00d9ff]/20 mt-8 flex-shrink-0">
                 <img
                   src={logo}
                   alt="Win The Night"
-                  className="h-12 w-12 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.6)]"
+                  className="h-14 w-14 object-contain rounded-full drop-shadow-[0_0_20px_rgba(0,217,255,0.6)]"
                 />
-                <span className="text-xl font-bold text-foreground">
-                  Win The Night<span className="text-[0.5em] align-super">™</span>
+                <span className="text-xl font-bebas tracking-wide text-white">
+                  WIN THE <span className="text-[#00d9ff]">NIGHT</span>
                 </span>
               </div>
 
               <div
-                className="flex-1 overflow-y-scroll min-h-0 py-4 pr-1 relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neon-blue/40 hover:scrollbar-thumb-neon-blue/60"
+                className="flex-1 overflow-y-scroll min-h-0 py-4 pr-1 relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#00d9ff]/40 hover:scrollbar-thumb-[#00d9ff]/60"
                 style={{
                   scrollbarWidth: "thin",
                   scrollbarColor: "rgba(0, 217, 255, 0.4) transparent",
@@ -181,7 +184,7 @@ const Header = () => {
               >
                 <nav className="flex flex-col gap-4">
                   <div>
-                    <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-3">Pages</h3>
+                    <h3 className="text-xs font-semibold text-[#00d9ff] uppercase tracking-wider px-4 mb-3">Pages</h3>
                     <div className="grid grid-cols-2 gap-2 px-2">
                       {pageLinks.map((item) => {
                         const Icon = item.icon;
@@ -190,7 +193,7 @@ const Header = () => {
                             key={item.label}
                             href={item.href}
                             onClick={() => setIsOpen(false)}
-                            className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border/50 bg-card/50 hover:bg-neon-blue/20 hover:border-neon-blue/50 hover:text-neon-blue text-foreground transition-all duration-300 group"
+                            className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-[#1a1a1a] bg-[#0d0d0d] hover:bg-[#00d9ff]/20 hover:border-[#00d9ff]/50 hover:text-[#00d9ff] text-foreground transition-all duration-300 group"
                           >
                             <Icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
                             <span className="text-xs font-medium text-center leading-tight">{item.label}</span>
@@ -199,21 +202,22 @@ const Header = () => {
                       })}
                     </div>
                     <div className="px-2 mt-3">
-                      <NewsletterDialog>
-                        <button
-                          onClick={() => setIsOpen(false)}
-                          className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-neon-blue text-black font-semibold hover:bg-neon-blue/90 shadow-[0_0_16px_rgba(93,204,255,0.5)] transition-all"
-                        >
-                          <Mail className="w-4 h-4" />
-                          Newsletter
-                        </button>
-                      </NewsletterDialog>
+                      <a
+                        href="https://youtube.com/@winthenight?sub_confirmation=1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsOpen(false)}
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-[#00d9ff] text-black font-bold uppercase tracking-wider text-xs hover:opacity-85 shadow-[0_0_16px_rgba(0,217,255,0.5)] transition-all"
+                      >
+                        <Youtube className="w-4 h-4" />
+                        Subscribe
+                      </a>
                     </div>
                   </div>
 
                   {isHomePage && (
-                    <div className="pt-2 border-t border-border/30">
-                      <h3 className="text-xs font-semibold text-neon-blue uppercase tracking-wider px-4 mb-3">
+                    <div className="pt-2 border-t border-[#1a1a1a]">
+                      <h3 className="text-xs font-semibold text-[#00d9ff] uppercase tracking-wider px-4 mb-3">
                         Jump to Section
                       </h3>
                       <div className="grid grid-cols-1 gap-2 px-2">
@@ -221,7 +225,7 @@ const Header = () => {
                           <button
                             key={item.id}
                             onClick={() => scrollToSection(item.id)}
-                            className="w-full text-center px-4 py-2.5 rounded-lg border border-border/30 bg-card/30 hover:bg-neon-blue/10 hover:border-neon-blue/30 hover:text-neon-blue text-foreground/80 transition-all duration-300 text-sm font-medium"
+                            className="w-full text-center px-4 py-2.5 rounded border border-[#1a1a1a] bg-[#0d0d0d] hover:bg-[#00d9ff]/10 hover:border-[#00d9ff]/30 hover:text-[#00d9ff] text-foreground/80 transition-all duration-300 text-sm font-medium"
                           >
                             {item.label}
                           </button>
@@ -232,7 +236,7 @@ const Header = () => {
                 </nav>
               </div>
 
-              <div className="flex-shrink-0 pt-4 border-t border-neon-blue/20">
+              <div className="flex-shrink-0 pt-4 border-t border-[#00d9ff]/20">
                 <p className="text-sm text-muted-foreground text-center font-thin">
                   One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span>
                   <br />

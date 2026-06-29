@@ -1,94 +1,109 @@
-import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import { Rule, CyanRule } from "@/components/magazine/SectionDivider";
+import ScrollReveal from "@/components/ScrollReveal";
 import { Heart, Zap, Mic, Users, Coffee, ExternalLink } from "lucide-react";
-import { PageShell } from "@/components/site/PageShell";
-import { PageHero } from "@/components/site/PageHero";
-import { SectionHeader } from "@/components/site/SectionHeader";
-import { SiteCard } from "@/components/site/SiteCard";
 
 const BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/winthenight";
 
 const Support = () => {
   const impact = [
-    { icon: Mic, title: "Professional Equipment", desc: "Invest in better video and audio equipment for top-quality production" },
-    { icon: Users, title: "Amazing Guests", desc: "Bring on experts and advocates in mental health" },
-    { icon: Zap, title: "More Content", desc: "Hire talented people for projects and cover costs for professional editing tools" },
+    { icon: Mic, title: "Production Equipment", desc: "Invest in high-grade camera rigs, microphones, and studio space for professional broadcast quality." },
+    { icon: Users, title: "Expert Guests", desc: "Bring on clinical psychologists, trauma therapists, veterans, and mental health advocates." },
+    { icon: Zap, title: "Content Expansion", desc: "Support the editing staff, written essays, video editing suites, and community platform fees." },
   ];
 
   return (
-    <PageShell>
-      <PageHero
-        icon={Heart}
-        eyebrow="Support"
-        title={
-          <>
-            Support{" "}
-            <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Win The Night
-            </span>
-          </>
-        }
-        lede="Love what we're doing? Help us keep the conversation going — every contribution makes a difference."
-      />
+    <>
+      <Header />
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-20">
+        <div className="fixed inset-0 z-0">
+          <AnimatedBackground />
+        </div>
 
-      <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
-        <SiteCard variant="strong" className="text-center">
-          <p className="text-foreground/75 text-base leading-relaxed max-w-md mx-auto mb-5">
-            Support the show directly through Buy Me a Coffee. It keeps things simple, lightweight, and off-site.
-          </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-neon-blue hover:bg-neon-blue/90 text-black font-bold text-base px-10 shadow-[0_0_30px_-8px_rgba(0,217,255,0.7)]"
-          >
-            <a href={BUY_ME_A_COFFEE_URL} target="_blank" rel="noopener noreferrer">
-              <Coffee className="w-5 h-5 mr-2" />
-              Support on Buy Me a Coffee
-              <ExternalLink className="w-4 h-4 ml-2" />
-            </a>
-          </Button>
-          <p className="text-xs text-foreground/55 mt-4">
-            Contributions are handled externally by Buy Me a Coffee.
-          </p>
-
-          <div className="mt-6 mx-auto max-w-xl rounded-xl border border-neon-blue/40 bg-neon-blue/5 px-4 py-3 text-left">
-            <p className="text-xs sm:text-sm text-foreground/85 leading-relaxed">
-              <strong className="text-neon-blue">Important:</strong> Win The Night Foundation is{" "}
-              <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>.
-              Contributions are personal support payments for an independent media project and are{" "}
-              <strong>not tax-deductible</strong>.
+        <div className="relative z-10 max-w-4xl mx-auto px-6 py-12 space-y-16">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Support Us</p>
+            <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none">
+              SUPPORT THE <span className="text-[#00d9ff]">SHOW</span>
+            </h1>
+            <p className="text-sm text-[#555] max-w-xl mx-auto leading-relaxed">
+              Love what we're doing? Help us keep the conversation going — every contribution makes a difference in building this community.
             </p>
           </div>
-        </SiteCard>
 
-        <section>
-          <SectionHeader
-            icon={Zap}
-            eyebrow="Your support enables"
-            title="Where every contribution goes"
-            lede="Every contribution helps us grow and create better content for the community."
-            align="center"
-          />
-          <div className="grid sm:grid-cols-3 gap-4">
-            {impact.map((i) => (
-              <SiteCard key={i.title} className="text-center group hover:-translate-y-0.5 transition-transform">
-                <div className="flex justify-center mb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-neon-blue/10 border border-neon-blue/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i.icon className="w-7 h-7 text-neon-blue" />
+          {/* Buy me a coffee card */}
+          <ScrollReveal animation="scale-in">
+            <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 sm:p-12 rounded text-center space-y-6">
+              <p className="text-xs text-[#555] max-w-md mx-auto leading-relaxed">
+                Support our independent media series directly through Buy Me a Coffee. It keeps operations lightweight, simple, and off-site.
+              </p>
+              
+              <a
+                href={BUY_ME_A_COFFEE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-8 py-4 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] transition-all mx-auto"
+              >
+                <Coffee className="w-4 h-4" />
+                Support on Buy Me a Coffee
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
+              <p className="text-[10px] text-[#3a3a3a] uppercase tracking-wider">
+                Contributions are handled externally by Buy Me a Coffee.
+              </p>
+
+              <div className="max-w-xl mx-auto rounded border border-[#00d9ff]/20 bg-[#00d9ff]/5 px-5 py-4 text-left">
+                <p className="text-xs text-[#888] leading-relaxed">
+                  <strong className="text-[#00d9ff] uppercase tracking-wider text-[10px] block mb-1">Important Legal Notice</strong>
+                  Win The Night Foundation is <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>. Contributions are personal support payments for an independent community media project and are <strong>not tax-deductible</strong>.
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <CyanRule />
+
+          {/* Where it goes */}
+          <section className="space-y-8">
+            <div className="text-center space-y-2">
+              <div className="inline-flex w-10 h-10 rounded border border-[#1a1a1a] items-center justify-center text-[#00d9ff] mb-2 mx-auto">
+                <Zap className="w-5 h-5" />
+              </div>
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Where every contribution goes</h2>
+            </div>
+
+            <div className="grid sm:grid-cols-3 gap-4">
+              {impact.map((i, idx) => (
+                <ScrollReveal key={i.title} animation="fade-up" delay={idx * 100}>
+                  <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-6 hover:border-[#00d9ff]/30 transition-all h-full flex flex-col justify-between">
+                    <div>
+                      <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center mb-4 text-[#00d9ff]">
+                        <i.icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-2">{i.title}</h3>
+                      <p className="text-[10px] text-[#555] leading-relaxed">{i.desc}</p>
+                    </div>
                   </div>
-                </div>
-                <h3 className="font-bold text-foreground text-lg mb-2">{i.title}</h3>
-                <p className="text-sm text-foreground/70 leading-relaxed">{i.desc}</p>
-              </SiteCard>
-            ))}
-          </div>
-        </section>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
 
-        <p className="text-center text-base sm:text-lg text-foreground/70">
-          <Heart className="inline w-5 h-5 text-neon-blue mr-1" />
-          Thank you for being part of the Win The Night community! Your support means everything.
-        </p>
-      </div>
-    </PageShell>
+          <Rule />
+
+          <p className="text-center text-xs text-[#555] font-sans leading-relaxed">
+            <Heart className="inline w-4 h-4 text-[#00d9ff] mr-1.5" />
+            Thank you for being part of the Win The Night community! Your support means everything.
+          </p>
+        </div>
+
+        <Footer />
+      </main>
+    </>
   );
 };
 

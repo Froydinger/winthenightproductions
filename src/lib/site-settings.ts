@@ -15,6 +15,8 @@ export type SiteSettings = {
   about_jake_bio: string;
   about_josh_bio: string;
   chatbot_system_prompt: string;
+  watch_latest_auto: boolean;
+  watch_latest_override_id: string;
 };
 
 export const defaultSiteSettings: SiteSettings = {
@@ -35,6 +37,8 @@ export const defaultSiteSettings: SiteSettings = {
   about_jake_bio: "Runs the socials, Substack, and YouTube channel.",
   about_josh_bio: "Podcast host offering creative and collaborative insights.",
   chatbot_system_prompt: "",
+  watch_latest_auto: true,
+  watch_latest_override_id: "",
 };
 
 export async function fetchSiteSettings(): Promise<SiteSettings> {

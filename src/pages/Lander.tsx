@@ -1,369 +1,532 @@
-import { useRef, useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import logoImage from "@/assets/win-the-night-logo.webp";
+import logoImage from "@/assets/win-the-night-logo.png";
 import skyBackground from "@/assets/lander/skybackground.png";
 import mountainsBack from "@/assets/lander/mountains-back.png";
 import mountainsFront from "@/assets/lander/mountains-front.png";
 import Header from "@/components/Header";
-import WatchLatestSection from "@/components/WatchLatestSection";
-import HomeShortsSection from "@/components/HomeShortsSection";
-import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import AboutContentSection from "@/components/AboutContentSection";
-import AnimatedBackground from "@/components/AnimatedBackground";
-import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Youtube, Play, ArrowRight, ChevronDown } from "lucide-react";
+import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
+import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
+import { StatCard } from "@/components/magazine/StatCard";
+import { WaveformBar } from "@/components/magazine/WaveformBar";
+import { CyanRule, Rule } from "@/components/magazine/SectionDivider";
+import ScrollReveal from "@/components/ScrollReveal";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { NewsletterDialog } from "@/components/NewsletterSubscribe";
 
 const Lander = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [settings, setSettings] = useState(defaultSiteSettings);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [activePlayId, setActivePlayId] = useState<string | null>(null);
 
   useEffect(() => {
+    fetchSiteSettings().then(setSettings);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
   }, []);
+
+  const { videos: latestVideos, isLoading: isPlaylistLoading } = useYouTubeVideos(3);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Slower spring for mobile - more buttery and readable
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: isMobile ? 50 : 100,
-    damping: isMobile ? 40 : 30,
+    stiffness: prefersReducedMotion ? 1000 : (isMobile ? 50 : 100),
+    damping: prefersReducedMotion ? 1000 : (isMobile ? 40 : 30),
     restDelta: 0.001,
   });
 
-  // MOBILE: Much slower, spread-out animations so content is readable
-  // DESKTOP: Original faster timing
+  // Background drift type animation
+  const bgTypeY = useTransform(smoothProgress, [0, 0.5], ["-50%", "-35%"]);
+  const bgTypeScale = useTransform(smoothProgress, [0, 0.5], [1, 1.15]);
+  const bgTypeOpacity = useTransform(smoothProgress, [0, 0.4], [0.07, 0]);
 
-  // Logo animation
-  const logoY = useTransform(
-    smoothProgress,
-    isMobile
-      ? [0, 0.15, 0.35, 0.55] // Mobile: slower rise
-      : [0, 0.12, 0.28, 0.45],
-    isMobile
-      ? ["30vh", "10vh", "-5vh", "-10vh"]
-      : ["40vh", "20vh", "-5vh", "-15vh"]
-  );
-  const logoScale = useTransform(
-    smoothProgress,
-    isMobile ? [0, 0.25, 0.45] : [0, 0.18, 0.32],
-    [0.6, 0.95, 1.05]
-  );
-  const logoOpacity = useTransform(
-    smoothProgress,
-    isMobile
-      ? [0, 0.08, 0.18, 0.75, 0.9] // Mobile: stays visible longer
-      : [0, 0.06, 0.14, 0.85, 1],
-    [0, 0, 1, 1, 0]
-  );
+  // Center logo animations
+  const logoY = useTransform(smoothProgress, [0, 0.5], ["-60%", "-85%"]);
+  const logoScale = useTransform(smoothProgress, [0, 0.5], [1, 0.9]);
+  const logoOpacity = useTransform(smoothProgress, [0, 0.45], [1, 0]);
 
-  // Mountain parallax - subtle effect to keep mountains visible throughout
-  const mountainBackY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "8%" : "30%"]);
-  const mountainFrontY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "12%" : "40%"]);
+  // Mountain parallax animations
+  const skyY = useTransform(smoothProgress, [0, 0.5], ["0%", "4%"]);
+  const mountainBackY = useTransform(smoothProgress, [0, 0.5], ["0%", "10%"]);
+  const mountainFrontY = useTransform(smoothProgress, [0, 0.5], ["0%", "3%"]);
 
-  // Blur edge
-  const blurEdgeOpacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.8, 0.95] : [0.7, 0.85],
-    [0, 1]
-  );
+  // Bottom text scroll animations
+  const textOpacity = useTransform(smoothProgress, [0, 0.35], [1, 0]);
+  const textY = useTransform(smoothProgress, [0, 0.35], ["0%", "-15px"]);
 
-  // Scroll indicator - hides faster on mobile since they're scrolling
-  const scrollIndicatorOpacity = useTransform(
-    smoothProgress,
-    isMobile ? [0, 0.08] : [0, 0.15],
-    [1, 0]
-  );
+  const sloganOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
 
-  // Slogan reveal timing - MUCH slower on mobile
-  const sloganLine1Opacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.15, 0.28, 0.75, 0.88] : [0.18, 0.28, 0.9, 1],
-    [0, 1, 1, 0]
-  );
-  const sloganLine1Y = useTransform(
-    smoothProgress,
-    isMobile ? [0.15, 0.28] : [0.18, 0.28],
-    [40, 0]
-  );
+  const [slashActive, setSlashActive] = useState(false);
 
-  const sloganLine2Opacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.22, 0.35, 0.75, 0.88] : [0.24, 0.34, 0.9, 1],
-    [0, 1, 1, 0]
-  );
-  const sloganLine2Y = useTransform(
-    smoothProgress,
-    isMobile ? [0.22, 0.35] : [0.24, 0.34],
-    [40, 0]
-  );
+  useEffect(() => {
+    // Trigger slash animation on load
+    const t = setTimeout(() => setSlashActive(true), 200);
+    return () => clearTimeout(t);
+  }, []);
 
-  const sloganLine3Opacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.30, 0.43, 0.75, 0.88] : [0.30, 0.40, 0.9, 1],
-    [0, 1, 1, 0]
-  );
-  const sloganLine3Y = useTransform(
-    smoothProgress,
-    isMobile ? [0.30, 0.43] : [0.30, 0.40],
-    [40, 0]
-  );
+  const episodesToShow = latestVideos;
 
-  const scrollCalloutOpacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.43, 0.52, 0.75, 0.88] : [0.40, 0.50, 0.9, 1],
-    [0, 1, 1, 0]
-  );
-  const scrollCalloutY = useTransform(
-    smoothProgress,
-    isMobile ? [0.43, 0.52] : [0.40, 0.50],
-    [20, 0]
-  );
+  const nowPlayingTitle = latestVideos[0]?.title || "Latest Win The Night episode";
 
-  // Disable parallax completely when reduced motion is preferred
-  const disableParallax = prefersReducedMotion;
-
-  // Hero blur - happens later on wide screens, earlier on mobile
-  // This gives more time to view the hero section before it starts fading
-  const heroBlur = useTransform(
-    smoothProgress,
-    isMobile ? [0.75, 0.9] : [0.8, 0.95],
-    [0, 20]
-  );
-
-  // Hero visibility - fades out after blur
-  // Delayed to give the section more breathing room
-  const heroOpacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.9, 1] : [0.95, 1],
-    [1, 0]
-  );
-
-  // Background fade in as hero fades out
-  const backgroundOpacity = useTransform(
-    smoothProgress,
-    isMobile ? [0.85, 1] : [0.9, 1],
-    [0, 1]
-  );
+  const handleEpisodePlay = (videoId: string) => {
+    setSelectedVideo(videoId);
+    setActivePlayId(videoId);
+  };
 
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-background">
-        {/* ===== SECTION 1: SCROLL-REVEAL HERO ===== */}
-        {/* Scroll tracking container - invisible, just for measuring scroll progress */}
-        <div
-          ref={containerRef}
-          className="relative"
-          style={{ height: isMobile ? "350vh" : "300vh" }}
-        />
-
-        {/* Fixed hero viewport - stays pinned to screen, blurs then fades based on scroll */}
-        <motion.div
-          className="fixed top-0 left-0 right-0 h-screen w-full overflow-hidden pointer-events-none"
-          style={{
-            opacity: heroOpacity,
-            filter: useTransform(heroBlur, (v) => `blur(${v}px)`),
-            zIndex: 10,
-          }}
-      >
-        {/* Re-enable pointer events for interactive elements - stays active even when fading */}
-        <div className="absolute inset-0 pointer-events-auto" style={{ pointerEvents: 'auto' }}>
-          {/* Top blur edge for smooth transition */}
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
+        
+        {/* ===== SECTION 1: SCROLL-DRIVEN HERO VIEWPORT ===== */}
+        <div ref={containerRef} className="relative h-screen w-full overflow-hidden z-10 bg-black">
+          
+          {/* Sky Background */}
           <motion.div
-            className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-50 pointer-events-none backdrop-blur-sm"
+            className="absolute inset-0 z-0 pointer-events-none"
             style={{
-              background: "linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background) / 0.5) 50%, transparent 100%)",
-              opacity: blurEdgeOpacity,
+              y: prefersReducedMotion ? 0 : skyY,
             }}
-          />
-
-          {/* Sky background - darker with blue tint */}
-          <div className="absolute inset-0">
+          >
             <img
               src={skyBackground}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
-              loading="lazy"
-              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.35]"
+              loading="eager"
             />
-            {/* Neon blue tint overlay */}
-            <div className="absolute inset-0 bg-neon-blue/15 mix-blend-overlay" />
+            {/* Subtle blue tint matching design */}
+            <div className="absolute inset-0 bg-[#00d9ff]/10 mix-blend-overlay" />
+          </motion.div>
+
+          {/* Drifting Background text */}
+          <motion.div
+            className="absolute top-1/2 left-1/2 font-bebas text-[clamp(12rem,25vw,22rem)] text-transparent pointer-events-none select-none z-1 tracking-widest whitespace-nowrap"
+            style={{
+              x: "-50%",
+              y: prefersReducedMotion ? "-50%" : bgTypeY,
+              scale: prefersReducedMotion ? 1 : bgTypeScale,
+              opacity: prefersReducedMotion ? 0.07 : bgTypeOpacity,
+              WebkitTextStroke: "1px rgba(255,255,255,0.07)"
+            }}
+            aria-hidden="true"
+          >
+            WIN
+          </motion.div>
+
+          {/* Cyan Diagonal Slash */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-2" aria-hidden="true">
+            <div className={`hero-slash-element ${slashActive ? 'active' : ''}`} />
           </div>
 
-          {/* Back mountain layer - starts higher, darkened more */}
+          {/* Midground Mountains (behind logo) */}
           <motion.div
-            className="absolute left-0 right-0"
+            className="absolute left-0 right-0 z-5 pointer-events-none"
             style={{
-              height: isMobile ? "360vh" : "280vh",
-              y: disableParallax ? 0 : mountainBackY,
-              bottom: isMobile ? "18vh" : "22vh"
+              bottom: isMobile ? "-12vh" : "-18vh",
+              y: prefersReducedMotion ? 0 : mountainBackY,
             }}
+            aria-hidden="true"
           >
             <img
               src={mountainsBack}
               alt=""
-              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.3]"
-              style={{ minWidth: '120%', left: '-10%' }}
-              loading="lazy"
-              decoding="async"
+              className="w-full h-auto min-w-full object-cover object-bottom brightness-[0.35]"
+              style={{ minWidth: "120%", left: "-10%" }}
+              loading="eager"
             />
           </motion.div>
 
-          {/* LOGO - dead simple centering */}
+          {/* Center Logo with Pulse Rings */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center z-10"
+            className="absolute top-[35%] left-1/2 flex flex-col items-center gap-4 z-10 pointer-events-none"
             style={{
-              y: disableParallax ? 0 : logoY,
-              scale: disableParallax ? 1 : logoScale,
-              opacity: disableParallax ? 1 : logoOpacity,
+              x: "-48.2%",
+              y: prefersReducedMotion ? "-50%" : logoY,
+              scale: prefersReducedMotion ? 1 : logoScale,
+              opacity: prefersReducedMotion ? 1 : logoOpacity,
             }}
           >
-            <div className="relative -mt-[5vh] sm:-mt-[18vh]">
-              <div className="absolute -inset-8 sm:-inset-10 rounded-full bg-neon-blue/20 blur-[40px] sm:blur-[60px]" />
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:1s]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:2s]" />
               <img
                 src={logoImage}
-                alt="Win The Night Foundation"
-                className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-72 lg:h-72 object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.5)]"
+                alt="Win The Night Moon Logo"
+                className="relative w-full h-full object-contain drop-shadow-[0_0_30px_rgba(0,217,255,0.9)] drop-shadow-[0_0_60px_rgba(0,217,255,0.5)]"
               />
             </div>
           </motion.div>
 
-          {/* SLOGAN */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 mt-[12vh] sm:mt-[15vh] px-4">
-            <div className="text-center space-y-1 sm:space-y-2">
-              <motion.div style={{ opacity: sloganLine1Opacity, y: sloganLine1Y }}>
-                <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-foreground tracking-tight font-extralight">
-                  One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span>
-                </span>
-              </motion.div>
-
-              <motion.div style={{ opacity: sloganLine3Opacity, y: sloganLine3Y }}>
-                <span
-                  className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-primary tracking-tight font-extralight"
-                  style={{ textShadow: "0 0 20px rgba(0,217,255,0.5), 0 0 40px rgba(0,217,255,0.3)" }}
-                >
-                  One <span className="font-bold">Conversation</span> at a Time.
-                </span>
-              </motion.div>
-
-              {/* Scroll to learn more callout */}
-              <motion.div
-                className="pt-3 sm:pt-12 pb-0 sm:pb-20"
-                style={{ opacity: scrollCalloutOpacity, y: scrollCalloutY }}
-              >
-                <motion.div
-                  className="flex flex-col items-center gap-2 text-foreground/70"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <span className="text-sm sm:text-base" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Scroll down to learn more</span>
-                  <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Front mountain layer - larger on mobile to hide bottom edge */}
+          {/* Foreground Mountains */}
           <motion.div
-            className="absolute left-0 right-0 z-30"
+            className="absolute left-0 right-0 z-20 pointer-events-none"
             style={{
-              height: isMobile ? "300vh" : "200vh",
-              y: disableParallax ? 0 : mountainFrontY,
-              bottom: isMobile ? "-3vh" : "0vh"
+              bottom: isMobile ? "-20vh" : "-30vh",
+              y: prefersReducedMotion ? 0 : mountainFrontY,
             }}
+            aria-hidden="true"
           >
             <img
               src={mountainsFront}
               alt=""
-              className="absolute bottom-0 w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
-              style={{
-                minWidth: isMobile ? '170%' : '120%',
-                left: isMobile ? '-35%' : '-10%'
-              }}
-              loading="lazy"
-              decoding="async"
+              className="w-full h-auto min-w-full object-cover object-bottom brightness-[0.5]"
+              style={{ minWidth: "120%", left: "-10%" }}
+              loading="eager"
             />
-            <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-background via-background/90 to-transparent" />
+            {/* Fade bottom edge into background black */}
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/95 to-transparent" />
           </motion.div>
 
-          {/* Scroll indicator */}
+          {/* Hero Bottom text */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none"
-            style={{ opacity: scrollIndicatorOpacity }}
+            className="absolute bottom-16 sm:bottom-24 left-0 right-0 px-6 sm:px-12 md:px-24 flex flex-col md:flex-row justify-between items-end gap-8 z-30"
+            style={{
+              opacity: textOpacity,
+              y: textY,
+            }}
           >
-            <div className="flex flex-col items-center gap-3 sm:gap-4">
-              <span
-                className="text-base sm:text-xl md:text-2xl text-foreground/80 tracking-wide"
-                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-              >
-                Scroll to explore
-              </span>
+            <div>
               <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-foreground/60" />
+                <h1 className="font-bebas text-[clamp(4.5rem,11vw,9.5rem)] leading-[0.85] tracking-wider text-white">
+                  <span className="outline block text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.35)]">ONE</span>
+                  CONVERSATION
+                </h1>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="mt-4 font-serif text-lg sm:text-2xl text-white/95 leading-relaxed tracking-tight italic"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                One Connection. One Story.<br />
+                <span className="text-[#00d9ff] font-medium not-italic">One Conversation at a Time.</span>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="flex flex-wrap gap-4 mt-6"
+              >
+                <a
+                  href="https://youtube.com/@winthenight?sub_confirmation=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded flex items-center gap-2 shadow-[0_0_16px_rgba(0,217,255,0.5)] transition-all"
+                >
+                  <Youtube className="w-4 h-4" />
+                  Subscribe Now
+                </a>
+                <a
+                  href="#episodes"
+                  className="border border-[#3a3a3a] hover:border-white text-white font-semibold uppercase tracking-wider text-xs px-6 py-3.5 rounded transition-colors"
+                >
+                  Watch Episodes
+                </a>
+              </motion.div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex flex-col items-end text-right max-w-xs gap-3"
+            >
+              <p className="text-xs text-[#555] font-sans leading-relaxed">
+                A mental health community built on real conversations, not highlight reels.
+              </p>
+              <div className="flex gap-2">
+                {['youtube', 'instagram', 'tiktok'].map((platform) => (
+                  <a
+                    key={platform}
+                    href={`https://${platform}.com/${platform === 'tiktok' ? '@winthenightpod' : platform === 'instagram' ? 'win_the_night' : '@winthenight'}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-7 h-7 rounded border border-[#2a2a2a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all"
+                  >
+                    <span className="text-[10px] uppercase font-bold">{platform[0]}</span>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Slogan line-by-line reveal when scrolling */}
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-30"
+            style={{ opacity: sloganOpacity }}
+          >
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#555]">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-sans">Scroll down to explore</span>
+              <motion.div
+                animate={{ y: [0, 6, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <ChevronDown className="w-4 h-4" />
               </motion.div>
             </div>
           </motion.div>
+        </div>
 
-          {/* Floating particles - desktop only, reduced for performance */}
-          {!isMobile && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none z-5">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-1 h-1 rounded-full bg-primary/40 will-change-transform"
-                  style={{ left: `${15 + Math.random() * 70}%`, bottom: "-5%" }}
-                  animate={{
-                    y: [0, -800],
-                    opacity: [0, 0.7, 0],
-                    x: [(Math.random() - 0.5) * 50, (Math.random() - 0.5) * 100],
-                  }}
-                  transition={{
-                    duration: 12 + Math.random() * 6,
-                    repeat: Infinity,
-                    delay: Math.random() * 10,
-                    ease: "linear",
-                  }}
-                />
+        <CyanRule />
+
+        {/* ===== SECTION 2: LATEST EPISODES ===== */}
+        <section id="episodes" className="bg-[#0d0d0d] py-0 relative z-40">
+          <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[280px_1fr] border-b border-[#1a1a1a]">
+            
+            {/* Left Sidebar column */}
+            <div className="p-8 sm:p-16 border-r border-[#1a1a1a] flex flex-col justify-between items-center lg:items-start min-h-[300px] lg:min-h-[500px]">
+              <div className="font-bebas text-7xl sm:text-8xl tracking-wider text-transparent select-none lg:[writing-mode:vertical-rl] lg:transform lg:rotate-180" style={{ WebkitTextStroke: "1.5px rgba(0,217,255,0.35)", textShadow: "0 0 12px rgba(0,217,255,0.1)" }}>
+                LATEST
+              </div>
+              <a href="/watch" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#00d9ff] hover:gap-3 transition-all mt-6 lg:mt-0">
+                All episodes
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            {/* Right Episodes column */}
+            <div className="p-6 sm:p-10 flex flex-col justify-center">
+              {isPlaylistLoading ? (
+                <div className="space-y-6">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="animate-pulse flex flex-col md:flex-row gap-4 py-4 border-b border-[#1a1a1a]">
+                      <div className="w-full md:w-40 aspect-video bg-white/5 rounded" />
+                      <div className="flex-1 space-y-3 py-1">
+                        <div className="h-4 bg-white/10 rounded w-1/4" />
+                        <div className="h-6 bg-white/10 rounded w-3/4" />
+                        <div className="h-4 bg-white/5 rounded w-1/2" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : episodesToShow.length > 0 ? (
+                episodesToShow.map((item, idx) => (
+                  <ScrollReveal key={item.videoId} animation="fade-up" delay={idx * 150} className="w-full">
+                    <div
+                      onClick={() => handleEpisodePlay(item.videoId)}
+                      className="ep-row-custom w-full text-left overflow-hidden"
+                    >
+                      {/* Thumbnail wrapper */}
+                      <div className="relative w-full max-w-[22rem] md:max-w-none aspect-video bg-[#141414] rounded overflow-hidden group/thumb">
+                        <img
+                          src={item.thumbnail}
+                          alt={item.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover/thumb:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.src = `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`;
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                          <div className="w-10 h-10 rounded-full bg-[#00d9ff] flex items-center justify-center text-black shadow-lg">
+                            <Play className="w-4 h-4 fill-black ml-0.5" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content info */}
+                      <div className="w-full min-w-0 flex-1">
+                        <div className="font-bebas text-xs tracking-wider text-[#00d9ff] mb-1">
+                          CHAPTER EP. {String(idx + 1).padStart(3, "0")}
+                        </div>
+                        <h3 className="text-lg md:text-xl font-bold text-white hover:text-[#00d9ff] transition-colors leading-snug line-clamp-2 break-words">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-[#555] font-sans mt-1 leading-relaxed line-clamp-2">
+                          Start with our latest conversations on mental health, connection, and real life storytelling.
+                        </p>
+                      </div>
+
+                      {/* Meta arrows */}
+                      <div className="hidden sm:flex flex-col items-end gap-2 text-right">
+                        <span className="text-[10px] text-[#555] tracking-wider uppercase font-sans">
+                          {new Date(item.publishedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                        </span>
+                        <div className="text-lg text-[#3a3a3a] group-hover:text-[#00d9ff] transition-colors">
+                          →
+                        </div>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+                ))
+              ) : (
+                <div className="py-10 text-sm text-[#555]">
+                  Latest episodes are loading from YouTube. Refresh in a moment if they do not appear.
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== SECTION 3: persistent audio visualizer player bar ===== */}
+        <div className="bg-[#0d0d0d] border-b border-[#1a1a1a] py-6 px-6 sm:px-10">
+          <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6">
+            <div>
+              <div className="text-[9px] uppercase tracking-[0.25em] text-[#555] mb-1">Now Playing</div>
+              <div className="text-xs font-semibold text-white tracking-wide truncate max-w-xs sm:max-w-md">
+                {nowPlayingTitle}
+              </div>
+            </div>
+            
+            {/* Animated wave bars */}
+            <div className="flex justify-center md:justify-start">
+              <WaveformBar barCount={30} className="max-w-md opacity-80" />
+            </div>
+
+            <div className="flex items-center gap-4 justify-end">
+              <button
+                onClick={() => selectedVideo ? setSelectedVideo(selectedVideo) : latestVideos[0] && handleEpisodePlay(latestVideos[0].videoId)}
+                className="w-11 h-11 rounded-full bg-[#00d9ff] flex items-center justify-center text-black shadow-[0_0_16px_rgba(0,217,255,0.4)] hover:scale-105 transition-transform"
+                aria-label="Play latest"
+              >
+                <Play className="w-4 h-4 fill-black ml-0.5" />
+              </button>
+              <span className="text-[10px] text-[#555] uppercase tracking-wider font-sans whitespace-nowrap">
+                LISTEN / WATCH LIVE
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== SECTION 4: CONNECT / STATS ===== */}
+        <section className="py-20 px-6 sm:px-10 bg-black">
+          <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Left text column */}
+            <div className="space-y-6">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff]">About Win The Night</p>
+              <h2 className="font-bebas text-5xl sm:text-7xl leading-[0.95] tracking-wide text-white">
+                One <span className="font-playfair italic text-[#00d9ff]">connection</span><br />
+                changes everything.
+              </h2>
+              <p className="text-sm text-[#555] font-sans leading-relaxed max-w-lg">
+                We're a mental health community built on real conversations — not highlight reels. Every episode is an honest, unfiltered look at healing, inner child work, generational trauma, and what it means to be human.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <a
+                  href="/about"
+                  className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded transition-all"
+                >
+                  Learn About Us
+                </a>
+                <a
+                  href="/guest"
+                  className="border border-[#2a2a2a] hover:border-white text-white font-semibold uppercase tracking-wider text-xs px-6 py-3.5 rounded transition-colors"
+                >
+                  Be Our Guest
+                </a>
+              </div>
+            </div>
+
+            {/* Right counters column */}
+            <div className="grid grid-cols-2 gap-4">
+              <StatCard value="1K+" label="Community members finding connection and healing" delay={0} />
+              <StatCard value="52" label="Episodes of real, unfiltered conversations" delay={100} />
+              <StatCard value="100%" label="Free. Always. No paywalls, no gatekeeping." delay={200} />
+              <StatCard value="Real" label="Stories from people just like you" delay={300} />
+            </div>
+          </div>
+        </section>
+
+        <Rule />
+
+        {/* ===== SECTION 5: EXPLORE GRID ===== */}
+        <section className="py-20 px-6 sm:px-10 bg-[#0d0d0d]">
+          <div className="max-w-[1400px] mx-auto space-y-12">
+            <div className="text-center space-y-4">
+              <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">EXPLORE EVERYTHING</h2>
+              <p className="text-xs text-[#555] uppercase tracking-[0.25em] font-sans max-w-md mx-auto">
+                Navigate the foundation's resources & outlets
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[
+                { label: "Full Episodes", desc: "Long-form video chapters.", href: "/watch" },
+                { label: "Listen", desc: "Weekly podcast audio.", href: "/listen" },
+                { label: "Shorts", desc: "Quick key highlights.", href: "/watch" },
+                { label: "Blog & Essays", desc: "Reflections from the team.", href: "/blog" },
+                { label: "Be Our Guest", desc: "Share your own story.", href: "/guest" },
+                { label: "Updates", desc: "Stay tuned for releases.", href: "/updates" },
+                { label: "Our Mission", desc: "Why we make this.", href: "/about" },
+                { label: "Crisis Info", desc: "Direct hotlines & support.", href: "/crisis-resources" },
+              ].map((tile, idx) => (
+                <ScrollReveal key={tile.label} animation="scale-in" delay={idx * 80}>
+                  <a
+                    href={tile.href}
+                    className="group block rounded-lg border border-[#1a1a1a] bg-[#050505] p-6 sm:p-7 hover:border-[#00d9ff]/50 hover:shadow-[0_0_24px_rgba(0,217,255,0.15)] transition-all h-full"
+                  >
+                    <div className="text-base sm:text-lg font-bold text-[#00d9ff] uppercase tracking-wider mb-3 font-bebas">
+                      {tile.label}
+                    </div>
+                    <p className="text-sm sm:text-base text-[#666] font-sans leading-relaxed">
+                      {tile.desc}
+                    </p>
+                  </a>
+                </ScrollReveal>
               ))}
             </div>
-          )}
-        </div>
-      </motion.div>
+          </div>
+        </section>
 
-        {/* Animated starry background - always rendered behind hero/content; hero fades out above it to reveal */}
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          <AnimatedBackground />
-        </div>
+        {/* ===== SECTION 6: NEWSLETTER BAR ===== */}
+        <section className="bg-black py-16 px-6 sm:px-10 border-t border-[#1a1a1a]">
+          <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff] mb-1">Stay Connected</div>
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Get Updates Straight to Your Inbox</h2>
+            </div>
+            
+            {/* Inline Substack Subscribe Dialog Trigger */}
+            <NewsletterDialog>
+              <button className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-8 py-4 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] transition-all">
+                Subscribe to updates
+              </button>
+            </NewsletterDialog>
+          </div>
+        </section>
 
-        {/* Content sections from main page */}
-        <div className="relative z-10">
-          {/* Invisible buffer spacer - gives user time to scroll before content appears */}
-          <div className="h-32 sm:h-48" />
-
-          <div id="latest-videos" className="relative z-10">
-            <WatchLatestSection />
-          </div>
-          <div id="shorts" className="relative z-10">
-            <HomeShortsSection />
-          </div>
-          <AboutContentSection />
-          <div id="cta" className="relative z-10">
-            <CTASection />
-          </div>
-          <div className="relative z-10">
-            <Footer />
-          </div>
-        </div>
       </main>
+
+      {/* Video Modal Player */}
+      <Dialog open={!!selectedVideo} onOpenChange={(open) => {
+        if (!open) {
+          setSelectedVideo(null);
+          setActivePlayId(null);
+        }
+      }}>
+        <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-2xl">
+          <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-[#2a2a2a]">
+            {selectedVideo && (
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1`}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Footer />
     </>
   );
 };

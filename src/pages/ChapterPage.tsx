@@ -6,8 +6,7 @@ import Footer from "@/components/Footer";
 import EpisodeCard from "@/components/EpisodeCard";
 import EpisodeGridSkeleton from "@/components/EpisodeGridSkeleton";
 import ShortsCarousel from "@/components/ShortsCarousel";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, List } from "lucide-react";
+import { ArrowLeft, List, Youtube } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +14,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { usePlaylistItems } from "@/hooks/use-playlist-items";
+import { Rule, CyanRule } from "@/components/magazine/SectionDivider";
+import ScrollReveal from "@/components/ScrollReveal";
 
 interface Playlist {
   id: string;
@@ -47,19 +48,16 @@ const ChapterPage = () => {
   const playlist = playlists.find(p => p.id === chapterId);
   const { data: items, isLoading, error } = usePlaylistItems(playlist?.playlistId);
 
-  // Set default selected video to first item
   useEffect(() => {
     if (items && items.length > 0 && !selectedVideoId) {
       setSelectedVideoId(items[0].videoId);
     }
   }, [items, selectedVideoId]);
 
-  // Reset selected video when chapter changes (unless from search param)
   useEffect(() => {
     const videoFromUrl = searchParams.get("v");
     setSelectedVideoId(videoFromUrl || null);
     if (videoFromUrl) {
-      // Clear the query param after reading it
       setSearchParams({}, { replace: true });
     }
   }, [chapterId]);
@@ -79,98 +77,76 @@ const ChapterPage = () => {
   }
 
   return (
-    <main className="min-h-screen relative">
-      <div className="fixed inset-0 z-0">
-        <AnimatedBackground />
-      </div>
-
+    <>
       <Header />
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-20">
+        <div className="fixed inset-0 z-0">
+          <AnimatedBackground />
+        </div>
 
-      <div className="relative z-10">
-        {/* Hero Section */}
-        <div className="relative pt-24 pb-8 px-6 md:px-12 lg:px-24">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between gap-4 mb-6">
-              <Button
-                variant="outline"
-                onClick={() => navigate('/watch')}
-                className="border-primary/30 text-muted-foreground hover:text-primary hover:bg-primary/10 hover:border-primary transition-colors"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Watch
-              </Button>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-12 space-y-10">
+          
+          {/* Header Actions */}
+          <div className="flex items-center justify-between gap-4">
+            <button
+              onClick={() => navigate('/watch')}
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#555] hover:text-white transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 text-[#00d9ff]" />
+              Back to Watch
+            </button>
 
-              <Button
-                variant="outline"
-                onClick={() => setChaptersDialogOpen(true)}
-                className="border-primary/30 text-muted-foreground hover:text-primary hover:bg-primary/10 hover:border-primary transition-colors"
-              >
-                <List className="mr-2 h-4 w-4" />
-                Chapters
-              </Button>
-            </div>
+            <button
+              onClick={() => setChaptersDialogOpen(true)}
+              className="inline-flex items-center gap-2 bg-black border border-[#1a1a1a] hover:border-[#00d9ff] text-white hover:text-[#00d9ff] font-bold uppercase tracking-wider text-[10px] px-4 py-2 rounded transition-all"
+            >
+              <List className="h-4.5 w-4.5" />
+              Chapters List
+            </button>
+          </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-              <div className="flex items-center gap-4">
-                <div className="h-10 w-1.5 bg-primary rounded-full"></div>
-                <h1 className="text-3xl md:text-5xl font-extrabold text-foreground">
+          {/* Chapter Header Title */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 border-b border-[#111] pb-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="h-5 w-1 bg-[#00d9ff]"></div>
+                <h1 className="font-bebas text-4xl sm:text-5xl tracking-wide text-white m-0">
                   {playlist.name}
                 </h1>
               </div>
-
-              <a
-                href={`https://www.youtube.com/playlist?list=${playlist.playlistId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary font-semibold transition-all duration-300 border border-primary/40 hover:border-primary/60 no-underline text-sm whitespace-nowrap"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-                Open in YouTube
-              </a>
-            </div>
-
-            <p className="text-base text-muted-foreground max-w-3xl">
-              {playlist.id === "specials" ? "Fast moments from the show and special short films" : playlist.description}
-            </p>
-          </div>
-        </div>
-
-        {/* Shorts Carousel - Only for Specials Page */}
-        {playlist.id === "specials" && (
-          <section className="relative pb-10 px-6 md:px-12 lg:px-24">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="h-8 w-1 bg-red-500 rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground">Shorts</h2>
-              </div>
-              <p className="text-muted-foreground mb-6 max-w-3xl text-sm md:text-base">
-                Quick clips and highlights from the show. Tap to watch.
+              <p className="text-xs text-[#555] leading-relaxed max-w-xl">
+                {playlist.id === "specials" ? "Fast moments from the show and special short films" : playlist.description}
               </p>
-              <ShortsCarousel />
             </div>
-          </section>
-        )}
 
-        {/* Featured Player + Episode Grid */}
-        {playlist.playlistId && (
-          <section className="relative pb-12 px-6 md:px-12 lg:px-24">
-            <div className="max-w-7xl mx-auto">
-              {playlist.id === "specials" && (
-                <div className="mb-8">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="h-8 w-1 bg-primary rounded-full"></div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-foreground">Short Films & Specials</h2>
-                  </div>
-                  <p className="text-muted-foreground mb-6 max-w-3xl">
-                    Special episodes, short films, and extended clips.
-                  </p>
-                </div>
-              )}
+            <a
+              href={`https://www.youtube.com/playlist?list=${playlist.playlistId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-5 py-3 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all flex items-center gap-2 whitespace-nowrap self-start sm:self-center"
+            >
+              <Youtube className="w-4 h-4" />
+              Open Playlist
+            </a>
+          </div>
 
-              {/* Featured Player */}
-              <div className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/50 ring-1 ring-ring/10 bg-card mb-8">
+          {/* Shorts Carousel - Specials Only */}
+          {playlist.id === "specials" && (
+            <section className="space-y-6">
+              <div className="space-y-1">
+                <h2 className="font-bebas text-2xl tracking-wider text-white">Short Highlights</h2>
+                <p className="text-xs text-[#555]">Quick clips from the show. Scroll to watch.</p>
+              </div>
+              <ShortsCarousel />
+              <Rule />
+            </section>
+          )}
+
+          {/* Featured Video Player & Grid */}
+          {playlist.playlistId && (
+            <section className="space-y-8">
+              {/* Featured Player Frame */}
+              <div className="w-full aspect-video rounded border border-[#1a1a1a] overflow-hidden bg-black shadow-2xl">
                 {selectedVideoId ? (
                   <iframe
                     className="w-full h-full"
@@ -194,55 +170,77 @@ const ChapterPage = () => {
                 )}
               </div>
 
-              {/* Episode Grid */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-8 w-1 bg-primary rounded-full"></div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                  Episodes
-                  {items && <span className="text-muted-foreground font-normal text-lg ml-2">({items.length})</span>}
+              {/* Episodes Grid Title */}
+              <div className="flex items-center gap-2 border-b border-[#111] pb-3">
+                <div className="h-4 w-1 bg-[#00d9ff]"></div>
+                <h2 className="font-bebas text-2xl tracking-wider text-white m-0">
+                  Episodes {items && <span className="text-[#555] font-normal text-sm ml-2">({items.length})</span>}
                 </h2>
               </div>
 
               {isLoading && <EpisodeGridSkeleton />}
 
               {error && (
-                <div className="text-center py-12 text-muted-foreground">
-                  <p>Failed to load episodes. Try refreshing the page.</p>
+                <div className="text-center py-12 text-[#555] text-xs">
+                  <p>Failed to load episodes. Try reloading this page.</p>
                 </div>
               )}
 
+              {/* Episodes Grid */}
               {items && items.length > 0 && (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {items.map((item) => (
-                    <EpisodeCard
+                    <button
                       key={item.videoId}
-                      item={item}
-                      isActive={item.videoId === selectedVideoId}
                       onClick={() => {
                         setSelectedVideoId(item.videoId);
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                    />
+                      className={`group text-left border rounded overflow-hidden transition-all duration-300 flex flex-col justify-between ${
+                        item.videoId === selectedVideoId
+                          ? "bg-[#0d0d0d] border-[#00d9ff] shadow-[0_0_15px_rgba(0,217,255,0.1)]"
+                          : "bg-[#0d0d0d] border-[#1a1a1a] hover:border-[#00d9ff]/30"
+                      }`}
+                    >
+                      <div className="relative aspect-video bg-black overflow-hidden border-b border-[#111]">
+                        <img
+                          src={item.thumbnail}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      
+                      <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                        <h3 className="text-xs font-bold text-white group-hover:text-[#00d9ff] transition-colors leading-snug line-clamp-2">
+                          {item.title}
+                        </h3>
+                        <p className="text-[9px] uppercase tracking-wider text-[#555] pt-1.5 border-t border-[#111]">
+                          Click to play
+                        </p>
+                      </div>
+                    </button>
                   ))}
                 </div>
               )}
-            </div>
-          </section>
-        )}
+            </section>
+          )}
+
+        </div>
 
         <Footer />
-      </div>
+      </main>
 
-      {/* Chapters Dialog */}
+      {/* Chapters Overlay Dialog */}
       <Dialog open={chaptersDialogOpen} onOpenChange={setChaptersDialogOpen}>
-        <DialogContent className="max-w-md bg-card/95 backdrop-blur-xl border-2 border-primary/30">
-          <DialogHeader>
-            <DialogTitle className="text-foreground flex items-center gap-3">
-              <div className="h-7 w-1 bg-primary rounded-full"></div>
-              All Chapters
+        <DialogContent className="max-w-md bg-black border border-[#1a1a1a] p-6 text-white">
+          <DialogHeader className="border-b border-[#111] pb-3 mb-4">
+            <DialogTitle className="font-bebas text-2xl tracking-wider text-white flex items-center gap-2">
+              <div className="h-5 w-1 bg-[#00d9ff]" />
+              Select Chapter
             </DialogTitle>
           </DialogHeader>
-          <div className="grid grid-cols-2 gap-3 mt-4">
+          
+          <div className="grid grid-cols-2 gap-2.5">
             {playlists.map((p) => (
               <button
                 key={p.id}
@@ -250,12 +248,10 @@ const ChapterPage = () => {
                   navigate(`/watch/${p.id}`);
                   setChaptersDialogOpen(false);
                 }}
-                className={`px-4 py-3 rounded-lg border transition-all duration-300 font-semibold text-sm ${
+                className={`px-4 py-3 border text-xs font-bold uppercase tracking-wider transition-all rounded ${
                   p.id === chapterId
-                    ? "bg-primary/20 border-primary text-primary"
-                    : p.id === "specials"
-                    ? "bg-card border-primary/50 hover:border-primary hover:bg-primary/10 text-foreground hover:text-primary"
-                    : "bg-card border-border/50 hover:border-primary/50 hover:bg-card/80 text-muted-foreground hover:text-primary"
+                    ? "bg-[#0d0d0d] border-[#00d9ff] text-[#00d9ff]"
+                    : "bg-black border-[#1a1a1a] text-[#555] hover:border-[#00d9ff]/50 hover:text-white"
                 }`}
               >
                 {p.name}
@@ -264,7 +260,7 @@ const ChapterPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </main>
+    </>
   );
 };
 

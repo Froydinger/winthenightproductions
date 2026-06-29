@@ -15,7 +15,7 @@ import {
   Scale,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/win-the-night-logo.webp";
+import logo from "@/assets/win-the-night-logo.png";
 import { ContactDialog } from "@/components/ContactDialog";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -25,179 +25,120 @@ const Footer = () => {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <footer className="relative border-t border-neon-blue/20 py-16 px-4">
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
-          {/* Logo & Tagline */}
-          <div className="space-y-4">
+    <footer className="bg-black border-t border-[#1a1a1a] py-12 px-6 sm:px-10">
+      <div className="max-w-7xl mx-auto flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#111]">
+          <div className="flex items-center gap-4">
             <img
               src={logo}
               alt="Win The Night"
-              className="w-20 h-20 object-contain drop-shadow-[0_0_20px_rgba(0,217,255,0.4)]"
+              className="w-12 h-12 object-contain rounded-full drop-shadow-[0_0_8px_rgba(0,217,255,0.5)]"
               loading="lazy"
               decoding="async"
             />
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs font-thin whitespace-pre-wrap">
-              One <span className="font-bold">Connection.</span> One <span className="font-bold">Story.</span>
-              {"\n"}One <span className="font-bold">Conversation</span> at a Time.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-foreground">Quick Links</h3>
-            <nav className="flex flex-col gap-3">
-              <a
-                href="/watch"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Play className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Watch Episodes</span>
-              </a>
-              <a
-                href="/guest"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Mic className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Be Our Guest!</span>
-              </a>
-              <a
-                href="/about"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Info className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>About Us</span>
-              </a>
-              <a
-                href="/contact"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Mail className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Contact</span>
-              </a>
-              <Link
-                to="/support"
-                className="text-muted-foreground hover:text-neon-purple transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Coffee className="w-4 h-4 group-hover:text-neon-purple transition-colors" />
-                <span>Support Us</span>
-              </Link>
-              <a
-                href="/blog"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <BookOpen className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Blog</span>
-              </a>
-              <Link
-                to="/crisis-resources"
-                className="text-red-500 hover:text-red-400 transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <LifeBuoy className="w-4 h-4 transition-colors" />
-                <span>Crisis Resources</span>
-              </Link>
-              <a
-                href="/legal"
-                className="text-muted-foreground hover:text-neon-blue transition-colors duration-300 flex items-center gap-2 group w-fit"
-              >
-                <Scale className="w-4 h-4 group-hover:text-neon-blue transition-colors" />
-                <span>Legal</span>
-              </a>
-            </nav>
-          </div>
-
-          {/* Connect */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-bold text-foreground">Connect</h3>
-            <div className="flex flex-col gap-4">
-              <a
-                href="https://youtube.com/@winthenight?sub_confirmation=1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl bg-neon-blue/20 border-2 border-neon-blue/40 text-neon-blue hover:bg-neon-blue/30 hover:border-neon-blue transition-all duration-300 hover:scale-105 group shadow-[0_0_15px_rgba(0,217,255,0.1)] hover:shadow-[0_0_25px_rgba(0,217,255,0.2)]"
-              >
-                <Youtube className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                <span className="font-semibold">Subscribe on YouTube</span>
-              </a>
-              <Button
-                onClick={() => setContactOpen(true)}
-                variant="outline"
-                className="inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-blue/40 text-neon-blue hover:bg-neon-blue hover:text-white hover:border-neon-blue transition-all duration-300 hover:scale-105 group"
-              >
-                <Mail className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                <span className="font-semibold">Contact Us</span>
-              </Button>
-              <Link to="/support">
-                <Button
-                  variant="outline"
-                  className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 border-2 border-neon-purple/40 text-neon-purple hover:bg-neon-purple hover:text-white hover:border-neon-purple transition-all duration-300 hover:scale-105 group"
-                >
-                  <Coffee className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  <span className="font-semibold">Support Us</span>
-                </Button>
-              </Link>
-              <div className="flex gap-3 pt-2">
-                <a
-                  href="https://instagram.com/win_the_night"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-background/80 border-2 border-border/30 text-[#E1306C] hover:border-[#E1306C]/60 hover:bg-[#E1306C]/10 transition-all duration-300 hover:scale-110 group"
-                  aria-label="Follow us on Instagram"
-                >
-                  <Instagram className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                </a>
-                <a
-                  href="https://tiktok.com/@winthenightpod"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-background/80 border-2 border-border/30 text-foreground hover:border-foreground/60 hover:bg-foreground/10 transition-all duration-300 hover:scale-110 group"
-                  aria-label="Follow us on TikTok"
-                >
-                  <svg
-                    className="w-6 h-6 group-hover:rotate-12 transition-transform"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
-                  </svg>
-                </a>
-                <a
-                  href="https://www.facebook.com/profile.php?id=100092673610697"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-background/80 border-2 border-border/30 text-[#1877F2] hover:border-[#1877F2]/60 hover:bg-[#1877F2]/10 transition-all duration-300 hover:scale-110 group"
-                  aria-label="Follow us on Facebook"
-                >
-                  <Facebook className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                </a>
-                <a
-                  href="https://winthenight.blog"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-background/80 border-2 border-border/30 text-[#FF6719] hover:border-[#FF6719]/60 hover:bg-[#FF6719]/10 transition-all duration-300 hover:scale-110 group"
-                  aria-label="Read our Substack"
-                >
-                  <BookOpen className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                </a>
+            <div>
+              <div className="font-bebas text-2xl tracking-wider text-white">
+                WIN THE <span className="text-[#00d9ff]">NIGHT</span>
+              </div>
+              <div className="text-[0.65rem] tracking-[0.12em] uppercase text-[#555] font-medium font-sans">
+                Mental Health Community
               </div>
             </div>
           </div>
+
+          <ul className="flex flex-wrap justify-center gap-6 sm:gap-10 list-none">
+            <li>
+              <a href="/watch" className="text-xs font-semibold uppercase tracking-wider text-[#555] hover:text-white transition-colors duration-200">
+                Watch
+              </a>
+            </li>
+            <li>
+              <a href="/listen" className="text-xs font-semibold uppercase tracking-wider text-[#555] hover:text-white transition-colors duration-200">
+                Listen
+              </a>
+            </li>
+            <li>
+              <a href="/blog" className="text-xs font-semibold uppercase tracking-wider text-[#555] hover:text-white transition-colors duration-200">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="/about" className="text-xs font-semibold uppercase tracking-wider text-[#555] hover:text-white transition-colors duration-200">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="/support" className="text-xs font-semibold uppercase tracking-wider text-[#555] hover:text-white transition-colors duration-200">
+                Support
+              </a>
+            </li>
+            <li>
+              <a href="/crisis-resources" className="text-xs font-semibold uppercase tracking-wider text-red-500 hover:text-red-400 transition-colors duration-200">
+                Crisis
+              </a>
+            </li>
+            <li>
+              <a href="/legal" className="text-xs font-semibold uppercase tracking-wider text-[#555] hover:text-white transition-colors duration-200">
+                Legal
+              </a>
+            </li>
+          </ul>
+
+          <div className="flex gap-2">
+            <a
+              href="https://youtube.com/@winthenight"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded border border-[#1a1a1a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all duration-200"
+              aria-label="YouTube"
+            >
+              <Youtube className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://instagram.com/win_the_night"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded border border-[#1a1a1a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all duration-200"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://tiktok.com/@winthenightpod"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded border border-[#1a1a1a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all duration-200"
+              aria-label="TikTok"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+              </svg>
+            </a>
+            <a
+              href="https://winthenight.blog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded border border-[#1a1a1a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all duration-200"
+              aria-label="Substack"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border/30 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[0.72rem] text-[#555] font-sans">
           <p>
-            ©{currentYear} Win The Night™ Foundation •{" "}
+            © {currentYear} Win The Night™ Foundation ·{" "}
             <a
               href="https://froydinger.design/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-neon-blue transition-colors duration-300"
+              className="hover:text-white transition-colors duration-200"
             >
               Powered by FDS™
             </a>
           </p>
-          <p className="text-xs">A mental health community built on real conversations</p>
+          <p>A mental health community built on real conversations</p>
         </div>
       </div>
       <ContactDialog open={contactOpen} onOpenChange={setContactOpen} />

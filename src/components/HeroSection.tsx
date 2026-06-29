@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Youtube, Play, ArrowDown, ArrowRight } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import logo from "@/assets/win-the-night-logo.webp";
+import logo from "@/assets/win-the-night-logo.png";
 import { useState, useEffect } from "react";
 
 const HeroSection = () => {

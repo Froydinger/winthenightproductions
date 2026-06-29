@@ -2,7 +2,7 @@ import type { Handler } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { defaultSiteSettings, type SiteSettings } from "../../src/lib/site-settings";
 
-const ADMIN_EMAILS = new Set(["j@froydinger.com"]);
+const ADMIN_EMAILS = new Set(["jake@winthenight.info"]);
 const SETTINGS_KEY = "site-settings";
 
 const corsHeaders = {
@@ -41,6 +41,8 @@ function sanitizeSettings(input: Partial<SiteSettings>): SiteSettings {
     about_jake_bio: sanitizeString(input.about_jake_bio, defaultSiteSettings.about_jake_bio),
     about_josh_bio: sanitizeString(input.about_josh_bio, defaultSiteSettings.about_josh_bio),
     chatbot_system_prompt: sanitizeString(input.chatbot_system_prompt, defaultSiteSettings.chatbot_system_prompt),
+    watch_latest_auto: sanitizeBoolean(input.watch_latest_auto, defaultSiteSettings.watch_latest_auto),
+    watch_latest_override_id: sanitizeString(input.watch_latest_override_id, defaultSiteSettings.watch_latest_override_id),
   };
 }
 

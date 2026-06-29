@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import { Rule, CyanRule } from "@/components/magazine/SectionDivider";
+import ScrollReveal from "@/components/ScrollReveal";
 import { Scale, Shield, FileText, ArrowRight, Mail } from "lucide-react";
-import { PageShell } from "@/components/site/PageShell";
-import { PageHero } from "@/components/site/PageHero";
-import { SiteCard } from "@/components/site/SiteCard";
 
 const Legal = () => {
   const docs = [
@@ -23,67 +24,74 @@ const Legal = () => {
   ];
 
   return (
-    <PageShell>
-      <PageHero
-        icon={Scale}
-        eyebrow="Legal"
-        title={
-          <>
-            Legal{" "}
-            <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Information
-            </span>
-          </>
-        }
-        lede="Learn about our policies, terms, and how we protect your privacy and data."
-      />
-
-      <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-10">
-        <div className="grid sm:grid-cols-2 gap-4">
-          {docs.map((d) => (
-            <SiteCard key={d.href} className="group flex flex-col">
-              <div className="w-12 h-12 rounded-xl bg-neon-blue/10 border border-neon-blue/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <d.icon className="w-6 h-6 text-neon-blue" />
-              </div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">{d.title}</h2>
-              <p className="text-foreground/70 leading-relaxed mb-6 flex-1">{d.desc}</p>
-              <Button
-                asChild
-                className="bg-neon-blue hover:bg-neon-blue/90 text-black w-full shadow-[0_0_25px_-10px_rgba(0,217,255,0.6)]"
-              >
-                <a href={d.href} className="inline-flex items-center justify-center gap-2">
-                  {d.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </Button>
-            </SiteCard>
-          ))}
+    <>
+      <Header />
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-20">
+        <div className="fixed inset-0 z-0">
+          <AnimatedBackground />
         </div>
 
-        <SiteCard variant="strong">
-          <div className="flex items-start gap-4">
-            <div className="hidden sm:flex w-12 h-12 shrink-0 rounded-xl bg-neon-blue/10 border border-neon-blue/30 items-center justify-center">
-              <Mail className="w-6 h-6 text-neon-blue" />
-            </div>
-            <div className="space-y-3">
-              <h2 className="text-2xl font-bold text-foreground">Questions About Our Policies?</h2>
-              <p className="text-foreground/70 leading-relaxed">
-                If you have any questions about our privacy practices or terms of service, please
-                don't hesitate to reach out. We're here to help and ensure you understand how we
-                protect and serve our community.
-              </p>
-              <Button
-                asChild
-                variant="outline"
-                className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue"
-              >
-                <a href="/contact">Contact Us</a>
-              </Button>
-            </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 py-12 space-y-16">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Policies &amp; Disclaimers</p>
+            <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none">
+              LEGAL <span className="text-[#00d9ff]">INFORMATION</span>
+            </h1>
+            <p className="text-sm text-[#555] max-w-xl mx-auto leading-relaxed">
+              Learn about our policies, terms, and how we protect your privacy and data.
+            </p>
           </div>
-        </SiteCard>
-      </div>
-    </PageShell>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {docs.map((d, idx) => (
+              <ScrollReveal key={d.href} animation="fade-up" delay={idx * 100}>
+                <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-6 hover:border-[#00d9ff]/30 transition-all h-full flex flex-col justify-between space-y-4">
+                  <div>
+                    <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center mb-4 text-[#00d9ff]">
+                      <d.icon className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-sm font-bold text-white mb-2">{d.title}</h2>
+                    <p className="text-xs text-[#555] leading-relaxed">{d.desc}</p>
+                  </div>
+                  <a
+                    href={d.href}
+                    className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-[10px] py-3 rounded transition-all flex items-center justify-center gap-1.5"
+                  >
+                    {d.cta}
+                    <ArrowRight className="w-3 h-3" />
+                  </a>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <CyanRule />
+
+          <ScrollReveal animation="scale-in">
+            <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-8 flex flex-col sm:flex-row items-center gap-6 max-w-2xl mx-auto">
+              <div className="w-12 h-12 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] shrink-0">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div className="space-y-3 text-center sm:text-left">
+                <h2 className="font-bebas text-2xl tracking-wide text-white">Questions About Our Policies?</h2>
+                <p className="text-xs text-[#555] leading-relaxed">
+                  If you have any questions about our privacy practices or terms of service, please don't hesitate to reach out. We're here to help and ensure you understand how we protect and serve our community.
+                </p>
+                <a
+                  href="/contact"
+                  className="inline-flex bg-black border border-[#1a1a1a] hover:border-[#00d9ff] text-[#00d9ff] font-bold uppercase tracking-wider text-[10px] px-5 py-2.5 rounded transition-all"
+                >
+                  Contact Us
+                </a>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        <Footer />
+      </main>
+    </>
   );
 };
 

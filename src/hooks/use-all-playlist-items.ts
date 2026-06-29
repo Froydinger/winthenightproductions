@@ -1,4 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
+import { fetchYouTubePlaylistItems } from "@/lib/youtube-api";
 
 interface PlaylistMeta {
   id: string;
@@ -28,12 +29,18 @@ const playlists: PlaylistMeta[] = [
 ];
 
 async function fetchPlaylistItems(playlistId: string) {
-  const response = await fetch(
-    `/.netlify/functions/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`
-  );
-  if (!response.ok) throw new Error("Failed to fetch playlist items");
-  const data = await response.json();
-  return data.items as { videoId: string; title: string; thumbnail: string; publishedAt: string }[];
+  try {
+    const response = await fetch(
+      `/.netlify/functions/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      return data.items as { videoId: string; title: string; thumbnail: string; publishedAt: string }[];
+    }
+  } catch {
+    // Plain Vite local dev does not serve Netlify functions.
+  }
+  return fetchYouTubePlaylistItems(playlistId);
 }
 
 export function useAllPlaylistItems() {

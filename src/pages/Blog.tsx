@@ -3,11 +3,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { ExternalLink, Calendar, User, Bell, Filter, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
+import { Rule, CyanRule } from "@/components/magazine/SectionDivider";
+import ScrollReveal from "@/components/ScrollReveal";
 import {
   Select,
   SelectContent,
@@ -23,7 +23,7 @@ const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
     });
   } catch {
@@ -36,7 +36,7 @@ const stripHtml = (html: string) => {
   return doc.body.textContent || "";
 };
 
-const getExcerpt = (content: string, maxLength: number = 200) => {
+const getExcerpt = (content: string, maxLength: number = 180) => {
   const text = stripHtml(content);
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength).trim() + "...";
@@ -50,45 +50,51 @@ const BlogPostCard = ({ post }: { post: SubstackPost }) => {
 
   return (
     <Link to={`/blog/${encodeURIComponent(post.guid)}`}>
-      <article className="group relative bg-card/30 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:border-neon-blue/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(93,204,255,0.15)] cursor-pointer">
-        <div className="aspect-video overflow-hidden bg-gradient-to-br from-neon-blue/10 to-purple-500/10 flex items-center justify-center">
+      <article className="group bg-[#0d0d0d] border border-[#1a1a1a] hover:border-[#00d9ff]/30 rounded overflow-hidden transition-all duration-300 h-full flex flex-col justify-between">
+        <div className="aspect-video overflow-hidden bg-black flex items-center justify-center border-b border-[#111]">
           {showLogo ? (
             <img
               src={logoUrl}
               alt="Win The Night Logo"
-              className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-105"
+              className="w-20 h-20 object-contain opacity-40 group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
             />
           ) : (
             <img
               src={post.thumbnail}
               alt={post.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
               onError={() => setImageError(true)}
             />
           )}
         </div>
 
-        <div className="p-6 space-y-4">
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4" />
-              {formatDate(post.pubDate)}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <User className="h-4 w-4" />
-              {post.author}
-            </span>
+        <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3 text-[10px] text-[#555] font-sans">
+              <span className="flex items-center gap-1">
+                <Calendar className="h-3 w-3" />
+                {formatDate(post.pubDate)}
+              </span>
+              <span className="flex items-center gap-1">
+                <User className="h-3 w-3" />
+                {post.author}
+              </span>
+            </div>
+
+            <h2 className="text-sm font-bold text-white group-hover:text-[#00d9ff] transition-colors duration-300 line-clamp-2 leading-snug">
+              {post.title}
+            </h2>
+
+            <p className="text-xs text-[#555] leading-relaxed line-clamp-3">
+              {getExcerpt(post.description)}
+            </p>
           </div>
 
-          <h2 className="text-xl font-bold text-foreground group-hover:text-neon-blue transition-colors duration-300 line-clamp-2">
-            {post.title}
-          </h2>
-
-          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-            {getExcerpt(post.description)}
-          </p>
+          <div className="text-[10px] text-[#00d9ff] uppercase tracking-wider font-bold pt-2 border-t border-[#111] group-hover:underline flex items-center gap-1">
+            Read post →
+          </div>
         </div>
       </article>
     </Link>
@@ -96,17 +102,16 @@ const BlogPostCard = ({ post }: { post: SubstackPost }) => {
 };
 
 const BlogPostSkeleton = () => (
-  <div className="bg-card/30 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden">
-    <Skeleton className="aspect-video w-full" />
-    <div className="p-6 space-y-4">
+  <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded overflow-hidden animate-pulse">
+    <div className="aspect-video w-full bg-white/5" />
+    <div className="p-5 space-y-4">
       <div className="flex gap-4">
-        <Skeleton className="h-4 w-24" />
-        <Skeleton className="h-4 w-20" />
+        <div className="h-3 bg-white/10 rounded w-20" />
+        <div className="h-3 bg-white/10 rounded w-16" />
       </div>
-      <Skeleton className="h-6 w-3/4" />
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-2/3" />
-      <Skeleton className="h-9 w-36" />
+      <div className="h-5 bg-white/10 rounded w-3/4" />
+      <div className="h-3 bg-white/5 rounded w-full" />
+      <div className="h-3 bg-white/5 rounded w-2/3" />
     </div>
   </div>
 );
@@ -116,28 +121,23 @@ const Blog = () => {
   const [selectedAuthor, setSelectedAuthor] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState(9);
 
-  // Scroll to top when component mounts
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
   }, []);
 
-  // Get unique authors from posts
   const authors = useMemo(() => {
     const uniqueAuthors = Array.from(new Set(posts.map(post => post.author)));
     return uniqueAuthors.sort();
   }, [posts]);
 
-  // Filter posts by selected author
   const filteredPosts = useMemo(() => {
     if (selectedAuthor === "all") return posts;
     return posts.filter(post => post.author === selectedAuthor);
   }, [posts, selectedAuthor]);
 
-  // Get visible posts based on pagination
   const visiblePosts = filteredPosts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredPosts.length;
 
-  // Reset visible count when filter changes
   useEffect(() => {
     setVisibleCount(9);
   }, [selectedAuthor]);
@@ -153,165 +153,164 @@ const Blog = () => {
         <meta name="description" content="Insights, stories, and reflections from Win The Night. Mental health perspectives, personal growth, and community stories." />
       </Helmet>
       
-      <main className="min-h-screen relative">
-        {/* Global Animated Background */}
+      <Header />
+
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-20">
         <div className="fixed inset-0 z-0">
           <AnimatedBackground />
         </div>
 
-        <Header />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Writing &amp; Essays</p>
+            <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none">
+              THE <span className="text-[#00d9ff]">BLOG</span>
+            </h1>
+            <p className="text-sm text-[#555] max-w-xl mx-auto leading-relaxed">
+              Insights, stories, and reflections on mental health, personal growth, and winning your nights.
+            </p>
 
-        <div className="relative z-10 isolate pt-24 pb-16">
-          <div className="container mx-auto px-4">
-            {/* Hero Section */}
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="text-neon-blue">Win The Night</span> Blog
-              </h1>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
-                Insights, stories, and reflections on mental health, personal growth, and winning your nights.
-              </p>
+            <div className="flex flex-wrap justify-center gap-4 pt-2">
+              <a
+                href={SUBSTACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all flex items-center gap-2"
+              >
+                <Bell className="h-4 w-4" />
+                Subscribe on Substack
+              </a>
+              <a
+                href={SUBSTACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-[#2a2a2a] hover:border-white text-white font-semibold uppercase tracking-wider text-xs px-6 py-3.5 rounded transition-colors flex items-center gap-2"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Visit Substack
+              </a>
+            </div>
+          </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button
-                  asChild
-                  className="bg-neon-blue hover:bg-neon-blue/90 text-white"
-                >
-                  <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
-                    <Bell className="h-4 w-4 mr-2" />
-                    Subscribe on Substack
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-border hover:bg-accent"
-                >
-                  <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Visit Substack
-                  </a>
-                </Button>
+          <CyanRule />
+
+          {/* Author Filter */}
+          {!isLoading && !error && posts.length > 0 && authors.length > 1 && (
+            <div className="flex justify-center">
+              <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-4 flex items-center gap-3">
+                <Filter className="h-4 w-4 text-[#00d9ff]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-white">Filter:</span>
+                <Select value={selectedAuthor} onValueChange={setSelectedAuthor}>
+                  <SelectTrigger className="w-48 bg-black border-[#1a1a1a] hover:border-[#00d9ff]/50 text-xs text-white uppercase tracking-wider transition-colors h-9">
+                    <SelectValue placeholder="All Authors" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#0d0d0d] border-[#1a1a1a] text-xs text-white">
+                    <SelectItem value="all" className="hover:bg-[#00d9ff]/10 cursor-pointer uppercase tracking-wider">
+                      All Authors ({posts.length})
+                    </SelectItem>
+                    {authors.map((author) => (
+                      <SelectItem
+                        key={author}
+                        value={author}
+                        className="hover:bg-[#00d9ff]/10 cursor-pointer uppercase tracking-wider"
+                      >
+                        {author} ({posts.filter(p => p.author === author).length})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
+          )}
 
-            {/* Author Filter */}
-            {!isLoading && !error && posts.length > 0 && authors.length > 1 && (
-              <div className="flex justify-center mb-8">
-                <div className="bg-card/40 backdrop-blur-xl border border-neon-blue/20 rounded-xl p-4 inline-flex items-center gap-3 shadow-[0_0_30px_rgba(93,204,255,0.1)]">
-                  <Filter className="h-5 w-5 text-neon-blue" />
-                  <span className="text-sm font-medium text-foreground">Filter by Author:</span>
-                  <Select value={selectedAuthor} onValueChange={setSelectedAuthor}>
-                    <SelectTrigger className="w-48 bg-background/50 border-neon-blue/30 hover:border-neon-blue/50 transition-colors">
-                      <SelectValue placeholder="All Authors" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-card/95 backdrop-blur-xl border-neon-blue/30">
-                      <SelectItem value="all" className="hover:bg-neon-blue/10 cursor-pointer">
-                        All Authors ({posts.length})
-                      </SelectItem>
-                      {authors.map((author) => (
-                        <SelectItem
-                          key={author}
-                          value={author}
-                          className="hover:bg-neon-blue/10 cursor-pointer"
-                        >
-                          {author} ({posts.filter(p => p.author === author).length})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-
-            {/* Posts Grid */}
-            {isLoading ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, i) => (
-                  <BlogPostSkeleton key={i} />
+          {/* Posts Grid */}
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <BlogPostSkeleton key={i} />
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-16 bg-[#0d0d0d] border border-[#1a1a1a] rounded p-8">
+              <p className="text-xs text-[#555] mb-4">Unable to load blog posts at the moment.</p>
+              <a
+                href={SUBSTACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black border border-[#1a1a1a] hover:border-[#00d9ff] text-white hover:text-[#00d9ff] font-bold uppercase tracking-wider text-[10px] px-5 py-3 rounded transition-all inline-flex items-center gap-2"
+              >
+                Visit Substack Directly
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
+          ) : filteredPosts.length === 0 ? (
+            <div className="text-center py-16 bg-[#0d0d0d] border border-[#1a1a1a] rounded p-8">
+              <p className="text-xs text-[#555] mb-4">
+                {selectedAuthor === "all" ? "No posts available yet" : `No posts found by ${selectedAuthor}`}
+              </p>
+              {selectedAuthor !== "all" && (
+                <button
+                  onClick={() => setSelectedAuthor("all")}
+                  className="bg-black border border-[#1a1a1a] hover:border-[#00d9ff] text-[#00d9ff] font-bold uppercase tracking-wider text-[10px] px-5 py-3 rounded transition-all mr-2"
+                >
+                  View All Posts
+                </button>
+              )}
+              <a
+                href={SUBSTACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black border border-[#1a1a1a] hover:border-[#00d9ff] text-white hover:text-[#00d9ff] font-bold uppercase tracking-wider text-[10px] px-5 py-3 rounded transition-all inline-flex items-center gap-2"
+              >
+                Check Substack
+              </a>
+            </div>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {visiblePosts.map((post, idx) => (
+                  <ScrollReveal key={post.guid} animation="fade-up" delay={idx * 100}>
+                    <BlogPostCard post={post} />
+                  </ScrollReveal>
                 ))}
               </div>
-            ) : error ? (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground mb-4">Unable to load blog posts</p>
-                <Button asChild variant="outline">
-                  <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
-                    Visit our Substack directly
-                    <ExternalLink className="h-4 w-4 ml-2" />
-                  </a>
-                </Button>
-              </div>
-            ) : filteredPosts.length === 0 ? (
-              <div className="text-center py-16">
-                <div className="bg-card/40 backdrop-blur-xl border border-border/30 rounded-2xl p-12 max-w-md mx-auto">
-                  <p className="text-muted-foreground mb-4">
-                    {selectedAuthor === "all"
-                      ? "No posts available yet"
-                      : `No posts found by ${selectedAuthor}`}
+
+              {/* Load More Button */}
+              {hasMore && (
+                <div className="flex justify-center mt-12">
+                  <button
+                    onClick={handleLoadMore}
+                    className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all flex items-center gap-2"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                    Load More Posts
+                  </button>
+                </div>
+              )}
+
+              {/* Footer CTA */}
+              <div className="mt-16 text-center max-w-xl mx-auto">
+                <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-8 flex flex-col items-center gap-4">
+                  <p className="text-white font-bold uppercase tracking-wider text-xs">
+                    Stay updated with our latest stories
                   </p>
-                  {selectedAuthor !== "all" && (
-                    <Button
-                      onClick={() => setSelectedAuthor("all")}
-                      variant="outline"
-                      className="mb-4 border-neon-blue/50 text-neon-blue hover:bg-neon-blue/10"
-                    >
-                      View All Posts
-                    </Button>
-                  )}
-                  <Button asChild variant="outline">
-                    <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
-                      Check out our Substack
-                      <ExternalLink className="h-4 w-4 ml-2" />
-                    </a>
-                  </Button>
+                  <p className="text-[10px] text-[#555] max-w-xs leading-relaxed">
+                    Subscribe to Win The Night on Substack to get new posts delivered straight to your inbox.
+                  </p>
+                  <a
+                    href={SUBSTACK_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all flex items-center gap-2"
+                  >
+                    <Bell className="h-4 w-4" />
+                    Subscribe on Substack
+                  </a>
                 </div>
               </div>
-            ) : (
-              <>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {visiblePosts.map((post) => (
-                    <BlogPostCard key={post.guid} post={post} />
-                  ))}
-                </div>
-
-                {/* Load More Button */}
-                {hasMore && (
-                  <div className="flex justify-center mt-12">
-                    <Button
-                      onClick={handleLoadMore}
-                      className="bg-neon-blue hover:bg-neon-blue/90 text-white shadow-[0_0_20px_rgba(93,204,255,0.2)] transition-all duration-300 hover:scale-105"
-                      size="lg"
-                    >
-                      <ChevronDown className="h-5 w-5 mr-2" />
-                      Load More Posts ({filteredPosts.length - visibleCount} remaining)
-                    </Button>
-                  </div>
-                )}
-
-                {/* Footer CTA */}
-                <div className="mt-16 text-center">
-                  <div className="inline-flex flex-col items-center gap-4 p-8 bg-card/40 backdrop-blur-xl border border-neon-blue/20 rounded-2xl shadow-[0_0_30px_rgba(93,204,255,0.1)]">
-                    <p className="text-foreground font-medium text-lg">
-                      Stay updated with our latest stories
-                    </p>
-                    <p className="text-muted-foreground text-sm max-w-md">
-                      Subscribe to Win The Night on Substack to get new posts delivered straight to your inbox
-                    </p>
-                    <Button
-                      asChild
-                      className="bg-neon-blue hover:bg-neon-blue/90 text-white shadow-[0_0_20px_rgba(93,204,255,0.2)]"
-                    >
-                      <a href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
-                        <Bell className="h-4 w-4 mr-2" />
-                        Subscribe on Substack
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+            </>
+          )}
         </div>
 
         <Footer />

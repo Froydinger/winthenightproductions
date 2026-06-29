@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Win The Night — Celestial Depth Concept</title>
+  <meta name="description" content="A mental health community built on real conversations. One Connection. One Story. One Conversation at a Time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Fraunces:ital,wght@0,100;0,300;0,700;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #03080f;
+      --surface: #0a1220;
+      --cyan: #00d9ff;
+      --cyan-dim: #007a99;
+      --white: #f0faff;
+      --muted: #4a7080;
+      --border: rgba(0, 217, 255, 0.15);
+      --glow: 0 0 40px rgba(0,217,255,0.4);
+      --glow-strong: 0 0 80px rgba(0,217,255,0.6);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========== STARFIELD ========== */
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: linear-gradient(to bottom, rgba(3,8,15,0.95) 0%, rgba(3,8,15,0) 100%);
+      backdrop-filter: blur(0px);
+      transition: backdrop-filter 0.3s, background 0.3s;
+    }
+    nav.scrolled {
+      backdrop-filter: blur(20px);
+      background: rgba(3,8,15,0.85) !important;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 8px rgba(0,217,255,0.7));
+    }
+    .nav-logo-text {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.2;
+    }
+    .nav-logo-text span { color: var(--cyan); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(240,250,255,0.7);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--cyan);
+      border-radius: 1px;
+      box-shadow: 0 0 6px var(--cyan);
+      transition: width 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links .crisis { color: #ff6b6b !important; }
+    .nav-links .crisis::after { background: #ff6b6b; box-shadow: none; }
+
+    .nav-cta {
+      background: var(--cyan);
+      color: #000;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 20px rgba(0,217,255,0.4);
+    }
+    .nav-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(0,217,255,0.7);
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-top: 5rem;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0,217,255,0.08);
+      border: 1px solid rgba(0,217,255,0.25);
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      width: fit-content;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.5; transform:scale(0.7); }
+    }
+
+    .hero-headline {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .hero-headline .bold { font-weight: 700; }
+    .hero-headline .cyan {
+      color: var(--cyan);
+      text-shadow: 0 0 30px rgba(0,217,255,0.5);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(240,250,255,0.6);
+      line-height: 1.7;
+      max-width: 480px;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--cyan);
+      color: #000;
+      padding: 0.85rem 1.8rem;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(0,217,255,0.5);
+    }
+    .btn-primary:hover {
+      transform: scale(1.05) translateY(-1px);
+      box-shadow: 0 0 50px rgba(0,217,255,0.8);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      color: var(--white);
+      padding: 0.85rem 1.8rem;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1.5px solid rgba(240,250,255,0.3);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(240,250,255,0.7);
+      background: rgba(240,250,255,0.05);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+    }
+    .stat { display: flex; flex-direction: column; gap: 0.25rem; }
+    .stat-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ========== HERO RIGHT — LOGO ========== */
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding-top: 4rem;
+    }
+
+    .logo-container {
+      position: relative;
+      width: 360px;
+      height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Outer glow rings */
+    .logo-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,217,255,0.2);
+      animation: ring-pulse 4s ease-in-out infinite;
+    }
+    .logo-ring:nth-child(1) { width: 100%; height: 100%; animation-delay: 0s; }
+    .logo-ring:nth-child(2) { width: 120%; height: 120%; border-color: rgba(0,217,255,0.1); animation-delay: 0.8s; }
+    .logo-ring:nth-child(3) { width: 140%; height: 140%; border-color: rgba(0,217,255,0.06); animation-delay: 1.6s; }
+    @keyframes ring-pulse {
+      0%,100% { opacity:0.6; transform:scale(1); }
+      50% { opacity:1; transform:scale(1.02); }
+    }
+
+    /* The logo itself — mix-blend-mode:screen makes black background transparent */
+    .logo-img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 40px rgba(0,217,255,0.8)) drop-shadow(0 0 80px rgba(0,217,255,0.4));
+      position: relative;
+      z-index: 2;
+      border-radius: 50%;
+    }
+
+    /* Ambient glow behind logo */
+    .logo-glow {
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(0,217,255,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glow-breathe 4s ease-in-out infinite;
+    }
+    @keyframes glow-breathe {
+      0%,100% { opacity:0.7; transform:scale(1); }
+      50% { opacity:1; transform:scale(1.1); }
+    }
+
+    /* ========== SCROLL INDICATOR ========== */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(240,250,255,0.4);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: bounce-down 2.5s ease-in-out infinite;
+    }
+    .scroll-indicator svg { width: 20px; height: 20px; }
+    @keyframes bounce-down {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ========== SECTION SHARED ========== */
+    section { position: relative; z-index: 1; }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+    }
+    .section-label::before, .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,217,255,0.3));
+    }
+    .section-label::before { background: linear-gradient(to left, transparent, rgba(0,217,255,0.3)); }
+    h2.section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    h2.section-title .bold { font-weight: 700; }
+    h2.section-title .cyan { color: var(--cyan); }
+    .section-desc {
+      color: rgba(240,250,255,0.55);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    /* ========== EPISODE CARDS ========== */
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .ep-card {
+      background: rgba(10,18,32,0.7);
+      border: 1px solid rgba(0,217,255,0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      /* Scroll reveal */
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+    }
+    .ep-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .ep-card:hover {
+      border-color: rgba(0,217,255,0.4);
+      box-shadow: 0 0 30px rgba(0,217,255,0.1), 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(-4px);
+    }
+    .ep-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .ep-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .ep-card:hover .ep-thumb img { transform: scale(1.04); }
+    .ep-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .ep-card:hover .ep-play { opacity: 1; }
+    .ep-play-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(0,217,255,0.9);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px rgba(0,217,255,0.6);
+    }
+    .ep-play-btn svg { width: 20px; height: 20px; margin-left: 3px; fill: #000; }
+    .ep-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .ep-num {
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--cyan); font-weight: 600;
+    }
+    .ep-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+    .ep-duration { font-size: 0.65rem; color: var(--muted); }
+    .ep-body { padding: 1.2rem 1.4rem 1.4rem; }
+    .ep-title {
+      font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ep-desc {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ========== LIVE HUB TICKER ========== */
+    .live-ticker {
+      background: rgba(0,217,255,0.05);
+      border-top: 1px solid rgba(0,217,255,0.15);
+      border-bottom: 1px solid rgba(0,217,255,0.15);
+      overflow: hidden;
+      padding: 0.75rem 0;
+    }
+    .ticker-inner {
+      display: flex;
+      gap: 3rem;
+      animation: ticker-scroll 30s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: rgba(240,250,255,0.6);
+    }
+    .ticker-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,80,80,0.15);
+      border: 1px solid rgba(255,80,80,0.3);
+      padding: 0.15rem 0.6rem;
+      border-radius: 100px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ff6b6b;
+    }
+    .ticker-live::before {
+      content: '';
+      width: 5px; height: 5px; border-radius: 50%; background: #ff6b6b;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    /* ========== COMMUNITY QUOTES ========== */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .quote-card {
+      background: rgba(10,18,32,0.6);
+      border: 1px solid rgba(0,217,255,0.1);
+      border-radius: 14px;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .quote-card.visible { opacity: 1; transform: translateY(0); }
+    .quote-card::before {
+      content: '"';
+      position: absolute;
+      top: 0.75rem; left: 1.25rem;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--cyan);
+      opacity: 0.3;
+      font-family: 'Fraunces', serif;
+    }
+    .quote-text {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: rgba(240,250,255,0.75);
+      font-style: italic;
+      padding-top: 1rem;
+    }
+    .quote-author {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(0,217,255,0.08) 0%, rgba(3,8,15,0) 60%),
+                  linear-gradient(315deg, rgba(0,100,150,0.12) 0%, transparent 60%);
+      border-top: 1px solid rgba(0,217,255,0.12);
+      border-bottom: 1px solid rgba(0,217,255,0.12);
+    }
+    .cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+    .cta-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+    .cta-title .cyan { color: var(--cyan); text-shadow: 0 0 30px rgba(0,217,255,0.5); }
+    .cta-desc {
+      color: rgba(240,250,255,0.55);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .newsletter-form input {
+      flex: 1;
+      background: rgba(0,217,255,0.06);
+      border: 1px solid rgba(0,217,255,0.2);
+      border-radius: 100px;
+      padding: 0.75rem 1.25rem;
+      color: var(--white);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .newsletter-form input:focus { border-color: rgba(0,217,255,0.5); }
+    .newsletter-form input::placeholder { color: var(--muted); }
+    .newsletter-form button {
+      background: var(--cyan);
+      color: #000;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .newsletter-form button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0,217,255,0.5);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(0,217,255,0.1);
+      padding: 4rem 2rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-logo img {
+      width: 60px; height: 60px;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 10px rgba(0,217,255,0.5));
+      margin-bottom: 1rem;
+    }
+    .footer-tagline {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.6; font-weight: 300;
+    }
+    .footer-tagline .bold { font-weight: 700; color: rgba(240,250,255,0.7); }
+    .footer-col h4 {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 1.25rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .footer-col a {
+      font-size: 0.875rem; color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--white); }
+    .footer-col a.crisis { color: #ff6b6b; }
+    .social-icons { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+    .social-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1px solid rgba(0,217,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      font-size: 1.1rem;
+    }
+    .social-icon:hover {
+      border-color: rgba(0,217,255,0.5);
+      color: var(--cyan);
+      background: rgba(0,217,255,0.08);
+    }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      border-top: 1px solid rgba(0,217,255,0.08);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; color: var(--muted);
+    }
+    .footer-bottom a { color: var(--muted); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--cyan); }
+
+    /* ========== PARALLAX SECTION DIVIDER ========== */
+    .parallax-divider {
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .parallax-divider svg {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 0 1.5rem;
+        text-align: center;
+        min-height: auto;
+        padding-bottom: 3rem;
+      }
+      .hero-left { padding-top: 7rem; align-items: center; }
+      .hero-eyebrow { align-self: center; }
+      .hero-right { padding-top: 2rem; }
+      .logo-container { width: 260px; height: 260px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Starfield Canvas -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">
+    <img src="../src/assets/win-the-night-logo.webp" alt="Win The Night" />
+    <div class="nav-logo-text">WIN THE<br/><span>NIGHT</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Watch</a></li>
+    <li><a href="#">Listen</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#" class="crisis">Crisis Resources</a></li>
+    <li><a href="#">Support Us</a></li>
+  </ul>
+  <a href="https://youtube.com/@winthenight?sub_confirmation=1" target="_blank" class="nav-cta">Subscribe</a>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Mental Health Community</div>
+      <h1 class="hero-headline">
+        One <span class="bold">Connection.</span><br/>
+        One <span class="bold">Story.</span><br/>
+        One <span class="cyan bold">Conversation</span><br/>
+        at a Time.
+      </h1>
+      <p class="hero-sub">
+        A community built on real conversations, not highlight reels. If you care about healing, inner child work, generational trauma, and honest stories — this is your place.
+      </p>
+      <div class="hero-actions">
+        <a href="https://youtube.com/@winthenight?sub_confirmation=1" target="_blank" class="btn-primary">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+          Subscribe on YouTube
+        </a>
+        <a href="#episodes" class="btn-ghost">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Watch Episodes
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">1K+</span><span class="stat-label">Community</span></div>
+        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Episodes</span></div>
+        <div class="stat"><span class="stat-num">Real</span><span class="stat-label">Conversations</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="logo-container">
+        <div class="logo-ring"></div>
+        <div class="logo-ring"></div>
+        <div class="logo-ring"></div>
+        <div class="logo-glow"></div>
+        <img class="logo-img" src="../src/assets/win-the-night-logo.webp" alt="Win The Night" />
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- LIVE TICKER -->
+<div class="live-ticker" aria-hidden="true">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item"><span class="ticker-live">Live</span> New episode drops every week</span>
+    <span class="ticker-item">• Mental Health • Real Conversations • Inner Child Work •</span>
+    <span class="ticker-item"><span class="ticker-live">Live</span> 1,000+ community members strong</span>
+    <span class="ticker-item">• Generational Trauma • Healing Journeys • Honest Stories •</span>
+    <span class="ticker-item"><span class="ticker-live">Live</span> Available on YouTube, Spotify & Apple Podcasts</span>
+    <span class="ticker-item">• Connect • Heal • Grow •</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="ticker-item"><span class="ticker-live">Live</span> New episode drops every week</span>
+    <span class="ticker-item">• Mental Health • Real Conversations • Inner Child Work •</span>
+    <span class="ticker-item"><span class="ticker-live">Live</span> 1,000+ community members strong</span>
+    <span class="ticker-item">• Generational Trauma • Healing Journeys • Honest Stories •</span>
+    <span class="ticker-item"><span class="ticker-live">Live</span> Available on YouTube, Spotify & Apple Podcasts</span>
+    <span class="ticker-item">• Connect • Heal • Grow •</span>
+  </div>
+</div>
+
+<!-- EPISODES -->
+<section id="episodes">
+  <div class="section-inner">
+    <div class="section-label">Latest Episodes</div>
+    <h2 class="section-title">Recent <span class="bold cyan">Conversations</span></h2>
+    <p class="section-desc">Sit down with us for honest, unfiltered conversations about mental health, healing, and the human experience.</p>
+    <div class="episodes-grid" id="episodes-grid">
+      <div class="ep-card">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Episode thumbnail" onerror="this.src='https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg'" />
+          <div class="ep-play"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-meta"><span class="ep-num">EP. 52</span><div class="ep-dot"></div><span class="ep-duration">58 min</span></div>
+          <div class="ep-title">Breaking the Cycle: Generational Trauma & Healing</div>
+          <div class="ep-desc">An honest conversation about how our childhood shapes us, and how we can rewrite the story.</div>
+        </div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Episode thumbnail" onerror="this.src='https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg'" />
+          <div class="ep-play"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-meta"><span class="ep-num">EP. 51</span><div class="ep-dot"></div><span class="ep-duration">1hr 12 min</span></div>
+          <div class="ep-title">Finding Your Inner Child: A Journey Back to Yourself</div>
+          <div class="ep-desc">We explore what it really means to reconnect with who you were before the world got loud.</div>
+        </div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Episode thumbnail" onerror="this.src='https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg'" />
+          <div class="ep-play"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-meta"><span class="ep-num">EP. 50</span><div class="ep-dot"></div><span class="ep-duration">45 min</span></div>
+          <div class="ep-title">The Night We Don't Talk About: Men & Mental Health</div>
+          <div class="ep-desc">Why do we make it so hard for men to ask for help? Let's actually talk about it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY QUOTES -->
+<section style="background: rgba(0,217,255,0.02);">
+  <div class="section-inner">
+    <div class="section-label">Community</div>
+    <h2 class="section-title">What People Are <span class="bold cyan">Saying</span></h2>
+    <p class="section-desc">Real words from real people who found something they needed.</p>
+    <div class="quotes-grid" id="quotes-grid">
+      <div class="quote-card">
+        <p class="quote-text">This show made me feel less alone at 2am when I thought no one understood what I was going through.</p>
+        <p class="quote-author">— Community Member</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">I've never heard men talk about healing like this. It gave me permission to actually do the work.</p>
+        <p class="quote-author">— YouTube Subscriber</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">Win The Night isn't just a podcast. It's the conversation I've been waiting to have my whole life.</p>
+        <p class="quote-author">— Loyal Listener</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-title">Ready to <span class="cyan">Join</span><br/>the Conversation?</h2>
+    <p class="cta-desc">Subscribe to Win The Night and become part of a community that values real talk over perfect appearances.</p>
+    <div class="cta-actions">
+      <a href="https://youtube.com/@winthenight?sub_confirmation=1" target="_blank" class="btn-primary">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+        Subscribe on YouTube
+      </a>
+      <a href="#" class="btn-ghost">A Little More About Us</a>
+    </div>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com" aria-label="Email address" />
+      <button type="submit">Get Updates</button>
+    </form>
+    <p style="margin-top:1rem; font-size:0.7rem; color:var(--muted);">Join 1k+ others finding connection and healing.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="../src/assets/win-the-night-logo.webp" alt="Win The Night" />
+      <p class="footer-tagline">
+        One <span class="bold">Connection.</span> One <span class="bold">Story.</span><br/>
+        One <span class="bold">Conversation</span> at a Time.
+      </p>
+      <div class="social-icons" style="margin-top:1.25rem;">
+        <a href="https://youtube.com/@winthenight" target="_blank" class="social-icon" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+        </a>
+        <a href="https://instagram.com/win_the_night" target="_blank" class="social-icon" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@winthenightpod" target="_blank" class="social-icon" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Watch & Listen</h4>
+      <ul>
+        <li><a href="#">Watch Episodes</a></li>
+        <li><a href="#">Listen on Spotify</a></li>
+        <li><a href="#">Apple Podcasts</a></li>
+        <li><a href="#">Be Our Guest</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Support Us</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#" class="crisis">Crisis Resources</a></li>
+        <li><a href="#">Legal</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Win The Night™ Foundation • <a href="https://froydinger.design" target="_blank">Powered by FDS™</a></p>
+    <p>A mental health community built on real conversations</p>
+  </div>
+</footer>
+
+<script>
+  // ===== STARFIELD =====
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  function initStars() {
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 6000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2,
+        alpha: Math.random(),
+        speed: Math.random() * 0.008 + 0.002,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      const a = 0.2 + 0.6 * (0.5 + 0.5 * Math.sin(s.phase + t * s.speed));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(160,220,255,${a})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(drawStars);
+  }
+  resize();
+  initStars();
+  requestAnimationFrame(drawStars);
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  // ===== SCROLL NAV =====
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ===== SCROLL REVEAL =====
+  const revealEls = document.querySelectorAll('.ep-card, .quote-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), e.target.dataset.delay || 0);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.ep-card').forEach((el, i) => {
+    el.dataset.delay = i * 100;
+    observer.observe(el);
+  });
+  document.querySelectorAll('.quote-card').forEach((el, i) => {
+    el.dataset.delay = i * 80;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

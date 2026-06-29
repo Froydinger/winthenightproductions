@@ -1,27 +1,18 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Info,
-  Mic,
-  Users,
-  BookOpen,
-  Anchor,
-  Heart,
-  Play,
-  Sparkles,
-  ArrowRight,
-} from "lucide-react";
-import { PageShell } from "@/components/site/PageShell";
-import { PageHero } from "@/components/site/PageHero";
-import { SectionHeader } from "@/components/site/SectionHeader";
-import { SiteCard } from "@/components/site/SiteCard";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import { Rule, CyanRule } from "@/components/magazine/SectionDivider";
+import ScrollReveal from "@/components/ScrollReveal";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
+import { Info, Mic, Users, BookOpen, Anchor, Heart, Play, Sparkles } from "lucide-react";
 
 const About = () => {
   const [settings, setSettings] = useState(defaultSiteSettings);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchSiteSettings().then(setSettings);
   }, []);
 
@@ -44,226 +35,228 @@ const About = () => {
   ];
 
   return (
-    <PageShell>
-      <PageHero
-        icon={Info}
-        eyebrow="About"
-        title={
-          <>
-            About{" "}
-            <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Win The Night™ Foundation
-            </span>
-          </>
-        }
-        lede={
-          <>
-            A mental health media organization creating a safe space for
-            people to share their{" "}
-            <span className="text-neon-blue font-semibold">stories</span>, find{" "}
-            <span className="text-neon-blue font-semibold">community</span>, and{" "}
-            <span className="text-neon-blue font-semibold">heal together</span>.
-          </>
-        }
-        actions={
-          <>
-            <Button
-              asChild
-              size="lg"
-              className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-[0_0_30px_-8px_rgba(0,217,255,0.7)] transition-all"
-            >
-              <a href="#community">Join the Community</a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue"
-            >
-              <a href="#intro-video">Watch Our Message</a>
-            </Button>
-          </>
-        }
-      />
+    <>
+      <Header />
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-24 pb-20">
+        <div className="fixed inset-0 z-0">
+          <AnimatedBackground />
+        </div>
 
-      <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
-        {/* Mission */}
-        <section>
-          <SectionHeader
-            icon={Heart}
-            eyebrow="Our mission"
-            title="What the Foundation is"
-            lede="A safe space to share your story, find community, and heal together."
-          />
-          <SiteCard>
-            <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-              <strong className="text-foreground">Win The Night™ Foundation</strong>{" "}
-              is a mental health media organization. The flagship podcast is
-              our core community outreach, and around it we're building a
-              growing family of healing-focused projects — essays, short-form
-              video, live conversations, care & crisis resources, and new
-              ventures still to come. Everything we make is in service of one
-              idea: real recovery happens through honest stories, not clean
-              ones.
-            </p>
-            <p className="text-sm text-foreground/60 leading-relaxed mt-4">
-              Win The Night™ Foundation is an independent media organization.
-              We are <strong className="text-foreground/80">not</strong> a
-              501(c)(3) nonprofit, registered charity, tax-exempt entity, or a
-              clinical or medical service.
-            </p>
-          </SiteCard>
-        </section>
-        {/* Pillars */}
-        <section>
-          <SectionHeader
-            icon={Sparkles}
-            eyebrow="How we do it"
-            title="Three pillars guiding the Foundation"
-            lede="The shape of everything we publish — every episode, essay, and conversation — comes from these three commitments."
-          />
-          <div className="grid sm:grid-cols-3 gap-4">
-            {pillars.map((p) => (
-              <SiteCard key={p.title} className="group hover:-translate-y-0.5 transition-transform">
-                <div className="w-12 h-12 rounded-xl bg-neon-blue/10 border border-neon-blue/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <p.icon className="w-6 h-6 text-neon-blue" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
-                <p className="text-sm text-foreground/70 leading-relaxed">{p.desc}</p>
-              </SiteCard>
-            ))}
-          </div>
-        </section>
-
-        {/* Intro Video */}
-        <section id="intro-video">
-          <SectionHeader
-            icon={Play}
-            eyebrow="Watch"
-            title="The heart of our mission"
-            lede="See what drives us to keep the conversation going."
-          />
-          <SiteCard className="p-0 overflow-hidden">
-            <div className="aspect-video">
-              <iframe
-                className="w-full h-full"
-              src={`https://www.youtube.com/embed/${settings.about_intro_video_id}`}
-                title="Welcome to Win The Night"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
-          </SiteCard>
-        </section>
-
-        {/* Founders */}
-        <section>
-          <SectionHeader
-            icon={Users}
-            eyebrow="Behind the Foundation"
-            title="The co-founders"
-            lede="A little about us."
-          />
-          <p className="text-foreground/80 text-base sm:text-lg leading-relaxed mb-6">
-            Win The Night™ Foundation was co-founded by two high school best
-            friends and storytellers/filmmakers at heart,{" "}
-            <strong className="text-foreground">Josh Lopez</strong> (host) and{" "}
-            <strong className="text-foreground">Jake Freudinger</strong>{" "}
-            (producer).
-          </p>
-          <div className="grid sm:grid-cols-2 gap-4 mb-6">
-            <SiteCard>
-              <h3 className="text-foreground font-bold text-xl mb-1">Josh Lopez</h3>
-              <p className="text-neon-blue/80 text-xs uppercase tracking-wider mb-2">Host · Co-Founder</p>
-              <p className="text-foreground/70 leading-relaxed">{settings.about_josh_bio}</p>
-            </SiteCard>
-            <SiteCard>
-              <h3 className="text-foreground font-bold text-xl mb-1">Jake Freudinger</h3>
-              <p className="text-neon-blue/80 text-xs uppercase tracking-wider mb-2">Producer · Co-Founder</p>
-              <p className="text-foreground/70 leading-relaxed">{settings.about_jake_bio}</p>
-            </SiteCard>
-          </div>
-          <SiteCard variant="strong" className="relative">
-            <Anchor className="absolute top-5 right-5 w-6 h-6 text-neon-blue/40" />
-            <blockquote className="text-lg sm:text-xl text-foreground italic font-medium text-center">
-              "If this were a boat, Josh would be the captain, and Jake the trusted Navigator."
-            </blockquote>
-          </SiteCard>
-          <p className="text-foreground/65 leading-relaxed text-center pt-6">
-            We digress—we're glad you're here and we hope you enjoy what we're building.
-          </p>
-        </section>
-
-        {/* Featured episode */}
-        <section>
-          <SectionHeader
-            icon={Play}
-            eyebrow="Featured episode"
-          title={settings.about_featured_title}
-          lede={settings.about_featured_description}
-          />
-          <SiteCard className="p-0 overflow-hidden">
-            <div className="aspect-video">
-              <iframe
-                className="w-full h-full"
-              src={`https://www.youtube.com/embed/${settings.about_featured_video_id}`}
-                title="Featured Episode"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
-          </SiteCard>
-        </section>
-
-        {/* Community CTA */}
-        <section id="community">
-          <SiteCard variant="strong" className="text-center">
-            <div className="flex justify-center mb-5">
-              <div className="relative">
-                <div className="absolute -inset-3 rounded-full bg-neon-blue/20 blur-2xl" aria-hidden />
-                <div className="relative p-4 rounded-2xl border border-neon-blue/30 bg-background/60">
-                  <Heart className="w-9 h-9 text-neon-blue" />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 space-y-20">
+          {/* Editorial Header */}
+          <div className="border-b border-[#1a1a1a] pb-10 space-y-6">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#00d9ff]">About Us</p>
+            <div className="grid md:grid-cols-12 gap-8 items-start">
+              <div className="md:col-span-7">
+                <h1 className="font-bebas text-6xl sm:text-8xl tracking-wider text-white leading-[0.85]">
+                  ABOUT THE<br />
+                  <span className="text-[#00d9ff]">FOUNDATION</span>
+                </h1>
+              </div>
+              <div className="md:col-span-5 md:pt-2">
+                <p className="text-sm text-white/70 leading-relaxed font-sans">
+                  Win The Night™ Foundation is a mental health media organization creating a safe space for people to share stories, build connection, and heal together.
+                </p>
+                <div className="flex gap-4 mt-6">
+                  <a
+                    href="#intro-video"
+                    className="bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-[10px] px-5 py-3 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all"
+                  >
+                    Watch Message
+                  </a>
+                  <a
+                    href="#community"
+                    className="border border-[#2a2a2a] hover:border-white text-white font-semibold uppercase tracking-wider text-[10px] px-5 py-3 rounded transition-colors"
+                  >
+                    Join Us
+                  </a>
                 </div>
               </div>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-              Join the Community
-            </h2>
-            <p className="text-base sm:text-lg text-foreground/75 leading-relaxed max-w-2xl mx-auto mb-6">
-              Be part of a community of people who want to{" "}
-              <strong className="text-neon-blue">Win The Night, together</strong>, one conversation
-              at a time.
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="bg-neon-blue hover:bg-neon-blue/90 text-black shadow-[0_0_30px_-8px_rgba(0,217,255,0.7)]"
-            >
-              <a href="/guest" className="inline-flex items-center gap-2">
-                Be Our Guest
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </Button>
-          </SiteCard>
-        </section>
-        {/* Newsletter */}
-        <section id="newsletter">
-          <SectionHeader
-            icon={Heart}
-            eyebrow="Newsletter"
-            title="Get our newsletter"
-            lede="New essays, episodes, and reflections in your inbox."
-          />
-          <div className="flex justify-center">
-            <NewsletterSubscribe />
           </div>
-        </section>
-      </div>
-    </PageShell>
+
+          {/* Mission Content (Editorial Pull-Quote Style) */}
+          <ScrollReveal animation="fade-up">
+            <div className="border-l-2 border-[#00d9ff] pl-6 md:pl-10 py-2 space-y-6 max-w-3xl">
+              <h2 className="font-bebas text-sm tracking-[0.2em] text-[#00d9ff] uppercase">Our Mission</h2>
+              <p 
+                className="font-serif text-xl sm:text-3xl text-white/95 leading-relaxed italic tracking-tight"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                "Everything we make is in service of one idea: real recovery happens through honest stories, not clean ones."
+              </p>
+              <p className="text-xs text-[#888] leading-relaxed max-w-2xl font-sans">
+                Win The Night™ Foundation is building a growing family of healing-focused projects — essays, short-form video, live conversations, care & crisis resources, and new ventures. Our flagship podcast is the core of our community outreach.
+              </p>
+              <div className="text-[9px] text-[#444] leading-relaxed border-t border-[#161616] pt-3 uppercase tracking-wider max-w-xl">
+                Win The Night™ Foundation is an independent media organization. We are NOT a 501(c)(3) nonprofit, registered charity, tax-exempt entity, or a clinical or medical service.
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <CyanRule />
+
+          {/* Pillars Section */}
+          <section className="space-y-12">
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Principles</p>
+              <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">Three Pillars Guiding Us</h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {pillars.map((p, idx) => (
+                <ScrollReveal key={p.title} animation="fade-up" delay={idx * 100}>
+                  <div className="border-t border-[#1a1a1a] pt-6 flex flex-col justify-between h-full space-y-4 hover:border-[#00d9ff]/40 transition-all duration-300">
+                    <div className="space-y-4">
+                      <div className="w-8 h-8 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff]">
+                        <p.icon className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-white">{p.title}</h3>
+                      <p className="text-xs text-[#666] leading-relaxed font-sans">{p.desc}</p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+
+          <Rule />
+
+          {/* Intro Video Section */}
+          <section id="intro-video" className="grid md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-5 space-y-4">
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white flex items-center gap-2">
+                The Heart of<br />Our Mission
+              </h2>
+              <p className="text-xs text-[#666] leading-relaxed font-sans">
+                Watch a brief overview from our founders outlining why we started Win The Night and what we hope to build.
+              </p>
+            </div>
+            <div className="md:col-span-7">
+              <div className="border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d] shadow-2xl">
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/${settings.about_intro_video_id}`}
+                  title="Welcome to Win The Night"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </section>
+
+          <Rule />
+
+          {/* Founders & Team Section */}
+          <section className="space-y-8">
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#00d9ff]">The Team</p>
+              <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">Co-Founders &amp; Team</h2>
+            </div>
+            
+            <p className="text-xs text-[#888] leading-relaxed max-w-2xl font-sans">
+              Win The Night™ Foundation was co-founded by two high school best friends and storytellers/filmmakers at heart, Josh Lopez (host) and Jake Freudinger (producer).
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="border-t border-[#1a1a1a] pt-6 space-y-3">
+                <h3 className="font-serif text-2xl text-white tracking-tight" style={{ fontFamily: "Georgia, serif" }}>Josh Lopez</h3>
+                <p className="text-[9px] uppercase tracking-wider text-[#00d9ff] font-semibold">Host · Co-Founder</p>
+                <p className="text-xs text-[#666] leading-relaxed font-sans">{settings.about_josh_bio}</p>
+              </div>
+
+              <div className="border-t border-[#1a1a1a] pt-6 space-y-3">
+                <h3 className="font-serif text-2xl text-white tracking-tight" style={{ fontFamily: "Georgia, serif" }}>Jake Freudinger</h3>
+                <p className="text-[9px] uppercase tracking-wider text-[#00d9ff] font-semibold">Producer · Co-Founder</p>
+                <p className="text-xs text-[#666] leading-relaxed font-sans">{settings.about_jake_bio}</p>
+              </div>
+            </div>
+
+            <div className="border border-[#1a1a1a] p-6 rounded text-center relative max-w-xl mx-auto mt-6 bg-[#090909]">
+              <Anchor className="absolute top-4 right-4 w-4 h-4 text-[#00d9ff]/25" />
+              <blockquote 
+                className="font-serif text-sm italic text-white/80 leading-relaxed"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                "If this were a boat, Josh would be the captain, and Jake the trusted Navigator."
+              </blockquote>
+            </div>
+          </section>
+
+          <Rule />
+
+          {/* Featured Episode Section */}
+          <section className="grid md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-5 space-y-4">
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">
+                {settings.about_featured_title || "Featured Episode"}
+              </h2>
+              <p className="text-xs text-[#666] leading-relaxed font-sans">
+                {settings.about_featured_description || "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon."}
+              </p>
+            </div>
+            <div className="md:col-span-7">
+              <div className="border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d] shadow-2xl">
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/${settings.about_featured_video_id}`}
+                  title="Featured Episode"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </section>
+
+          <CyanRule />
+
+          {/* Footer Callouts Grid */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Join Community CTA */}
+            <section id="community" className="border border-[#1a1a1a] rounded p-8 sm:p-10 text-center space-y-5 flex flex-col justify-between items-center bg-[#090909]">
+              <div className="space-y-4">
+                <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] mx-auto">
+                  <Heart className="w-5 h-5" />
+                </div>
+                <h2 className="font-bebas text-3xl tracking-wider text-white">Join the Community</h2>
+                <p className="text-xs text-[#555] max-w-xs mx-auto leading-relaxed">
+                  Be part of a community of people who want to <strong>Win The Night, together</strong>, one conversation at a time.
+                </p>
+              </div>
+              <a
+                href="/guest"
+                className="inline-flex items-center justify-center gap-2 bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all mt-4"
+              >
+                Be Our Guest
+              </a>
+            </section>
+
+            {/* Newsletter Subscribe */}
+            <section id="newsletter" className="border border-[#1a1a1a] rounded p-8 sm:p-10 text-center space-y-5 flex flex-col justify-between items-center bg-[#090909]">
+              <div className="space-y-4 w-full">
+                <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] mx-auto">
+                  <Heart className="w-5 h-5" />
+                </div>
+                <h2 className="font-bebas text-3xl tracking-wider text-white">Get Our Newsletter</h2>
+                <p className="text-xs text-[#555] max-w-xs mx-auto leading-relaxed">
+                  New essays, episodes, and reflections in your inbox.
+                </p>
+              </div>
+              <div className="w-full mt-4">
+                <NewsletterSubscribe />
+              </div>
+            </section>
+          </div>
+
+        </div>
+
+        <Footer />
+      </main>
+    </>
   );
 };
 
