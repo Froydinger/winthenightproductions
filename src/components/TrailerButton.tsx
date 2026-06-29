@@ -1,32 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Play } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const TrailerButton = () => {
-  const [visible, setVisible] = useState(false);
-  const [buttonText, setButtonText] = useState("Watch the Trailer");
-  const [videoId, setVideoId] = useState("765UBZfeylw");
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const load = async () => {
-      const { data } = await supabase
-        .from("watch_settings")
-        .select("trailer_video_id, trailer_button_text, trailer_visible")
-        .eq("id", 1)
-        .maybeSingle();
-
-      if (data) {
-        if (data.trailer_visible !== null) setVisible(data.trailer_visible);
-        if (data.trailer_button_text) setButtonText(data.trailer_button_text);
-        if (data.trailer_video_id) setVideoId(data.trailer_video_id);
-      }
-    };
-    load();
-  }, []);
-
-  if (!visible) return null;
+  const buttonText = "Watch the Trailer";
+  const videoId = "765UBZfeylw";
 
   return (
     <>

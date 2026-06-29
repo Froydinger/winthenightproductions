@@ -1,33 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Zap, Mic, Users, Star, Crown, Loader2 } from "lucide-react";
-import { SupportModal } from "@/components/SupportModal";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Heart, Zap, Mic, Users, Coffee, ExternalLink } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { SiteCard } from "@/components/site/SiteCard";
 
+const BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/winthenight";
+
 const Support = () => {
-  const [showSupportModal, setShowSupportModal] = useState(false);
-  const [proSupporters, setProSupporters] = useState<string[]>([]);
-  const [loadingSupporters, setLoadingSupporters] = useState(true);
-
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const { data, error } = await supabase.functions.invoke("list-pro-supporters");
-        if (error) throw error;
-        setProSupporters((data?.supporters || []).map((s: { name: string }) => s.name));
-      } catch (err) {
-        console.error("Failed to fetch supporters:", err);
-      } finally {
-        setLoadingSupporters(false);
-      }
-    };
-    run();
-  }, []);
-
   const impact = [
     { icon: Mic, title: "Professional Equipment", desc: "Invest in better video and audio equipment for top-quality production" },
     { icon: Users, title: "Amazing Guests", desc: "Bring on experts and advocates in mental health" },
@@ -53,31 +33,32 @@ const Support = () => {
       <div className="container mx-auto max-w-4xl px-4 pb-20 space-y-12 sm:space-y-16">
         <SiteCard variant="strong" className="text-center">
           <p className="text-foreground/75 text-base leading-relaxed max-w-md mx-auto mb-5">
-            Pick a one-time amount or grab a monthly plan — everything's inside.
+            Support the show directly through Buy Me a Coffee. It keeps things simple, lightweight, and off-site.
           </p>
           <Button
-            onClick={() => setShowSupportModal(true)}
+            asChild
             size="lg"
             className="bg-neon-blue hover:bg-neon-blue/90 text-black font-bold text-base px-10 shadow-[0_0_30px_-8px_rgba(0,217,255,0.7)]"
           >
-            <Heart className="w-5 h-5 mr-2" />
-            Support the Show
+            <a href={BUY_ME_A_COFFEE_URL} target="_blank" rel="noopener noreferrer">
+              <Coffee className="w-5 h-5 mr-2" />
+              Support on Buy Me a Coffee
+              <ExternalLink className="w-4 h-4 ml-2" />
+            </a>
           </Button>
           <p className="text-xs text-foreground/55 mt-4">
-            Donate once, support quietly at $3/mo, or get a shout-out at $10/mo · Secure checkout via Stripe
+            Contributions are handled externally by Buy Me a Coffee.
           </p>
 
           <div className="mt-6 mx-auto max-w-xl rounded-xl border border-neon-blue/40 bg-neon-blue/5 px-4 py-3 text-left">
             <p className="text-xs sm:text-sm text-foreground/85 leading-relaxed">
               <strong className="text-neon-blue">Important:</strong> Win The Night Foundation is{" "}
               <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>.
-              Contributions are personal support payments for an independent media project — they are{" "}
-              <strong>not tax-deductible</strong> and no goods, services, or charitable benefits are
-              provided in exchange.
+              Contributions are personal support payments for an independent media project and are{" "}
+              <strong>not tax-deductible</strong>.
             </p>
           </div>
         </SiteCard>
-
 
         <section>
           <SectionHeader
@@ -102,58 +83,11 @@ const Support = () => {
           </div>
         </section>
 
-        <SiteCard variant="strong" className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-2xl border border-neon-blue/30 bg-background/60">
-              <Crown className="w-7 h-7 text-neon-blue" />
-            </div>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Our Pro Supporters</h2>
-          <p className="text-sm text-foreground/60 mb-6">
-            $10/mo Pro Supporters get a shout-out on the podcast and a permanent spot on this wall
-          </p>
-
-          {loadingSupporters ? (
-            <div className="flex justify-center py-6">
-              <Loader2 className="w-6 h-6 animate-spin text-neon-blue" />
-            </div>
-          ) : proSupporters.length > 0 ? (
-            <div className="flex flex-wrap justify-center gap-2.5">
-              {proSupporters.map((name, i) => (
-                <span
-                  key={i}
-                  className="px-4 py-2 rounded-full border border-neon-blue/30 bg-neon-blue/10 text-neon-blue font-medium text-sm"
-                >
-                  {name}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <p className="text-foreground/55 italic">No pro supporters yet — be the first!</p>
-              <Button
-                onClick={() => setShowSupportModal(true)}
-                variant="outline"
-                className="border-neon-blue/40 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue"
-              >
-                <Star className="w-4 h-4 mr-2" />
-                Become a Pro Supporter
-              </Button>
-            </div>
-          )}
-        </SiteCard>
-
         <p className="text-center text-base sm:text-lg text-foreground/70">
           <Heart className="inline w-5 h-5 text-neon-blue mr-1" />
           Thank you for being part of the Win The Night community! Your support means everything.
         </p>
       </div>
-
-      <SupportModal
-        open={showSupportModal}
-        onClose={() => setShowSupportModal(false)}
-        placement="support_page"
-      />
     </PageShell>
   );
 };

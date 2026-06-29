@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Info,
@@ -11,7 +10,6 @@ import {
   Sparkles,
   ArrowRight,
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeader } from "@/components/site/SectionHeader";
@@ -19,36 +17,13 @@ import { SiteCard } from "@/components/site/SiteCard";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 const About = () => {
-  const [introVideoId, setIntroVideoId] = useState("cIHJZUOIPco");
-  const [featuredVideoId, setFeaturedVideoId] = useState("UL_ayxMAFqM");
-  const [featuredTitle, setFeaturedTitle] = useState("Get a Taste of What We Do");
-  const [featuredDescription, setFeaturedDescription] = useState(
-    "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon."
-  );
-  const [jakeBio, setJakeBio] = useState("Runs the socials, Substack, and YouTube channel.");
-  const [joshBio, setJoshBio] = useState("Podcast host offering creative and collaborative insights.");
-
-  useEffect(() => {
-    const load = async () => {
-      const { data } = await supabase
-        .from("watch_settings")
-        .select(
-          "about_intro_video_id, about_featured_video_id, about_featured_title, about_featured_description, about_jake_bio, about_josh_bio"
-        )
-        .eq("id", 1)
-        .maybeSingle();
-      if (data) {
-        if (data.about_intro_video_id) setIntroVideoId(data.about_intro_video_id);
-        if (data.about_featured_video_id) setFeaturedVideoId(data.about_featured_video_id);
-        if (data.about_featured_title) setFeaturedTitle(data.about_featured_title);
-        if (data.about_featured_description)
-          setFeaturedDescription(data.about_featured_description);
-        if (data.about_jake_bio) setJakeBio(data.about_jake_bio);
-        if (data.about_josh_bio) setJoshBio(data.about_josh_bio);
-      }
-    };
-    load();
-  }, []);
+  const introVideoId = "cIHJZUOIPco";
+  const featuredVideoId = "UL_ayxMAFqM";
+  const featuredTitle = "Get a Taste of What We Do";
+  const featuredDescription =
+    "If you get some time to throw this on in the background, it's one of our favorite episodes—a conversation between Josh and his friend, Brandon.";
+  const jakeBio = "Runs the socials, Substack, and YouTube channel.";
+  const joshBio = "Podcast host offering creative and collaborative insights.";
 
   const pillars = [
     {

@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, ArrowRight, Plus, Maximize2, Minimize2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import type { ReactNode } from 'react';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/site-chat`;
+const CHAT_URL = '/.netlify/functions/site-chat';
 
 const ArcMiniChat = () => {
   const [isOpen, setIsOpen] = useState(() => sessionStorage.getItem('arc-chat-open') === 'true');
@@ -61,14 +62,11 @@ const ArcMiniChat = () => {
     setMessages(newMessages);
     setIsLoading(true);
 
-    let assistantContent = '';
-
     try {
       const resp = await fetch(CHAT_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ messages: newMessages }),
       });
@@ -79,52 +77,9 @@ const ArcMiniChat = () => {
         return;
       }
 
-      if (!resp.ok || !resp.body) throw new Error('Failed to start stream');
-
-      const reader = resp.body.getReader();
-      const decoder = new TextDecoder();
-      let textBuffer = '';
-      let streamDone = false;
-
-      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
-
-      while (!streamDone) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        textBuffer += decoder.decode(value, { stream: true });
-
-        let newlineIndex: number;
-        while ((newlineIndex = textBuffer.indexOf('\n')) !== -1) {
-          let line = textBuffer.slice(0, newlineIndex);
-          textBuffer = textBuffer.slice(newlineIndex + 1);
-
-          if (line.endsWith('\r')) line = line.slice(0, -1);
-          if (line.startsWith(':') || line.trim() === '') continue;
-          if (!line.startsWith('data: ')) continue;
-
-          const jsonStr = line.slice(6).trim();
-          if (jsonStr === '[DONE]') {
-            streamDone = true;
-            break;
-          }
-
-          try {
-            const parsed = JSON.parse(jsonStr);
-            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-            if (content) {
-              assistantContent += content;
-              setMessages(prev => {
-                const updated = [...prev];
-                updated[updated.length - 1] = { role: 'assistant', content: assistantContent };
-                return updated;
-              });
-            }
-          } catch {
-            textBuffer = line + '\n' + textBuffer;
-            break;
-          }
-        }
-      }
+      if (!resp.ok) throw new Error('Failed to start chat');
+      const data = await resp.json();
+      setMessages(prev => [...prev, { role: 'assistant', content: data.message || 'I am here, but I came up empty. Try asking that another way?' }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [
@@ -150,19 +105,22 @@ const ArcMiniChat = () => {
     }
   };
 
+  type MarkdownChildren = { children?: ReactNode };
+  type MarkdownLink = MarkdownChildren & { href?: string };
+
   const mdComponents = {
-    p: ({ children }: any) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
-    strong: ({ children }: any) => <strong className="font-semibold text-neon-blue">{children}</strong>,
-    em: ({ children }: any) => <em className="italic opacity-85">{children}</em>,
-    ul: ({ children }: any) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
-    ol: ({ children }: any) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
-    li: ({ children }: any) => <li className="opacity-90">{children}</li>,
-    code: ({ children }: any) => (
+    p: ({ children }: MarkdownChildren) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+    strong: ({ children }: MarkdownChildren) => <strong className="font-semibold text-neon-blue">{children}</strong>,
+    em: ({ children }: MarkdownChildren) => <em className="italic opacity-85">{children}</em>,
+    ul: ({ children }: MarkdownChildren) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
+    ol: ({ children }: MarkdownChildren) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
+    li: ({ children }: MarkdownChildren) => <li className="opacity-90">{children}</li>,
+    code: ({ children }: MarkdownChildren) => (
       <code className="px-1.5 py-0.5 rounded text-xs font-mono bg-neon-blue/10 text-neon-blue">
         {children}
       </code>
     ),
-    a: ({ href, children }: any) => {
+    a: ({ href, children }: MarkdownLink) => {
       const isInternal = href && (href.startsWith('/') || href.includes(window.location.hostname));
       return (
         <a
@@ -175,7 +133,7 @@ const ArcMiniChat = () => {
         </a>
       );
     },
-    blockquote: ({ children }: any) => (
+    blockquote: ({ children }: MarkdownChildren) => (
       <blockquote className="pl-3 italic my-2 opacity-80 border-l-2 border-neon-blue">{children}</blockquote>
     ),
   };

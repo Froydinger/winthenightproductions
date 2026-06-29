@@ -23,141 +23,66 @@ const Privacy = () => {
 
       <div className="container mx-auto max-w-3xl px-4 pb-20">
         <p className="text-center text-sm text-foreground/60 mb-8">
-          Last updated: <time dateTime="2026-05-19">May 19, 2026</time>
+          Last updated: <time dateTime="2026-06-29">June 29, 2026</time>
         </p>
 
         <SiteCard>
           <Prose>
             <h2>1. Introduction</h2>
             <p>
-              Win The Night Foundation ("WTN," "we," "us," "our") is a mental health media
-              organization creating a safe space for people to share their stories, find
-              community, and heal together. We operate the Win The Night website:{" "}
-              <a href="https://winthenight.org" target="_blank" rel="noopener noreferrer">
-                https://winthenight.org
+              Win The Night Foundation is an independent mental health media project. This policy
+              explains how the website handles data after moving to a lightweight Netlify-hosted
+              setup.
+            </p>
+
+            <h2>2. Minimal Data Collection</h2>
+            <p>
+              We do not run site accounts, payment processing, community posting, or email delivery
+              from this website. We do not sell personal data.
+            </p>
+
+            <h2>3. Third-Party Services</h2>
+            <p>
+              The site links to or embeds content from third-party platforms such as YouTube,
+              Substack, Google Calendar, social platforms, Buy Me a Coffee, and optional AI chat
+              services. Those services may collect data under their own privacy policies.
+            </p>
+
+            <h2>4. Support Payments</h2>
+            <p>
+              Support is handled externally by{" "}
+              <a href="https://buymeacoffee.com/winthenight" target="_blank" rel="noopener noreferrer">
+                Buy Me a Coffee
               </a>
-            </p>
-            <p>
-              <strong>Organizational status:</strong> Win The Night Foundation is{" "}
-              <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt entity</strong>,
-              despite the word "Foundation" in our name. We are an independent media project.
-              Any contributions are personal support payments and are not tax-deductible.
-            </p>
-            <p>
-              This Privacy Policy explains our data practices for the website. We are committed to
-              protecting your privacy and handling your data responsibly.
+              . We do not store payment card details or manage billing through this website.
             </p>
 
-            <h2>2. Our Data Philosophy</h2>
+            <h2>5. Contact and Newsletter</h2>
             <p>
-              We prioritize privacy and minimal data collection. We do not sell or share personal
-              data with third parties. When you subscribe to our Pro Supporter plan via Stripe, we
-              collect only the information necessary to process your subscription and to display
-              your name on our Pro Supporters wall.
+              Contact is handled through direct email links. Newsletter subscriptions and blog email
+              delivery are handled by Substack.
             </p>
 
-
-            <h2>3. Authentication and Payments</h2>
+            <h2>6. Optional Arc Chat</h2>
             <p>
-              Account creation and sign-in may use Google Sign-In. We do not extract or persist
-              personal data from your Google account beyond what is strictly necessary to complete
-              the sign-in session.
-            </p>
-            <p>
-              Payment for our Pro Supporter subscription is processed through Stripe. We do not
-              store your full credit card information on our servers. Stripe handles all payment
-              processing under their own privacy and security policies.
+              If Arc chat is enabled, messages are sent to a Netlify Function and then to the AI
+              provider configured for the site. Do not send sensitive personal, medical, financial,
+              or legal information through chat.
             </p>
 
-            <h2>4. Website Data Collection</h2>
+            <h2>7. Cookies and Analytics</h2>
             <p>
-              The Win The Night website may collect minimal data necessary for providing features
-              and services:
-            </p>
-            <ul>
-              <li>
-                <strong>User Accounts:</strong> If you create an account or subscribe to our Pro
-                Supporter plan, we collect basic information (name, email) needed to manage your
-                subscription and feature you on the Pro Supporters wall.
-              </li>
-
-              <li>
-                <strong>Payment Information:</strong> Stripe processes all payment information. We
-                do not store your full payment details.
-              </li>
-              <li>
-                <strong>Community Features:</strong> Interactive features may require basic user
-                information. No detailed behavioral tracking is performed.
-              </li>
-            </ul>
-
-            <h2>5. Cookies and Tracking</h2>
-            <p>
-              We do not use tracking cookies to monitor user behavior. Essential cookies may be
-              used only to maintain your login session and basic site functionality.
+              The website may use local browser storage for interface preferences such as chat state
+              or newsletter prompt state. We do not use site-managed login cookies.
             </p>
 
-            <h2>6. Data Sharing</h2>
-            <p>
-              We do not sell personal data. We do not share personal data with third parties for
-              marketing purposes. However, we share payment information with Stripe to process
-              your subscriptions. Third-party services operate under their own policies and
-              controls.
-            </p>
-
-            <h2>7. Security</h2>
-            <p>
-              We implement industry-standard security controls to protect your data. We use secure
-              authentication and maintain appropriate technical and organizational measures to
-              safeguard your information. Payment information is handled securely by Stripe. While
-              we take reasonable steps to protect your data, no method of transmission or storage
-              is 100% secure.
-            </p>
-
-            <h2>8. Data Retention</h2>
-            <p>
-              We retain your account and subscription information for as long as your account is
-              active. Payment history is retained as required for billing and legal purposes. Upon
-              account deletion or cancellation, we retain only information required by law. We do
-              not keep detailed behavioral tracking logs beyond what is necessary for core
-              functionality.
-            </p>
-
-            <h2>9. Your Rights</h2>
-            <p>Depending on your location, you may have certain rights regarding your data:</p>
-            <ul>
-              <li>
-                <strong>Access:</strong> You can access your account information through your
-                account dashboard.
-              </li>
-              <li>
-                <strong>Deletion:</strong> You can request deletion of your account and associated
-                data.
-              </li>
-              <li>
-                <strong>Correction:</strong> You can update your account information at any time.
-              </li>
-            </ul>
-            <p>
-              If you have questions about your rights or want to exercise them, contact us using
-              the details below.
-            </p>
-
-            <h2>10. Children's Privacy</h2>
+            <h2>8. Children's Privacy</h2>
             <p>
               Our services are not directed to individuals under 18 years of age. We do not
-              knowingly collect personal information from minors under 18. If you are under 18,
-              please do not use our services.
+              knowingly collect personal information from minors under 18.
             </p>
 
-            <h2>11. Changes to This Policy</h2>
-            <p>
-              If we make material changes, we will update this page and the "Last updated" date.
-              Continued use after updates constitutes acceptance of the revised policy.
-            </p>
-
-            <h2>12. Contact</h2>
-            <p>Win The Night Foundation</p>
+            <h2>9. Contact</h2>
             <p>
               For privacy questions, please contact us through our <a href="/contact">contact page</a>.
             </p>

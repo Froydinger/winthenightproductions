@@ -28,14 +28,8 @@ const playlists: PlaylistMeta[] = [
 ];
 
 async function fetchPlaylistItems(playlistId: string) {
-  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
   const response = await fetch(
-    `https://${projectId}.supabase.co/functions/v1/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`,
-    {
-      headers: {
-        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-      },
-    }
+    `/.netlify/functions/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`
   );
   if (!response.ok) throw new Error("Failed to fetch playlist items");
   const data = await response.json();

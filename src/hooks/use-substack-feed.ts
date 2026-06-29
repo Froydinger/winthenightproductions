@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
-import { supabase } from "@/integrations/supabase/client";
 
 export interface SubstackPost {
   title: string;
@@ -38,14 +37,13 @@ export const useSubstackFeed = () => {
   return useQuery({
     queryKey: ["substack-feed"],
     queryFn: async (): Promise<SubstackPost[]> => {
-      console.log("Fetching Substack feed via edge function...");
+      console.log("Fetching Substack feed via Netlify function...");
 
-      const { data, error } = await supabase.functions.invoke("fetch-substack");
-
-      if (error) {
-        console.error("Edge function error:", error);
-        throw error;
+      const response = await fetch("/.netlify/functions/fetch-substack");
+      if (!response.ok) {
+        throw new Error("Failed to fetch Substack feed");
       }
+      const data = await response.json();
 
       const posts: SubstackPost[] = data?.posts || [];
       console.log(`Got ${posts.length} posts from edge function`);

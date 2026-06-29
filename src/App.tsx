@@ -9,7 +9,6 @@ import { AudioProvider } from "@/context/AudioContext";
 import { CustomAudioPlayer } from "@/components/CustomAudioPlayer";
 import TrailerButton from "@/components/TrailerButton";
 import ArcMiniChat from "@/components/ArcMiniChat";
-import { NewsletterAutoPrompt } from "@/components/NewsletterSubscribe";
 // Lazy load route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BeOurGuest = lazy(() => import("./pages/BeOurGuest"));
@@ -18,7 +17,6 @@ const CrisisResources = lazy(() => import("./pages/CrisisResources"));
 const Watch = lazy(() => import("./pages/Watch"));
 const Listen = lazy(() => import("./pages/Listen"));
 const ChapterPage = lazy(() => import("./pages/ChapterPage"));
-const Admin = lazy(() => import("./pages/Admin"));
 const Contact = lazy(() => import("./pages/Contact"));
 const About = lazy(() => import("./pages/About"));
 const Updates = lazy(() => import("./pages/Updates"));
@@ -29,9 +27,6 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Lander = lazy(() => import("./pages/Lander"));
-const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
-const ResetPassword = lazy(() => import("./pages/ResetPassword"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 const queryClient = new QueryClient();
 
@@ -55,7 +50,6 @@ const App = () => (
         <BrowserRouter>
           <TrailerButton />
           <ArcMiniChat />
-          <NewsletterAutoPrompt />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Lander />} />
@@ -69,18 +63,18 @@ const App = () => (
               <Route path="/watch" element={<Watch />} />
               <Route path="/watch/:chapterId" element={<ChapterPage />} />
               <Route path="/listen" element={<Listen />} />
-              <Route path="/admin" element={<Admin />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
               <Route path="/updates" element={<Updates />} />
-              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:postId" element={<BlogPost />} />
               <Route path="/legal" element={<Legal />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
-              <Route path="/unsubscribe" element={<Unsubscribe />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/admin" element={<Navigate to="/updates" replace />} />
+              <Route path="/dashboard" element={<Navigate to="/updates" replace />} />
+              <Route path="/unsubscribe" element={<Navigate to="/blog" replace />} />
+              <Route path="/reset-password" element={<Navigate to="/updates" replace />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

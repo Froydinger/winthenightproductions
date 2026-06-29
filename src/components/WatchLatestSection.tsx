@@ -1,30 +1,11 @@
 import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 
 const WatchLatestSection = () => {
   const navigate = useNavigate();
-  const [playlistId, setPlaylistId] = useState<string | null>(null);
-  const [buttonText, setButtonText] = useState<string | null>(null);
-  const [buttonLink, setButtonLink] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const load = async () => {
-      const { data } = await supabase
-        .from("watch_settings")
-        .select("watch_latest_playlist_id, watch_latest_button_text, watch_latest_button_link")
-        .eq("id", 1)
-        .maybeSingle();
-
-      setPlaylistId(data?.watch_latest_playlist_id || "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS");
-      setButtonText(data?.watch_latest_button_text || "Jump straight to Chapter 8");
-      setButtonLink(data?.watch_latest_button_link || "/watch/chapter-8");
-      setLoaded(true);
-    };
-    load();
-  }, []);
+  const playlistId = "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS";
+  const buttonText = "Jump straight to Chapter 8";
+  const buttonLink = "/watch/chapter-8";
 
   return (
     <section className="relative py-16 px-6 md:px-12 lg:px-24">
@@ -41,11 +22,6 @@ const WatchLatestSection = () => {
           </p>
 
           <div className="relative w-full aspect-video bg-black">
-            {!loaded ? (
-              <div className="w-full h-full animate-pulse bg-muted/30 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-muted/40" />
-              </div>
-            ) : (
             <iframe
               className="w-full h-full"
               src={`https://www.youtube.com/embed/videoseries?list=${playlistId}`}
@@ -55,7 +31,6 @@ const WatchLatestSection = () => {
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
-            )}
           </div>
 
           <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-t border-border/40">
