@@ -11,7 +11,6 @@ import { Youtube, Play, ArrowRight, ChevronDown } from "lucide-react";
 import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 import { StatCard } from "@/components/magazine/StatCard";
-import { WaveformBar } from "@/components/magazine/WaveformBar";
 import { CyanRule, Rule } from "@/components/magazine/SectionDivider";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -74,8 +73,6 @@ const Lander = () => {
   }, []);
 
   const episodesToShow = latestVideos;
-
-  const nowPlayingTitle = latestVideos[0]?.title || "Latest Win The Night episode";
 
   const handleEpisodePlay = (videoId: string) => {
     setSelectedVideo(videoId);
@@ -155,7 +152,7 @@ const Lander = () => {
               opacity: prefersReducedMotion ? 1 : logoOpacity,
             }}
           >
-            <div className="relative w-48 h-48 sm:w-56 sm:h-56">
+            <div className="relative w-96 h-96 sm:w-[28rem] sm:h-[28rem]">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:1s]" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:2s]" />
@@ -374,37 +371,7 @@ const Lander = () => {
           </div>
         </section>
 
-        {/* ===== SECTION 3: persistent audio visualizer player bar ===== */}
-        <div className="bg-[#0d0d0d] border-b border-[#1a1a1a] py-6 px-6 sm:px-10">
-          <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6">
-            <div>
-              <div className="text-[9px] uppercase tracking-[0.25em] text-[#555] mb-1">Now Playing</div>
-              <div className="text-xs font-semibold text-white tracking-wide truncate max-w-xs sm:max-w-md">
-                {nowPlayingTitle}
-              </div>
-            </div>
-            
-            {/* Animated wave bars */}
-            <div className="flex justify-center md:justify-start">
-              <WaveformBar barCount={30} className="max-w-md opacity-80" />
-            </div>
-
-            <div className="flex items-center gap-4 justify-end">
-              <button
-                onClick={() => selectedVideo ? setSelectedVideo(selectedVideo) : latestVideos[0] && handleEpisodePlay(latestVideos[0].videoId)}
-                className="w-11 h-11 rounded-full bg-[#00d9ff] flex items-center justify-center text-black shadow-[0_0_16px_rgba(0,217,255,0.4)] hover:scale-105 transition-transform"
-                aria-label="Play latest"
-              >
-                <Play className="w-4 h-4 fill-black ml-0.5" />
-              </button>
-              <span className="text-[10px] text-[#555] uppercase tracking-wider font-sans whitespace-nowrap">
-                LISTEN / WATCH LIVE
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* ===== SECTION 4: CONNECT / STATS ===== */}
+        {/* ===== SECTION 3: CONNECT / STATS ===== */}
         <section className="py-20 px-6 sm:px-10 bg-black">
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
