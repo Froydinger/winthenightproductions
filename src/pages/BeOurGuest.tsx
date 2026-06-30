@@ -53,7 +53,7 @@ const BeOurGuest = () => {
                   {lookingFor.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-[#00d9ff] mt-0.5 flex-shrink-0" />
-                      <span className="text-xs text-[#555] leading-relaxed font-sans">{item}</span>
+                      <span className="text-sm text-[#555] leading-relaxed font-sans">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -67,7 +67,7 @@ const BeOurGuest = () => {
                   {toExpect.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-[#00d9ff] mt-0.5 flex-shrink-0" />
-                      <span className="text-xs text-[#555] leading-relaxed font-sans">{item}</span>
+                      <span className="text-sm text-[#555] leading-relaxed font-sans">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -94,7 +94,7 @@ const BeOurGuest = () => {
                       <r.icon className="w-5 h-5" />
                     </div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-2">{r.title}</h3>
-                    <p className="text-[10px] text-[#555] leading-relaxed">{r.desc}</p>
+                    <p className="text-xs text-[#555] leading-relaxed">{r.desc}</p>
                   </div>
                 </ScrollReveal>
               ))}

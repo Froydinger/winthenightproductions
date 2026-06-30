@@ -78,7 +78,7 @@ const Contact = () => {
                   <Clock className="w-5 h-5 text-[#00d9ff]" />
                   <h3 className="text-xs font-bold uppercase tracking-wider text-white">Response Time</h3>
                 </div>
-                <p className="text-xs text-[#555] leading-relaxed">
+                <p className="text-sm text-[#555] leading-relaxed">
                   We typically respond within 48 hours. If you haven't heard from us, check your spam folder or reach out again.
                 </p>
               </div>
@@ -88,7 +88,7 @@ const Contact = () => {
                   <Mic className="w-5 h-5 text-[#00d9ff]" />
                   <h3 className="text-xs font-bold uppercase tracking-wider text-white">Be Our Guest</h3>
                 </div>
-                <p className="text-xs text-[#555] leading-relaxed">
+                <p className="text-sm text-[#555] leading-relaxed">
                   Interested in sharing your story on the podcast?{" "}
                   <a href="/guest" className="text-[#00d9ff] underline underline-offset-4 hover:opacity-85">
                     Visit our guest page
@@ -102,7 +102,7 @@ const Contact = () => {
                   <Mail className="w-5 h-5 text-[#00d9ff]" />
                   <h3 className="text-xs font-bold uppercase tracking-wider text-white">Direct Email</h3>
                 </div>
-                <p className="text-xs text-[#555] leading-relaxed">
+                <p className="text-sm text-[#555] leading-relaxed">
                   You can also email us directly at:
                 </p>
                 <a
@@ -122,7 +122,7 @@ const Contact = () => {
                     <Check className="w-6 h-6" />
                   </div>
                   <h2 className="font-bebas text-3xl text-white tracking-wider">Message Sent!</h2>
-                  <p className="text-xs text-[#555] max-w-sm mx-auto leading-relaxed">
+                  <p className="text-sm text-[#555] max-w-sm mx-auto leading-relaxed">
                     Thank you for reaching out. We have received your message and will get back to you shortly.
                   </p>
                   <button

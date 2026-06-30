@@ -259,7 +259,7 @@ const CrisisResources = () => {
                   <div className="bg-[#0d0d0d] border border-[#1a1a1a] hover:border-[#10b981]/20 rounded p-6 transition-all h-full flex flex-col justify-between">
                     <div>
                       <div className="font-bebas text-3xl text-[#10b981] tracking-wider mb-2">{s.stat}</div>
-                      <p className="text-[10px] text-[#555] leading-relaxed mb-4">{s.label}</p>
+                      <p className="text-xs text-[#555] leading-relaxed mb-4">{s.label}</p>
                     </div>
                     <div className="text-[9px] uppercase tracking-wider text-[#333] pt-2 border-t border-[#111]">
                       Source: {s.source}
@@ -351,7 +351,7 @@ const CrisisResources = () => {
                         <Plus className="w-4 h-4" />
                       </span>
                     </summary>
-                    <p className="text-xs text-[#555] leading-relaxed mt-3 pt-3 border-t border-[#111]">{f.a}</p>
+                    <p className="text-sm text-[#555] leading-relaxed mt-3 pt-3 border-t border-[#111]">{f.a}</p>
                   </details>
                 </ScrollReveal>
               ))}

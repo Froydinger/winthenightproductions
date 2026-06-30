@@ -245,7 +245,7 @@ const Watch = () => {
                 <h3 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">
                   Have something to share?
                 </h3>
-                <p className="text-xs text-[#555] font-sans max-w-md mx-auto">
+                <p className="text-sm text-[#555] font-sans max-w-md mx-auto">
                   Join the conversation and share your thoughts, stories, or updates with our community.
                 </p>
                 <a

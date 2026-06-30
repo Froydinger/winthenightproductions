@@ -114,7 +114,7 @@ const ChapterPage = () => {
                   {playlist.name}
                 </h1>
               </div>
-              <p className="text-xs text-[#555] leading-relaxed max-w-xl">
+              <p className="text-sm text-[#555] leading-relaxed max-w-xl">
                 {playlist.id === "specials" ? "Fast moments from the show and special short films" : playlist.description}
               </p>
             </div>
@@ -135,7 +135,7 @@ const ChapterPage = () => {
             <section className="space-y-6">
               <div className="space-y-1">
                 <h2 className="font-bebas text-2xl tracking-wider text-white">Short Highlights</h2>
-                <p className="text-xs text-[#555]">Quick clips from the show. Scroll to watch.</p>
+                <p className="text-sm text-[#555]">Quick clips from the show. Scroll to watch.</p>
               </div>
               <ShortsCarousel />
               <Rule />

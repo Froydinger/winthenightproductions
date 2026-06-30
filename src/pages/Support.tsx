@@ -37,7 +37,7 @@ const Support = () => {
           {/* Buy me a coffee card */}
           <ScrollReveal animation="scale-in">
             <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 sm:p-12 rounded text-center space-y-6">
-              <p className="text-xs text-[#555] max-w-md mx-auto leading-relaxed">
+              <p className="text-sm text-[#555] max-w-md mx-auto leading-relaxed">
                 Support our independent media series directly through Buy Me a Coffee. It keeps operations lightweight, simple, and off-site.
               </p>
               
@@ -85,7 +85,7 @@ const Support = () => {
                         <i.icon className="w-5 h-5" />
                       </div>
                       <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-2">{i.title}</h3>
-                      <p className="text-[10px] text-[#555] leading-relaxed">{i.desc}</p>
+                      <p className="text-sm text-[#555] leading-relaxed">{i.desc}</p>
                     </div>
                   </div>
                 </ScrollReveal>

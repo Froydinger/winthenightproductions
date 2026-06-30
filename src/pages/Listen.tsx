@@ -129,7 +129,7 @@ const Listen = () => {
                       <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 line-clamp-1">
                         {currentEpisode.title}
                       </h2>
-                      <p className="text-xs text-[#555] line-clamp-2 leading-relaxed">
+                      <p className="text-sm text-[#555] line-clamp-2 leading-relaxed">
                         {currentEpisode.description}
                       </p>
                     </div>
@@ -259,7 +259,7 @@ const Listen = () => {
                         <h3 className="text-sm font-semibold text-white line-clamp-2 group-hover:text-[#00d9ff] transition-colors leading-snug">
                           {episode.title}
                         </h3>
-                        <p className="text-xs text-[#555] line-clamp-2 leading-relaxed">
+                        <p className="text-sm text-[#555] line-clamp-2 leading-relaxed">
                           {episode.description}
                         </p>
                       </div>

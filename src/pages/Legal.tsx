@@ -52,7 +52,7 @@ const Legal = () => {
                       <d.icon className="w-5 h-5" />
                     </div>
                     <h2 className="text-sm font-bold text-white mb-2">{d.title}</h2>
-                    <p className="text-xs text-[#555] leading-relaxed">{d.desc}</p>
+                    <p className="text-sm text-[#555] leading-relaxed">{d.desc}</p>
                   </div>
                   <a
                     href={d.href}
@@ -75,7 +75,7 @@ const Legal = () => {
               </div>
               <div className="space-y-3 text-center sm:text-left">
                 <h2 className="font-bebas text-2xl tracking-wide text-white">Questions About Our Policies?</h2>
-                <p className="text-xs text-[#555] leading-relaxed">
+                <p className="text-sm text-[#555] leading-relaxed">
                   If you have any questions about our privacy practices or terms of service, please don't hesitate to reach out. We're here to help and ensure you understand how we protect and serve our community.
                 </p>
                 <a

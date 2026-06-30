@@ -96,7 +96,7 @@ const BlogPost = () => {
           </div>
           <div className="relative z-10 max-w-xl mx-auto px-6 py-20 text-center space-y-6">
             <h1 className="font-bebas text-5xl text-red-500 tracking-wider">Post Not Found</h1>
-            <p className="text-xs text-[#555] leading-relaxed">
+            <p className="text-sm text-[#555] leading-relaxed">
               The blog post you're looking for doesn't exist or has been removed.
             </p>
             <Link
@@ -227,7 +227,7 @@ const BlogPost = () => {
               <h3 className="font-bebas text-2xl tracking-wider text-white">
                 Continue the conversation
               </h3>
-              <p className="text-xs text-[#555] max-w-sm mx-auto leading-relaxed">
+              <p className="text-sm text-[#555] max-w-sm mx-auto leading-relaxed">
                 Join us on Substack to like, comment, and engage with our community.
               </p>
               <div className="flex justify-center gap-3">

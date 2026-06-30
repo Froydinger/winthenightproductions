@@ -69,7 +69,7 @@ const Updates = () => {
                         <item.icon className="w-5 h-5" />
                       </div>
                       <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-2">{item.title}</h3>
-                      <p className="text-[10px] text-[#555] leading-relaxed mb-6">{item.desc}</p>
+                      <p className="text-sm text-[#555] leading-relaxed mb-6">{item.desc}</p>
                     </div>
 
                     <a
@@ -92,7 +92,7 @@ const Updates = () => {
           {/* Substack Newsletter */}
           <section className="py-12 text-center space-y-6 max-w-md mx-auto">
             <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Get updates by email</h2>
-            <p className="text-xs text-[#555] max-w-xs mx-auto leading-relaxed">
+            <p className="text-sm text-[#555] max-w-xs mx-auto leading-relaxed">
               Subscribe through Substack for new writing, podcast updates, and project notes.
             </p>
             <div className="w-full">

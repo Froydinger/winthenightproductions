@@ -87,7 +87,7 @@ const BlogPostCard = ({ post }: { post: SubstackPost }) => {
               {post.title}
             </h2>
 
-            <p className="text-xs text-[#555] leading-relaxed line-clamp-3">
+            <p className="text-sm text-[#555] leading-relaxed line-clamp-3">
               {getExcerpt(post.description)}
             </p>
           </div>
@@ -233,7 +233,7 @@ const Blog = () => {
             </div>
           ) : error ? (
             <div className="text-center py-16 bg-[#0d0d0d] border border-[#1a1a1a] rounded p-8">
-              <p className="text-xs text-[#555] mb-4">Unable to load blog posts at the moment.</p>
+              <p className="text-sm text-[#555] mb-4">Unable to load blog posts at the moment.</p>
               <a
                 href={SUBSTACK_URL}
                 target="_blank"
@@ -246,7 +246,7 @@ const Blog = () => {
             </div>
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-16 bg-[#0d0d0d] border border-[#1a1a1a] rounded p-8">
-              <p className="text-xs text-[#555] mb-4">
+              <p className="text-sm text-[#555] mb-4">
                 {selectedAuthor === "all" ? "No posts available yet" : `No posts found by ${selectedAuthor}`}
               </p>
               {selectedAuthor !== "all" && (
@@ -295,7 +295,7 @@ const Blog = () => {
                   <p className="text-white font-bold uppercase tracking-wider text-xs">
                     Stay updated with our latest stories
                   </p>
-                  <p className="text-[10px] text-[#555] max-w-xs leading-relaxed">
+                  <p className="text-xs text-[#555] max-w-xs leading-relaxed">
                     Subscribe to Win The Night on Substack to get new posts delivered straight to your inbox.
                   </p>
                   <a
