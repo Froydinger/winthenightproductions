@@ -42,7 +42,7 @@ const About = () => {
           <AnimatedBackground />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 space-y-20">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 pb-12 md:pb-16 space-y-20">
           {/* Editorial Header */}
           <div className="border-b border-[#1a1a1a] pb-10 space-y-6">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#00d9ff]">About Us</p>
@@ -247,7 +247,7 @@ const About = () => {
           <CyanRule />
 
           {/* Footer Callouts Grid */}
-          <div className="grid md:grid-cols-2 gap-4 mb-12 md:mb-16">
+          <div className="grid md:grid-cols-2 gap-4">
             {/* Join Community CTA */}
             <section id="community" className="border border-[#1a1a1a] p-8 text-center flex flex-col justify-between items-center gap-6 bg-[#050505] min-h-[18rem]">
               <div className="space-y-4 max-w-sm">
