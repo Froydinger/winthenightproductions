@@ -25,6 +25,7 @@ type Resource = {
   name: string;
   meta: string;
   href: string;
+  desc?: string;
 };
 
 const CrisisResources = () => {
@@ -100,8 +101,47 @@ const CrisisResources = () => {
 
   const lgbtq: Resource[] = [
     { name: "Trans Lifeline", meta: "By and for trans people", href: "https://translifeline.org/" },
-    { name: "HRC Resources", meta: "Advocacy and support", href: "https://www.hrc.org/resources" },
+    { name: "LGBT National Help Center", meta: "Peer support", href: "https://www.lgbthotline.org/" },
     { name: "The Trevor Project", meta: "Youth crisis intervention", href: "https://www.thetrevorproject.org/" },
+  ];
+
+  const careGuides = [
+    {
+      q: "I need help right now. Where do I go first?",
+      a: "If you feel at risk of harming yourself or someone else, call or text 988 in the U.S. If there is immediate physical danger, call emergency services. If you are outside the U.S., use Find A Helpline to locate local crisis support.",
+      links: [
+        { label: "Call 988", href: "tel:988" },
+        { label: "Text 988", href: "sms:988" },
+        { label: "Global helplines", href: "https://findahelpline.com/" },
+      ],
+    },
+    {
+      q: "I need affordable therapy or treatment.",
+      a: "Start with FindTreatment.gov for confidential mental health and substance use treatment search, Open Path for lower-cost therapy, and NAMI for peer support and navigation help.",
+      links: [
+        { label: "FindTreatment.gov", href: "https://findtreatment.gov/" },
+        { label: "Open Path", href: "https://openpathcollective.org/" },
+        { label: "NAMI HelpLine", href: "https://www.nami.org/nami-helpline/" },
+      ],
+    },
+    {
+      q: "I'm not in crisis, but I need to talk.",
+      a: "Use a warmline or peer support option when you need a human before things become an emergency. These are better fits for loneliness, anxiety, overwhelm, or needing to say the thing out loud.",
+      links: [
+        { label: "Warmline directory", href: "https://warmline.org/" },
+        { label: "NAMI HelpLine", href: "https://www.nami.org/nami-helpline/" },
+        { label: "Crisis Text Line", href: "https://www.crisistextline.org/" },
+      ],
+    },
+    {
+      q: "I'm helping someone else.",
+      a: "If they may be in danger, stay with them if you can and contact crisis support. If you are trying to learn what to say, use 988 guidance, NAMI family resources, and Mental Health First Aid.",
+      links: [
+        { label: "988 loved ones guide", href: "https://988lifeline.org/help-yourself/loved-ones/" },
+        { label: "NAMI family support", href: "https://www.nami.org/Support-Education/Support-Groups/NAMI-Family-Support-Group" },
+        { label: "Mental Health First Aid", href: "https://www.mentalhealthfirstaid.org/" },
+      ],
+    },
   ];
 
   const stats = [
@@ -116,9 +156,9 @@ const CrisisResources = () => {
       source: "NAMI",
     },
     {
-      stat: "49,300+",
-      label: "lives lost to suicide in the U.S. in 2023 — about one every 11 minutes.",
-      source: "CDC WONDER",
+      stat: "48,824",
+      label: "suicide deaths reported in the U.S. in 2024. The number of people thinking about or attempting suicide is much higher.",
+      source: "CDC",
     },
   ];
 
@@ -210,7 +250,7 @@ const CrisisResources = () => {
               <div className="inline-flex w-10 h-10 rounded border border-[#1a1a1a] items-center justify-center text-[#10b981] mb-2 mx-auto">
                 <Sparkles className="w-5 h-5" />
               </div>
-              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Mental health in 2026</h2>
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Why care matters</h2>
             </div>
             
             <div className="grid sm:grid-cols-3 gap-4">
@@ -232,8 +272,52 @@ const CrisisResources = () => {
 
           <hr className="border-[#1a1a1a]" />
 
+          {/* Start-here guide cards */}
+          <section className="space-y-8">
+            <div className="space-y-2">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#10b981]">Start here</p>
+              <h2 className="font-bebas text-3xl sm:text-5xl tracking-wider text-white">Find the right door</h2>
+              <p className="text-sm text-[#666] max-w-2xl leading-relaxed">
+                These are practical routes through the resource list, built around what someone might actually need in the moment.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {careGuides.map((guide, idx) => (
+                <ScrollReveal key={guide.q} animation="fade-up" delay={idx * 80}>
+                  <article className="rounded border border-[#123c2c] bg-[#06110d] p-6 sm:p-7 space-y-5 h-full">
+                    <div className="flex items-start justify-between gap-5 border-b border-[#123c2c]/70 pb-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-white leading-snug">{guide.q}</h3>
+                      <HelpCircle className="w-5 h-5 shrink-0 text-[#10b981]" />
+                    </div>
+                    <p className="text-sm text-[#777] leading-relaxed">{guide.a}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {guide.links.map((link) => (
+                        <a
+                          key={link.label}
+                          href={link.href}
+                          target={link.href.startsWith("http") ? "_blank" : undefined}
+                          rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="rounded border border-[#10b981]/30 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-[#10b981] transition-colors hover:border-[#10b981] hover:bg-[#10b981]/10"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+
+          <hr className="border-[#1a1a1a]" />
+
           {/* Resource sections */}
-          <div className="space-y-16">
+          <div className="space-y-12">
+            <div className="space-y-2">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#10b981]">Resource library</p>
+              <h2 className="font-bebas text-3xl sm:text-5xl tracking-wider text-white">Helpful links by need</h2>
+            </div>
             <ResourceList icon={LifeBuoy} title="Crisis lines & immediate support" resources={crisis} />
             <ResourceList icon={Brain} title="General mental health support" resources={mentalHealth} />
             <ResourceList icon={BookOpen} title="Self-care toolkit & free tools" resources={selfCare} />
