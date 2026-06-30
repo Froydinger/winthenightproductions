@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Rule, CyanRule } from "@/components/magazine/SectionDivider";
 import ScrollReveal from "@/components/ScrollReveal";
-import NewsletterSubscribe from "@/components/NewsletterSubscribe";
+import { NewsletterDialog } from "@/components/NewsletterSubscribe";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 import { Info, Mic, Users, BookOpen, Anchor, Heart, Play, Sparkles } from "lucide-react";
 
@@ -93,8 +93,6 @@ const About = () => {
               </div>
             </div>
           </ScrollReveal>
-
-          <CyanRule />
 
           {/* Pillars Section */}
           <section className="relative overflow-hidden rounded border border-[#1a1a1a] bg-[#050505]/80">
@@ -251,8 +249,8 @@ const About = () => {
           {/* Footer Callouts Grid */}
           <div className="grid md:grid-cols-2 gap-4">
             {/* Join Community CTA */}
-            <section id="community" className="border border-[#1a1a1a] p-8 sm:p-10 text-center space-y-8 flex flex-col justify-between items-center bg-[#050505] min-h-[22rem]">
-              <div className="space-y-4">
+            <section id="community" className="border border-[#1a1a1a] p-8 text-center flex flex-col justify-between items-center gap-6 bg-[#050505] min-h-[18rem]">
+              <div className="space-y-4 max-w-sm">
                 <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] mx-auto">
                   <Heart className="w-5 h-5" />
                 </div>
@@ -269,9 +267,9 @@ const About = () => {
               </a>
             </section>
 
-            {/* Newsletter Subscribe */}
-            <section id="newsletter" className="border border-[#1a1a1a] p-8 sm:p-10 text-center space-y-8 flex flex-col justify-between items-center bg-[#050505] min-h-[22rem]">
-              <div className="space-y-4 w-full">
+            {/* Newsletter CTA */}
+            <section id="newsletter" className="border border-[#1a1a1a] p-8 text-center flex flex-col justify-between items-center gap-6 bg-[#050505] min-h-[18rem]">
+              <div className="space-y-4 max-w-sm">
                 <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center text-[#00d9ff] mx-auto">
                   <Heart className="w-5 h-5" />
                 </div>
@@ -280,9 +278,11 @@ const About = () => {
                   New essays, episodes, and reflections in your inbox.
                 </p>
               </div>
-              <div className="w-full mt-4">
-                <NewsletterSubscribe />
-              </div>
+              <NewsletterDialog>
+                <button className="inline-flex items-center justify-center gap-2 bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_12px_rgba(0,217,255,0.3)] transition-all">
+                  Subscribe on Substack
+                </button>
+              </NewsletterDialog>
             </section>
           </div>
 

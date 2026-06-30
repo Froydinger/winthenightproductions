@@ -68,10 +68,10 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-black/92 backdrop-blur-xl border-b border-[#111]">
       <div className="h-2 w-full bg-neon-blue shadow-[0_0_16px_rgba(93,204,255,0.9)]" />
-      <div className="container mx-auto h-16 flex items-center justify-between px-4 sm:px-8 pt-2">
+      <div className="container mx-auto h-16 flex items-center justify-between gap-2 px-4 sm:px-8 pt-2">
         <a
           href="/"
-          className={`flex items-center gap-2 group transition-all duration-500 ${
+          className={`flex min-w-0 shrink-0 items-center gap-2 group transition-all duration-500 ${
             logoVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
           }`}
         >
@@ -82,65 +82,68 @@ const Header = () => {
             decoding="async"
             className="h-10 w-10 object-contain rounded-full drop-shadow-[0_0_8px_rgba(0,217,255,0.8)] transition-transform duration-300 group-hover:scale-110"
           />
-          <div className="font-bebas text-xl tracking-wider text-white select-none leading-none">
+          <div className="font-bebas text-base min-[430px]:text-xl tracking-wider text-white select-none leading-none whitespace-nowrap">
             WIN THE <span className="text-[#00d9ff]">NIGHT</span>
           </div>
-          <div className="hidden sm:block w-[1px] h-6 bg-[#222] mx-2" />
-          <span className="hidden sm:block text-[0.6rem] tracking-[0.2em] uppercase text-[#555] font-medium leading-none">
+          <div className="hidden 2xl:block w-[1px] h-6 bg-[#222] mx-2" />
+          <span className="hidden 2xl:block text-[0.6rem] tracking-[0.2em] uppercase text-[#555] font-medium leading-none whitespace-nowrap">
             Foundation
           </span>
         </a>
 
         {/* Mobile Navigation */}
-        <nav className="flex md:hidden items-center gap-1 mr-auto ml-4">
+        <nav className="flex xl:hidden items-center gap-1 mr-auto ml-2 sm:ml-4 min-w-0">
           <a
             href="/watch"
-            className="px-2.5 py-1.5 text-xs font-bold text-[#00d9ff] hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-[#00d9ff]/10 drop-shadow-[0_0_6px_rgba(0,217,255,0.6)] uppercase tracking-wider"
+            className="px-2.5 py-1.5 text-xs font-bold text-[#00d9ff] hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-[#00d9ff]/10 drop-shadow-[0_0_6px_rgba(0,217,255,0.6)] uppercase tracking-wider whitespace-nowrap"
           >
             Watch
           </a>
           <a
-            href="/support"
-            className="px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider"
+            href="/about"
+            className="hidden min-[390px]:inline-flex px-2.5 py-1.5 text-xs font-medium text-foreground/70 hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider whitespace-nowrap"
           >
-            Support
+            About
           </a>
           <a
             href="/crisis-resources"
-            className="px-2.5 py-1.5 text-xs font-bold text-[#10b981] hover:text-[#34d399] transition-colors duration-200 rounded-md hover:bg-[#10b981]/10 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)] uppercase tracking-wider"
+            className="px-2.5 py-1.5 text-xs font-bold text-[#10b981] hover:text-[#34d399] transition-colors duration-200 rounded-md hover:bg-[#10b981]/10 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)] uppercase tracking-wider whitespace-nowrap"
           >
             Care
           </a>
         </nav>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1 mr-auto ml-6">
-          <a href="/blog" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
+        <nav className="hidden xl:flex items-center gap-1 mr-auto ml-6 min-w-0 flex-nowrap overflow-hidden">
+          <a href="/blog" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider whitespace-nowrap">
             Blog
           </a>
-          <a href="/watch" className="px-3 py-1.5 text-xs font-bold text-[#00d9ff] hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-[#00d9ff]/10 drop-shadow-[0_0_8px_rgba(0,217,255,0.6)] uppercase tracking-wider">
+          <a href="/watch" className="px-3 py-1.5 text-xs font-bold text-[#00d9ff] hover:text-[#7dd7ff] transition-colors duration-200 rounded-md hover:bg-[#00d9ff]/10 drop-shadow-[0_0_8px_rgba(0,217,255,0.6)] uppercase tracking-wider whitespace-nowrap">
             Watch
           </a>
-          <a href="/listen" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
+          <a href="/listen" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider whitespace-nowrap">
             Listen
           </a>
-          <a href="/updates" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
+          <a href="/updates" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider whitespace-nowrap">
             Community
           </a>
-          <a href="/support" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider">
+          <a href="/about" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider whitespace-nowrap">
+            About
+          </a>
+          <a href="/support" className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 uppercase tracking-wider whitespace-nowrap">
             Support Us
           </a>
-          <a href="/crisis-resources" className="px-3 py-1.5 text-xs font-bold text-[#10b981] hover:text-[#34d399] transition-colors duration-200 rounded-md hover:bg-[#10b981]/10 drop-shadow-[0_0_8px_rgba(16,185,129,0.6)] uppercase tracking-wider">
+          <a href="/crisis-resources" className="px-3 py-1.5 text-xs font-bold text-[#10b981] hover:text-[#34d399] transition-colors duration-200 rounded-md hover:bg-[#10b981]/10 drop-shadow-[0_0_8px_rgba(16,185,129,0.6)] uppercase tracking-wider whitespace-nowrap">
             Care &amp; Crisis
           </a>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <a
             href="https://youtube.com/@winthenight?sub_confirmation=1"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center gap-2 bg-[#00d9ff] hover:opacity-85 text-black font-bold uppercase tracking-wider text-xs px-4 py-2 rounded shadow-[0_0_12px_rgba(0,217,255,0.5)] transition-all"
+            className="hidden xl:inline-flex items-center gap-2 bg-[#00d9ff] hover:opacity-85 text-black font-bold uppercase tracking-wider text-xs px-4 py-2 rounded shadow-[0_0_12px_rgba(0,217,255,0.5)] transition-all whitespace-nowrap"
             aria-label="Subscribe on YouTube"
           >
             <Youtube className="w-3.5 h-3.5" />

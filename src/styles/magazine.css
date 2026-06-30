@@ -200,5 +200,11 @@ body.magazine-mode {
   .ep-row-custom {
     grid-template-columns: 1fr;
     gap: 1rem;
+    padding: 1.25rem 0;
+  }
+
+  .ep-row-custom > :not(:first-child) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }

@@ -7,7 +7,7 @@ import mountainsFront from "@/assets/lander/mountains-front.png";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Youtube, Play, ArrowRight, ChevronDown } from "lucide-react";
+import { Instagram, Youtube, Play, ArrowRight, ChevronDown } from "lucide-react";
 import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
 import { StatCard } from "@/components/magazine/StatCard";
@@ -249,17 +249,35 @@ const Lander = () => {
                 A mental health community built on real conversations, not highlight reels.
               </p>
               <div className="flex gap-2">
-                {['youtube', 'instagram', 'tiktok'].map((platform) => (
-                  <a
-                    key={platform}
-                    href={`https://${platform}.com/${platform === 'tiktok' ? '@winthenightpod' : platform === 'instagram' ? 'win_the_night' : '@winthenight'}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-7 h-7 rounded border border-[#2a2a2a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all"
-                  >
-                    <span className="text-[10px] uppercase font-bold">{platform[0]}</span>
-                  </a>
-                ))}
+                <a
+                  href="https://youtube.com/@winthenight"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-7 h-7 rounded border border-[#2a2a2a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href="https://instagram.com/win_the_night"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-7 h-7 rounded border border-[#2a2a2a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href="https://tiktok.com/@winthenightpod"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-7 h-7 rounded border border-[#2a2a2a] flex items-center justify-center text-[#555] hover:border-[#00d9ff] hover:text-[#00d9ff] transition-all"
+                  aria-label="TikTok"
+                >
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3 0 .6.04.88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4c-.35 0-.7-.03-1.04-.1Z" />
+                  </svg>
+                </a>
               </div>
             </motion.div>
           </motion.div>
@@ -288,18 +306,18 @@ const Lander = () => {
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[280px_1fr] border-b border-[#1a1a1a]">
             
             {/* Left Sidebar column */}
-            <div className="p-8 sm:p-16 border-r border-[#1a1a1a] flex flex-col justify-between items-center lg:items-start min-h-[300px] lg:min-h-[500px]">
-              <div className="font-bebas text-7xl sm:text-8xl tracking-wider text-transparent select-none lg:[writing-mode:vertical-rl] lg:transform lg:rotate-180" style={{ WebkitTextStroke: "1.5px rgba(0,217,255,0.35)", textShadow: "0 0 12px rgba(0,217,255,0.1)" }}>
+            <div className="px-6 py-10 sm:p-16 border-r border-[#1a1a1a] flex flex-col justify-center gap-5 items-center lg:justify-between lg:items-start min-h-[190px] sm:min-h-[260px] lg:min-h-[500px]">
+              <div className="font-bebas text-6xl sm:text-8xl tracking-wider text-transparent select-none lg:[writing-mode:vertical-rl] lg:transform lg:rotate-180" style={{ WebkitTextStroke: "1.5px rgba(0,217,255,0.35)", textShadow: "0 0 12px rgba(0,217,255,0.1)" }}>
                 LATEST
               </div>
-              <a href="/watch" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#00d9ff] hover:gap-3 transition-all mt-6 lg:mt-0">
+              <a href="/watch" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#00d9ff] hover:gap-3 transition-all">
                 All episodes
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
 
             {/* Right Episodes column */}
-            <div className="p-6 sm:p-10 flex flex-col justify-center">
+            <div className="px-0 py-6 sm:p-10 flex flex-col justify-center">
               {isPlaylistLoading ? (
                 <div className="space-y-6">
                   {Array.from({ length: 3 }).map((_, i) => (
@@ -321,7 +339,7 @@ const Lander = () => {
                       className="ep-row-custom w-full text-left overflow-hidden"
                     >
                       {/* Thumbnail wrapper */}
-                      <div className="relative w-full max-w-[22rem] md:max-w-none aspect-video bg-[#141414] rounded overflow-hidden group/thumb">
+                      <div className="relative w-full aspect-video bg-[#141414] sm:rounded overflow-hidden group/thumb">
                         <img
                           src={item.thumbnail}
                           alt={item.title}
