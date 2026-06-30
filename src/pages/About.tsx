@@ -37,7 +37,7 @@ const About = () => {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-24 pb-20">
+      <main className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative pt-24">
         <div className="fixed inset-0 z-0">
           <AnimatedBackground />
         </div>
