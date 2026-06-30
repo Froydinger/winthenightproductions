@@ -60,9 +60,9 @@ const Header = () => {
   ];
 
   const sectionAnchors = [
-    { label: "What We're About", id: "features" },
-    { label: "Community", id: "community" },
-    { label: "Join Us", id: "cta" },
+    { label: "Latest", id: "episodes" },
+    { label: "Explore", id: "explore" },
+    { label: "Updates", id: "updates" },
   ];
 
   return (
@@ -82,11 +82,11 @@ const Header = () => {
             decoding="async"
             className="h-10 w-10 object-contain rounded-full drop-shadow-[0_0_8px_rgba(0,217,255,0.8)] transition-transform duration-300 group-hover:scale-110"
           />
-          <div className="font-bebas text-base min-[430px]:text-xl tracking-wider text-white select-none leading-none whitespace-nowrap">
+          <div className="hidden xl:block font-bebas text-xl tracking-wider text-white select-none leading-none whitespace-nowrap">
             WIN THE <span className="text-[#00d9ff]">NIGHT</span>
           </div>
-          <div className="hidden 2xl:block w-[1px] h-6 bg-[#222] mx-2" />
-          <span className="hidden 2xl:block text-[0.6rem] tracking-[0.2em] uppercase text-[#555] font-medium leading-none whitespace-nowrap">
+          <div className="hidden xl:block w-[1px] h-6 bg-[#222] mx-2" />
+          <span className="block text-[0.6rem] tracking-[0.2em] uppercase text-[#777] font-medium leading-none whitespace-nowrap xl:text-[#555]">
             Foundation
           </span>
         </a>

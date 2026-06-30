@@ -57,6 +57,7 @@ const Lander = () => {
   const skyY = useTransform(smoothProgress, [0, 0.5], ["0%", "4%"]);
   const mountainBackY = useTransform(smoothProgress, [0, 0.5], ["0%", "10%"]);
   const mountainFrontY = useTransform(smoothProgress, [0, 0.5], ["0%", "3%"]);
+  const exploreSkyY = useTransform(smoothProgress, [0.35, 1], ["-8%", "8%"]);
 
   // Bottom text scroll animations
   const textOpacity = useTransform(smoothProgress, [0, 0.35], [1, 0]);
@@ -432,8 +433,18 @@ const Lander = () => {
         <Rule />
 
         {/* ===== SECTION 5: EXPLORE GRID ===== */}
-        <section className="py-20 px-6 sm:px-10 bg-[#0d0d0d]">
-          <div className="max-w-[1400px] mx-auto space-y-12">
+        <section id="explore" className="relative overflow-hidden py-20 px-6 sm:px-10 bg-[#0d0d0d]">
+          <motion.div
+            className="absolute inset-x-0 -inset-y-12 pointer-events-none bg-cover bg-top brightness-[0.35] contrast-125 saturate-125 opacity-80"
+            style={{
+              y: prefersReducedMotion ? 0 : exploreSkyY,
+              backgroundImage: `url(${skyBackground})`,
+            }}
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-[#041a2f]/40 pointer-events-none" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/45 pointer-events-none" aria-hidden="true" />
+          <div className="relative z-10 max-w-[1400px] mx-auto space-y-12">
             <div className="text-center space-y-4">
               <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">EXPLORE EVERYTHING</h2>
               <p className="text-xs text-[#555] uppercase tracking-[0.25em] font-sans max-w-md mx-auto">
@@ -471,7 +482,7 @@ const Lander = () => {
         </section>
 
         {/* ===== SECTION 6: NEWSLETTER BAR ===== */}
-        <section className="bg-black py-16 px-6 sm:px-10 border-t border-[#1a1a1a]">
+        <section id="updates" className="bg-black py-16 px-6 sm:px-10 border-t border-[#1a1a1a]">
           <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff] mb-1">Stay Connected</div>

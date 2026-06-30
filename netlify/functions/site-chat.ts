@@ -23,10 +23,31 @@ You are not a crisis service or clinician. If someone may be in immediate danger
 Keep most answers to 2-4 sentences and include markdown links when naming pages or resources.`;
 
 async function getSystemPrompt() {
-  const store = getStore("wtn-admin");
-  const stored = await store.get("site-settings", { type: "json" });
-  const settings = { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>) };
-  return settings.chatbot_system_prompt || systemPrompt;
+  try {
+    const store = getStore("wtn-admin");
+    const stored = await store.get("site-settings", { type: "json" });
+    const settings = { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>) };
+    return settings.chatbot_system_prompt || systemPrompt;
+  } catch {
+    return systemPrompt;
+  }
+}
+
+function toTranscript(messages: Message[]) {
+  return messages
+    .map((message) => `${message.role === "assistant" ? "Arc" : "Visitor"}: ${message.content}`)
+    .join("\n");
+}
+
+function getResponseText(data: any) {
+  if (typeof data.output_text === "string") return data.output_text;
+
+  const textParts = data.output
+    ?.flatMap((item: any) => item.content || [])
+    ?.filter((content: any) => content.type === "output_text" && typeof content.text === "string")
+    ?.map((content: any) => content.text);
+
+  return textParts?.join("\n").trim() || "";
 }
 
 export const handler: Handler = async (event) => {
@@ -68,19 +89,23 @@ export const handler: Handler = async (event) => {
     }
 
     const activeSystemPrompt = await getSystemPrompt();
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const model = process.env.OPENAI_MODEL || "gpt-5.4-nano";
+    const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || "gpt-5.4-nano",
-        messages: [{ role: "system", content: activeSystemPrompt }, ...messages],
+        model,
+        instructions: activeSystemPrompt,
+        input: toTranscript(messages),
+        max_output_tokens: 450,
       }),
     });
 
     if (!response.ok) {
+      console.error("OpenAI Responses API error", response.status, await response.text());
       return {
         statusCode: response.status === 429 ? 429 : 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -92,9 +117,10 @@ export const handler: Handler = async (event) => {
     return {
       statusCode: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
-      body: JSON.stringify({ message: data.choices?.[0]?.message?.content || "" }),
+      body: JSON.stringify({ message: getResponseText(data) || "I am here, but I came up empty. Try asking that another way?" }),
     };
-  } catch {
+  } catch (error) {
+    console.error("site-chat error", error);
     return {
       statusCode: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
