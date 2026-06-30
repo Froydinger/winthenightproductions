@@ -247,7 +247,7 @@ const About = () => {
           <CyanRule />
 
           {/* Footer Callouts Grid */}
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4 mb-12 md:mb-16">
             {/* Join Community CTA */}
             <section id="community" className="border border-[#1a1a1a] p-8 text-center flex flex-col justify-between items-center gap-6 bg-[#050505] min-h-[18rem]">
               <div className="space-y-4 max-w-sm">
