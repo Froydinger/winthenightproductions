@@ -19,7 +19,7 @@ const communityLinks = [
     icon: Instagram,
     platform: "Instagram",
     handle: "@win_the_night",
-    desc: "Daily moments, episode clips, and the heart of the community.",
+    desc: "New clips, behind-the-scenes moments, and updates from across the community.",
     href: "https://instagram.com/win_the_night",
     accent: "from-[#d946ef]/20 via-[#f97316]/10 to-transparent",
     iconColor: "text-[#f472b6]",
@@ -39,7 +39,7 @@ const communityLinks = [
     icon: BookOpen,
     platform: "Substack",
     handle: "@winthenight",
-    desc: "Essays, project notes, podcast updates, and writing that goes deeper.",
+    desc: "Our most in-depth essays and an ad-free version of the podcast.",
     href: "https://substack.com/@winthenight",
     accent: "from-[#ff6719]/20 via-[#ff6719]/5 to-transparent",
     iconColor: "text-[#ff8a4c]",
@@ -160,7 +160,7 @@ const Updates = () => {
           <section className="py-12 text-center space-y-6 max-w-md mx-auto">
             <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Get updates by email</h2>
             <p className="text-sm text-[#555] max-w-xs mx-auto leading-relaxed">
-              Subscribe through Substack for new writing, podcast updates, and project notes.
+              Subscribe through Substack for our deepest writing and the ad-free podcast.
             </p>
             <div className="w-full">
               <NewsletterSubscribe />
