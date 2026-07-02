@@ -40,7 +40,7 @@ const communityLinks = [
     platform: "Substack",
     handle: "@winthenight",
     desc: "Our most in-depth essays and an ad-free version of the podcast.",
-    href: "https://substack.com/@winthenight",
+    href: "https://open.substack.com/pub/winthenight",
     accent: "from-[#ff6719]/20 via-[#ff6719]/5 to-transparent",
     iconColor: "text-[#ff8a4c]",
     hoverBorder: "hover:border-[#ff8a4c]/70",
