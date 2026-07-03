@@ -131,7 +131,7 @@ const Lander = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="absolute top-24 right-6 sm:right-12 md:right-24 z-40 border border-white/70 hover:border-[#00d9ff] hover:text-[#00d9ff] text-white font-semibold uppercase tracking-wider text-xs px-6 py-3 rounded-full backdrop-blur-sm bg-black/20 transition-colors"
+            className="absolute top-24 right-6 sm:right-12 md:right-24 z-40 border border-white/70 hover:border-[#00d9ff] hover:text-[#00d9ff] text-white font-semibold uppercase tracking-wider text-xs px-6 py-3 rounded backdrop-blur-sm bg-black/20 transition-colors"
           >
             Be Our Guest
           </motion.a>
