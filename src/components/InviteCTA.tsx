@@ -3,11 +3,6 @@ import { CalendarHeart, CalendarPlus, ExternalLink, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { fetchSiteSettings, type SiteSettings } from "@/lib/site-settings";
 
-const toIcsDate = (ms: number) =>
-  new Date(ms).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-
-const escapeIcsText = (value: string) => value.replace(/\\/g, "\\\\").replace(/([,;])/g, "\\$1");
-
 const getCountdown = (now: number, target: number) => {
   const diff = target - now;
   if (diff <= 0) return null;
@@ -73,37 +68,6 @@ const InviteCTA = () => {
     } catch {
       // ignore storage errors (private mode)
     }
-  };
-
-  const downloadIcs = () => {
-    if (!hasStart) {
-      window.open(settings.event_cta_url, "_blank", "noopener");
-      return;
-    }
-    const ics = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//Win The Night//Event//EN",
-      "BEGIN:VEVENT",
-      `UID:event-${times.start}@winthenight.org`,
-      `DTSTAMP:${toIcsDate(Date.now())}`,
-      `DTSTART:${toIcsDate(times.start)}`,
-      `DTEND:${toIcsDate(times.end)}`,
-      `SUMMARY:${escapeIcsText(settings.event_cta_title)}`,
-      `DESCRIPTION:RSVP: ${settings.event_cta_url}`,
-      `LOCATION:${escapeIcsText(settings.event_cta_location)}`,
-      "END:VEVENT",
-      "END:VCALENDAR",
-    ].join("\r\n");
-    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "event.ics";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -192,13 +156,15 @@ const InviteCTA = () => {
                 {settings.event_cta_button_text}
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <button
-                onClick={downloadIcs}
+              {/* Served with text/calendar so iOS opens the native Add to Calendar
+                  sheet instead of trapping the file in the download manager */}
+              <a
+                href="/.netlify/functions/event-ics"
                 className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full text-sm font-semibold border border-amber-400/50 text-amber-300 hover:bg-amber-500/15 hover:border-amber-400/80 transition-all duration-300"
               >
                 <CalendarPlus className="w-4 h-4" />
                 Add to my calendar
-              </button>
+              </a>
             </div>
             <p className="text-[11px] text-white/45 mt-4">
               All the details, dress code, and RSVP live on the invite.
