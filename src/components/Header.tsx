@@ -82,10 +82,10 @@ const Header = () => {
             decoding="async"
             className="h-10 w-10 object-contain rounded-full drop-shadow-[0_0_8px_rgba(0,217,255,0.8)] transition-transform duration-300 group-hover:scale-110"
           />
-          <div className="hidden xl:block font-bebas text-xl tracking-wider text-white select-none leading-none whitespace-nowrap">
+          <div className="hidden xl:block ml-2 font-bebas text-xl tracking-wider text-white select-none leading-none whitespace-nowrap">
             WIN THE <span className="text-[#00d9ff]">NIGHT</span>
           </div>
-          <div className="hidden xl:block w-[1px] h-6 bg-[#222] mx-2" />
+          <div className="hidden xl:block w-[1px] h-6 bg-[#222]" />
           <span className="block text-[0.6rem] tracking-[0.2em] uppercase text-[#777] font-medium leading-none whitespace-nowrap xl:text-[#555]">
             Foundation
           </span>
