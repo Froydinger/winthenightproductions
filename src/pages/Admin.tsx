@@ -196,6 +196,39 @@ const Admin = () => {
 
         <SiteCard variant="strong" className="space-y-5">
           <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-foreground">Event RSVP Pop-up</h2>
+            <p className={sectionNoteClass}>
+              Site-wide RSVP pill with a live countdown and a pop-up (countdown, RSVP link, add-to-calendar). Reuse it for any future event: update the fields, flip the toggle on. It hides itself automatically once the event end time passes, and reappears for everyone when you change the event.
+            </p>
+          </div>
+          <div className="flex items-center justify-between rounded-xl border border-neon-blue/20 bg-background/40 px-4 py-3">
+            <Label htmlFor="event-cta-enabled">Show event RSVP pill</Label>
+            <Switch id="event-cta-enabled" checked={settings.event_cta_enabled} onCheckedChange={(value) => update("event_cta_enabled", value)} />
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <TextField label="Pill Text (desktop)" value={settings.event_cta_pill_text} onChange={(value) => update("event_cta_pill_text", value)} />
+            <TextField label="Pill Text (mobile, keep it short)" value={settings.event_cta_pill_text_short} onChange={(value) => update("event_cta_pill_text_short", value)} />
+            <TextField label="Event Title" value={settings.event_cta_title} onChange={(value) => update("event_cta_title", value)} />
+            <TextField label="Event Details Line (date · time · venue)" value={settings.event_cta_details} onChange={(value) => update("event_cta_details", value)} />
+            <TextField label="Location (for calendar invites)" value={settings.event_cta_location} onChange={(value) => update("event_cta_location", value)} />
+            <TextField label="RSVP / Invite Link" value={settings.event_cta_url} onChange={(value) => update("event_cta_url", value)} />
+            <TextField label="RSVP Button Text" value={settings.event_cta_button_text} onChange={(value) => update("event_cta_button_text", value)} />
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <TextField label="Event Start" value={settings.event_cta_start} onChange={(value) => update("event_cta_start", value)} />
+            <TextField label="Event End (pill disappears after this)" value={settings.event_cta_end} onChange={(value) => update("event_cta_end", value)} />
+          </div>
+          <div className="flex gap-3 rounded-xl border border-neon-blue/20 bg-neon-blue/10 px-4 py-3 text-sm text-foreground">
+            <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-neon-blue" />
+            <div>
+              <p className="font-semibold">Start/End format: 2026-11-08T18:00:00-06:00</p>
+              <p className="text-muted-foreground">That's date T time, then the timezone offset (-06:00 is Chicago in November, -05:00 in summer). The countdown and calendar button both use these.</p>
+            </div>
+          </div>
+        </SiteCard>
+
+        <SiteCard variant="strong" className="space-y-5">
+          <div className="space-y-2">
             <h2 className="text-2xl font-bold text-foreground">Watch Page</h2>
             <p className={sectionNoteClass}>
               The big hero video is automatic and always uses the first item in the Win The Night podcast playlist. These settings only control the supporting video areas.

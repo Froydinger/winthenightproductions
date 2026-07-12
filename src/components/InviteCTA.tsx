@@ -1,45 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarHeart, CalendarPlus, ExternalLink, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-
-const INVITE_URL = "https://invite.social/251st-marine-corps-birthday-chicago";
-// Port & Park, Chicago — Nov 8, 2026, 6pm–midnight Central
-const EVENT_START = new Date("2026-11-08T18:00:00-06:00").getTime();
-const EVENT_END = new Date("2026-11-09T00:00:00-06:00").getTime();
-const DISMISS_KEY = "invite-cta-dismissed-mc-ball-2026";
+import { fetchSiteSettings, type SiteSettings } from "@/lib/site-settings";
 
 const toIcsDate = (ms: number) =>
   new Date(ms).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 
-const downloadIcs = () => {
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Win The Night//Event//EN",
-    "BEGIN:VEVENT",
-    `UID:mc-ball-2026@winthenight.org`,
-    `DTSTAMP:${toIcsDate(Date.now())}`,
-    `DTSTART:${toIcsDate(EVENT_START)}`,
-    `DTEND:${toIcsDate(EVENT_END)}`,
-    "SUMMARY:251st Marine Corps Birthday — Chicago",
-    `DESCRIPTION:RSVP: ${INVITE_URL}`,
-    "LOCATION:Port & Park\\, Chicago",
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
-  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "marine-corps-birthday-chicago.ics";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-};
+const escapeIcsText = (value: string) => value.replace(/\\/g, "\\\\").replace(/([,;])/g, "\\$1");
 
-const getCountdown = (now: number) => {
-  const diff = EVENT_START - now;
+const getCountdown = (now: number, target: number) => {
+  const diff = target - now;
   if (diff <= 0) return null;
   const days = Math.floor(diff / 86400000);
   const hours = Math.floor((diff % 86400000) / 3600000);
@@ -50,32 +20,90 @@ const getCountdown = (now: number) => {
 
 const InviteCTA = () => {
   const [open, setOpen] = useState(false);
-  const [dismissed, setDismissed] = useState(() => {
-    try {
-      return localStorage.getItem(DISMISS_KEY) === "true";
-    } catch {
-      return false;
-    }
-  });
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [dismissed, setDismissed] = useState(false);
   const [now, setNow] = useState(() => Date.now());
+
+  // Re-shows automatically for a new event: the key changes with the event config
+  const dismissKey = settings
+    ? `invite-cta-dismissed:${settings.event_cta_start}:${settings.event_cta_url}`
+    : "";
+
+  useEffect(() => {
+    fetchSiteSettings().then(setSettings);
+  }, []);
+
+  useEffect(() => {
+    if (!dismissKey) return;
+    try {
+      setDismissed(localStorage.getItem(dismissKey) === "true");
+    } catch {
+      setDismissed(false);
+    }
+  }, [dismissKey]);
 
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  if (dismissed || now >= EVENT_END) return null;
+  const times = useMemo(() => {
+    if (!settings) return null;
+    const start = Date.parse(settings.event_cta_start);
+    const parsedEnd = Date.parse(settings.event_cta_end);
+    const end = !Number.isNaN(parsedEnd)
+      ? parsedEnd
+      : !Number.isNaN(start)
+        ? start + 6 * 3600000
+        : NaN;
+    return { start, end };
+  }, [settings]);
 
-  const countdown = getCountdown(now);
-  const isLive = !countdown;
+  if (!settings || !settings.event_cta_enabled || dismissed) return null;
+  if (times && !Number.isNaN(times.end) && now >= times.end) return null;
+
+  const hasStart = times && !Number.isNaN(times.start);
+  const countdown = hasStart ? getCountdown(now, times.start) : null;
+  const isLive = hasStart && !countdown;
 
   const dismiss = () => {
     setDismissed(true);
     try {
-      localStorage.setItem(DISMISS_KEY, "true");
+      localStorage.setItem(dismissKey, "true");
     } catch {
       // ignore storage errors (private mode)
     }
+  };
+
+  const downloadIcs = () => {
+    if (!hasStart) {
+      window.open(settings.event_cta_url, "_blank", "noopener");
+      return;
+    }
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Win The Night//Event//EN",
+      "BEGIN:VEVENT",
+      `UID:event-${times.start}@winthenight.org`,
+      `DTSTAMP:${toIcsDate(Date.now())}`,
+      `DTSTART:${toIcsDate(times.start)}`,
+      `DTEND:${toIcsDate(times.end)}`,
+      `SUMMARY:${escapeIcsText(settings.event_cta_title)}`,
+      `DESCRIPTION:RSVP: ${settings.event_cta_url}`,
+      `LOCATION:${escapeIcsText(settings.event_cta_location)}`,
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "event.ics";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -88,19 +116,21 @@ const InviteCTA = () => {
           >
             <CalendarHeart className="w-3.5 h-3.5 shrink-0" />
             <span className="whitespace-nowrap">
-              <span className="hidden md:inline">RSVP for our annual Marine Corps event</span>
-              <span className="md:hidden">RSVP · Marine Corps event</span>
+              <span className="hidden md:inline">{settings.event_cta_pill_text}</span>
+              <span className="md:hidden">{settings.event_cta_pill_text_short}</span>
             </span>
-            <span className="font-semibold text-amber-400 tabular-nums whitespace-nowrap">
-              {isLive ? (
-                "· Happening now!"
-              ) : (
-                <>
-                  {`· ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`}
-                  <span className="hidden md:inline">{` ${countdown.seconds}s`}</span>
-                </>
-              )}
-            </span>
+            {hasStart && (
+              <span className="font-semibold text-amber-400 tabular-nums whitespace-nowrap">
+                {isLive ? (
+                  "· Happening now!"
+                ) : (
+                  <>
+                    {`· ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`}
+                    <span className="hidden md:inline">{` ${countdown.seconds}s`}</span>
+                  </>
+                )}
+              </span>
+            )}
           </button>
           <button
             onClick={dismiss}
@@ -119,48 +149,47 @@ const InviteCTA = () => {
               You're invited
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-amber-300 mt-2 drop-shadow-[0_0_18px_rgba(251,191,36,0.35)]">
-              251st Marine Corps Birthday
+              {settings.event_cta_title}
             </h2>
-            <p className="text-sm md:text-base text-white/80 mt-2">
-              Sunday, November 8, 2026 · 6:00 PM – Midnight
-            </p>
-            <p className="text-sm md:text-base text-white/80">Port &amp; Park · Chicago</p>
+            <p className="text-sm md:text-base text-white/80 mt-2">{settings.event_cta_details}</p>
 
             {isLive ? (
               <p className="text-xl font-bold text-amber-400 mt-6 animate-pulse">
                 Happening now — see you there!
               </p>
             ) : (
-              <div className="grid grid-cols-4 gap-2 md:gap-3 mt-6 max-w-sm mx-auto">
-                {[
-                  { value: countdown.days, label: "Days" },
-                  { value: countdown.hours, label: "Hours" },
-                  { value: countdown.minutes, label: "Min" },
-                  { value: countdown.seconds, label: "Sec" },
-                ].map(({ value, label }) => (
-                  <div
-                    key={label}
-                    className="rounded-xl border border-amber-400/30 bg-black/50 py-3 md:py-4"
-                  >
-                    <div className="text-2xl md:text-3xl font-bold text-amber-300 tabular-nums drop-shadow-[0_0_12px_rgba(251,191,36,0.4)]">
-                      {value}
+              countdown && (
+                <div className="grid grid-cols-4 gap-2 md:gap-3 mt-6 max-w-sm mx-auto">
+                  {[
+                    { value: countdown.days, label: "Days" },
+                    { value: countdown.hours, label: "Hours" },
+                    { value: countdown.minutes, label: "Min" },
+                    { value: countdown.seconds, label: "Sec" },
+                  ].map(({ value, label }) => (
+                    <div
+                      key={label}
+                      className="rounded-xl border border-amber-400/30 bg-black/50 py-3 md:py-4"
+                    >
+                      <div className="text-2xl md:text-3xl font-bold text-amber-300 tabular-nums drop-shadow-[0_0_12px_rgba(251,191,36,0.4)]">
+                        {value}
+                      </div>
+                      <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/60 mt-1">
+                        {label}
+                      </div>
                     </div>
-                    <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/60 mt-1">
-                      {label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )
             )}
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
               <a
-                href={INVITE_URL}
+                href={settings.event_cta_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3 rounded-full text-sm font-bold bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-[0_0_24px_rgba(251,191,36,0.35)] hover:shadow-[0_0_36px_rgba(251,191,36,0.55)] hover:brightness-110 transition-all duration-300"
               >
-                RSVP on invite.social
+                {settings.event_cta_button_text}
                 <ExternalLink className="w-4 h-4" />
               </a>
               <button

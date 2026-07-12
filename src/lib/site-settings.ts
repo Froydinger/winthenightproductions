@@ -17,6 +17,16 @@ export type SiteSettings = {
   chatbot_system_prompt: string;
   watch_latest_auto: boolean;
   watch_latest_override_id: string;
+  event_cta_enabled: boolean;
+  event_cta_pill_text: string;
+  event_cta_pill_text_short: string;
+  event_cta_title: string;
+  event_cta_details: string;
+  event_cta_location: string;
+  event_cta_start: string;
+  event_cta_end: string;
+  event_cta_url: string;
+  event_cta_button_text: string;
 };
 
 export const defaultSiteSettings: SiteSettings = {
@@ -39,6 +49,16 @@ export const defaultSiteSettings: SiteSettings = {
   chatbot_system_prompt: "",
   watch_latest_auto: true,
   watch_latest_override_id: "",
+  event_cta_enabled: true,
+  event_cta_pill_text: "RSVP for our annual Marine Corps event",
+  event_cta_pill_text_short: "RSVP · Marine Corps event",
+  event_cta_title: "251st Marine Corps Birthday — Chicago",
+  event_cta_details: "Sunday, November 8, 2026 · 6:00 PM – Midnight · Port & Park",
+  event_cta_location: "Port & Park, Chicago",
+  event_cta_start: "2026-11-08T18:00:00-06:00",
+  event_cta_end: "2026-11-09T00:00:00-06:00",
+  event_cta_url: "https://invite.social/251st-marine-corps-birthday-chicago",
+  event_cta_button_text: "RSVP on invite.social",
 };
 
 export async function fetchSiteSettings(): Promise<SiteSettings> {

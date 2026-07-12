@@ -43,6 +43,16 @@ function sanitizeSettings(input: Partial<SiteSettings>): SiteSettings {
     chatbot_system_prompt: sanitizeString(input.chatbot_system_prompt, defaultSiteSettings.chatbot_system_prompt),
     watch_latest_auto: sanitizeBoolean(input.watch_latest_auto, defaultSiteSettings.watch_latest_auto),
     watch_latest_override_id: sanitizeString(input.watch_latest_override_id, defaultSiteSettings.watch_latest_override_id),
+    event_cta_enabled: sanitizeBoolean(input.event_cta_enabled, defaultSiteSettings.event_cta_enabled),
+    event_cta_pill_text: sanitizeString(input.event_cta_pill_text, defaultSiteSettings.event_cta_pill_text),
+    event_cta_pill_text_short: sanitizeString(input.event_cta_pill_text_short, defaultSiteSettings.event_cta_pill_text_short),
+    event_cta_title: sanitizeString(input.event_cta_title, defaultSiteSettings.event_cta_title),
+    event_cta_details: sanitizeString(input.event_cta_details, defaultSiteSettings.event_cta_details),
+    event_cta_location: sanitizeString(input.event_cta_location, defaultSiteSettings.event_cta_location),
+    event_cta_start: sanitizeString(input.event_cta_start, defaultSiteSettings.event_cta_start),
+    event_cta_end: sanitizeString(input.event_cta_end, defaultSiteSettings.event_cta_end),
+    event_cta_url: sanitizeString(input.event_cta_url, defaultSiteSettings.event_cta_url),
+    event_cta_button_text: sanitizeString(input.event_cta_button_text, defaultSiteSettings.event_cta_button_text),
   };
 }
 
