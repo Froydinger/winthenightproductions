@@ -19,6 +19,7 @@ interface Playlist {
 }
 
 const playlists: Playlist[] = [
+  { id: "chapter-9", name: "Chapter 9", playlistId: "PLeYHBzsHprFw" },
   { id: "chapter-8", name: "Chapter 8", playlistId: "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS" },
   { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
   { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
@@ -115,7 +116,7 @@ const Watch = () => {
                   key={playlist.id}
                   onClick={() => navigate(`/watch/${playlist.id}`)}
                   className={`block px-4 py-4 border text-xs font-bold uppercase tracking-wider transition-all h-full ${
-                    playlist.id === "chapter-8" || playlist.id === "specials"
+                    playlist.id === "chapter-9" || playlist.id === "specials"
                       ? "bg-black border-[#00d9ff] text-[#00d9ff] hover:bg-[#00d9ff]/10"
                       : "bg-black border-[#1a1a1a] text-[#555] hover:border-[#00d9ff]/50 hover:text-white"
                   }`}

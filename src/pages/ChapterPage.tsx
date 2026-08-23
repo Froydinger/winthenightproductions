@@ -25,7 +25,8 @@ interface Playlist {
 }
 
 const playlists: Playlist[] = [
-  { id: "chapter-8", name: "Chapter 8", playlistId: "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS", description: "The latest chapter of Win The Night" },
+  { id: "chapter-9", name: "Chapter 9", playlistId: "PLeYHBzsHprFw", description: "The latest chapter of Win The Night" },
+  { id: "chapter-8", name: "Chapter 8", playlistId: "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS", description: "Chapter 8 of Win The Night" },
   { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD", description: "Chapter 7 of Win The Night" },
   { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O", description: "Chapter 6 episodes" },
   { id: "chapter-5", name: "Chapter 5", playlistId: "PL4DJfmhGyz_5Yz3vdT4bpJYuuf9X8NpiS", description: "Chapter 5 episodes" },

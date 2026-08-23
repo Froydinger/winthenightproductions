@@ -17,6 +17,7 @@ export interface SearchableItem {
 }
 
 const playlists: PlaylistMeta[] = [
+  { id: "chapter-9", name: "Chapter 9", playlistId: "PLeYHBzsHprFw" },
   { id: "chapter-8", name: "Chapter 8", playlistId: "PL4DJfmhGyz_5hmXN0HXLxZkktMB1i0eCS" },
   { id: "chapter-7", name: "Chapter 7", playlistId: "PL4DJfmhGyz_7B1Qw7Y7GP1vhgtRTi48LD" },
   { id: "chapter-6", name: "Chapter 6", playlistId: "PL4DJfmhGyz_6GzYrVpTZjqLxya2-BTR9O" },
