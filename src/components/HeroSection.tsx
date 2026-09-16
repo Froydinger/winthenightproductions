@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Youtube, Play, ArrowDown, ArrowRight } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import logo from "@/assets/win-the-night-logo.png";
 import { useState, useEffect } from "react";
 
 const HeroSection = () => {
@@ -24,17 +23,17 @@ const HeroSection = () => {
           {/* Logo - optimized for LCP */}
           <div className="flex justify-center mb-8">
             <img
-              src={logo}
+              src="/win-the-night-logo-448.webp"
+              srcSet="/win-the-night-logo-224.webp 224w, /win-the-night-logo-448.webp 448w"
+              sizes="(min-width: 1024px) 224px, (min-width: 640px) 192px, 160px"
               alt="Win The Night"
               onLoad={() => setLogoLoaded(true)}
               loading="eager"
               fetchPriority="high"
-              decoding="async"
+              decoding="sync"
               width="224"
               height="224"
-              className={`w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain cursor-pointer transition-all duration-700 ease-out ${
-                logoLoaded ? "opacity-100" : "opacity-0"
-              } ${showAnimations ? "drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-breathe hover:scale-110" : ""}`}
+              className={`w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 object-contain cursor-pointer transition-all duration-700 ease-out ${showAnimations ? "drop-shadow-[0_0_40px_rgba(0,217,255,0.6)] animate-breathe hover:scale-110" : ""}`}
             />
           </div>
 

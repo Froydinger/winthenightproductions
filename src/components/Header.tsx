@@ -13,7 +13,7 @@ import {
   Music,
   Youtube,
 } from "lucide-react";
-import logo from "@/assets/win-the-night-logo.png";
+const logo = "/win-the-night-logo-224.webp";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation } from "react-router-dom";
 import { useAudio } from "@/context/AudioContext";

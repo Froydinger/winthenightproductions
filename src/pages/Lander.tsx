@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import logoImage from "@/assets/win-the-night-logo.png";
+const logoImage = "/win-the-night-logo-448.webp";
 import skyBackground from "@/assets/lander/skybackground.png";
 import mountainsBack from "@/assets/lander/mountains-back.png";
 import mountainsFront from "@/assets/lander/mountains-front.png";

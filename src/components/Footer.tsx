@@ -15,7 +15,7 @@ import {
   Scale,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/win-the-night-logo.png";
+const logo = "/win-the-night-logo-224.webp";
 import { ContactDialog } from "@/components/ContactDialog";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";

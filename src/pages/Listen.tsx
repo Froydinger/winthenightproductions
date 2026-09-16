@@ -6,7 +6,7 @@ import BreakNotice from "@/components/BreakNotice";
 import { CyanRule } from "@/components/magazine/SectionDivider";
 import { useSubstackPodcast } from "@/hooks/use-substack-podcast";
 import { Play, Pause, Disc3 } from "lucide-react";
-import logo from "@/assets/win-the-night-logo.png";
+const logo = "/win-the-night-logo-224.webp";
 
 const RSS_FEED_URL = "https://api.substack.com/feed/podcast/3678939.rss";
 const YOUTUBE_MUSIC_URL = "https://music.youtube.com/playlist?list=PL4DJfmhGyz_7MiglVq4jbJYhftobxRuFf";
