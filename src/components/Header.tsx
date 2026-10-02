@@ -85,10 +85,6 @@ const Header = () => {
           <div className="hidden xl:block ml-2 font-bebas text-xl tracking-wider text-white select-none leading-none whitespace-nowrap">
             WIN THE <span className="text-[#00d9ff]">NIGHT</span>
           </div>
-          <div className="hidden xl:block w-[1px] h-6 bg-[#222]" />
-          <span className="block text-[0.6rem] tracking-[0.2em] uppercase text-[#777] font-medium leading-none whitespace-nowrap xl:text-[#555]">
-            Foundation
-          </span>
         </a>
 
         {/* Mobile Navigation */}

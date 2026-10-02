@@ -128,7 +128,7 @@ const Footer = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[0.72rem] text-[#555] font-sans">
           <p>
-            © {currentYear} Win The Night™ Foundation ·{" "}
+            © {currentYear} Win The Night™ ·{" "}
             <a
               href="https://froydinger.design/"
               target="_blank"

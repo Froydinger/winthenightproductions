@@ -459,7 +459,7 @@ const Lander = () => {
             <div className="text-center space-y-4">
               <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">EXPLORE EVERYTHING</h2>
               <p className="text-xs text-[#555] uppercase tracking-[0.25em] font-sans max-w-md mx-auto">
-                Navigate the foundation's resources & outlets
+                Navigate the show's resources & outlets
               </p>
             </div>
 

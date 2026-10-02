@@ -36,7 +36,7 @@ const Privacy = () => {
               <div className="space-y-2">
                 <h2 className="font-bebas text-2xl tracking-wider text-white">1. Introduction</h2>
                 <p>
-                  Win The Night Foundation is an independent mental health media project. This policy explains how this website handles data after moving to a lightweight Netlify-hosted setup.
+                  Win The Night is a Mental Health Media Organization. This policy explains how this website handles data after moving to a lightweight Netlify-hosted setup.
                 </p>
               </div>
 

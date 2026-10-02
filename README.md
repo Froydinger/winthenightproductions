@@ -4,7 +4,7 @@
 
 ## Who We Are
 
-Win The Night is hosted by **Josh Lopez** and produced by **Jake Freudinger**, co-founders of the Win The Night Foundation. We make long-form, trauma-informed conversations about the real work of healing — anxiety, depression, grief, addiction recovery, complex trauma and PTSD, inner child work, generational trauma, and neurodivergence.
+Win The Night is hosted by **Josh Lopez** and produced by **Jake Freudinger**, co-founders of Win The Night. We make long-form, trauma-informed conversations about the real work of healing — anxiety, depression, grief, addiction recovery, complex trauma and PTSD, inner child work, generational trauma, and neurodivergence.
 
 We're independent and community-funded: no network, no scripted advertisers. Episodes run 45–90 minutes and publish weekly as an audio podcast, long-form YouTube videos, short clips, and written essays. Our angle is peer storytelling and honest, story-driven conversation — not quick-fix self-help, and not clinical advice.
 
@@ -41,10 +41,10 @@ Set these in Netlify (or a local `.env`, which is gitignored — never commit ke
 
 - `YOUTUBE_API_KEY` — required for playlist item/search data
 - `OPENAI_API_KEY` — optional, enables Arc chat
-- `OPENAI_MODEL` — optional, defaults to `gpt-5.4-nano`
+- `OPENAI_MODEL` — optional, defaults to `gpt-6-luna`
 
 Support payments are handled externally through Buy Me a Coffee.
 
 ---
 
-Win The Night Foundation is a mental health media organization. It is not a 501(c)(3) nonprofit or registered charity, and contributions are not tax-deductible.
+Win The Night is a Mental Health Media Organization. It is not a 501(c)(3) nonprofit or registered charity, and contributions are not tax-deductible.

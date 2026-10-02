@@ -41,9 +41,9 @@ const Terms = () => {
               </div>
 
               <div className="space-y-2">
-                <h2 className="font-bebas text-2xl tracking-wider text-white">2. About Win The Night Foundation</h2>
+                <h2 className="font-bebas text-2xl tracking-wider text-white">2. About Win The Night</h2>
                 <p>
-                  Win The Night Foundation is an independent mental health media project. Despite the word "Foundation" in our name, we are <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>. Contributions are personal support payments and are not tax-deductible.
+                  Win The Night is a Mental Health Media Organization. We are <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>. Contributions are personal support payments and are not tax-deductible.
                 </p>
               </div>
 
@@ -85,7 +85,7 @@ const Terms = () => {
               <div className="space-y-2">
                 <h2 className="font-bebas text-2xl tracking-wider text-white">8. Intellectual Property</h2>
                 <p>
-                  The Win The Night name, logos, branding, site design, and original content are owned by Win The Night or used with permission. Do not copy, modify, or redistribute proprietary materials without permission.
+                  Win The Night name, logos, branding, site design, and original content are owned by Win The Night or used with permission. Do not copy, modify, or redistribute proprietary materials without permission.
                 </p>
               </div>
 

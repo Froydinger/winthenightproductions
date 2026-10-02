@@ -89,7 +89,7 @@ export const handler: Handler = async (event) => {
     }
 
     const activeSystemPrompt = await getSystemPrompt();
-    const model = process.env.OPENAI_MODEL || "gpt-5.4-nano";
+    const model = process.env.OPENAI_MODEL || "gpt-6-luna";
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
@@ -98,9 +98,10 @@ export const handler: Handler = async (event) => {
       },
       body: JSON.stringify({
         model,
-        instructions: activeSystemPrompt,
+        instructions: `${activeSystemPrompt}\nWin The Night is a Mental Health Media Organization. This is the official chosen description. Do not call it a foundation or claim an LLC, nonprofit, or charity has been established.`,
         input: toTranscript(messages),
-        max_output_tokens: 450,
+        reasoning: { effort: "low" },
+        max_output_tokens: 1500,
       }),
     });
 

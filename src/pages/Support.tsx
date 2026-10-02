@@ -59,7 +59,7 @@ const Support = () => {
               <div className="max-w-xl mx-auto rounded border border-[#00d9ff]/20 bg-[#00d9ff]/5 px-5 py-4 text-left">
                 <p className="text-xs text-[#888] leading-relaxed">
                   <strong className="text-[#00d9ff] uppercase tracking-wider text-[10px] block mb-1">Important Legal Notice</strong>
-                  Win The Night Foundation is <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>. Contributions are personal support payments for an independent community media project and are <strong>not tax-deductible</strong>.
+                  Win The Night is <strong>not a 501(c)(3) nonprofit, registered charity, or tax-exempt organization</strong>. Contributions are personal support payments for an independent community media project and are <strong>not tax-deductible</strong>.
                 </p>
               </div>
             </div>

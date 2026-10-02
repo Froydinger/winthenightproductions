@@ -20,7 +20,7 @@ const About = () => {
     {
       icon: Mic,
       title: "Conversations",
-      desc: "Our flagship podcast is the core of the Foundation — long-form conversations that explore the resilience of the human spirit.",
+      desc: "Our flagship podcast is the core of Win The Night — long-form conversations that explore the resilience of the human spirit.",
     },
     {
       icon: Users,
@@ -30,7 +30,7 @@ const About = () => {
     {
       icon: BookOpen,
       title: "Resources & Ventures",
-      desc: "Essays, short-form video, care & crisis guides, and new healing-focused projects we're building under the Foundation.",
+      desc: "Essays, short-form video, care & crisis guides, and new healing-focused projects we're building as part of Win The Night.",
     },
   ];
 
@@ -50,12 +50,12 @@ const About = () => {
               <div className="md:col-span-7">
                 <h1 className="font-bebas text-6xl sm:text-8xl tracking-wider text-white leading-[0.85]">
                   ABOUT THE<br />
-                  <span className="text-[#00d9ff]">FOUNDATION</span>
+                  <span className="text-[#00d9ff]">SHOW</span>
                 </h1>
               </div>
               <div className="md:col-span-5 md:pt-2">
                 <p className="text-sm text-white/70 leading-relaxed font-sans">
-                  Win The Night™ Foundation is a mental health media organization creating a safe space for people to share stories, build connection, and heal together.
+                  Win The Night™ is a Mental Health Media Organization creating a safe space for people to share stories, build connection, and heal together.
                 </p>
                 <div className="flex gap-4 mt-6">
                   <a
@@ -86,10 +86,10 @@ const About = () => {
                 "Everything we make is in service of one idea: real recovery happens through honest stories, not clean ones."
               </p>
               <p className="text-xs text-[#888] leading-relaxed max-w-2xl font-sans">
-                Win The Night™ Foundation is building a growing family of healing-focused projects — essays, short-form video, live conversations, care & crisis resources, and new ventures. Our flagship podcast is the core of our community outreach.
+                Win The Night™ is building a growing family of healing-focused projects — essays, short-form video, live conversations, care & crisis resources, and new ventures. Our flagship podcast is the core of our community outreach.
               </p>
               <div className="text-[9px] text-[#444] leading-relaxed border-t border-[#161616] pt-3 uppercase tracking-wider max-w-xl">
-                Win The Night™ Foundation is an independent media organization. We are NOT a 501(c)(3) nonprofit, registered charity, tax-exempt entity, or a clinical or medical service.
+                Win The Night™ is a Mental Health Media Organization. We are NOT a 501(c)(3) nonprofit, registered charity, tax-exempt entity, or a clinical or medical service.
               </div>
             </div>
           </ScrollReveal>
@@ -178,7 +178,7 @@ const About = () => {
               <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">Co-Founders &amp; Team</h2>
               </div>
               <p className="md:col-span-5 text-sm text-[#777] leading-relaxed font-sans">
-              Win The Night™ Foundation was co-founded by two high school best friends and storytellers/filmmakers at heart, Josh Lopez (host) and Jake Freudinger (producer).
+              Win The Night™ was co-founded by two high school best friends and storytellers/filmmakers at heart, Josh Lopez (host) and Jake Freudinger (producer).
             </p>
             </div>
 

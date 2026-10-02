@@ -28,11 +28,11 @@ import {
 const AboutContentSection = () => {
   const faqs = [
     {
-      q: "What is Win The Night™ Foundation?",
-      a: "Win The Night™ Foundation is a mental health media organization creating a safe space for people to share their stories, find community, and heal together. The flagship podcast is our core community outreach, alongside written essays, short-form video, live conversations, and other healing-focused ventures we're building out over time. We are an independent media organization — not a 501(c)(3) charity or clinical service.",
+      q: "What is Win The Night™?",
+      a: "Win The Night™ is a Mental Health Media Organization creating a safe space for people to share their stories, find community, and heal together. The flagship podcast is our core community outreach, alongside written essays, short-form video, live conversations, and other healing-focused ventures we're building out over time. We are a Mental Health Media Organization — not a 501(c)(3) charity or clinical service.",
     },
     {
-      q: "Who is the Foundation for?",
+      q: "Who is Win The Night for?",
       a: "Anyone navigating anxiety, depression, grief, addiction recovery, complex trauma, or the long work of healing — and the friends, partners, and families who love them. Everything we make is for people who want honest stories instead of quick fixes.",
     },
     {
@@ -117,9 +117,9 @@ const AboutContentSection = () => {
             className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-[1.15]"
           >
             <span className="text-neon-blue drop-shadow-[0_0_18px_rgba(0,217,255,0.45)]">
-              Win The Night™ Foundation
+              Win The Night™
             </span>{" "}
-            • A mental health media organization for the long road of healing
+            • A Mental Health Media Organization for the long road of healing
           </h1>
           <p className="text-base sm:text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
             A safe space to share your story, find community, and heal
@@ -131,7 +131,7 @@ const AboutContentSection = () => {
         {/* Intro */}
         <div className={cardCls}>
           <p className="text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
-            Win The Night™ Foundation is a mental health media organization
+            Win The Night™ is a Mental Health Media Organization
             creating a safe space for people to share their stories, find
             community, and heal together. Our weekly podcast is the core of
             our community outreach — long-form video and audio conversations
@@ -145,7 +145,7 @@ const AboutContentSection = () => {
               latest full episodes
             </Link>
             , or read more about the people and projects behind the
-            Foundation on{" "}
+            show on{" "}
             <Link to="/about" className={linkCls}>
               our About page
             </Link>
@@ -205,7 +205,7 @@ const AboutContentSection = () => {
         <div className={cardCls}>
           <h2 className="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-foreground mb-4">
             <MessageCircle className="w-6 h-6 text-neon-blue" />
-            What the Foundation covers
+            What we cover
           </h2>
           <p className="text-base sm:text-lg leading-relaxed">
             Across the podcast and our other projects, we explore trauma
@@ -224,7 +224,7 @@ const AboutContentSection = () => {
             If tonight is hard
           </h2>
           <p className="text-base sm:text-lg leading-relaxed">
-            Win The Night™ Foundation is a media organization and community, not a clinical service or charity. If you're
+            Win The Night™ is a Mental Health Media Organization and community, not a clinical service or charity. If you're
             in crisis right now, please reach out for live support. In the
             United States, you can call or text{" "}
             <a
