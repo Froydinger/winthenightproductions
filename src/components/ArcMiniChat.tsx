@@ -18,6 +18,14 @@ function savedMessages(): Message[] {
   } catch { return []; }
 }
 
+function internalPath(href?: string) {
+  if (!href) return null;
+  try {
+    const url = new URL(href, window.location.origin);
+    return url.origin === window.location.origin ? url.pathname + url.search + url.hash : null;
+  } catch { return null; }
+}
+
 const ArcMiniChat = () => {
   const [isOpen, setIsOpen] = useState(() => readSession('arc-chat-open') === 'true');
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -131,7 +139,7 @@ const ArcMiniChat = () => {
         </div>}
         {messages.map((message, index) => <div key={index} className={`arc-msg ${message.role}`}>
           <span className="arc-role">{message.role === 'user' ? 'YOU' : 'ARC'}</span>
-          {message.role === 'user' ? message.content : <ReactMarkdown components={{ a: ({ href, children }) => href?.startsWith('/') && !href.startsWith('//') ? <Link to={href}>{children}</Link> : <a href={href} target="_blank" rel="noopener noreferrer">{children}</a> }}>{message.content}</ReactMarkdown>}
+          {message.role === 'user' ? message.content : <ReactMarkdown components={{ a: ({ href, children }) => { const path = internalPath(href); return path ? <Link to={path}>{children}</Link> : <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>; } }}>{message.content}</ReactMarkdown>}
         </div>)}
         {isLoading && <div className="arc-thinking" role="status">Arc is thinking…</div>}
         {error && <div className="arc-status" role="alert">{error}<button onClick={() => void send(messages)}>Retry</button></div>}
