@@ -41,7 +41,7 @@ Set these in Netlify (or a local `.env`, which is gitignored — never commit ke
 
 - `YOUTUBE_API_KEY` — required for playlist item/search data
 - `OPENAI_API_KEY` — optional, enables Arc chat
-- `OPENAI_MODEL` — optional, defaults to `gpt-6-luna`
+- Arc uses `gpt-6-luna` with low reasoning effort. Legacy `OPENAI_MODEL` overrides do not change the selected model.
 
 Support payments are handled externally through Buy Me a Coffee.
 
