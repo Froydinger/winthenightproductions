@@ -169,7 +169,7 @@ const ArcMiniChat = () => {
               boxShadow: '0 4px 24px hsla(200, 80%, 50%, 0.15), 0 0 0 1px hsla(200, 80%, 50%, 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.08)',
             }}
           >
-            <img src="/arc-logo-ui.png" alt="Arc" className="w-8 h-8 object-contain" />
+            <img src="/arc-logo-current.png" alt="Arc" className="w-8 h-8 object-contain" />
             <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ border: '1px solid hsl(var(--neon-blue))' }} />
           </div>
         </button>
@@ -188,7 +188,7 @@ const ArcMiniChat = () => {
           >
             <div className="flex items-center gap-2.5">
               <div className="relative">
-                <img src="/arc-logo-ui.png" alt="Arc" className="w-7 h-7 object-contain" />
+                <img src="/arc-logo-current.png" alt="Arc" className="w-7 h-7 object-contain" />
                 <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2"
                   style={{ background: 'hsl(142, 76%, 42%)', borderColor: 'hsl(220, 20%, 12%)' }}
                 />
@@ -243,7 +243,7 @@ const ArcMiniChat = () => {
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center bg-neon-blue/10 border border-neon-blue/15"
                 >
-                  <img src="/arc-logo-ui.png" alt="Arc" className="w-9 h-9 object-contain" />
+                  <img src="/arc-logo-current.png" alt="Arc" className="w-9 h-9 object-contain" />
                 </div>
                 <div>
                   <p className="text-sm font-medium mb-1 text-foreground">
@@ -278,7 +278,7 @@ const ArcMiniChat = () => {
                 >
                   {msg.role === 'assistant' && (
                     <div className="w-6 h-6 rounded-full shrink-0 mr-2 mt-1 flex items-center justify-center bg-neon-blue/10 border border-neon-blue/20">
-                      <img src="/arc-logo-ui.png" alt="" className="w-3.5 h-3.5 object-contain" />
+                      <img src="/arc-logo-current.png" alt="" className="w-3.5 h-3.5 object-contain" />
                     </div>
                   )}
                   <div
@@ -313,7 +313,7 @@ const ArcMiniChat = () => {
             {isLoading && messages[messages.length - 1]?.role === 'user' && (
               <div className="flex justify-start">
                 <div className="w-6 h-6 rounded-full shrink-0 mr-2 mt-1 flex items-center justify-center bg-neon-blue/10 border border-neon-blue/20">
-                  <img src="/arc-logo-ui.png" alt="" className="w-3.5 h-3.5 object-contain" />
+                  <img src="/arc-logo-current.png" alt="" className="w-3.5 h-3.5 object-contain" />
                 </div>
                 <div
                   className="px-3.5 py-2.5 rounded-[18px] rounded-bl-md text-[13px]"
