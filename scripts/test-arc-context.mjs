@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { extractPublicCopy, buildContext } from './build-arc-context.mjs';
+import { readStoredPublicSettings } from '../netlify/lib/public-settings.ts';
 import { publicPath, buildAnswerContext, rankEpisodes, safetyFallback } from '../netlify/lib/arc-context.ts';
 import { fetchPlaylist } from '../netlify/lib/youtube.ts';
 import { createChatHandler } from '../netlify/functions/site-chat.ts';
@@ -101,4 +102,13 @@ test('malformed bodies, types, huge messages are rejected without provider; rate
   for (const body of ['null', '{', JSON.stringify({ messages: [{ role: 'user', content: {} }] })]) assert.equal((await invoke(handler, { httpMethod: 'POST', body })).statusCode, 400);
   assert.equal((await invoke(handler, event('x'.repeat(4001)))).statusCode, 413);
   assert.equal((await invoke(handler, event('Which episode covers burnout?'))).statusCode, 429);
+});
+
+
+test('legacy Blobs bridge falls back only for unsupported strong reads, not authentication/network errors', async () => {
+  const legacy = { headers: {'x-nf-site-id':'offline-site', 'x-nf-deploy-id':'offline-deploy'}, blobs: Buffer.from(JSON.stringify({url:'https://offline.invalid',token:'offline-placeholder'})).toString('base64') };
+  const calls=[];
+  const result=await readStoredPublicSettings(legacy,()=>({get:async(key,options)=>{calls.push(options); if(options.consistency==='strong'){const e=new Error('unsupported');e.name='BlobsConsistencyError';throw e;} return {about_jake_bio:'Current stored bio'};}}));
+  assert.equal(result.consistency,'eventual');assert.equal(result.stored.about_jake_bio,'Current stored bio');assert.equal(calls.length,2);
+  await assert.rejects(readStoredPublicSettings(legacy,()=>({get:async()=>{throw new Error('network unavailable');}})),/network unavailable/);
 });

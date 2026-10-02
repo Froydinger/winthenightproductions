@@ -1,5 +1,6 @@
 import type { Handler } from "@netlify/functions";
 import { connectLambda, getStore } from "@netlify/blobs";
+import { readStoredPublicSettings } from "../lib/public-settings.ts";
 import { defaultSiteSettings, type SiteSettings } from "../../src/lib/site-settings";
 
 const ADMIN_EMAILS = new Set(["jake@winthenight.info"]);
@@ -58,9 +59,7 @@ function sanitizeSettings(input: Partial<SiteSettings>): SiteSettings {
 }
 
 async function readSettings(event: Parameters<Handler>[0]) {
-  connectLambda({ headers: event.headers, blobs: (event as typeof event & { blobs: string }).blobs });
-  const store = getStore("wtn-admin", { consistency: "strong" });
-  const stored = await store.get(SETTINGS_KEY, { type: "json" });
+  const { stored } = await readStoredPublicSettings(event);
   return { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>) };
 }
 

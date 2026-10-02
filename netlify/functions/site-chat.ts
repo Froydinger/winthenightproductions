@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
-import { connectLambda, getStore } from '@netlify/blobs';
+import { readStoredPublicSettings } from '../lib/public-settings.ts';
 import { defaultSiteSettings, type SiteSettings } from '../../src/lib/site-settings.ts';
 import { buildAnswerContext, needsResources, urgentRisk, resourceLink, safetyFallback } from '../lib/arc-context.ts';
 
@@ -11,11 +11,10 @@ Answer the actual question with specific supported details and useful markdown l
 WTN is not a crisis service or clinician. Respond compassionately to crisis-related requests. When there may be imminent harm, prioritize immediate human help: local emergency services for immediate physical danger, call/text 988 in the US, Find A Helpline outside the US. Do not assume the visitor's location. Also include [WTN care and crisis resources](/crisis-resources) as a complementary directory; podcast episodes and WTN resources never replace urgent human support. For non-urgent care/peer-support questions, use the actual directory entries and links relevant to their request. Do not diagnose or claim a resource guarantees safety.
 Keep most replies concise, but use enough detail to answer the question. If the request is outside supplied evidence, be candid.`;
 
-async function readSettings(event: HandlerEvent): Promise<SiteSettings & { arcSettingsSource: 'live' | 'defaults' }> {
+async function readSettings(event: HandlerEvent): Promise<SiteSettings & { arcSettingsSource: 'live' | 'defaults'; arcSettingsConsistency?: 'strong' | 'eventual' }> {
   try {
-    connectLambda({ headers: event.headers, blobs: (event as typeof event & { blobs: string }).blobs });
-    const stored = await getStore('wtn-admin', { consistency: 'strong' }).get('site-settings', { type: 'json' });
-    return { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>), arcSettingsSource: 'live' };
+    const { stored, consistency } = await readStoredPublicSettings(event);
+    return { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>), arcSettingsSource: 'live', arcSettingsConsistency: consistency };
   } catch { return { ...defaultSiteSettings, arcSettingsSource: 'defaults' }; }
 }
 function responseText(data: { output_text?: string; output?: { content?: { type?: string; text?: string }[] }[] }) {

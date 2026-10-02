@@ -41,7 +41,7 @@ function publicFeedLink(link: string) {
   try { const u = new URL(link); return u.protocol === 'https:' && ['winthenight.substack.com', 'winthenight.blog', 'www.winthenight.blog'].includes(u.hostname); } catch { return false; }
 }
 
-export async function buildAnswerContext(pagePath: unknown, query: string, settings: SiteSettings & { arcSettingsSource?: 'live' | 'defaults' }, loaders = { playlist: fetchPlaylist, blog: readSubstackPosts }) {
+export async function buildAnswerContext(pagePath: unknown, query: string, settings: SiteSettings & { arcSettingsSource?: 'live' | 'defaults'; arcSettingsConsistency?: 'strong' | 'eventual' }, loaders = { playlist: fetchPlaylist, blog: readSubstackPosts }) {
   const path = publicPath(pagePath);
   const chapter = typeof pagePath === 'string' && path === '/watch/:chapterId' ? pagePath.split('/').pop() : query.match(/\bchapter\s*([1-9])\b/i) ? `chapter-${query.match(/\bchapter\s*([1-9])\b/i)![1]}` : null;
   const watch = snapshot.pages.find(p => p.path === '/watch');
@@ -61,7 +61,7 @@ export async function buildAnswerContext(pagePath: unknown, query: string, setti
   const publicSettings = Object.fromEntries(Object.entries(settings).filter(([key]) => key in settings && key !== 'chatbot_system_prompt' && PUBLIC_SETTING_KEYS.has(key)));
   return {
     version: snapshot.version, currentPage: path ? { path: pagePath, authoredContent: snapshot.pages.find(p => p.path === path), post: selectedPost ? { title: selectedPost.title, url: selectedPost.link, content: plainText(selectedPost.content), pubDate: selectedPost.pubDate } : null } : null,
-    sitePages: snapshot.pages, publicSettings, settingsSource: settings.arcSettingsSource || 'defaults',
+    sitePages: snapshot.pages, publicSettings, settingsSource: settings.arcSettingsSource || 'defaults', settingsFreshness: settings.arcSettingsConsistency === 'strong' ? 'Strong read' : 'Netlify edge settings updates propagate within 60 seconds; defaults used if unavailable.',
     episodes: { status: catalogues[0].status === 'fulfilled' ? 'available' : 'unavailable', chapterStatus: chapter ? catalogues[1]?.status === 'fulfilled' ? 'available' : 'unavailable' : null,
       checkedAt: new Date().toISOString(), freshness: 'API catalogue cached for at most 60 seconds; descriptions are not transcripts.',
       catalogue: items.map(({ videoId, title, url, videoPublishedAt }) => ({ videoId, title, url, videoPublishedAt })),
