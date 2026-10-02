@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { ArrowUp, X, Maximize2, Minimize2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../styles/arc-chat.css';
 
 type Message = { role: 'user' | 'assistant'; content: string };
@@ -27,6 +27,7 @@ function internalPath(href?: string) {
 }
 
 const ArcMiniChat = () => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(() => readSession('arc-chat-open') === 'true');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(savedMessages);
@@ -83,7 +84,7 @@ const ArcMiniChat = () => {
     try {
       const response = await fetch('/.netlify/functions/site-chat', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextMessages }), signal: controller.signal,
+        body: JSON.stringify({ messages: nextMessages, pagePath: location.pathname }), signal: controller.signal,
       });
       if (requestRef.current !== controller) return;
       if (!response.ok) throw new Error(response.status === 429 ? 'Arc is busy. Please try again in a moment.' : 'Arc could not reply. Please try again.');

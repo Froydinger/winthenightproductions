@@ -36,29 +36,19 @@ const extractThumbnail = (itemXml: string) => {
   );
 };
 
-export const handler: Handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: corsHeaders, body: "" };
-  }
+export async function readSubstackPosts(fetcher: typeof fetch = fetch) {
+  const response = await fetcher(SUBSTACK_FEED_URL, {
+    signal: AbortSignal.timeout(7000),
+    headers: { Accept: "application/rss+xml, application/xml, text/xml", "User-Agent": "WinTheNight/1.0" },
+  });
+  if (!response.ok) throw new Error("Public feed unavailable");
+  const xml = await response.text();
+  if (!/<rss\b/i.test(xml)) throw new Error('Public feed unavailable');
+  return parseSubstackPosts(xml);
+}
 
-  try {
-    const response = await fetch(SUBSTACK_FEED_URL, {
-      headers: {
-        Accept: "application/rss+xml, application/xml, text/xml, */*",
-        "User-Agent": "Mozilla/5.0 (compatible; WinTheNight/1.0)",
-      },
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Failed to fetch RSS feed", posts: [] }),
-      };
-    }
-
-    const xml = await response.text();
-    const posts = Array.from(xml.matchAll(/<item>([\s\S]*?)<\/item>/gi))
+export function parseSubstackPosts(xml: string) {
+    return Array.from(xml.matchAll(/<item>([\s\S]*?)<\/item>/gi))
       .map((match) => {
         const itemXml = match[1];
         const title = extractTagContent(itemXml, "title");
@@ -83,6 +73,16 @@ export const handler: Handler = async (event) => {
         };
       })
       .filter((post) => post.title && post.link);
+
+}
+
+export const handler: Handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers: corsHeaders, body: "" };
+  }
+
+  try {
+    const posts = await readSubstackPosts();
 
     return {
       statusCode: 200,

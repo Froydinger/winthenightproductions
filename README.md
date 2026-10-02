@@ -48,3 +48,9 @@ Support payments are handled externally through Buy Me a Coffee.
 ---
 
 Win The Night is a Mental Health Media Organization. It is not a 501(c)(3) nonprofit or registered charity, and contributions are not tax-deductible.
+
+### Arc public knowledge
+
+Arc's widget sends the current public page pathname to the existing `site-chat` Netlify function. Builds regenerate its allowlisted public page/resource knowledge with `scripts/build-arc-context.mjs`; add newly introduced public routes or shared content components there. Dynamic public settings, YouTube episode metadata and the existing public Substack feed are read server-side. Episode descriptions are evidence, not transcripts. See `docs/qa/2026-10-02-arc-context.md` for boundaries, freshness and verification.
+
+Run `npm run test:arc` with Node 22.18+ (or Node 24+) for offline context/provider failure tests. Existing `OPENAI_API_KEY` and `YOUTUBE_API_KEY` stay in the Netlify function environment; never place their values in a Vite variable or public bundle.

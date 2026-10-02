@@ -1,5 +1,5 @@
 import type { Handler } from "@netlify/functions";
-import { getStore } from "@netlify/blobs";
+import { connectLambda, getStore } from "@netlify/blobs";
 import { defaultSiteSettings, type SiteSettings } from "../../src/lib/site-settings";
 
 const ADMIN_EMAILS = new Set(["jake@winthenight.info"]);
@@ -8,10 +8,11 @@ const SETTINGS_KEY = "site-settings";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, content-type",
+  "Cache-Control": "no-store",
 };
 
 function getUserEmail(event: Parameters<Handler>[0]) {
-  const user = event.clientContext?.user as { email?: string } | undefined;
+  const user = (event as Parameters<Handler>[0] & { clientContext?: { user?: { email?: string } } }).clientContext?.user as { email?: string } | undefined;
   return user?.email?.toLowerCase() || "";
 }
 
@@ -56,8 +57,9 @@ function sanitizeSettings(input: Partial<SiteSettings>): SiteSettings {
   };
 }
 
-async function readSettings() {
-  const store = getStore("wtn-admin");
+async function readSettings(event: Parameters<Handler>[0]) {
+  connectLambda({ headers: event.headers, blobs: (event as typeof event & { blobs: string }).blobs });
+  const store = getStore("wtn-admin", { consistency: "strong" });
   const stored = await store.get(SETTINGS_KEY, { type: "json" });
   return { ...defaultSiteSettings, ...((stored || {}) as Partial<SiteSettings>) };
 }
@@ -68,12 +70,12 @@ export const handler: Handler = async (event) => {
   }
 
   if (event.httpMethod === "GET") {
-    const settings = await readSettings();
-    return {
-      statusCode: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      body: JSON.stringify({ settings }),
-    };
+    try {
+      const settings = await readSettings(event);
+      return { statusCode: 200, headers: { ...corsHeaders, "Content-Type": "application/json" }, body: JSON.stringify({ settings }) };
+    } catch {
+      return { statusCode: 503, headers: { ...corsHeaders, "Content-Type": "application/json" }, body: JSON.stringify({ error: "Site settings temporarily unavailable" }) };
+    }
   }
 
   if (event.httpMethod !== "PUT") {
@@ -91,6 +93,7 @@ export const handler: Handler = async (event) => {
 
   const body = JSON.parse(event.body || "{}") as { settings?: Partial<SiteSettings> };
   const settings = sanitizeSettings(body.settings || {});
+  connectLambda({ headers: event.headers, blobs: (event as typeof event & { blobs: string }).blobs });
   const store = getStore("wtn-admin");
   await store.setJSON(SETTINGS_KEY, settings);
 
