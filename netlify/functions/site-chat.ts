@@ -89,7 +89,7 @@ export const handler: Handler = async (event) => {
     }
 
     const activeSystemPrompt = await getSystemPrompt();
-    const model = process.env.OPENAI_MODEL || "gpt-6-luna";
+    const model = "gpt-6-luna";
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
