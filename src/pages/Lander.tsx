@@ -10,7 +10,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Instagram, Youtube, Play, ArrowRight, ChevronDown } from "lucide-react";
 import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
-import { StatCard } from "@/components/magazine/StatCard";
 import { CyanRule, Rule } from "@/components/magazine/SectionDivider";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -370,7 +369,7 @@ const Lander = () => {
                       {/* Content info */}
                       <div className="w-full min-w-0 flex-1">
                         <div className="font-bebas text-xs tracking-wider text-[#00d9ff] mb-1">
-                          CHAPTER EP. {String(idx + 1).padStart(3, "0")}
+                          LATEST CONVERSATION
                         </div>
                         <h3 className="text-lg md:text-xl font-bold text-white hover:text-[#00d9ff] transition-colors leading-snug line-clamp-2 break-words">
                           {item.title}
@@ -412,8 +411,8 @@ const Lander = () => {
                 One <span className="font-playfair italic text-[#00d9ff]">connection</span><br />
                 changes everything.
               </h2>
-              <p className="text-sm text-[#555] font-sans leading-relaxed max-w-lg">
-                We're a mental health community built on real conversations — not highlight reels. Every episode is an honest, unfiltered look at healing, inner child work, generational trauma, and what it means to be human.
+              <p className="text-sm text-[#a6adb7] font-sans leading-relaxed max-w-lg">
+                Win The Night is an independent mental health podcast hosted by Josh Lopez and produced by Jake Freudinger. We talk about anxiety, grief, addiction recovery, inner child work, and generational trauma through long-form, honest conversations. Watch a full episode, take the audio with you, or share your own story.
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
                 <a
@@ -433,10 +432,17 @@ const Lander = () => {
 
             {/* Right counters column */}
             <div className="grid grid-cols-2 gap-4">
-              <StatCard value="1K+" label="Community members finding connection and healing" delay={0} />
-              <StatCard value="52" label="Episodes of real, unfiltered conversations" delay={100} />
-              <StatCard value="100%" label="Free. Always. No paywalls, no gatekeeping." delay={200} />
-              <StatCard value="Real" label="Stories from people just like you" delay={300} />
+              {[
+                { title: "Watch", desc: "Full conversations on YouTube", href: "/watch" },
+                { title: "Listen", desc: "Podcast audio wherever you listen", href: "/listen" },
+                { title: "Read", desc: "Essays and reflections on the blog", href: "/blog" },
+                { title: "Share", desc: "Apply to tell your story as a guest", href: "/guest" },
+              ].map(item => (
+                <a key={item.title} href={item.href} className="block bg-[#0d0d0d] border border-[#2a2a2a] rounded-lg p-6 hover:border-[#00d9ff]/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#00d9ff] transition-colors">
+                  <h3 className="font-bebas text-4xl sm:text-5xl text-[#00d9ff] font-bold tracking-wider">{item.title}</h3>
+                  <p className="text-xs text-[#a6adb7] font-sans leading-relaxed mt-2">{item.desc}</p>
+                </a>
+              ))}
             </div>
           </div>
         </section>
@@ -459,7 +465,7 @@ const Lander = () => {
             <div className="text-center space-y-4">
               <h2 className="font-bebas text-4xl sm:text-5xl tracking-wider text-white">EXPLORE EVERYTHING</h2>
               <p className="text-xs text-[#555] uppercase tracking-[0.25em] font-sans max-w-md mx-auto">
-                Navigate the show's resources & outlets
+                Watch, listen, read, or take part
               </p>
             </div>
 
