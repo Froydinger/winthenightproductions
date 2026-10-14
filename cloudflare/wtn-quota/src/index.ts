@@ -28,7 +28,7 @@ function validate(s: State, p: Policy) {
   }
   const active = new Set<string>();
   for (const [id, t] of Object.entries(s.tickets)) {
-    if (!validID(id) || !t || !validVisitor(t.visitor) || !number(t.started) || t.started > s.time || !number(t.tokens) || t.tokens > 110_000 || !['preparing', 'provider', 'done'].includes(t.phase) || (t.phase === 'preparing' && t.tokens !== 0) || (t.phase === 'provider' && t.tokens < 1)) throw Error('Quota ticket invalid');
+    if (!validID(id) || !t || !validVisitor(t.visitor) || !number(t.started) || t.started > s.time || !number(t.tokens) || t.tokens > 301_500 || !['preparing', 'provider', 'done'].includes(t.phase) || (t.phase === 'preparing' && t.tokens !== 0) || (t.phase === 'provider' && t.tokens < 1)) throw Error('Quota ticket invalid');
     if (t.phase !== 'done') {
       if (active.has(t.visitor) || !s.visitors[t.visitor]) throw Error('Quota concurrency invalid');
       active.add(t.visitor);
@@ -89,7 +89,7 @@ export class WTNArcQuota {
       const text = await req.text();
       if (text.length > 1024) return json({ error: 'Invalid request' }, 400);
       const body = JSON.parse(text) as { id?: unknown; visitor?: unknown; tokens?: unknown; outcome?: unknown };
-      if (!body || !validID(body.id) || !validVisitor(body.visitor) || (path === '/reserve' && (!number(body.tokens) || body.tokens < 1 || body.tokens > 110_000)) || (path === '/finish' && !['pre-provider', 'terminal'].includes(String(body.outcome)))) return json({ error: 'Invalid request' }, 400);
+      if (!body || !validID(body.id) || !validVisitor(body.visitor) || (path === '/reserve' && (!number(body.tokens) || body.tokens < 1 || body.tokens > 301_500)) || (path === '/finish' && !['pre-provider', 'terminal'].includes(String(body.outcome)))) return json({ error: 'Invalid request' }, 400);
       const id = body.id, visitor = body.visitor;
       return await this.ctx.storage.transaction(async tx => {
         const instant = Date.now();

@@ -6,6 +6,7 @@ import {beginQuota, visitorAddress} from '../netlify/lib/arc-quota.ts';
 import {createChatHandler, handleRequest} from '../netlify/functions/site-chat.ts';
 import {defaultSiteSettings} from '../src/lib/site-settings.ts';
 import {arcRequestMessages} from '../src/lib/arc-request.ts';
+import {buildAnswerContext} from '../netlify/lib/arc-context.ts';
 
 // Serialize real transaction callbacks and roll back failed writes. This mocks
 // Cloudflare's storage contract, not its hosted implementation or durability.
@@ -157,8 +158,18 @@ test('ordinary long chat keeps UI history, bounded recent payload, fixed provide
   const run=handler(s.quota,async(_,init)=>{calls++;payload=JSON.parse(init.body);return goodProvider();});
   assert.equal((await run(request('192.0.2.1','x',{body:JSON.stringify({messages:recent})}))).statusCode,200);
   assert.equal(payload.model,'gpt-6-luna');assert.equal(payload.store,false);assert.equal(payload.max_output_tokens,1500);assert.equal(payload.tools,undefined);
-  const huge=handler(s.quota,async()=>{calls++;return goodProvider();},{context:async()=>({text:'x'.repeat(100001)})});
+  const huge=handler(s.quota,async()=>{calls++;return goodProvider();},{context:async()=>({text:'x'.repeat(300001)})});
   assert.equal((await huge(request('192.0.2.2'))).statusCode,503);assert.equal(calls,1);assert.equal(Object.values(s.storage.data.tickets).filter(t=>t.phase!=='done').length,0);
+});
+test('full current public snapshot, 300-episode catalogue and normal long history retain legitimate grounding',async()=>{
+  const episodes=Array.from({length:300},(_,i)=>({videoId:'testvideo'+i,title:'EP. '+i+' A normal WTN episode about connection and mental health',description:'Public conversation and recovery metadata. '.repeat(30),thumbnail:'',publishedAt:'2026-10-01',videoPublishedAt:'2026-10-01',url:'https://www.youtube.com/watch?v=testvideo'+i}));
+  const s=setup();let calls=0,payload;
+  const run=handler(s.quota,async(_,init)=>{calls++;payload=JSON.parse(init.body);return goodProvider();},{context:(path,q,settings)=>buildAnswerContext(path,q,settings,{playlist:async()=>episodes,blog:async()=>[]})});
+  const recent=arcRequestMessages(Array.from({length:40},()=>({role:'user',content:'A normal conversation question. '.repeat(20)})));
+  const r=await run(request('192.0.2.1','x',{body:JSON.stringify({messages:recent,pagePath:'/about'})}));
+  assert.equal(r.statusCode,200);assert.equal(calls,1);
+  const evidence=JSON.parse(payload.input[0].content.split('\n').slice(1).join('\n'));
+  assert.equal(evidence.episodes.catalogue.length,300);assert.ok(evidence.sitePages.length>=25);assert.equal(evidence.currentPage.path,'/about');
 });
 test('provider-disabled staging exercises admission/reservation/cleanup with zero provider calls',async()=>{
   const s=setup();let calls=0;

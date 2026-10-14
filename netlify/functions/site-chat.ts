@@ -63,7 +63,7 @@ export function createChatHandler(deps: Dependencies = { settings: readSettings,
       const inputUnits = Buffer.byteLength(JSON.stringify(input)) + Buffer.byteLength(providerInstructions) + 2048;
       // UTF-8 bytes conservatively bound ordinary text tokens. Include framing
       // and the existing output/reasoning allowance; don't refund uncertainty.
-      if (inputUnits > 100_000) return fallback();
+      if (contextJSON.length > 250_000 || inputUnits > 300_000) return fallback();
       const reservation = await ticket.reserve(inputUnits + 1500);
       if (!reservation.allowed) return throttled(reservation.retryAfter);
       // A deployment-scoped staging switch exercises real identity/storage
