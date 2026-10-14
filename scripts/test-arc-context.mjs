@@ -12,7 +12,7 @@ const items = [episode(84, 'Burnout, ADHD & Friendship with Jake Freudinger', 'A
 const loaders = { playlist: async () => items, blog: async () => [] };
 const event = (content, pagePath = '/about') => ({ httpMethod: 'POST', body: JSON.stringify({ messages: [{ role: 'user', content }], pagePath }) });
 function mockHandler(provider, overrides = {}) {
-  return createChatHandler({ settings: async () => ({...defaultSiteSettings, arcSettingsSource: 'live'}), context: (path, q, s) => buildAnswerContext(path, q, s, loaders), provider, key: () => 'offline-test-placeholder', ...overrides });
+  return createChatHandler({ settings: async () => ({...defaultSiteSettings, arcSettingsSource: 'live'}), context: (path, q, s) => buildAnswerContext(path, q, s, loaders), provider, key: () => 'offline-test-placeholder', quota: async () => ({allowed:true,reserve:async()=>({allowed:true}),finish:async()=>{}}), ...overrides });
 }
 const invoke = async (handler, request) => handler(request, {}, () => {});
 

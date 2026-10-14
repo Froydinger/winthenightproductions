@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "prebuild": "node scripts/build-arc-context.mjs",
     "prebuild:dev": "node scripts/build-arc-context.mjs",
-    "test:arc": "node scripts/build-arc-context.mjs && node --test scripts/test-arc-context.mjs"
+    "test:arc": "node scripts/build-arc-context.mjs && node --test scripts/test-arc-context.mjs",
+    "test:wtn-quota": "node --test scripts/test-wtn-quota.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
