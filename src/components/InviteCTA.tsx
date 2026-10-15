@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CalendarHeart, CalendarPlus, ExternalLink, X } from "lucide-react";
+import { CalendarHeart, CalendarPlus, ExternalLink } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { fetchSiteSettings, type SiteSettings } from "@/lib/site-settings";
 
@@ -16,26 +16,11 @@ const getCountdown = (now: number, target: number) => {
 const InviteCTA = () => {
   const [open, setOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [dismissed, setDismissed] = useState(false);
   const [now, setNow] = useState(() => Date.now());
-
-  // Re-shows automatically for a new event: the key changes with the event config
-  const dismissKey = settings
-    ? `invite-cta-dismissed:${settings.event_cta_start}:${settings.event_cta_url}`
-    : "";
 
   useEffect(() => {
     fetchSiteSettings().then(setSettings);
   }, []);
-
-  useEffect(() => {
-    if (!dismissKey) return;
-    try {
-      setDismissed(localStorage.getItem(dismissKey) === "true");
-    } catch {
-      setDismissed(false);
-    }
-  }, [dismissKey]);
 
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
@@ -54,57 +39,23 @@ const InviteCTA = () => {
     return { start, end };
   }, [settings]);
 
-  if (!settings || !settings.event_cta_enabled || dismissed) return null;
+  if (!settings || !settings.event_cta_enabled) return null;
   if (times && !Number.isNaN(times.end) && now >= times.end) return null;
 
   const hasStart = times && !Number.isNaN(times.start);
   const countdown = hasStart ? getCountdown(now, times.start) : null;
   const isLive = hasStart && !countdown;
 
-  const dismiss = () => {
-    setDismissed(true);
-    try {
-      localStorage.setItem(dismissKey, "true");
-    } catch {
-      // ignore storage errors (private mode)
-    }
-  };
-
   return (
     <>
-      <div className="fixed top-[4.75rem] left-0 right-0 z-[60] flex justify-center px-3 pointer-events-none">
-        <div className="pointer-events-auto mt-1 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-red-600/25 to-amber-500/25 backdrop-blur-md border border-amber-400/40 hover:border-amber-400/70 transition-all duration-300 shadow-lg">
-          <button
-            onClick={() => setOpen(true)}
-            className="inline-flex items-center gap-1.5 pl-4 pr-1 py-1 text-xs md:text-sm font-medium text-amber-200 hover:text-amber-100 transition-colors"
-          >
-            <CalendarHeart className="w-3.5 h-3.5 shrink-0" />
-            <span className="whitespace-nowrap">
-              <span className="hidden md:inline">{settings.event_cta_pill_text}</span>
-              <span className="md:hidden">{settings.event_cta_pill_text_short}</span>
-            </span>
-            {hasStart && (
-              <span className="font-semibold text-amber-400 tabular-nums whitespace-nowrap">
-                {isLive ? (
-                  "· Happening now!"
-                ) : (
-                  <>
-                    {`· ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`}
-                    <span className="hidden md:inline">{` ${countdown.seconds}s`}</span>
-                  </>
-                )}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={dismiss}
-            aria-label="Dismiss"
-            className="p-1.5 mr-1 rounded-full text-amber-200/60 hover:text-amber-100 hover:bg-white/10 transition-colors"
-          >
-            <X className="w-3 h-3" />
-          </button>
-        </div>
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="inline-flex items-center justify-center gap-2 border border-white/70 hover:border-[#00d9ff] hover:text-[#00d9ff] text-white font-semibold uppercase tracking-wider text-xs px-6 py-3 rounded backdrop-blur-sm bg-black/20 transition-colors"
+      >
+        <CalendarHeart aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+        <span>USMC EVENT</span>
+      </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-lg p-0 bg-gradient-to-b from-[#1a0a0a] to-black border-amber-400/30 overflow-hidden">

@@ -82,7 +82,7 @@ export const useYouTubeVideos = (limit = 6) => {
   const videos = (query.data || []) as YouTubeVideo[];
   const videoIds = videos.map((video) => video.videoId);
 
-  return { videos, videoIds, isLoading: query.isLoading };
+  return { videos, videoIds, isLoading: query.isLoading, isError: query.isError, isFetching: query.isFetching, refetch: query.refetch };
 };
 
 export const useYouTubeShorts = () => {

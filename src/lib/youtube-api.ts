@@ -118,7 +118,7 @@ export async function fetchLatestPodcastVideos(limit = 3) {
 }
 
 export async function fetchYouTubePlaylistItems(playlistId: string) {
-  const functionResponse = await fetch(`/.netlify/functions/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`);
+  const functionResponse = await fetch(`/.netlify/functions/fetch-playlist-items?playlistId=${encodeURIComponent(playlistId)}`, { signal: AbortSignal.timeout(10000) });
   if (functionResponse.ok) {
     const data = await functionResponse.json();
     if (Array.isArray(data.items)) {

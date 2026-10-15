@@ -4,6 +4,7 @@ import logoImage from "@/assets/win-the-night-logo.png";
 import skyBackground from "@/assets/lander/skybackground.png";
 import mountainsBack from "@/assets/lander/mountains-back.png";
 import mountainsFront from "@/assets/lander/mountains-front.png";
+import InviteCTA from "@/components/InviteCTA";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -29,7 +30,7 @@ const Lander = () => {
     setPrefersReducedMotion(mediaQuery.matches);
   }, []);
 
-  const { videos: latestVideos, isLoading: isPlaylistLoading } = useYouTubeVideos(3);
+  const { videos: latestVideos, isLoading: isPlaylistLoading, isError: isPlaylistError, isFetching: isPlaylistFetching, refetch: retryPlaylist } = useYouTubeVideos(3);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -125,15 +126,18 @@ const Lander = () => {
           </div>
 
           {/* Be Our Guest CTA */}
+          <div className="absolute top-24 sm:top-28 right-6 sm:right-12 md:right-24 z-40 flex flex-col gap-2 items-stretch">
           <motion.a
             href="/guest"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="absolute top-32 sm:top-28 right-6 sm:right-12 md:right-24 z-40 border border-white/70 hover:border-[#00d9ff] hover:text-[#00d9ff] text-white font-semibold uppercase tracking-wider text-xs px-6 py-3 rounded backdrop-blur-sm bg-black/20 transition-colors"
+            className="text-center border border-white/70 hover:border-[#00d9ff] hover:text-[#00d9ff] text-white font-semibold uppercase tracking-wider text-xs px-6 py-3 rounded backdrop-blur-sm bg-black/20 transition-colors"
           >
             Be Our Guest
           </motion.a>
+          <InviteCTA />
+          </div>
 
           {/* Midground Mountains (behind logo) */}
           <motion.div
@@ -163,7 +167,7 @@ const Lander = () => {
               opacity: prefersReducedMotion ? 1 : logoOpacity,
             }}
           >
-            <div className="relative w-72 h-72 sm:w-[21rem] sm:h-[21rem]">
+            <div className="relative w-56 h-56 sm:w-[21rem] sm:h-[21rem]">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:1s]" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00d9ff]/40 animate-logo-ring-grow [animation-delay:2s]" />
@@ -313,12 +317,12 @@ const Lander = () => {
         <CyanRule />
 
         {/* ===== SECTION 2: LATEST EPISODES ===== */}
-        <section id="episodes" className="bg-[#0d0d0d] py-0 relative z-40">
+        <section id="episodes" className="scroll-mt-20 bg-[#0d0d0d] py-0 relative z-40">
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[280px_1fr] border-b border-[#1a1a1a]">
             
             {/* Left Sidebar column */}
-            <div className="px-6 py-10 sm:p-16 border-r border-[#1a1a1a] flex flex-col justify-center gap-5 items-center lg:justify-between lg:items-start min-h-[190px] sm:min-h-[260px] lg:min-h-[500px]">
-              <div className="font-bebas text-6xl sm:text-8xl tracking-wider text-transparent select-none lg:[writing-mode:vertical-rl] lg:transform lg:rotate-180" style={{ WebkitTextStroke: "1.5px rgba(0,217,255,0.35)", textShadow: "0 0 12px rgba(0,217,255,0.1)" }}>
+            <div className="px-6 py-6 sm:px-10 lg:p-10 border-b lg:border-b-0 lg:border-r border-[#1a1a1a] flex flex-row justify-between gap-4 items-center lg:flex-col lg:items-start lg:min-h-[500px]">
+              <div className="font-bebas text-4xl sm:text-6xl lg:text-8xl tracking-wider text-[#00d9ff] select-none lg:[writing-mode:vertical-rl] lg:transform lg:rotate-180" style={{ WebkitTextStroke: "1.5px rgba(0,217,255,0.35)", textShadow: "0 0 12px rgba(0,217,255,0.1)" }}>
                 LATEST
               </div>
               <a href="/watch" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#00d9ff] hover:gap-3 transition-all">
@@ -328,12 +332,12 @@ const Lander = () => {
             </div>
 
             {/* Right Episodes column */}
-            <div className="px-0 py-6 sm:p-10 flex flex-col justify-center">
+            <div className="px-6 py-6 sm:p-10 flex flex-col justify-center">
               {isPlaylistLoading ? (
                 <div className="space-y-6">
                   {Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className="animate-pulse flex flex-col md:flex-row gap-4 py-4 border-b border-[#1a1a1a]">
-                      <div className="w-full md:w-40 aspect-video bg-white/5 rounded" />
+                    <div key={i} className="animate-pulse flex flex-row gap-4 py-4 border-b border-[#1a1a1a]">
+                      <div className="w-28 shrink-0 md:w-40 aspect-video bg-white/5 rounded" />
                       <div className="flex-1 space-y-3 py-1">
                         <div className="h-4 bg-white/10 rounded w-1/4" />
                         <div className="h-6 bg-white/10 rounded w-3/4" />
@@ -374,17 +378,17 @@ const Lander = () => {
                         <h3 className="text-lg md:text-xl font-bold text-white hover:text-[#00d9ff] transition-colors leading-snug line-clamp-2 break-words">
                           {item.title}
                         </h3>
-                        <p className="text-xs text-[#555] font-sans mt-1 leading-relaxed line-clamp-2">
+                        <p className="text-xs text-white/65 font-sans mt-1 leading-relaxed line-clamp-2">
                           Start with our latest conversations on mental health, connection, and real life storytelling.
                         </p>
                       </div>
 
                       {/* Meta arrows */}
                       <div className="hidden sm:flex flex-col items-end gap-2 text-right">
-                        <span className="text-[10px] text-[#555] tracking-wider uppercase font-sans">
+                        <span className="text-[10px] text-white/60 tracking-wider uppercase font-sans">
                           {new Date(item.publishedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                         </span>
-                        <div className="text-lg text-[#3a3a3a] group-hover:text-[#00d9ff] transition-colors">
+                        <div className="text-lg text-white/60 group-hover:text-[#00d9ff] transition-colors">
                           →
                         </div>
                       </div>
@@ -392,8 +396,14 @@ const Lander = () => {
                   </ScrollReveal>
                 ))
               ) : (
-                <div className="py-10 text-sm text-[#555]">
-                  Latest episodes are loading from YouTube. Refresh in a moment if they do not appear.
+                <div role="status" className="space-y-4 py-2 text-sm text-white/75">
+                  <p>{isPlaylistError ? "We couldn’t load the latest episodes right now." : "No episodes are available here yet."}</p>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <button type="button" onClick={() => retryPlaylist()} disabled={isPlaylistFetching} className="rounded border border-[#00d9ff]/50 px-4 py-2 font-semibold text-[#00d9ff] hover:bg-[#00d9ff]/10 disabled:opacity-60">
+                      {isPlaylistFetching ? "Trying again…" : "Try again"}
+                    </button>
+                    <a href="https://youtube.com/@winthenight/videos" target="_blank" rel="noopener noreferrer" className="py-2 text-white underline underline-offset-4">Watch on YouTube</a>
+                  </div>
                 </div>
               )}
             </div>
