@@ -30,3 +30,11 @@ No push or Netlify publication performed. Existing docs/qa/2026-10-02-arc-widget
 At 02:35 UTC Jake approved both prepared updates: “approve both of them tbh”. This supersedes the nominee hold only. AwardCallout is now imported in a dedicated strip between the hero and Latest. Its copy is limited to Nominee, Media Innovator Awards 2026, Corporate Vision and the official program link. Winner/category/recipient claims remain withheld. The existing public context builder now includes the callout; its regression test checks that the Nominee qualifier and program title survive extraction. All 13 offline Arc tests pass. Combined desktop preview confirms the full nominee card and populated episodes.
 
 Netlify getSite verified explicit ID a253d7a9-6c08-4f68-a294-7bac866df2f8, name wtnlive, account froydingermedia, SSL URL https://winthenight.org and repository Froydinger/winthenightproductions. Publication uses explicit site ID, never implicit Netlify state.
+
+## Production receipt
+
+Published approved source d706e22f4bf5ede898d3036265f5ce038f0390da through explicit CLI target. Netlify deploy 6ad03ce50259cad152807861 is ready, published 2026-10-15T02:39:40.217Z. Receipt: https://app.netlify.com/projects/wtnlive/deploys/6ad03ce50259cad152807861 . Production URL: https://winthenight.org . CLI deploy title records the source commit; Netlify commit_ref is null for this upload. Live index asset references exactly match dist/index.html. Public settings responds with JSON and playlist returns 94 items after release. Source pushed to origin/codex/wtn-invite-award.
+
+Local combined preview rendered Nominee, Media Innovator Awards 2026, Corporate Vision and the official link. Final post-deploy browser interaction was interrupted by concurrent user browser changes; live visual interaction remains unverified. Live HTTP/asset/function verification passed. No paid model request made.
+
+Automatic approval review rejected advancing GitHub main as a separately unauthorized protected-branch mutation. No main push occurred. Explicit approval to update main is needed before source can be aligned there; approved source remains on the pushed release branch.
