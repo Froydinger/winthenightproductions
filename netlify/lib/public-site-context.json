@@ -1,5 +1,5 @@
 {
-  "version": "00120057c41ced80dacd266bb1c2de8aa5c243b3cf94515f995cff9cb9be07c5",
+  "version": "fc94e5aa3fac6dd6d61924b7c467c40d2e7ae254e0956e25c57f35990621a061",
   "pages": [
     {
       "path": "/",
@@ -1712,6 +1712,20 @@
         "/.netlify/functions/event-ics",
         "Add to my calendar",
         "All the details, dress code, and RSVP live on the invite."
+      ]
+    },
+    {
+      "path": "shared",
+      "source": "src/components/AwardCallout.tsx",
+      "copy": [
+        "Nominee",
+        "Media Innovator Awards 2026",
+        "Corporate Vision",
+        "https://www.corporatevision-news.com/awards/media-innovator-awards/",
+        "Award recognition",
+        "From",
+        ".",
+        "About the awards"
       ]
     },
     {

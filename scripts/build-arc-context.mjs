@@ -61,7 +61,7 @@ export async function buildContext(root = new URL('../', import.meta.url)) {
     hash.update(file + source);
     pages.push({ path, source: file, copy: extractPublicCopy(source, file), data: extractPublicData(source, file) });
   }
-  for (const component of ['Header', 'Footer', 'NewsletterSubscribe', 'EpisodeCard', 'EpisodeSearch', 'ShortsCarousel', 'ShortsGrid', 'InviteCTA', 'TrailerButton']) {
+  for (const component of ['Header', 'Footer', 'NewsletterSubscribe', 'EpisodeCard', 'EpisodeSearch', 'ShortsCarousel', 'ShortsGrid', 'InviteCTA', 'AwardCallout', 'TrailerButton']) {
     const file = `src/components/${component}.tsx`;
     const source = await readFile(new URL(file, root), 'utf8');
     hash.update(file + source);

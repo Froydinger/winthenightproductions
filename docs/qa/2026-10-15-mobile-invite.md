@@ -24,3 +24,9 @@ Latest now uses a compact horizontal mobile heading/link row, smaller loading sk
 AwardCallout.tsx is a separate unimported draft, labeled Nominee, Media Innovator Awards 2026, Corporate Vision; no category or Foundation recipient assertion. It is not in any route or generated public context. A search of dist for Nominee and Media Innovator Awards returns no matches. Intended placement after announcement clearance is beneath Lander hero CTAs. Status is a single removable word.
 
 No push or Netlify publication performed. Existing docs/qa/2026-10-02-arc-widget.md says Netlify publication needs user approval. Ask approval specifically to publish the USMC EVENT and latest-episodes mobile changes to the existing wtnlive Netlify site at winthenight.org; the award draft must remain excluded until the user confirms the original notice and embargo clearance.
+
+## Approval update
+
+At 02:35 UTC Jake approved both prepared updates: “approve both of them tbh”. This supersedes the nominee hold only. AwardCallout is now imported in a dedicated strip between the hero and Latest. Its copy is limited to Nominee, Media Innovator Awards 2026, Corporate Vision and the official program link. Winner/category/recipient claims remain withheld. The existing public context builder now includes the callout; its regression test checks that the Nominee qualifier and program title survive extraction. All 13 offline Arc tests pass. Combined desktop preview confirms the full nominee card and populated episodes.
+
+Netlify getSite verified explicit ID a253d7a9-6c08-4f68-a294-7bac866df2f8, name wtnlive, account froydingermedia, SSL URL https://winthenight.org and repository Froydinger/winthenightproductions. Publication uses explicit site ID, never implicit Netlify state.

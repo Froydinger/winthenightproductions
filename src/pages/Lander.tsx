@@ -4,6 +4,7 @@ import logoImage from "@/assets/win-the-night-logo.png";
 import skyBackground from "@/assets/lander/skybackground.png";
 import mountainsBack from "@/assets/lander/mountains-back.png";
 import mountainsFront from "@/assets/lander/mountains-front.png";
+import AwardCallout from "@/components/AwardCallout";
 import InviteCTA from "@/components/InviteCTA";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -315,6 +316,9 @@ const Lander = () => {
         </div>
 
         <CyanRule />
+        <div className="relative z-10 bg-[#0d0d0d] px-6 py-8 sm:px-10">
+          <AwardCallout />
+        </div>
 
         {/* ===== SECTION 2: LATEST EPISODES ===== */}
         <section id="episodes" className="scroll-mt-20 bg-[#0d0d0d] py-0 relative z-40">

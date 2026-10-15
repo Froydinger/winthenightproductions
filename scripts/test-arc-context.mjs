@@ -23,7 +23,10 @@ test('public routes exclude admin, hostile origins, query/session state and inva
 });
 test('build snapshot includes current public resources/copy, no private routes; changed copy is extracted', async () => {
   const snapshot = await buildContext();
-  assert.equal(snapshot.pages.length, 25);
+  assert.equal(snapshot.pages.length, 26);
+  const awardCopy = snapshot.pages.find(p => p.source.endsWith('/AwardCallout.tsx')).copy;
+  assert.ok(awardCopy.includes('Nominee'));
+  assert.ok(awardCopy.includes('Media Innovator Awards 2026'));
   assert.ok(snapshot.pages.find(p => p.path === '/crisis-resources').copy.includes('https://warmline.org/'));
   assert.ok(!snapshot.pages.some(p => p.source.includes('Admin')));
   assert.deepEqual(extractPublicCopy('const Page=()=> <main>Updated today<a href="/about">About</a></main>', 'test.tsx'), ['Updated today', '/about', 'About']);
