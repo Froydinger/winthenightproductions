@@ -1,5 +1,5 @@
 {
-  "version": "fc94e5aa3fac6dd6d61924b7c467c40d2e7ae254e0956e25c57f35990621a061",
+  "version": "588027918d26f9aebeaa6a09ef4a9aa63151f9fc1b5bee1c4c8aec9eceea5849",
   "pages": [
     {
       "path": "/",
@@ -1718,14 +1718,12 @@
       "path": "shared",
       "source": "src/components/AwardCallout.tsx",
       "copy": [
-        "Nominee",
-        "Media Innovator Awards 2026",
-        "Corporate Vision",
-        "https://www.corporatevision-news.com/awards/media-innovator-awards/",
+        "Winner · Media Innovator Awards 2026",
+        "Creative Media Innovator of the Year 2026 - Illinois",
+        "Corporate Vision named Win The Night Foundation a winner.",
+        "https://www.corporatevision-news.com/winners/win-the-night-foundation/",
         "Award recognition",
-        "From",
-        ".",
-        "About the awards"
+        "See the official winner listing"
       ]
     },
     {

@@ -25,8 +25,11 @@ test('build snapshot includes current public resources/copy, no private routes; 
   const snapshot = await buildContext();
   assert.equal(snapshot.pages.length, 26);
   const awardCopy = snapshot.pages.find(p => p.source.endsWith('/AwardCallout.tsx')).copy;
-  assert.ok(awardCopy.includes('Nominee'));
-  assert.ok(awardCopy.includes('Media Innovator Awards 2026'));
+  assert.ok(awardCopy.includes('Winner · Media Innovator Awards 2026'));
+  assert.ok(awardCopy.includes('Creative Media Innovator of the Year 2026 - Illinois'));
+  assert.ok(awardCopy.includes('Corporate Vision named Win The Night Foundation a winner.'));
+  assert.ok(awardCopy.includes('https://www.corporatevision-news.com/winners/win-the-night-foundation/'));
+  assert.ok(!awardCopy.some(text => /nominee/i.test(text)));
   assert.ok(snapshot.pages.find(p => p.path === '/crisis-resources').copy.includes('https://warmline.org/'));
   assert.ok(!snapshot.pages.some(p => p.source.includes('Admin')));
   assert.deepEqual(extractPublicCopy('const Page=()=> <main>Updated today<a href="/about">About</a></main>', 'test.tsx'), ['Updated today', '/about', 'About']);
@@ -84,6 +87,19 @@ test('provider sees structured history, current page, all site copy, specific me
   assert.ok(evidence.sitePages.find(p => p.path === '/crisis-resources'));
   assert.ok(evidence.episodes.matchedDescriptions[0].description.includes('burnout'));
   assert.ok(payload.instructions.includes('not transcripts'));
+});
+test('homepage award question grounds Ask Arc in the exact winner title and official listing', async () => {
+  let evidence;
+  const handler = mockHandler(async (_url, options) => {
+    const payload = JSON.parse(options.body);
+    evidence = JSON.parse(payload.input[0].content.split('\n').slice(1).join('\n'));
+    return Response.json({ output_text: 'Win The Night Foundation won a Corporate Vision award.' });
+  });
+  assert.equal((await invoke(handler, event('What Corporate Vision award did Win The Night win?', '/'))).statusCode, 200);
+  const award = evidence.sitePages.find(page => page.source?.endsWith('/AwardCallout.tsx'));
+  assert.ok(award);
+  assert.ok(award.copy.includes('Creative Media Innovator of the Year 2026 - Illinois'));
+  assert.ok(award.copy.includes('https://www.corporatevision-news.com/winners/win-the-night-foundation/'));
 });
 test('resource replies retain internal resource navigation when model omits it', async () => {
   const handler = mockHandler(async () => Response.json({ output_text: 'Try the Warmline Directory for peer support.' }));
