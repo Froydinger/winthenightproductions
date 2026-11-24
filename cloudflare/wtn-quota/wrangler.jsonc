@@ -1,0 +1,17 @@
+{
+  "name": "wtn-arc-quota",
+  "account_id": "5cfc027a44651369a131dc4aa7bac171",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-06",
+  "workers_dev": true,
+  "vars": {
+    "WTN_VISITOR_HOURLY": "12",
+    "WTN_VISITOR_DAILY": "40",
+    "WTN_GLOBAL_CONCURRENCY": "4",
+    "WTN_DAILY_TOKEN_BUDGET": "20000000"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "QUOTA", "class_name": "WTNArcQuota" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["WTNArcQuota"] }]
+}

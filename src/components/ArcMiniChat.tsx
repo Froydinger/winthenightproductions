@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowUp, X, Maximize2, Minimize2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Link, useLocation } from 'react-router-dom';
+import { arcRequestMessages } from '../lib/arc-request';
 import '../styles/arc-chat.css';
 
 type Message = { role: 'user' | 'assistant'; content: string };
@@ -78,16 +79,16 @@ const ArcMiniChat = () => {
     if (requestRef.current) return;
     const controller = new AbortController();
     requestRef.current = controller;
-    const timeout = window.setTimeout(() => controller.abort(), 45000);
+    const timeout = window.setTimeout(() => controller.abort(), 55000);
     setIsLoading(true);
     setError('');
     try {
       const response = await fetch('/.netlify/functions/site-chat', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextMessages, pagePath: location.pathname }), signal: controller.signal,
+        body: JSON.stringify({ messages: arcRequestMessages(nextMessages), pagePath: location.pathname }), signal: controller.signal,
       });
       if (requestRef.current !== controller) return;
-      if (!response.ok) throw new Error(response.status === 429 ? 'Arc is busy. Please try again in a moment.' : 'Arc could not reply. Please try again.');
+      if (!response.ok) throw new Error(response.status === 429 ? 'Arc has reached a chat limit. Please try again later.' : 'Arc could not reply. Please try again.');
       const data = await response.json();
       if (requestRef.current !== controller) return;
       if (typeof data.message !== 'string' || !data.message.trim()) throw new Error('Arc returned an empty reply. Please try again.');
