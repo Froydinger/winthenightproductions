@@ -31,7 +31,7 @@ export function urgentRisk(query: string) {
 }
 export function safetyFallback(query: string) {
   const urgent = urgentRisk(query) ? 'If you may act on harming yourself or someone is in immediate physical danger, contact local emergency services now. In the US, call or text [988](https://988lifeline.org/) for immediate human support; outside the US, use [Find A Helpline](https://findahelpline.com/). ' : '';
-  return `${urgent}Arc cannot generate a reply right now. You can still open ${resourceLink} for crisis contacts, peer support, and ways to find care. WTN is not an emergency or clinical service.`;
+  return `${urgent}NightAI cannot generate a reply right now. You can still open ${resourceLink} for crisis contacts, peer support, and ways to find care. WTN is not an emergency or clinical service.`;
 }
 
 function plainText(html: string) {

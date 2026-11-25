@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { extractPublicCopy, buildContext } from './build-arc-context.mjs';
 import { readStoredPublicSettings } from '../netlify/lib/public-settings.ts';
 import { publicPath, buildAnswerContext, rankEpisodes, safetyFallback } from '../netlify/lib/arc-context.ts';
@@ -15,6 +16,18 @@ function mockHandler(provider, overrides = {}) {
   return createChatHandler({ settings: async () => ({...defaultSiteSettings, arcSettingsSource: 'live'}), context: (path, q, s) => buildAnswerContext(path, q, s, loaders), provider, key: () => 'offline-test-placeholder', ...overrides });
 }
 const invoke = async (handler, request) => handler(request, {}, () => {});
+
+test('NightAI is mounted with the existing Win The Night logo and no legacy widget branding', async () => {
+  const widget = await readFile(new URL('../src/components/ArcMiniChat.tsx', import.meta.url), 'utf8');
+  const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  assert.match(app, /<ArcMiniChat\s*\/>/);
+  assert.ok(widget.includes("import wtnLogo from '@/assets/win-the-night-logo.png'"));
+  assert.equal(widget.split('src={wtnLogo}').length - 1, 3);
+  assert.ok(widget.includes('aria-label="Chat with NightAI"'));
+  assert.ok(widget.includes('<strong>NightAI</strong>'));
+  assert.doesNotMatch(widget, /Chat with Arc|ArcAI|arc-logo-current/);
+  assert.match(safetyFallback('Where are warmline resources?'), /NightAI/);
+});
 
 test('public routes exclude admin, hostile origins, query/session state and invalid chapter', () => {
   for (const path of ['/admin', '//evil.test', 'https://evil.test', '/about?email=secret', '/watch/chapter-99', '/reset-password', '/guest/private']) assert.equal(publicPath(path), null);
@@ -87,8 +100,9 @@ test('provider sees structured history, current page, all site copy, specific me
   assert.ok(evidence.sitePages.find(p => p.path === '/crisis-resources'));
   assert.ok(evidence.episodes.matchedDescriptions[0].description.includes('burnout'));
   assert.ok(payload.instructions.includes('not transcripts'));
+  assert.match(payload.instructions, /You are NightAI, a warm, concise assistant on Win The Night/);
 });
-test('homepage award question grounds Ask Arc in the exact winner title and official listing', async () => {
+test('homepage award question grounds NightAI in the exact winner title and official listing', async () => {
   let evidence;
   const handler = mockHandler(async (_url, options) => {
     const payload = JSON.parse(options.body);
