@@ -79,26 +79,6 @@ const Watch = () => {
 
             <EpisodeAbout episode={latestEpisode} className="mt-3" />
 
-            {/* Headline */}
-            <div className="text-center mt-10">
-              <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none mb-4">
-                Watch the latest from <span className="text-[#00d9ff]">Win The Night</span>
-              </h1>
-              <p className="text-sm md:text-base text-[#555] max-w-2xl mx-auto leading-relaxed font-sans">
-                Real conversations on mental health, connection, and honest human experience.
-              </p>
-            </div>
-
-            {/* SUBSCRIBE CTA */}
-            <div className="text-center mt-6">
-              <button
-                onClick={() => setSubscribeModalOpen(true)}
-                className="inline-flex items-center justify-center gap-3 bg-[#00d9ff] text-black font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] hover:opacity-90 transition-all"
-              >
-                <Youtube className="w-4 h-4" />
-                <span>Subscribe on YouTube</span>
-              </button>
-            </div>
           </div>
         </section>
 
@@ -242,6 +222,32 @@ const Watch = () => {
           </section>
         </div>
 
+        {/* YouTube CTA */}
+        <section className="relative px-4 py-14 sm:px-8">
+          <div className="mx-auto max-w-7xl">
+            {/* Headline */}
+            <div className="text-center">
+              <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none mb-4">
+                Watch the latest from <span className="text-[#00d9ff]">Win The Night</span>
+              </h1>
+              <p className="text-sm md:text-base text-[#555] max-w-2xl mx-auto leading-relaxed font-sans">
+                Real conversations on mental health, connection, and honest human experience.
+              </p>
+            </div>
+
+            {/* SUBSCRIBE CTA */}
+            <div className="text-center mt-6">
+              <button
+                onClick={() => setSubscribeModalOpen(true)}
+                className="inline-flex items-center justify-center gap-3 bg-[#00d9ff] text-black font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] hover:opacity-90 transition-all"
+              >
+                <Youtube className="w-4 h-4" />
+                <span>Subscribe on YouTube</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
         {/* Community Update CTA */}
         <section className="relative py-16 px-4 bg-[#0d0d0d]">
           <div className="container mx-auto max-w-4xl text-center">
@@ -258,7 +264,7 @@ const Watch = () => {
                   className="inline-flex items-center justify-center gap-2 bg-[#00d9ff] hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded shadow-[0_0_16px_rgba(0,217,255,0.4)] transition-all"
                 >
                   <MessageSquarePlus className="w-4 h-4 flex-shrink-0" />
-                  <span>Post an Update!</span>
+                  <span>Join the community</span>
                 </a>
               </div>
             </div>
