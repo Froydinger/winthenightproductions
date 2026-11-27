@@ -9,3 +9,13 @@
 #jake-arc .arc-msg pre{overflow:auto;white-space:pre}
 #jake-arc .arc-panel.full{z-index:1}
 #jake-arc .arc-send:disabled{cursor:not-allowed}
+
+#jake-arc .arc-inquiry-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px}
+#jake-arc .arc-inquiry-actions button{background:transparent;border:1px solid var(--arc-line);border-radius:999px;padding:6px 10px;font-size:11px;line-height:1.4;color:#dfe8f2;min-height:44px}
+#jake-arc .arc-inquiry-actions button:hover{background:#ffffff10}
+#jake-arc .arc-inquiry h2{font-size:20px;font-weight:700;margin-bottom:8px}
+#jake-arc .arc-inquiry .wtn-inquiry{margin-top:18px}
+#jake-arc .arc-inquiry .wtn-inquiry-next{background:#00d9ff;color:#061219;font-size:14px}
+#jake-arc .arc-inquiry .wtn-inquiry-back{border:1px solid var(--arc-line);background:transparent;font-size:14px}
+#jake-arc .arc-inquiry .wtn-inquiry textarea{padding:10px 12px;min-height:100px;border:1px solid var(--arc-line);border-radius:6px;background:#000}
+#jake-arc .arc-inquiry .wtn-inquiry textarea:focus-visible{outline:2px solid #00d9ff!important;outline-offset:2px}

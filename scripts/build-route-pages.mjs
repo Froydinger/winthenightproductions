@@ -9,7 +9,7 @@ const routes = {
   },
   contact: {
     title: 'Sponsor an Independent Podcast | Win The Night',
-    description: 'Email producer Jake Freudinger about sponsoring Win The Night, an independent Chicago-area interview podcast. Sponsorship is separate from guest booking.',
+    description: 'Send a sponsorship inquiry to Win The Night, an independent Chicago-area interview podcast. Sponsorship is separate from guest booking.',
   },
 };
 

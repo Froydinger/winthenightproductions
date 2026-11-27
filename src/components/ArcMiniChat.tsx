@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowUp, X, Maximize2, Minimize2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Link, useLocation } from 'react-router-dom';
+import InquiryForm from '@/components/InquiryForm';
+import { inquiryIntent, type InquiryKind } from '@/lib/inquiry';
 import wtnLogo from '@/assets/win-the-night-logo.png';
 import '../styles/arc-chat.css';
 
@@ -35,6 +37,9 @@ const ArcMiniChat = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [inquiry, setInquiry] = useState<InquiryKind | null>(null);
+  const panelTitle = useRef<HTMLDivElement>(null);
+  const inquiryTitle = useRef<HTMLHeadingElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const launchRef = useRef<HTMLButtonElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
@@ -45,9 +50,14 @@ const ArcMiniChat = () => {
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [messages, isLoading, error, isOpen]);
+  const focusChat = () => {
+    if (window.matchMedia('(min-width: 601px) and (pointer: fine)').matches) inputRef.current?.focus({ preventScroll: true });
+    else panelTitle.current?.focus({ preventScroll: true });
+  };
   useEffect(() => {
-    if (isOpen) inputRef.current?.focus();
-  }, [isOpen]);
+    if (isOpen && !inquiry) focusChat();
+    else if (isOpen) inquiryTitle.current?.focus();
+  }, [isOpen, inquiry]);
   useEffect(() => {
     if (!inputRef.current) return;
     inputRef.current.style.height = 'auto';
@@ -73,7 +83,7 @@ const ArcMiniChat = () => {
     setInput('');
     setError('');
     setIsLoading(false);
-    inputRef.current?.focus();
+    focusChat();
   };
   const send = async (nextMessages: Message[]) => {
     if (requestRef.current) return;
@@ -106,6 +116,8 @@ const ArcMiniChat = () => {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!input.trim() || isLoading) return;
+    const kind = inquiryIntent(input);
+    if (kind) { setInput(''); setInquiry(kind); return; }
     const nextMessages: Message[] = [...messages, { role: 'user', content: input.trim() }];
     setMessages(nextMessages);
     setInput('');
@@ -119,7 +131,7 @@ const ArcMiniChat = () => {
     {isOpen && <section id="arc-panel" className={`arc-panel${isFullscreen ? ' full' : ''}`} role="region" aria-label="NightAI, Win The Night site assistant" onKeyDown={(event) => {
       if (event.key === 'Escape') { event.stopPropagation(); close(); }
       if (event.key === 'Tab') {
-        const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), textarea'));
+        const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]):not([type=hidden]), select:not([disabled])')).filter(control => control.tabIndex >= 0 && !control.closest('[hidden]'));
         const first = controls[0], last = controls[controls.length - 1];
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
@@ -127,11 +139,16 @@ const ArcMiniChat = () => {
     }}>
       <header className="arc-head">
         <img src={wtnLogo} alt="Win The Night logo" width="34" height="34" />
-        <div><strong>NightAI</strong><small>Ask about Win The Night</small></div>
+        <div ref={panelTitle} tabIndex={-1}><strong>NightAI</strong><small>Ask about Win The Night</small></div>
         <a href="https://askarc.chat" target="_blank" rel="noopener noreferrer">Full App</a>
         <button aria-label={isFullscreen ? 'Shrink chat' : 'Expand chat'} onClick={() => setIsFullscreen(!isFullscreen)}>{isFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}</button>
         <button aria-label="Close chat" onClick={close}><X size={18} /></button>
       </header>
+      {inquiry ? <div className="arc-log arc-inquiry">
+        <h2 ref={inquiryTitle} tabIndex={-1}>{inquiry === 'sponsorship' ? 'Sponsor Win The Night' : 'Contact Win The Night'}</h2>
+        <p>I’ll take your answers one at a time. You can review everything before sending it to the team. Your form answers stay out of the AI conversation.</p>
+        <InquiryForm key={inquiry} kind={inquiry} onExit={() => setInquiry(null)} />
+      </div> : <>
       <div ref={logRef} className="arc-log" role="log" aria-live="polite" aria-relevant="additions text" aria-busy={isLoading}>
         {messages.length === 0 && <div className="arc-welcome">
           <img src={wtnLogo} alt="" width="40" height="40" />
@@ -146,12 +163,17 @@ const ArcMiniChat = () => {
         {isLoading && <div className="arc-thinking" role="status">NightAI is thinking…</div>}
         {error && <div className="arc-status" role="alert">{error}<button onClick={() => void send(messages)}>Retry</button></div>}
       </div>
+      <div className="arc-inquiry-actions" aria-label="Send an inquiry">
+        <button type="button" onClick={() => setInquiry('contact')}>Contact the team</button>
+        <button type="button" onClick={() => setInquiry('sponsorship')}>Sponsor the show</button>
+      </div>
       <form className="arc-form" onSubmit={submit}>
         <label className="arc-sr" htmlFor="arc-input">Message NightAI</label>
         <textarea id="arc-input" ref={inputRef} value={input} onChange={event => setInput(event.target.value)} maxLength={4000} rows={1} placeholder="Message NightAI…" onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); submit(event); } }} />
         <button className="arc-send" type="submit" aria-label="Send message" disabled={isLoading || !input.trim()}><ArrowUp size={23} /></button>
       </form>
       <footer className="arc-foot"><button className="arc-new" onClick={newChat}>＋ New chat</button><span>AI can make mistakes. Messages go to OpenAI. Not a crisis service.</span></footer>
+      </>}
     </section>}
   </div>;
 };
