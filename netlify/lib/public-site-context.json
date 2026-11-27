@@ -1,5 +1,5 @@
 {
-  "version": "19e6b6db4df6bc0ae94c88a2a0dac67e820ddf6a8fac40f4eb46f4c474127452",
+  "version": "aa0123edcdb228196bc3d3748a4e7937c1c8e5d0c3c5a85d8b998369c594036f",
   "pages": [
     {
       "path": "/",
@@ -251,6 +251,10 @@
         "specials",
         "Shorts & Specials",
         "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB",
+        "Loading the latest episode",
+        "The latest episode couldn’t load.",
+        "Try again",
+        "Featured episode",
         "Win The Night – Latest Chapter",
         "Pick a Chapter",
         "bg-black border-[#00d9ff] text-[#00d9ff] hover:bg-[#00d9ff]/10",

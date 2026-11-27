@@ -32,15 +32,56 @@ const playlists: Playlist[] = [
   { id: "specials", name: "Shorts & Specials", playlistId: "PL4DJfmhGyz_7OsMomWuLGe1XSXUYPuBUB" },
 ];
 
+function LatestEpisodePlayer({ videoId, title, loading, onRetry }: {
+  videoId?: string;
+  title: string;
+  loading: boolean;
+  onRetry: () => void;
+}) {
+  if (videoId) {
+    return (
+      <iframe
+        className="block h-full w-full"
+        src={`https://www.youtube.com/embed/${videoId}`}
+        title={title}
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      />
+    );
+  }
+
+  if (loading) {
+    return (
+      <div role="status" className="relative h-full w-full bg-[#101010]">
+        <span className="sr-only">Loading the latest episode</span>
+        <div aria-hidden="true" className="absolute inset-0 grid place-items-center motion-safe:animate-pulse">
+          <div className="h-10 w-16 rounded-xl bg-[#252525] sm:h-14 sm:w-24" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
+      <p className="text-sm text-neutral-200">The latest episode couldn’t load.</p>
+      <button type="button" onClick={onRetry} className="rounded px-3 py-2 text-sm font-semibold text-[#00d9ff] underline underline-offset-4 focus-visible:outline focus-visible:outline-2">
+        Try again
+      </button>
+    </div>
+  );
+}
+
 const Watch = () => {
   const navigate = useNavigate();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
   const [settings, setSettings] = useState(defaultSiteSettings);
-  const { videos } = useYouTubeVideos();
+  const { videos, isFetching, refetch } = useYouTubeVideos();
   const latestEpisode = videos[0];
-  const latestVideoId = latestEpisode?.videoId || settings.editors_pick_video_id;
+  const latestVideoId = latestEpisode?.videoId;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,18 +104,10 @@ const Watch = () => {
 
       <div className="relative z-10 pt-20">
         {/* FULL-WIDTH PLAYLIST HERO */}
-        <section className="relative py-12 px-4 sm:px-8">
+        <section aria-label="Featured episode" className="relative py-12 px-4 sm:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl border border-[#1a1a1a]">
-              <iframe
-                className="relative w-full h-full z-10"
-                src={`https://www.youtube.com/embed/${latestVideoId}`}
-                title="Win The Night – Latest Chapter"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
+              <LatestEpisodePlayer videoId={latestVideoId} title="Win The Night – Latest Chapter" loading={isFetching} onRetry={() => { void refetch(); }} />
             </div>
 
             <EpisodeAbout episode={latestEpisode} className="mt-3" />
@@ -132,15 +165,7 @@ const Watch = () => {
                 </div>
 
                 <div className="w-full border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-black">
-                  <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${latestVideoId}`}
-                    title="Latest Episode"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
+                  <LatestEpisodePlayer videoId={latestVideoId} title="Latest Episode" loading={isFetching} onRetry={() => { void refetch(); }} />
                 </div>
               </div>
 
@@ -186,15 +211,7 @@ const Watch = () => {
                   </div>
 
                   <div className="w-full border border-[#1a1a1a] rounded overflow-hidden aspect-video bg-[#0d0d0d]">
-                    <iframe
-                      className="w-full h-full"
-                      src={`https://www.youtube.com/embed/${latestVideoId}`}
-                      title="Latest Episode"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
+                    <LatestEpisodePlayer videoId={latestVideoId} title="Latest Episode" loading={isFetching} onRetry={() => { void refetch(); }} />
                   </div>
                 </div>
 
