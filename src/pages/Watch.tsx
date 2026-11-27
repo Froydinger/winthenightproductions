@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus, Youtube } from "lucide-react";
 import EpisodeSearch from "@/components/EpisodeSearch";
+import EpisodeAbout from "@/components/EpisodeAbout";
 import { CyanRule } from "@/components/magazine/SectionDivider";
 import { useYouTubeVideos } from "@/hooks/use-youtube-feed";
 import { defaultSiteSettings, fetchSiteSettings } from "@/lib/site-settings";
@@ -37,8 +38,9 @@ const Watch = () => {
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
   const [settings, setSettings] = useState(defaultSiteSettings);
-  const { videoIds = [] } = useYouTubeVideos();
-  const latestVideoId = videoIds[0] || settings.editors_pick_video_id;
+  const { videos } = useYouTubeVideos();
+  const latestEpisode = videos[0];
+  const latestVideoId = latestEpisode?.videoId || settings.editors_pick_video_id;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -74,6 +76,8 @@ const Watch = () => {
                 allowFullScreen
               />
             </div>
+
+            <EpisodeAbout episode={latestEpisode} className="mt-3" />
 
             {/* Headline */}
             <div className="text-center mt-10">

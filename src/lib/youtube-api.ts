@@ -1,6 +1,7 @@
 export type YouTubeVideo = {
   videoId: string;
   title: string;
+  description?: string;
   thumbnail: string;
   publishedAt: string;
   durationSeconds?: number;
@@ -18,6 +19,7 @@ type YouTubeVideoItem = {
   id?: string;
   snippet?: {
     title?: string;
+    description?: string;
     publishedAt?: string;
     thumbnails?: Record<string, { url?: string }>;
   };
@@ -29,6 +31,7 @@ type YouTubeVideoItem = {
 type YouTubePlaylistItem = {
   snippet?: {
     title?: string;
+    description?: string;
     publishedAt?: string;
     resourceId?: { videoId?: string };
     thumbnails?: Record<string, { url?: string }>;
@@ -88,6 +91,7 @@ async function fetchVideoDetails(videoIds: string[]) {
       return {
         videoId,
         title: item.snippet.title || "Win The Night",
+        description: item.snippet.description,
         thumbnail: bestThumbnail(item.snippet.thumbnails, videoId),
         publishedAt: item.snippet.publishedAt || "",
         durationSeconds: parseIsoDuration(item.contentDetails?.duration),
@@ -144,6 +148,7 @@ export async function fetchYouTubePlaylistItems(playlistId: string) {
       items.push({
         videoId,
         title: snippet.title || "Untitled video",
+        description: snippet.description,
         thumbnail: bestThumbnail(snippet.thumbnails, videoId),
         publishedAt: snippet.publishedAt || "",
       });

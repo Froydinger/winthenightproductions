@@ -3,7 +3,7 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import EpisodeCard from "@/components/EpisodeCard";
+import EpisodeAbout from "@/components/EpisodeAbout";
 import EpisodeGridSkeleton from "@/components/EpisodeGridSkeleton";
 import ShortsCarousel from "@/components/ShortsCarousel";
 import { ArrowLeft, List, Youtube } from "lucide-react";
@@ -48,6 +48,7 @@ const ChapterPage = () => {
 
   const playlist = playlists.find(p => p.id === chapterId);
   const { data: items, isLoading, error } = usePlaylistItems(playlist?.playlistId);
+  const selectedEpisode = items?.find(item => item.videoId === selectedVideoId);
 
   useEffect(() => {
     if (items && items.length > 0 && !selectedVideoId) {
@@ -152,7 +153,7 @@ const ChapterPage = () => {
                   <iframe
                     className="w-full h-full"
                     src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=0&rel=0`}
-                    title={items?.find(i => i.videoId === selectedVideoId)?.title || playlist.name}
+                    title={selectedEpisode?.title || playlist.name}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
@@ -170,6 +171,8 @@ const ChapterPage = () => {
                   />
                 )}
               </div>
+
+              <EpisodeAbout episode={selectedEpisode} />
 
               {/* Episodes Grid Title */}
               <div className="flex items-center gap-2 border-b border-[#111] pb-3">

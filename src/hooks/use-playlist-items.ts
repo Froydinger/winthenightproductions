@@ -4,6 +4,7 @@ import { fetchYouTubePlaylistItems } from "@/lib/youtube-api";
 export interface PlaylistItem {
   videoId: string;
   title: string;
+  description?: string;
   thumbnail: string;
   publishedAt: string;
 }
