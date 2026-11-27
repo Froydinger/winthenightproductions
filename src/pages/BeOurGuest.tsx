@@ -41,7 +41,7 @@ const BeOurGuest = () => {
               BE OUR <span className="text-[#00d9ff]">GUEST</span>
             </h1>
             <p className="text-sm text-[#555] max-w-xl mx-auto leading-relaxed">
-              Share your story, insights, or expertise with the Win The Night community. We're always looking for authentic voices to join the conversation.
+              Come tell your story on Win The Night. We have open, unscripted conversations about mental health, what people have lived through, and what they’re learning along the way.
             </p>
           </div>
 
@@ -111,7 +111,12 @@ const BeOurGuest = () => {
               </div>
               <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Schedule your discovery call</h2>
               <p className="text-xs text-[#555] font-sans leading-relaxed max-w-md mx-auto">
-                Book a time that works best for you to discuss being a guest on Win The Night. We'll talk about your story, what to expect, and answer any questions you have.
+                Book a time to meet Josh, talk about your story, and ask any questions about the show.
+              </p>
+              <p className="text-sm text-white/75 font-sans leading-relaxed max-w-lg mx-auto">
+                <strong className="text-white">There’s no fee to be a guest.</strong>{' '}
+                We’re happy to talk about your book, project, or whatever you’re working on when it fits the conversation.
+                We start with you: what you’ve lived through and how it’s shaped your mental health.
               </p>
             </div>
 
