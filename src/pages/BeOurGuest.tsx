@@ -33,27 +33,27 @@ const BeOurGuest = () => {
           <AnimatedBackground />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-16">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 py-12 space-y-12 sm:px-6 sm:space-y-16">
           {/* Header */}
           <div className="text-center space-y-4">
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#00d9ff]">Join the Show</p>
             <h1 className="font-bebas text-5xl md:text-7xl tracking-wide text-white leading-none">
               BE OUR <span className="text-[#00d9ff]">GUEST</span>
             </h1>
-            <p className="text-sm text-[#555] max-w-xl mx-auto leading-relaxed">
+            <p className="mx-auto max-w-2xl text-base leading-relaxed text-neutral-200 text-pretty">
               Come tell your story on Win The Night. We have open, unscripted conversations about mental health, what people have lived through, and what they’re learning along the way.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
             <ScrollReveal animation="slide-left" className="h-full">
-              <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 rounded h-full space-y-6">
+              <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-5 sm:p-8 rounded h-full space-y-5">
                 <h2 className="font-bebas text-2xl tracking-wider text-white">What We're Looking For</h2>
                 <ul className="space-y-4">
                   {lookingFor.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-[#00d9ff] mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-[#555] leading-relaxed font-sans">{item}</span>
+                      <span className="min-w-0 text-sm leading-relaxed text-neutral-200 text-pretty sm:text-base">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -61,13 +61,13 @@ const BeOurGuest = () => {
             </ScrollReveal>
 
             <ScrollReveal animation="slide-right" className="h-full">
-              <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 rounded h-full space-y-6">
+              <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-5 sm:p-8 rounded h-full space-y-5">
                 <h2 className="font-bebas text-2xl tracking-wider text-white">What to Expect</h2>
                 <ul className="space-y-4">
                   {toExpect.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-[#00d9ff] mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-[#555] leading-relaxed font-sans">{item}</span>
+                      <span className="min-w-0 text-sm leading-relaxed text-neutral-200 text-pretty sm:text-base">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -83,18 +83,18 @@ const BeOurGuest = () => {
               <div className="inline-flex w-10 h-10 rounded border border-[#1a1a1a] items-center justify-center text-[#00d9ff] mb-2 mx-auto">
                 <Sparkles className="w-5 h-5" />
               </div>
-              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Four reasons to share your story</h2>
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white text-balance">Four reasons to share your story</h2>
             </div>
             
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4">
               {reasons.map((r, idx) => (
                 <ScrollReveal key={r.title} animation="fade-up" delay={idx * 100}>
-                  <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-6 hover:border-[#00d9ff]/30 transition-all h-full">
+                  <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded p-5 sm:p-6 hover:border-[#00d9ff]/30 transition-all h-full">
                     <div className="w-10 h-10 rounded border border-[#1a1a1a] flex items-center justify-center mb-4 text-[#00d9ff]">
                       <r.icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-2">{r.title}</h3>
-                    <p className="text-xs text-[#555] leading-relaxed">{r.desc}</p>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-2 text-balance">{r.title}</h3>
+                    <p className="text-sm leading-relaxed text-neutral-200 text-pretty">{r.desc}</p>
                   </div>
                 </ScrollReveal>
               ))}
@@ -109,11 +109,11 @@ const BeOurGuest = () => {
               <div className="inline-flex w-10 h-10 rounded border border-[#1a1a1a] items-center justify-center text-[#00d9ff] mb-2 mx-auto">
                 <Calendar className="w-5 h-5" />
               </div>
-              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white">Schedule your discovery call</h2>
-              <p className="text-xs text-[#555] font-sans leading-relaxed max-w-md mx-auto">
+              <h2 className="font-bebas text-3xl sm:text-4xl tracking-wider text-white text-balance">Schedule your discovery call</h2>
+              <p className="mx-auto max-w-xl text-sm leading-relaxed text-neutral-200 text-pretty sm:text-base">
                 Book a time to meet Josh, talk about your story, and ask any questions about the show.
               </p>
-              <p className="text-sm text-white/75 font-sans leading-relaxed max-w-lg mx-auto">
+              <p className="mx-auto max-w-2xl text-sm leading-relaxed text-neutral-200 text-pretty sm:text-base">
                 <strong className="text-white">There’s no fee to be a guest.</strong>{' '}
                 We’re happy to talk about your book, project, or whatever you’re working on when it fits the conversation.
                 We start with you: what you’ve lived through and how it’s shaped your mental health.
@@ -131,7 +131,7 @@ const BeOurGuest = () => {
               />
             </div>
             
-            <p className="text-[10px] text-[#555] uppercase tracking-wider">
+            <p className="mx-auto max-w-xl text-sm leading-relaxed text-neutral-200 text-balance">
               Select a time that works for you and we'll confirm your discovery call shortly.
             </p>
           </section>

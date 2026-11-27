@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { Mail, Clock, Mic, ExternalLink, BookOpen, Send, Check } from "lucide-react";
+import { Mail, Clock, Mic, Handshake, ExternalLink, BookOpen, Send, Check } from "lucide-react";
 import { toast } from "sonner";
 
 const Contact = () => {
@@ -68,6 +68,21 @@ const Contact = () => {
               Have a question, story to share, or just want to say hi? We'd love to hear from you.
             </p>
           </div>
+
+          <section aria-labelledby="sponsorship-heading" className="flex flex-col items-start gap-4 rounded border border-[#1a1a1a] bg-[#0d0d0d] p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-2">
+              <h2 id="sponsorship-heading" className="flex items-center gap-2 font-bebas text-2xl tracking-wider text-white">
+                <Handshake aria-hidden="true" className="h-5 w-5 shrink-0 text-[#00d9ff]" />
+                Want to sponsor Win The Night?
+              </h2>
+              <p className="text-sm leading-relaxed text-white/75">
+                If our conversations about mental health and lived experience feel like a fit for your organization, tell us a little about what you have in mind.
+              </p>
+            </div>
+            <a href="mailto:jake@winthenight.info?subject=Win%20The%20Night%20sponsorship" className="inline-flex min-h-11 shrink-0 items-center rounded border border-[#00d9ff]/40 px-4 text-sm font-semibold text-[#00d9ff] hover:bg-[#00d9ff]/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#00d9ff]">
+              Email Jake about sponsorship
+            </a>
+          </section>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
