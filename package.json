@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "prebuild": "node scripts/build-arc-context.mjs",
     "prebuild:dev": "node scripts/build-arc-context.mjs",
-    "test:arc": "node scripts/build-arc-context.mjs && node --test scripts/test-arc-context.mjs"
+    "test:arc": "node scripts/build-arc-context.mjs && node --test scripts/test-arc-context.mjs",
+    "postbuild": "node scripts/build-route-pages.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
