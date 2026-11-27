@@ -1,5 +1,5 @@
 {
-  "version": "e63e997a4f389df712f55312890e1c70750cba3e750696c40d97092fb3b6c306",
+  "version": "1832f10d42c9a8e9d632d2522e6df1d6705fc127096b4376308b8ed5c1f5bb1a",
   "pages": [
     {
       "path": "/",
@@ -695,12 +695,31 @@
       "path": "/contact",
       "source": "src/pages/Contact.tsx",
       "copy": [
+        "General inquiry",
+        "Ask a question, share feedback, or just say hello.",
+        "Sponsorship",
+        "Talk with us about sponsoring Win The Night.",
         "Contact Us",
         "GET IN",
         "TOUCH",
         "Have a question, story to share, or just want to say hi? We'd love to hear from you.",
+        "sponsorship",
         "Want to sponsor Win The Night?",
-        "If our conversations about mental health and lived experience feel like a fit for your organization, tell us a little about what you have in mind.",
+        "contact",
+        "Contact the team",
+        "What are you reaching out about?",
+        "grid gap-3 sm:grid-cols-2",
+        "sponsorship-heading",
+        "button",
+        "group flex scroll-mt-28 items-start gap-3 rounded border border-white/20 p-4 text-left hover:border-[#00d9ff] hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00d9ff]",
+        "true",
+        "mt-0.5 h-5 w-5 shrink-0 text-[#00d9ff]",
+        "flex-1 space-y-1",
+        "block text-sm font-semibold text-white",
+        "block text-sm leading-snug text-white/75",
+        "mt-0.5 h-4 w-4 shrink-0 text-white/70 group-hover:text-[#00d9ff]",
+        "max-w-xl",
+        "Choose another form",
         "Response Time",
         "We typically respond within 48 hours. If you haven't heard from us, check your spam folder or reach out again.",
         "Be Our Guest",
@@ -711,8 +730,7 @@
         "Direct Email",
         "You can also email us directly at:",
         "mailto:contact@winthenight.org",
-        "contact@winthenight.org",
-        "Contact the team"
+        "contact@winthenight.org"
       ],
       "data": {}
     },

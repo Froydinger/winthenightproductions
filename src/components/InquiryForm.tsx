@@ -5,7 +5,7 @@ import {
   postInquiry, sponsorshipTrap, validateInquiryField, type InquiryField, type InquiryKind,
 } from "@/lib/inquiry";
 
-type Props = { kind: InquiryKind; onExit?: () => void };
+type Props = { kind: InquiryKind; onExit?: () => void; exitLabel?: string };
 const fieldClass = "w-full rounded border border-white/20 bg-black px-4 py-3 text-base text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00d9ff]";
 const nextClass = "wtn-inquiry-next inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded bg-[#00d9ff] px-4 text-sm font-bold text-black hover:opacity-90 disabled:opacity-60";
 const backClass = "wtn-inquiry-back inline-flex min-h-11 items-center gap-2 rounded border border-white/20 px-3 text-sm text-white hover:bg-white/10";
@@ -13,7 +13,7 @@ const topicLabels: Record<(typeof contactTopics)[number], string> = {
   "General Inquiry": "General inquiry", "Be a Guest": "Being a guest", "Feedback": "Feedback or suggestions", "Support": "Support or sponsorship",
 };
 
-export default function InquiryForm({ kind, onExit }: Props) {
+export default function InquiryForm({ kind, onExit, exitLabel = "Back to chat" }: Props) {
   const uid = useId();
   const [values, setValues] = useState(emptyInquiry);
   const [step, setStep] = useState(0);
@@ -57,7 +57,7 @@ export default function InquiryForm({ kind, onExit }: Props) {
   if (status === "sent") return <div className="space-y-3">
     <h3 ref={focusRef} tabIndex={-1} className="flex items-center gap-2 text-lg font-semibold text-white"><Check aria-hidden="true" size={18} />{sponsorship ? "Sponsorship inquiry sent" : "Message sent"}</h3>
     <p className="text-sm text-white/75">Thanks for reaching out to Win The Night.</p>
-    <button type="button" className={backClass} onClick={() => { if (onExit) onExit(); else { setStep(0); setStatus("editing"); } }}>{onExit ? "Back to chat" : "Send another message"}</button>
+    <button type="button" className={backClass} onClick={() => { if (onExit) onExit(); else { setStep(0); setStatus("editing"); } }}>{onExit ? exitLabel : "Send another message"}</button>
   </div>;
 
   const setField = (value: string) => {
@@ -96,7 +96,7 @@ export default function InquiryForm({ kind, onExit }: Props) {
         {status === "sending" ? "Sending…" : review ? (sponsorship ? "Send sponsor inquiry" : "Send message") : "Next"}
         {review ? <Send size={15} aria-hidden="true" /> : <ArrowRight size={15} aria-hidden="true" />}
       </button>
-      {onExit && <button type="button" className={backClass} disabled={status === "sending"} onClick={onExit}>Back to chat</button>}
+      {onExit && <button type="button" className={backClass} disabled={status === "sending"} onClick={onExit}>{exitLabel}</button>}
     </div>
     {review && <p className="text-xs text-white/65">Your answers go to the Win The Night team so they can reply.</p>}
   </form>;
